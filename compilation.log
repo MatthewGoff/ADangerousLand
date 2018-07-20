@@ -1,0 +1,188 @@
+********************************************************************************
+*                      Thursday, July 19, 2018 9:07:15 PM                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 4.0.4.230
+Unity version: 2018.1.0f2
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\Matt\Documents\UnityProjects\ADangerousLand
+Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\unityjit
+Unity Mono executable: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\bin\mono.exe
+Compiler: Microsoft C# 7.3 (2.8.0.62830)
+
+- Compilation ------------------------------------------------
+
+Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
+Arguments: -noconfig @Temp/UnityTempFile-df8b853d30184674f96c01b625e07f81
+Exit code: 0
+Elapsed time: 3.20 sec
+
+- Output (1 line):
+0: Assets\Scripts\GameManager.cs(9,28): warning CS0414: The field 'GameManager.startDelay' is assigned but its value is never used
+
+- Errors (0 lines):
+
+********************************************************************************
+*                      Thursday, July 19, 2018 9:07:22 PM                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 4.0.4.230
+Unity version: 2018.1.0f2
+Platform: Windows
+Target assembly: Unity.PackageManagerUI.Editor.dll
+Project directory: C:\Users\Matt\Documents\UnityProjects\ADangerousLand
+Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\unityjit
+Unity Mono executable: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\bin\mono.exe
+Compiler: Microsoft C# 7.3 (2.8.0.62830)
+
+- Compilation ------------------------------------------------
+
+Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
+Arguments: -noconfig @Temp/UnityTempFile-b8b4f27b95508474cadbd94617af02d6
+Exit code: 0
+Elapsed time: 3.57 sec
+
+- Output (0 lines):
+
+- Errors (0 lines):
+
+********************************************************************************
+*                      Thursday, July 19, 2018 9:07:22 PM                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 4.0.4.230
+Unity version: 2018.1.0f2
+Platform: Windows
+Target assembly: UnityEditor.StandardEvents.dll
+Project directory: C:\Users\Matt\Documents\UnityProjects\ADangerousLand
+Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\unityjit
+Unity Mono executable: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\bin\mono.exe
+Compiler: Microsoft C# 7.3 (2.8.0.62830)
+
+- Compilation ------------------------------------------------
+
+Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
+Arguments: -noconfig @Temp/UnityTempFile-6fc4623dd543d6748975582503bea435
+Exit code: 0
+Elapsed time: 3.66 sec
+
+- Output (0 lines):
+
+- Errors (0 lines):
+
+********************************************************************************
+*                      Thursday, July 19, 2018 9:07:26 PM                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 4.0.4.230
+Unity version: 2018.1.0f2
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\Matt\Documents\UnityProjects\ADangerousLand
+Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\unityjit
+Unity Mono executable: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\bin\mono.exe
+Compiler: Microsoft C# 7.3 (2.8.0.62830)
+
+- Compilation ------------------------------------------------
+
+Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
+Arguments: -noconfig @Temp/UnityTempFile-a38007985c9fdee4e974bd4a6853686d
+Exit code: 0
+Elapsed time: 3.28 sec
+
+- Output (1 line):
+0: Assets\Scripts\GameManager.cs(9,28): warning CS0414: The field 'GameManager.startDelay' is assigned but its value is never used
+
+- Errors (0 lines):
+
+********************************************************************************
+*                      Thursday, July 19, 2018 9:07:59 PM                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 4.0.4.230
+Unity version: 2018.1.0f2
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\Matt\Documents\UnityProjects\ADangerousLand
+Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\unityjit
+Unity Mono executable: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\bin\mono.exe
+Compiler: Microsoft C# 7.3 (2.8.0.62830)
+
+- Compilation ------------------------------------------------
+
+Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
+Arguments: -noconfig @Temp/UnityTempFile-87d7044744766aa429030192ed7495e8
+Exit code: 0
+Elapsed time: 2.97 sec
+
+- Output (1 line):
+0: Assets\Scripts\GameManager.cs(9,28): warning CS0414: The field 'GameManager.startDelay' is assigned but its value is never used
+
+- Errors (0 lines):
+
+********************************************************************************
+*                      Thursday, July 19, 2018 9:08:06 PM                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 4.0.4.230
+Unity version: 2018.1.0f2
+Platform: Windows
+Target assembly: Unity.PackageManagerUI.Editor.dll
+Project directory: C:\Users\Matt\Documents\UnityProjects\ADangerousLand
+Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\unityjit
+Unity Mono executable: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\bin\mono.exe
+Compiler: Microsoft C# 7.3 (2.8.0.62830)
+
+- Compilation ------------------------------------------------
+
+Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
+Arguments: -noconfig @Temp/UnityTempFile-3b90f77e73b8d7c41b08145dc9dc3281
+Exit code: 0
+Elapsed time: 3.89 sec
+
+- Output (0 lines):
+
+- Errors (0 lines):
+
+********************************************************************************
+*                      Thursday, July 19, 2018 9:08:06 PM                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 4.0.4.230
+Unity version: 2018.1.0f2
+Platform: Windows
+Target assembly: UnityEditor.StandardEvents.dll
+Project directory: C:\Users\Matt\Documents\UnityProjects\ADangerousLand
+Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\unityjit
+Unity Mono executable: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\bin\mono.exe
+Compiler: Microsoft C# 7.3 (2.8.0.62830)
+
+- Compilation ------------------------------------------------
+
+Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
+Arguments: -noconfig @Temp/UnityTempFile-805a39038a0eb534083b8c08758fb4b4
+Exit code: 0
+Elapsed time: 4.10 sec
+
+- Output (0 lines):
+
+- Errors (0 lines):
+
+********************************************************************************
+*                      Thursday, July 19, 2018 9:08:11 PM                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 4.0.4.230
+Unity version: 2018.1.0f2
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\Matt\Documents\UnityProjects\ADangerousLand
+Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\unityjit
+Unity Mono executable: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\bin\mono.exe
+Compiler: Microsoft C# 7.3 (2.8.0.62830)
+
+- Compilation ------------------------------------------------
+
+Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
+Arguments: -noconfig @Temp/UnityTempFile-a3511e61b1a6fc84198f3013b08fb2f2
+Exit code: 0
+Elapsed time: 3.25 sec
+
+- Output (1 line):
+0: Assets\Scripts\GameManager.cs(9,28): warning CS0414: The field 'GameManager.startDelay' is assigned but its value is never used
+
+- Errors (0 lines):
+
