@@ -212,67 +212,76 @@ public class Chunk
 
     public void DecideTerrain()
     {
-        DecideGround();
-        DecideRivers();
-        DecideTrees();
-    }
-
-    private void DecideGround()
-    {
         for (int chunkX = 0; chunkX < MyWorld.ChunkSize; chunkX++)
         {
             for (int chunkY = 0; chunkY < MyWorld.ChunkSize; chunkY++)
             {
-                (int X, int Y) worldLocation = ChunkToWorldLocation((chunkX, chunkY));
-                float altitude = Util.GetPerlinNoise(MyWorld.GenerationParameters.TopologyRandomSeed, MyWorld.GenerationParameters.TopologyPeriods, worldLocation);
-
-                if (altitude < MyWorld.GenerationParameters.OceanAltitude)
-                {
-                    Tiles[chunkX, chunkY].TerrainType = Terrain.Ocean;
-                }
-                else if (altitude < MyWorld.GenerationParameters.SandAltitude)
-                {
-                    Tiles[chunkX, chunkY].TerrainType = Terrain.Sand;
-                }
-                else if (altitude < MyWorld.GenerationParameters.MountainAltitude)
-                {
-                    Tiles[chunkX, chunkY].TerrainType = Terrain.Grass;
-                }
-                else
-                {
-                    Tiles[chunkX, chunkY].TerrainType = Terrain.Mountain;
-                }
+                (int X, int Y) location = (chunkX, chunkY);
+                DecideGround(location);
+                DecideTrees(location);
+                DecideRivers(location);
             }
         }
     }
 
-    private void DecideTrees()
+    private void DecideGround((int X, int Y) location)
     {
-        for (int chunkX = 0; chunkX < MyWorld.ChunkSize; chunkX++)
+        (int X, int Y) worldLocation = ChunkToWorldLocation(location);
+        float altitude = Util.GetPerlinNoise(MyWorld.GenerationParameters.TopologyRandomSeed, MyWorld.GenerationParameters.TopologyPeriods, worldLocation);
+
+        if (altitude < MyWorld.GenerationParameters.OceanAltitude)
         {
-            for (int chunkY = 0; chunkY < MyWorld.ChunkSize; chunkY++)
-            {
-                (int X, int Y) worldLocation = ChunkToWorldLocation((chunkX, chunkY));
-                float treeSample = Util.GetPerlinNoise(MyWorld.GenerationParameters.TreeRandomSeed, MyWorld.GenerationParameters.TreePeriods, worldLocation);
-                if (treeSample < MyWorld.GenerationParameters.TreeDensity && Tiles[chunkX, chunkY].TerrainType == Terrain.Grass)
-                {
-                    Tiles[chunkX, chunkY].TerrainType = Terrain.Tree;
-                }
-            }
+            Tiles[location.X, location.Y].TerrainType = Terrain.Ocean;
+        }
+        else if (altitude < MyWorld.GenerationParameters.SandAltitude)
+        {
+            Tiles[location.X, location.Y].TerrainType = Terrain.Sand;
+        }
+        else if (altitude < MyWorld.GenerationParameters.MountainAltitude)
+        {
+            DecideGrass(location);
+        }
+        else
+        {
+            Tiles[location.X, location.Y].TerrainType = Terrain.Mountain;
         }
     }
 
-    private void DecideRivers()
+    private void DecideGrass((int X, int Y) location)
     {
-        for (int chunkX = 0; chunkX < MyWorld.ChunkSize; chunkX++)
+        (int X, int Y) worldLocation = ChunkToWorldLocation(location);
+        float mediumGrassSample = Util.GetPerlinNoise(MyWorld.GenerationParameters.GrassMediumSeed, MyWorld.GenerationParameters.GrassMediumPeriods, worldLocation);
+        if (mediumGrassSample < MyWorld.GenerationParameters.GrassMediumDensity)
         {
-            for (int chunkY = 0; chunkY < MyWorld.ChunkSize; chunkY++)
-            {
-                if (RiverNodes[chunkX, chunkY].IsRiver && Tiles[chunkX, chunkY].TerrainType != Terrain.Ocean)
-                {
-                    Tiles[chunkX, chunkY].TerrainType = Terrain.River;
-                }
-            }
+            Tiles[location.X, location.Y].TerrainType = Terrain.GrassMedium;
+        }
+        else
+        {
+            Tiles[location.X, location.Y].TerrainType = Terrain.GrassShort;
+        }
+
+        float tallGrassSample = Util.GetPerlinNoise(MyWorld.GenerationParameters.GrassTallSeed, MyWorld.GenerationParameters.GrassTallPeriods, worldLocation);
+        if (tallGrassSample < MyWorld.GenerationParameters.GrassTallDensity)
+        {
+            Tiles[location.X, location.Y].TerrainType = Terrain.GrassTall;
+        }
+    }
+
+    private void DecideTrees((int X, int Y) location)
+    {
+        (int X, int Y) worldLocation = ChunkToWorldLocation(location);
+        float treeSample = Util.GetPerlinNoise(MyWorld.GenerationParameters.TreeRandomSeed, MyWorld.GenerationParameters.TreePeriods, worldLocation);
+        if (treeSample < MyWorld.GenerationParameters.TreeDensity && Tiles[location.X, location.Y].TerrainType == Terrain.GrassMedium)
+        {
+            Tiles[location.X, location.Y].TerrainType = Terrain.Tree;
+        }
+    }
+
+    private void DecideRivers((int X, int Y) location)
+    {
+        if (RiverNodes[location.X, location.Y].IsRiver && Tiles[location.X, location.Y].TerrainType != Terrain.Ocean)
+        {
+            Tiles[location.X, location.Y].TerrainType = Terrain.River;
         }
     }
 
