@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public static float MoveSpeed = 5;
+    public delegate float MovementMultiplierDelegate((int, int) location);
+
+    public MovementMultiplierDelegate MovementMultiplier = location => 1;
+    public static float MoveSpeed = Configuration.DEFAULT_MOVE_SPEED;
     public GameObject MyCamera;
     private Rigidbody2D RB2D;
     private Vector2 MoveTarget;
@@ -26,11 +29,17 @@ public class PlayerController : MonoBehaviour
         {
             movement.Normalize();
         }
-        RB2D.MovePosition(RB2D.position + movement * MoveSpeed * Time.fixedDeltaTime);
+        float movementMultiplier = MovementMultiplier(Util.RoundVector2(RB2D.position));
+        RB2D.MovePosition(RB2D.position + movement * MoveSpeed * movementMultiplier * Time.fixedDeltaTime);
     }
 
     public void AssignCamera(GameObject camera)
     {
         MyCamera = camera;
+    }
+
+    public void AssignMovementMultiplier(MovementMultiplierDelegate movementMultiplier)
+    {
+        MovementMultiplier = movementMultiplier;
     }
 }

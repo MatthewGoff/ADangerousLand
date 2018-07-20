@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public delegate void Signal();
-    private readonly float startDelay = 2f;
     public GameObject LoadScreen;
     
     public static bool MaxMode = false;
@@ -48,14 +47,14 @@ public class GameManager : MonoBehaviour
             MaxMode = !MaxMode;
             if (MaxMode)
             {
-                FogController.OUTER_RADIUS = 54;
-                FogController.INNER_RADIUS = 45;
+                Configuration.FOG_OUTER_RADIUS = 54;
+                Configuration.FOG_INNER_RADIUS = 45;
                 PlayerController.MoveSpeed = 50;
             }
             else
             {
-                FogController.OUTER_RADIUS = 11;
-                FogController.INNER_RADIUS = 7;
+                Configuration.FOG_OUTER_RADIUS = 11;
+                Configuration.FOG_INNER_RADIUS = 7;
                 PlayerController.MoveSpeed = 5;
             }
         }

@@ -37,15 +37,15 @@ public class Chunk
             {
                 Tile tile = Tiles[x, y];
                 float distanceToPlayer = tile.DistanceToPlayer(playerPosition);
-                if (distanceToPlayer <= World.TREADMILL_RADIUS && !tile.Awake)
+                if (distanceToPlayer <= Configuration.TREADMILL_RADIUS && !tile.Awake)
                 {
                     tile.WakeUp();
                 }
-                else if (distanceToPlayer > World.TREADMILL_RADIUS && tile.Awake)
+                else if (distanceToPlayer > Configuration.TREADMILL_RADIUS && tile.Awake)
                 {
                     tile.Sleep();
                 }
-                if (distanceToPlayer < FogController.OUTER_RADIUS + FogController.FOG_UPDATE_MARGIN)
+                if (distanceToPlayer < Configuration.FOG_OUTER_RADIUS + Configuration.FOG_UPDATE_MARGIN)
                 {
                     tile.UpdateFog(distanceToPlayer);
                 }
@@ -122,6 +122,13 @@ public class Chunk
     {
         (int X, int Y) chunkLocation = WorldToChunkLocation(worldLocation);
         RiverNodes[chunkLocation.X, chunkLocation.Y].IsRiver = true;
+    }
+
+    public float MovementMultiplierAt((int X, int Y) worldLocation)
+    {
+        (int X, int Y) chunkLocation = WorldToChunkLocation(worldLocation);
+        Terrain terrain = Tiles[chunkLocation.X, chunkLocation.Y].TerrainType;
+        return Configuration.MOVEMENT_MULTIPLIERS[terrain];
     }
 
     public void AttemptToEstablishRiver(RiverPackage river)

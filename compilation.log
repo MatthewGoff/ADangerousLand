@@ -1,5 +1,5 @@
 ********************************************************************************
-*                       Friday, July 20, 2018 1:39:28 PM                       *
+*                       Friday, July 20, 2018 2:41:17 PM                       *
 ********************************************************************************
 CSharpCompilerWrapper.exe version: 4.0.4.230
 Unity version: 2018.1.0f2
@@ -13,17 +13,24 @@ Compiler: Microsoft C# 7.3 (2.8.0.62830)
 - Compilation ------------------------------------------------
 
 Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
-Arguments: -noconfig @Temp/UnityTempFile-bf9a740a2c5b54548bace906c609e9a1
-Exit code: 0
-Elapsed time: 3.60 sec
+Arguments: -noconfig @Temp/UnityTempFile-9a706b5f53675f9459edddf538338922
+Exit code: 1
+Elapsed time: 2.79 sec
 
-- Output (1 line):
-0: Assets\Scripts\GameManager.cs(9,28): warning CS0414: The field 'GameManager.startDelay' is assigned but its value is never used
+- Output (8 lines):
+0: Assets\Scripts\Chunk.cs(40,47): error CS0117: 'World' does not contain a definition for 'TREADMILL_RADIUS'
+1: Assets\Scripts\Chunk.cs(44,51): error CS0117: 'World' does not contain a definition for 'TREADMILL_RADIUS'
+2: Assets\Scripts\Chunk.cs(48,54): error CS0117: 'FogController' does not contain a definition for 'OUTER_RADIUS'
+3: Assets\Scripts\Chunk.cs(48,83): error CS0117: 'FogController' does not contain a definition for 'FOG_UPDATE_MARGIN'
+4: Assets\Scripts\GameManager.cs(50,31): error CS0117: 'FogController' does not contain a definition for 'OUTER_RADIUS'
+5: Assets\Scripts\GameManager.cs(51,31): error CS0117: 'FogController' does not contain a definition for 'INNER_RADIUS'
+6: Assets\Scripts\GameManager.cs(56,31): error CS0117: 'FogController' does not contain a definition for 'OUTER_RADIUS'
+7: Assets\Scripts\GameManager.cs(57,31): error CS0117: 'FogController' does not contain a definition for 'INNER_RADIUS'
 
 - Errors (0 lines):
 
 ********************************************************************************
-*                       Friday, July 20, 2018 1:40:17 PM                       *
+*                       Friday, July 20, 2018 2:42:27 PM                       *
 ********************************************************************************
 CSharpCompilerWrapper.exe version: 4.0.4.230
 Unity version: 2018.1.0f2
@@ -37,12 +44,84 @@ Compiler: Microsoft C# 7.3 (2.8.0.62830)
 - Compilation ------------------------------------------------
 
 Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
-Arguments: -noconfig @Temp/UnityTempFile-0162eda232dcf444ab074424cac03024
-Exit code: 0
-Elapsed time: 3.58 sec
+Arguments: -noconfig @Temp/UnityTempFile-dc3b12d346ef6f74b91650d72b257168
+Exit code: 1
+Elapsed time: 2.74 sec
 
-- Output (1 line):
-0: Assets\Scripts\GameManager.cs(9,28): warning CS0414: The field 'GameManager.startDelay' is assigned but its value is never used
+- Output (4 lines):
+0: Assets\Scripts\GameManager.cs(50,31): error CS0117: 'FogController' does not contain a definition for 'OUTER_RADIUS'
+1: Assets\Scripts\GameManager.cs(51,31): error CS0117: 'FogController' does not contain a definition for 'INNER_RADIUS'
+2: Assets\Scripts\GameManager.cs(56,31): error CS0117: 'FogController' does not contain a definition for 'OUTER_RADIUS'
+3: Assets\Scripts\GameManager.cs(57,31): error CS0117: 'FogController' does not contain a definition for 'INNER_RADIUS'
+
+- Errors (0 lines):
+
+********************************************************************************
+*                       Friday, July 20, 2018 2:43:18 PM                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 4.0.4.230
+Unity version: 2018.1.0f2
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\Matt\Documents\UnityProjects\ADangerousLand
+Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\unityjit
+Unity Mono executable: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\bin\mono.exe
+Compiler: Microsoft C# 7.3 (2.8.0.62830)
+
+- Compilation ------------------------------------------------
+
+Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
+Arguments: -noconfig @Temp/UnityTempFile-cb8066f14a5476547979323b77a486b4
+Exit code: 0
+Elapsed time: 3.54 sec
+
+- Output (0 lines):
+
+- Errors (0 lines):
+
+********************************************************************************
+*                       Friday, July 20, 2018 2:45:58 PM                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 4.0.4.230
+Unity version: 2018.1.0f2
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\Matt\Documents\UnityProjects\ADangerousLand
+Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\unityjit
+Unity Mono executable: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\bin\mono.exe
+Compiler: Microsoft C# 7.3 (2.8.0.62830)
+
+- Compilation ------------------------------------------------
+
+Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
+Arguments: -noconfig @Temp/UnityTempFile-14be51585ca87344595e5430744f1c6d
+Exit code: 0
+Elapsed time: 3.56 sec
+
+- Output (0 lines):
+
+- Errors (0 lines):
+
+********************************************************************************
+*                       Friday, July 20, 2018 2:46:20 PM                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 4.0.4.230
+Unity version: 2018.1.0f2
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\Matt\Documents\UnityProjects\ADangerousLand
+Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\unityjit
+Unity Mono executable: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\bin\mono.exe
+Compiler: Microsoft C# 7.3 (2.8.0.62830)
+
+- Compilation ------------------------------------------------
+
+Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
+Arguments: -noconfig @Temp/UnityTempFile-bb8822ee6af7baa4eafd66b2496ce1ec
+Exit code: 0
+Elapsed time: 3.57 sec
+
+- Output (0 lines):
 
 - Errors (0 lines):
 

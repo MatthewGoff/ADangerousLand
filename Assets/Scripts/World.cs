@@ -6,9 +6,6 @@ public class World : MonoBehaviour
 {
     public GameManager.Signal DoneLoading;
 
-    public static readonly int TREADMILL_RADIUS = 59;
-    public static readonly int TREADMILL_UPDATE_MARGIN = 5;
-
     public int ChunkSize;
     private Queue<WorldInitializer> WorldInitializers;
 
@@ -74,7 +71,7 @@ public class World : MonoBehaviour
 
     private void UpdateChunks()
     {
-        int updateRadius = (int)Math.Ceiling((TREADMILL_RADIUS + TREADMILL_UPDATE_MARGIN) / (float)ChunkSize);
+        int updateRadius = (int)Math.Ceiling((Configuration.TREADMILL_RADIUS + Configuration.TREADMILL_UPDATE_MARGIN) / (float)ChunkSize);
         for (int x = CurrentChunk.X - updateRadius; x <= CurrentChunk.X + updateRadius; x++)
         {
             for (int y = CurrentChunk.Y - updateRadius; y <= CurrentChunk.Y + updateRadius; y++)
@@ -149,6 +146,14 @@ public class World : MonoBehaviour
     {
         (int X, int Y) spawnLocation = DecideSpawnPoint();
         Player = Instantiate(Prefabs.PLAYER_PREFAB, new Vector3(spawnLocation.X, spawnLocation.Y, 0), Quaternion.identity) as GameObject;
+        PlayerController playerController = Player.GetComponent<PlayerController>();
+        playerController.AssignMovementMultiplier(MovementMultiplier);
+    }
+    
+    public float MovementMultiplier((int X, int Y) location)
+    {
+        return Chunks.GetChunk(GetChunkIndex(location)).MovementMultiplierAt(location);
+        
     }
 
     private (int X, int Y) DecideSpawnPoint()
