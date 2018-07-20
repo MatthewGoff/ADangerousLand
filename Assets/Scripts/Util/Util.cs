@@ -22,7 +22,7 @@ public static class Util
 
     public static (int X, int Y) RoundVector2(Vector2 vector)
     {
-        return (X: (int)Mathf.Round(vector.x), Y: (int)Mathf.Round(vector.y));
+        return ((int)Mathf.Round(vector.x), (int)Mathf.Round(vector.y));
     }
 
     public static float ArrayMinimum(float[] array)

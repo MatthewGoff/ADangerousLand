@@ -45,8 +45,9 @@ public class WorldGenParameters
         MaxRiverJumpDistance = 75;
 
         System.Random rng = new System.Random();
-        MasterSeed = rng.Next(-int.MaxValue, int.MaxValue);
+        //MasterSeed = rng.Next(-int.MaxValue, int.MaxValue);
         //MasterSeed = -1481425401;
+        MasterSeed = 214699974;
         UnityEngine.Random.InitState(MasterSeed);
         GrassMediumSeed = UnityEngine.Random.value;
         GrassTallSeed = UnityEngine.Random.value;

@@ -1,5 +1,5 @@
 ********************************************************************************
-*                      Friday, July 20, 2018 11:38:23 AM                       *
+*                       Friday, July 20, 2018 1:39:28 PM                       *
 ********************************************************************************
 CSharpCompilerWrapper.exe version: 4.0.4.230
 Unity version: 2018.1.0f2
@@ -13,9 +13,9 @@ Compiler: Microsoft C# 7.3 (2.8.0.62830)
 - Compilation ------------------------------------------------
 
 Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
-Arguments: -noconfig @Temp/UnityTempFile-d3fd4e5761867af4a9bfa302b2d9e646
+Arguments: -noconfig @Temp/UnityTempFile-bf9a740a2c5b54548bace906c609e9a1
 Exit code: 0
-Elapsed time: 3.54 sec
+Elapsed time: 3.60 sec
 
 - Output (1 line):
 0: Assets\Scripts\GameManager.cs(9,28): warning CS0414: The field 'GameManager.startDelay' is assigned but its value is never used
@@ -23,7 +23,7 @@ Elapsed time: 3.54 sec
 - Errors (0 lines):
 
 ********************************************************************************
-*                      Friday, July 20, 2018 11:39:09 AM                       *
+*                       Friday, July 20, 2018 1:40:17 PM                       *
 ********************************************************************************
 CSharpCompilerWrapper.exe version: 4.0.4.230
 Unity version: 2018.1.0f2
@@ -37,81 +37,9 @@ Compiler: Microsoft C# 7.3 (2.8.0.62830)
 - Compilation ------------------------------------------------
 
 Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
-Arguments: -noconfig @Temp/UnityTempFile-cee53a7456f7a4f4e971b821bbe90a4f
+Arguments: -noconfig @Temp/UnityTempFile-0162eda232dcf444ab074424cac03024
 Exit code: 0
-Elapsed time: 3.61 sec
-
-- Output (1 line):
-0: Assets\Scripts\GameManager.cs(9,28): warning CS0414: The field 'GameManager.startDelay' is assigned but its value is never used
-
-- Errors (0 lines):
-
-********************************************************************************
-*                      Friday, July 20, 2018 11:40:11 AM                       *
-********************************************************************************
-CSharpCompilerWrapper.exe version: 4.0.4.230
-Unity version: 2018.1.0f2
-Platform: Windows
-Target assembly: Assembly-CSharp.dll
-Project directory: C:\Users\Matt\Documents\UnityProjects\ADangerousLand
-Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\unityjit
-Unity Mono executable: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\bin\mono.exe
-Compiler: Microsoft C# 7.3 (2.8.0.62830)
-
-- Compilation ------------------------------------------------
-
-Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
-Arguments: -noconfig @Temp/UnityTempFile-bd09adda4fd9e334693c526caa586c3a
-Exit code: 0
-Elapsed time: 3.62 sec
-
-- Output (1 line):
-0: Assets\Scripts\GameManager.cs(9,28): warning CS0414: The field 'GameManager.startDelay' is assigned but its value is never used
-
-- Errors (0 lines):
-
-********************************************************************************
-*                      Friday, July 20, 2018 11:40:40 AM                       *
-********************************************************************************
-CSharpCompilerWrapper.exe version: 4.0.4.230
-Unity version: 2018.1.0f2
-Platform: Windows
-Target assembly: Assembly-CSharp.dll
-Project directory: C:\Users\Matt\Documents\UnityProjects\ADangerousLand
-Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\unityjit
-Unity Mono executable: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\bin\mono.exe
-Compiler: Microsoft C# 7.3 (2.8.0.62830)
-
-- Compilation ------------------------------------------------
-
-Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
-Arguments: -noconfig @Temp/UnityTempFile-a2a06fdc544dd6546a5ab25010d133bc
-Exit code: 0
-Elapsed time: 3.54 sec
-
-- Output (1 line):
-0: Assets\Scripts\GameManager.cs(9,28): warning CS0414: The field 'GameManager.startDelay' is assigned but its value is never used
-
-- Errors (0 lines):
-
-********************************************************************************
-*                      Friday, July 20, 2018 11:41:33 AM                       *
-********************************************************************************
-CSharpCompilerWrapper.exe version: 4.0.4.230
-Unity version: 2018.1.0f2
-Platform: Windows
-Target assembly: Assembly-CSharp.dll
-Project directory: C:\Users\Matt\Documents\UnityProjects\ADangerousLand
-Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\unityjit
-Unity Mono executable: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\bin\mono.exe
-Compiler: Microsoft C# 7.3 (2.8.0.62830)
-
-- Compilation ------------------------------------------------
-
-Process: C:\Users\Matt\Documents\UnityProjects\ADangerousLand\CSharp70Support\Roslyn\csc.exe
-Arguments: -noconfig @Temp/UnityTempFile-6591d56705594d64795ec25ea059e06f
-Exit code: 0
-Elapsed time: 4.16 sec
+Elapsed time: 3.58 sec
 
 - Output (1 line):
 0: Assets\Scripts\GameManager.cs(9,28): warning CS0414: The field 'GameManager.startDelay' is assigned but its value is never used

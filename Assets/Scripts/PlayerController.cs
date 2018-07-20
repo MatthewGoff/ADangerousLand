@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public void Start()
     {
         RB2D = GetComponent<Rigidbody2D>();
+        MoveTarget = RB2D.position;
     }
 
     public void FixedUpdate()

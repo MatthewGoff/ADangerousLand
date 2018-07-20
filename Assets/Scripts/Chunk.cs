@@ -132,7 +132,7 @@ public class Chunk
         }
         else
         {
-            Chunk chunk = MyWorld.GetChunk(river.WorldLocation);
+            Chunk chunk = MyWorld.Chunks.GetChunk(MyWorld.GetChunkIndex(river.WorldLocation));
             chunk.ImportRiver(river);
         }
     }

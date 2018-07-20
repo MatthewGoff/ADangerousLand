@@ -28,19 +28,10 @@ public class World : MonoBehaviour
         WorldInitializers = new Queue<WorldInitializer>();
         Chunks = new ChunkStorage(this);
 
-        CreatePlayer();
+        SpawnPlayer();
         PlayerChangedChunks();
         Initialized = true;
     }
-    /*
-    public void Update()
-    {
-        if (!Initialized)
-        {
-            return;
-        }
-    }
-    */
 
     public void FixedUpdate()
     {
@@ -144,21 +135,33 @@ public class World : MonoBehaviour
 
     private (int, int) GetPlayerChunk()
     {
-        Vector2 playerPosition = Player.transform.position;
-        playerPosition /= ChunkSize;
-        return ((int)Mathf.Floor(playerPosition.x), (int)Mathf.Floor(playerPosition.y));
+        return GetChunkIndex(Util.RoundVector2(Player.transform.position));
     }
 
-    public Chunk GetChunk((int X, int Y) location)
+    public (int, int) GetChunkIndex((int X, int Y) location)
     {
         int x = (int)Mathf.Floor(location.X / (float)ChunkSize);
         int y = (int)Mathf.Floor(location.Y / (float)ChunkSize);
-        return Chunks.GetChunk((x, y));
+        return (x, y);
     }
 
-    private void CreatePlayer()
+    private void SpawnPlayer()
     {
-        Player = Instantiate(Prefabs.PLAYER_PREFAB, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        (int X, int Y) spawnLocation = DecideSpawnPoint();
+        Player = Instantiate(Prefabs.PLAYER_PREFAB, new Vector3(spawnLocation.X, spawnLocation.Y, 0), Quaternion.identity) as GameObject;
+    }
+
+    private (int X, int Y) DecideSpawnPoint()
+    {
+        int y = 0;
+        int x = 0;
+        float altitude = Util.GetPerlinNoise(GenerationParameters.TopologyRandomSeed, GenerationParameters.TopologyPeriods, (x, y));
+        while (altitude > GenerationParameters.MountainAltitude || altitude < GenerationParameters.OceanAltitude)
+        {
+            x++;
+            altitude = Util.GetPerlinNoise(GenerationParameters.TopologyRandomSeed, GenerationParameters.TopologyPeriods, (x, y));
+        }
+        return (x, y);
     }
 
     public void DestoryWorld()
