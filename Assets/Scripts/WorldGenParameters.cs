@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class WorldGenParameters
+﻿public class WorldGenParameters
 {
     public readonly float GrassMediumSeed;
     public readonly float GrassMediumDensity;

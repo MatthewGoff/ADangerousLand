@@ -8,8 +8,8 @@ public class GameManager : MonoBehaviour
     public GameObject SplashScreen;
     public GameObject PausedMenu;
     public GameObject GameInfoMenu;
-    public GameObject RandomSeedText;
-    public GameObject PlayerLocationText;
+    public Text RandomSeedText;
+    public Text PlayerLocationText;
     
     public static bool MaxMode = false;
     public GameObject PlayerCamera;
@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private World MyWorldScript;
+    private WorldController MyWorldScript;
     private GameStateMachine StateMachine;
 
     void Awake()
@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
 
         Prefabs.LoadPrefabs();
         MyWorld = Instantiate(MyWorld, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-        MyWorldScript = MyWorld.GetComponent<World>();
+        MyWorldScript = MyWorld.GetComponent<WorldController>();
         PlayerCamera = Instantiate(Prefabs.CAMERA_PREFAB, new Vector3(0, 0, -10), Quaternion.identity) as GameObject;
         InitGame();
     }
@@ -79,10 +79,9 @@ public class GameManager : MonoBehaviour
 
     private void InitGame()
     {
-        MyWorldScript.DestoryWorld();
         MyWorldScript.CreateWorld();
-        PlayerCamera.GetComponent<CameraController>().AssignPlayer(MyWorldScript.Player);
-        MyWorldScript.Player.GetComponent<PlayerController>().AssignCamera(PlayerCamera);
+        PlayerCamera.GetComponent<CameraController>().AssignPlayer(MyWorldScript.PlayerController);
+        MyWorldScript.PlayerController.AssignCamera(PlayerCamera);
     }
 
     public void Update()

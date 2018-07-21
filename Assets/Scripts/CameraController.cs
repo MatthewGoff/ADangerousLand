@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
@@ -11,7 +9,7 @@ public class CameraController : MonoBehaviour
     public float MaximumZoom;
 
     private Camera MyCamera;
-    private GameObject Player;
+    private PlayerController MyPlayerController;
 
     void Start()
     {
@@ -27,9 +25,9 @@ public class CameraController : MonoBehaviour
 
     void Translate()
     {
-        if (Player != null)
+        if (MyPlayerController != null)
         {
-            Vector3 newPosition = Player.transform.position;
+            Vector3 newPosition = MyPlayerController.GetPlayerPosition();
             newPosition.z = -10;
             transform.position = newPosition;
         }
@@ -38,7 +36,7 @@ public class CameraController : MonoBehaviour
     void Zoom()
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll != 0.0f)
+        if (scroll != 0.0f && GameManager.Singleton.PlayerInputEnabled)
         {
             float cameraSize;
             if (scroll < 0.0f)
@@ -53,8 +51,8 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public void AssignPlayer(GameObject player_param)
+    public void AssignPlayer(PlayerController playerController)
     {
-        Player = player_param;
+        MyPlayerController = playerController;
     }
 }

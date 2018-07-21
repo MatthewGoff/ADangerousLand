@@ -9,14 +9,14 @@ public class Chunk
     public bool LocalityInitialized { get; set; } = false;
     public bool Awake { get; set; } = false;
 
-    private readonly World MyWorld;
+    private readonly WorldController MyWorld;
     private readonly (int X, int Y) ChunkIndex;
 
     private readonly RiverNode[,] RiverNodes;
     private readonly List<RiverPackage> ImportedRivers;
     private readonly Tile[,] Tiles;
 
-    public Chunk(World myWorld, (int X, int Y) chunkIndex)
+    public Chunk(WorldController myWorld, (int X, int Y) chunkIndex)
     {
         MyWorld = myWorld;
         ChunkIndex = chunkIndex;

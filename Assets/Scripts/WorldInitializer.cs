@@ -1,6 +1,6 @@
 ﻿public class WorldInitializer : ThreadedJob
 {
-    public World MyWorld;
+    public WorldController MyWorld;
     public (int X, int Y) ChunkIndex;
 
     protected override void ThreadFunction()

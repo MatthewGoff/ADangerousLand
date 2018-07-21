@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -41,5 +39,10 @@ public class PlayerController : MonoBehaviour
     public void AssignMovementMultiplier(MovementMultiplierDelegate movementMultiplier)
     {
         MovementMultiplier = movementMultiplier;
+    }
+
+    public Vector2 GetPlayerPosition()
+    {
+        return RB2D.position;
     }
 }
