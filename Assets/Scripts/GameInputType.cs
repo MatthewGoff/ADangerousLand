@@ -1,8 +1,8 @@
-﻿public enum InputType
+﻿public enum GameInputType
 {
+    Entry,
     Pause,
     OpenGameInfoMenu,
     CloseGameInfoMenu,
     FinishedLoading,
-    Entry
 }

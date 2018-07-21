@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     }
 
     private WorldController MyWorldScript;
-    private GameStateMachine StateMachine;
+    private FiniteStateMachine<GameStateType, GameInputType> StateMachine;
 
     void Awake()
     {
@@ -45,9 +45,9 @@ public class GameManager : MonoBehaviour
         InitGame();
     }
 
-    private GameStateMachine CreateStateMachine()
+    private FiniteStateMachine<GameStateType, GameInputType> CreateStateMachine()
     {
-        GameStateMachine stateMachine = new GameStateMachine();
+        FiniteStateMachine<GameStateType, GameInputType> stateMachine = new FiniteStateMachine<GameStateType, GameInputType>();
 
         stateMachine.AddEntryState(GameStateType.Loading, false);
         stateMachine.AddState(GameStateType.Playing, true);
@@ -55,22 +55,22 @@ public class GameManager : MonoBehaviour
         stateMachine.AddState(GameStateType.GameInfoMenu, false);
 
         //Loading
-        stateMachine.AddTransition(GameStateType.Loading, GameStateType.Playing, InputType.FinishedLoading);
+        stateMachine.AddTransition(GameStateType.Loading, GameStateType.Playing, GameInputType.FinishedLoading);
         stateMachine.OnEnter(GameStateType.Loading, OnStartLoading);
         stateMachine.OnExit(GameStateType.Loading, OnFinishedLoading);
 
         //Playing
-        stateMachine.AddTransition(GameStateType.Playing, GameStateType.PausedMenu, InputType.Pause);
+        stateMachine.AddTransition(GameStateType.Playing, GameStateType.PausedMenu, GameInputType.Pause);
 
         //Paused Menu
-        stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.Playing, InputType.Pause);
-        stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.GameInfoMenu, InputType.OpenGameInfoMenu);
+        stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.Playing, GameInputType.Pause);
+        stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.GameInfoMenu, GameInputType.OpenGameInfoMenu);
         stateMachine.OnEnter(GameStateType.PausedMenu, OnPause);
         stateMachine.OnExit(GameStateType.PausedMenu, OnResume);
 
         //GameInfo Menu
-        stateMachine.AddTransition(GameStateType.GameInfoMenu, GameStateType.Playing, InputType.Pause);
-        stateMachine.AddTransition(GameStateType.GameInfoMenu, GameStateType.PausedMenu, InputType.CloseGameInfoMenu);
+        stateMachine.AddTransition(GameStateType.GameInfoMenu, GameStateType.Playing, GameInputType.Pause);
+        stateMachine.AddTransition(GameStateType.GameInfoMenu, GameStateType.PausedMenu, GameInputType.CloseGameInfoMenu);
         stateMachine.OnEnter(GameStateType.GameInfoMenu, OnOpenGameInfo);
         stateMachine.OnExit(GameStateType.GameInfoMenu, OnCloseGameInfo);
 
@@ -104,61 +104,61 @@ public class GameManager : MonoBehaviour
         }
         if (UnityEngine.Input.GetKeyUp(KeyCode.Escape))
         {
-            Input(InputType.Pause);
+            Input(GameInputType.Pause);
         }
 
     }
 
-    public void Input(InputType inputType)
+    public void Input(GameInputType inputType)
     {
         StateMachine.GiveInput(inputType);
     }
 
-    public void OnStartLoading(GameStateType previousState, InputType intputType)
+    public void OnStartLoading(GameStateType previousState, GameInputType intputType)
     {
         SplashScreen.SetActive(true);
     }
 
-    public void OnFinishedLoading(InputType intputType, GameStateType nextState)
+    public void OnFinishedLoading(GameInputType intputType, GameStateType nextState)
     {
         SplashScreen.SetActive(false);
     }
 
-    public void OnPause(GameStateType previousState, InputType inputType)
+    public void OnPause(GameStateType previousState, GameInputType inputType)
     {
         PausedMenu.SetActive(true);
     }
 
-    public void OnResume(InputType intputType, GameStateType nextState)
+    public void OnResume(GameInputType intputType, GameStateType nextState)
     {
         PausedMenu.SetActive(false);
     }
 
-    public void OnOpenGameInfo(GameStateType previousState, InputType inputType)
+    public void OnOpenGameInfo(GameStateType previousState, GameInputType inputType)
     {
         GameInfoMenu.SetActive(true);
         RandomSeedText.GetComponent<Text>().text = "Random Seed: "+MyWorldScript.GetRandomSeed().ToString();
         PlayerLocationText.GetComponent<Text>().text = "Player Location: "+MyWorldScript.GetPlayerLocation().ToString();
     }
 
-    public void OnCloseGameInfo(InputType inputType, GameStateType nextState)
+    public void OnCloseGameInfo(GameInputType inputType, GameStateType nextState)
     {
         GameInfoMenu.SetActive(false);
     }
 
     public void ResumePressed()
     {
-        Input(InputType.Pause);
+        Input(GameInputType.Pause);
     }
 
     public void GameInfoPressed()
     {
-        Input(InputType.OpenGameInfoMenu);
+        Input(GameInputType.OpenGameInfoMenu);
     }
 
     public void BackPressed()
     {
-        Input(InputType.CloseGameInfoMenu);
+        Input(GameInputType.CloseGameInfoMenu);
     }
 
     public void QuitPressed()

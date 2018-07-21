@@ -18,7 +18,6 @@ public class WorldController : MonoBehaviour
     public void CreateWorld()
     {
         GenerationParameters = new WorldGenParameters();
-        print(GenerationParameters.MasterSeed);
 
         WorldInitializers = new Queue<WorldInitializer>();
         Chunks = new ChunkStorage(this);
@@ -125,7 +124,7 @@ public class WorldController : MonoBehaviour
             }
         }
         Chunks.GetChunk(chunkIndex).LocalityInitialized = true;
-        GameManager.Singleton.Input(InputType.FinishedLoading);
+        GameManager.Singleton.Input(GameInputType.FinishedLoading);
     }
 
     private (int X, int Y) GetPlayerChunk()
