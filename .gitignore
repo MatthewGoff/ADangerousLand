@@ -1,6 +1,3 @@
-# Matt's loot calculator experiment (python project)
-LootCalculator/
-
 # Folder where you should store your builds
 [Bb]uilds/
 
@@ -15,6 +12,13 @@ Library/
 Packages/
 *.meta
 
+# Unity C#7 support
+CSharp70Support/
+Assets/CSharp vNext Support/
+
 # Not sure what creates these files or what they're for
 app.config
 compilation.log
+
+# Matt's loot calculator experiment (python project)
+LootCalculator/
