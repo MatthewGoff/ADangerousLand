@@ -10,6 +10,11 @@ obj/
 # Unity Files
 Library/
 Packages/
+Temp/
+
+# Unity recomends that .meta files be included in version
+# control but the project can be built and run without
+# so I don't know what the deal is
 *.meta
 
 # Unity C#7 support
