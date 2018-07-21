@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class World : MonoBehaviour
 {
-    public GameManager.Signal DoneLoading;
-
     public int ChunkSize;
     private Queue<WorldInitializer> WorldInitializers;
 
@@ -127,12 +125,17 @@ public class World : MonoBehaviour
             }
         }
         Chunks.GetChunk(chunkIndex).LocalityInitialized = true;
-        DoneLoading();
+        GameManager.Singleton.Input(InputType.FinishedLoading);
     }
 
-    private (int, int) GetPlayerChunk()
+    private (int X, int Y) GetPlayerChunk()
     {
-        return GetChunkIndex(Util.RoundVector2(Player.transform.position));
+        return GetChunkIndex(GetPlayerLocation());
+    }
+
+    public (int X, int Y) GetPlayerLocation()
+    {
+        return Util.RoundVector2(Player.transform.position);
     }
 
     public (int, int) GetChunkIndex((int X, int Y) location)
@@ -176,5 +179,10 @@ public class World : MonoBehaviour
         {
             UnityEngine.Object.Destroy(Player);
         }
+    }
+
+    public int GetRandomSeed()
+    {
+        return GenerationParameters.MasterSeed;
     }
 }

@@ -1,34 +1,83 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public delegate void Signal();
-    public GameObject LoadScreen;
+    public static GameManager Singleton;
+
+    public GameObject SplashScreen;
+    public GameObject PausedMenu;
+    public GameObject GameInfoMenu;
+    public GameObject RandomSeedText;
+    public GameObject PlayerLocationText;
     
     public static bool MaxMode = false;
     public GameObject PlayerCamera;
     public GameObject MyWorld;
-
-    private World MyWorldScript;
-
-    void Awake()
+    public GameStateType GameState
     {
-        Prefabs.LoadPrefabs();
-        MyWorld = Instantiate(MyWorld, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-        MyWorldScript = MyWorld.GetComponent<World>();
-        MyWorldScript.DoneLoading = Verhogen;
-        PlayerCamera = Instantiate(Prefabs.CAMERA_PREFAB, new Vector3(0, 0, -10), Quaternion.identity) as GameObject;
-        InitGame();
-        void Verhogen()
+        get
         {
-            LoadScreen.SetActive(false);
+            return StateMachine.GetCurrentState();
+        }
+    }
+    public bool PlayerInputEnabled
+    {
+        get
+        {
+            return StateMachine.PlayerInputEnabled;
         }
     }
 
-    public void InitGame()
+    private World MyWorldScript;
+    private GameStateMachine StateMachine;
+
+    void Awake()
+    {
+        Singleton = this;
+        StateMachine = CreateStateMachine();
+        StateMachine.Enter();
+
+        Prefabs.LoadPrefabs();
+        MyWorld = Instantiate(MyWorld, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        MyWorldScript = MyWorld.GetComponent<World>();
+        PlayerCamera = Instantiate(Prefabs.CAMERA_PREFAB, new Vector3(0, 0, -10), Quaternion.identity) as GameObject;
+        InitGame();
+    }
+
+    private GameStateMachine CreateStateMachine()
+    {
+        GameStateMachine stateMachine = new GameStateMachine();
+
+        stateMachine.AddEntryState(GameStateType.Loading, false);
+        stateMachine.AddState(GameStateType.Playing, true);
+        stateMachine.AddState(GameStateType.PausedMenu, false);
+        stateMachine.AddState(GameStateType.GameInfoMenu, false);
+
+        //Loading
+        stateMachine.AddTransition(GameStateType.Loading, GameStateType.Playing, InputType.FinishedLoading);
+        stateMachine.OnEnter(GameStateType.Loading, OnStartLoading);
+        stateMachine.OnExit(GameStateType.Loading, OnFinishedLoading);
+
+        //Playing
+        stateMachine.AddTransition(GameStateType.Playing, GameStateType.PausedMenu, InputType.Pause);
+
+        //Paused Menu
+        stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.Playing, InputType.Pause);
+        stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.GameInfoMenu, InputType.OpenGameInfoMenu);
+        stateMachine.OnEnter(GameStateType.PausedMenu, OnPause);
+        stateMachine.OnExit(GameStateType.PausedMenu, OnResume);
+
+        //GameInfo Menu
+        stateMachine.AddTransition(GameStateType.GameInfoMenu, GameStateType.Playing, InputType.Pause);
+        stateMachine.AddTransition(GameStateType.GameInfoMenu, GameStateType.PausedMenu, InputType.CloseGameInfoMenu);
+        stateMachine.OnEnter(GameStateType.GameInfoMenu, OnOpenGameInfo);
+        stateMachine.OnExit(GameStateType.GameInfoMenu, OnCloseGameInfo);
+
+        return stateMachine;
+    }
+
+    private void InitGame()
     {
         MyWorldScript.DestoryWorld();
         MyWorldScript.CreateWorld();
@@ -38,11 +87,7 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyUp(KeyCode.R))
-        {
-            //InitGame();
-        }
-        if (Input.GetKeyUp(KeyCode.M))
+        if (UnityEngine.Input.GetKeyUp(KeyCode.M) && PlayerInputEnabled)
         {
             MaxMode = !MaxMode;
             if (MaxMode)
@@ -58,9 +103,67 @@ public class GameManager : MonoBehaviour
                 PlayerController.MoveSpeed = 5;
             }
         }
-        if (Input.GetKey("escape"))
+        if (UnityEngine.Input.GetKeyUp(KeyCode.Escape))
         {
-            Application.Quit();
+            Input(InputType.Pause);
         }
+
+    }
+
+    public void Input(InputType inputType)
+    {
+        StateMachine.GiveInput(inputType);
+    }
+
+    public void OnStartLoading(GameStateType previousState, InputType intputType)
+    {
+        SplashScreen.SetActive(true);
+    }
+
+    public void OnFinishedLoading(InputType intputType, GameStateType nextState)
+    {
+        SplashScreen.SetActive(false);
+    }
+
+    public void OnPause(GameStateType previousState, InputType inputType)
+    {
+        PausedMenu.SetActive(true);
+    }
+
+    public void OnResume(InputType intputType, GameStateType nextState)
+    {
+        PausedMenu.SetActive(false);
+    }
+
+    public void OnOpenGameInfo(GameStateType previousState, InputType inputType)
+    {
+        GameInfoMenu.SetActive(true);
+        RandomSeedText.GetComponent<Text>().text = "Random Seed: "+MyWorldScript.GetRandomSeed().ToString();
+        PlayerLocationText.GetComponent<Text>().text = "Player Location: "+MyWorldScript.GetPlayerLocation().ToString();
+    }
+
+    public void OnCloseGameInfo(InputType inputType, GameStateType nextState)
+    {
+        GameInfoMenu.SetActive(false);
+    }
+
+    public void ResumePressed()
+    {
+        Input(InputType.Pause);
+    }
+
+    public void GameInfoPressed()
+    {
+        Input(InputType.OpenGameInfoMenu);
+    }
+
+    public void BackPressed()
+    {
+        Input(InputType.CloseGameInfoMenu);
+    }
+
+    public void QuitPressed()
+    {
+        Application.Quit();
     }
 }

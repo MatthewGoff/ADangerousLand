@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
 
     public void FixedUpdate()
     {
-        if (Input.GetMouseButton(0) && MyCamera != null)
+        if (Input.GetMouseButton(0) && MyCamera != null && GameManager.Singleton.PlayerInputEnabled)
         {
             MoveTarget = MyCamera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
         }

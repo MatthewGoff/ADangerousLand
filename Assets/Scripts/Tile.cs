@@ -2,7 +2,7 @@
 
 public class Tile {
 
-    public Terrain TerrainType { get; set; }
+    public TerrainType TerrainType { get; set; }
     private GameObject TerrainGameObject;
     //private GameObject BlackHighlightGameObject;
     public readonly (int X, int Y) Location;

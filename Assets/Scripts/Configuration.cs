@@ -2,16 +2,16 @@
 
 public class Configuration
 {
-    public static readonly Dictionary<Terrain, float> MOVEMENT_MULTIPLIERS = new Dictionary<Terrain, float>()
+    public static readonly Dictionary<TerrainType, float> MOVEMENT_MULTIPLIERS = new Dictionary<TerrainType, float>()
     {
-        { Terrain.GrassShort, 1f },
-        { Terrain.GrassMedium, 1f},
-        { Terrain.GrassTall, 1f},
-        { Terrain.Sand, 1f},
-        { Terrain.River, 0.5f},
-        { Terrain.Tree, 0.5f},
-        { Terrain.Ocean, 0.5f},
-        { Terrain.Mountain, 1f},
+        { TerrainType.GrassShort, 1f },
+        { TerrainType.GrassMedium, 1f},
+        { TerrainType.GrassTall, 1f},
+        { TerrainType.Sand, 1f},
+        { TerrainType.River, 0.5f},
+        { TerrainType.Tree, 0.5f},
+        { TerrainType.Ocean, 0.5f},
+        { TerrainType.Mountain, 1f},
     };
 
     //World

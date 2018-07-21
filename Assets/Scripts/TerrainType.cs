@@ -1,6 +1,6 @@
-﻿public enum Terrain
+﻿public enum TerrainType
 {
-    GrassShort = 0,
+    GrassShort,
     GrassMedium,
     GrassTall,
     Tree,

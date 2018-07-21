@@ -127,7 +127,7 @@ public class Chunk
     public float MovementMultiplierAt((int X, int Y) worldLocation)
     {
         (int X, int Y) chunkLocation = WorldToChunkLocation(worldLocation);
-        Terrain terrain = Tiles[chunkLocation.X, chunkLocation.Y].TerrainType;
+        TerrainType terrain = Tiles[chunkLocation.X, chunkLocation.Y].TerrainType;
         return Configuration.MOVEMENT_MULTIPLIERS[terrain];
     }
 
@@ -238,11 +238,11 @@ public class Chunk
 
         if (altitude < MyWorld.GenerationParameters.OceanAltitude)
         {
-            Tiles[location.X, location.Y].TerrainType = Terrain.Ocean;
+            Tiles[location.X, location.Y].TerrainType = TerrainType.Ocean;
         }
         else if (altitude < MyWorld.GenerationParameters.SandAltitude)
         {
-            Tiles[location.X, location.Y].TerrainType = Terrain.Sand;
+            Tiles[location.X, location.Y].TerrainType = TerrainType.Sand;
         }
         else if (altitude < MyWorld.GenerationParameters.MountainAltitude)
         {
@@ -250,7 +250,7 @@ public class Chunk
         }
         else
         {
-            Tiles[location.X, location.Y].TerrainType = Terrain.Mountain;
+            Tiles[location.X, location.Y].TerrainType = TerrainType.Mountain;
         }
     }
 
@@ -260,17 +260,17 @@ public class Chunk
         float mediumGrassSample = Util.GetPerlinNoise(MyWorld.GenerationParameters.GrassMediumSeed, MyWorld.GenerationParameters.GrassMediumPeriods, worldLocation);
         if (mediumGrassSample < MyWorld.GenerationParameters.GrassMediumDensity)
         {
-            Tiles[location.X, location.Y].TerrainType = Terrain.GrassMedium;
+            Tiles[location.X, location.Y].TerrainType = TerrainType.GrassMedium;
         }
         else
         {
-            Tiles[location.X, location.Y].TerrainType = Terrain.GrassShort;
+            Tiles[location.X, location.Y].TerrainType = TerrainType.GrassShort;
         }
 
         float tallGrassSample = Util.GetPerlinNoise(MyWorld.GenerationParameters.GrassTallSeed, MyWorld.GenerationParameters.GrassTallPeriods, worldLocation);
         if (tallGrassSample < MyWorld.GenerationParameters.GrassTallDensity)
         {
-            Tiles[location.X, location.Y].TerrainType = Terrain.GrassTall;
+            Tiles[location.X, location.Y].TerrainType = TerrainType.GrassTall;
         }
     }
 
@@ -278,17 +278,17 @@ public class Chunk
     {
         (int X, int Y) worldLocation = ChunkToWorldLocation(location);
         float treeSample = Util.GetPerlinNoise(MyWorld.GenerationParameters.TreeRandomSeed, MyWorld.GenerationParameters.TreePeriods, worldLocation);
-        if (treeSample < MyWorld.GenerationParameters.TreeDensity && Tiles[location.X, location.Y].TerrainType == Terrain.GrassMedium)
+        if (treeSample < MyWorld.GenerationParameters.TreeDensity && Tiles[location.X, location.Y].TerrainType == TerrainType.GrassMedium)
         {
-            Tiles[location.X, location.Y].TerrainType = Terrain.Tree;
+            Tiles[location.X, location.Y].TerrainType = TerrainType.Tree;
         }
     }
 
     private void DecideRivers((int X, int Y) location)
     {
-        if (RiverNodes[location.X, location.Y].IsRiver && Tiles[location.X, location.Y].TerrainType != Terrain.Ocean)
+        if (RiverNodes[location.X, location.Y].IsRiver && Tiles[location.X, location.Y].TerrainType != TerrainType.Ocean)
         {
-            Tiles[location.X, location.Y].TerrainType = Terrain.River;
+            Tiles[location.X, location.Y].TerrainType = TerrainType.River;
         }
     }
 
