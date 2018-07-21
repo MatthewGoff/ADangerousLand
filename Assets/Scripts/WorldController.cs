@@ -12,12 +12,13 @@ public class WorldController : MonoBehaviour
     public PlayerController PlayerController { get; private set; }
     public ChunkStorage Chunks { get; private set; }
 
-    private (int X, int Y) CurrentChunk;
+    private ChunkIndex CurrentChunk;
     private bool Initialized = false;
 
     public void CreateWorld()
     {
         GenerationParameters = new WorldGenParameters();
+
 
         WorldInitializers = new Queue<WorldInitializer>();
         Chunks = new ChunkStorage(this);
@@ -41,7 +42,7 @@ public class WorldController : MonoBehaviour
 
     private void UpdateCurrentChunk()
     {
-        (int X, int Y) currentChunk = GetPlayerChunk();
+        ChunkIndex currentChunk = GetPlayerChunk();
         if (!currentChunk.Equals(CurrentChunk))
         {
             CurrentChunk = currentChunk;
@@ -69,11 +70,11 @@ public class WorldController : MonoBehaviour
     private void UpdateChunks()
     {
         int updateRadius = (int)Math.Ceiling((Configuration.TREADMILL_RADIUS + Configuration.TREADMILL_UPDATE_MARGIN) / (float)ChunkSize);
-        for (int x = CurrentChunk.X - updateRadius; x <= CurrentChunk.X + updateRadius; x++)
+        for (int indexX = CurrentChunk.X - updateRadius; indexX <= CurrentChunk.X + updateRadius; indexX++)
         {
-            for (int y = CurrentChunk.Y - updateRadius; y <= CurrentChunk.Y + updateRadius; y++)
+            for (int indexY = CurrentChunk.Y - updateRadius; indexY <= CurrentChunk.Y + updateRadius; indexY++)
             {
-                Chunks.GetChunk((x, y)).Update(PlayerController.GetPlayerPosition());
+                Chunks.GetChunk(new ChunkIndex(indexX, indexY)).Update(PlayerController.GetPlayerPosition());
             }
         }
     }
@@ -89,18 +90,35 @@ public class WorldController : MonoBehaviour
             };
             WorldInitializers.Enqueue(newInitializer);
         }
+        for (int x = -3; x <= 3; x++)
+        {
+            for (int y = -3; y <= 3; y++)
+            {
+                int distance = Math.Max(Math.Abs(x), Math.Abs(y));
+                Chunk chunk = Chunks.GetChunk(CurrentChunk.Add(x, y));
+                if (distance == 3)
+                {
+                    chunk.Awake = false;
+                    chunk.SpawnEnemies();
+                }
+                else
+                {
+                    chunk.Awake = true;
+                }
+            }
+        }
     }
 
-    public void InitializeRiverLocality((int X, int Y) chunkIndex)
+    public void InitializeRiverLocality(ChunkIndex chunkIndex)
     {
         float radius = Util.ArrayMaximum(GenerationParameters.TopologyPeriods);
-        int chunkRadius = (int)(radius / ChunkSize);
+        int chunkRadius = (int)(radius / ChunkSize) + 3;
 
-        for (int x = chunkIndex.X - chunkRadius; x <= chunkIndex.X + chunkRadius; x++)
+        for (int indexX = chunkIndex.X - chunkRadius; indexX <= chunkIndex.X + chunkRadius; indexX++)
         {
-            for (int y = chunkIndex.Y - chunkRadius; y <= chunkIndex.Y + chunkRadius; y++)
+            for (int indexY = chunkIndex.Y - chunkRadius; indexY <= chunkIndex.Y + chunkRadius; indexY++)
             {
-                Chunk chunk = Chunks.GetChunk((x, y));
+                Chunk chunk = Chunks.GetChunk(new ChunkIndex(indexX, indexY));
                 if (!chunk.RiversInitialized)
                 {
                     chunk.InitializeRivers();
@@ -109,14 +127,14 @@ public class WorldController : MonoBehaviour
         }
     }
 
-    public void FinalLocalityInitialization((int X, int Y) chunkIndex)
+    public void FinalLocalityInitialization(ChunkIndex chunkIndex)
     {
-        int radius = 2;
-        for (int x = chunkIndex.X - radius; x <= chunkIndex.X + radius; x++)
+        int radius = 3;
+        for (int indexX = chunkIndex.X - radius; indexX <= chunkIndex.X + radius; indexX++)
         {
-            for (int y = chunkIndex.Y - radius; y <= chunkIndex.Y + radius; y++)
+            for (int indexY = chunkIndex.Y - radius; indexY <= chunkIndex.Y + radius; indexY++)
             {
-                Chunk chunk = Chunks.GetChunk((x, y));
+                Chunk chunk = Chunks.GetChunk(new ChunkIndex(indexX, indexY));
                 if (!chunk.Initialized)
                 {
                     chunk.FinalInitialization();
@@ -127,38 +145,38 @@ public class WorldController : MonoBehaviour
         GameManager.Singleton.Input(GameInputType.FinishedLoading);
     }
 
-    private (int X, int Y) GetPlayerChunk()
+    private ChunkIndex GetPlayerChunk()
     {
         return GetChunkIndex(GetPlayerLocation());
     }
 
-    public (int X, int Y) GetPlayerLocation()
+    public WorldLocation GetPlayerLocation()
     {
-        return Util.RoundVector2(PlayerController.GetPlayerPosition());
+        return new WorldLocation(Util.RoundVector2(PlayerController.GetPlayerPosition()));
     }
 
-    public (int, int) GetChunkIndex((int X, int Y) location)
+    public ChunkIndex GetChunkIndex(WorldLocation worldLocation)
     {
-        int x = (int)Mathf.Floor(location.X / (float)ChunkSize);
-        int y = (int)Mathf.Floor(location.Y / (float)ChunkSize);
-        return (x, y);
+        int x = (int)Mathf.Floor(worldLocation.X / (float)ChunkSize);
+        int y = (int)Mathf.Floor(worldLocation.Y / (float)ChunkSize);
+        return new ChunkIndex(x, y);
     }
 
     private void SpawnPlayer()
     {
-        (int X, int Y) spawnLocation = DecideSpawnPoint();
+        WorldLocation spawnLocation = DecideSpawnPoint();
         GameObject player = Instantiate(Prefabs.PLAYER_PREFAB, new Vector3(spawnLocation.X, spawnLocation.Y, 0), Quaternion.identity) as GameObject;
         PlayerController = player.GetComponent<PlayerController>();
         PlayerController.AssignMovementMultiplier(MovementMultiplier);
     }
     
-    public float MovementMultiplier((int X, int Y) location)
+    public float MovementMultiplier(WorldLocation worldLocation)
     {
-        return Chunks.GetChunk(GetChunkIndex(location)).MovementMultiplierAt(location);
+        return Chunks.GetChunk(GetChunkIndex(worldLocation)).MovementMultiplierAt(worldLocation);
         
     }
 
-    private (int X, int Y) DecideSpawnPoint()
+    private WorldLocation DecideSpawnPoint()
     {
         int y = 0;
         int x = 0;
@@ -168,7 +186,7 @@ public class WorldController : MonoBehaviour
             x++;
             altitude = Util.GetPerlinNoise(GenerationParameters.TopologyRandomSeed, GenerationParameters.TopologyPeriods, (x, y));
         }
-        return (x, y);
+        return new WorldLocation(x, y);
     }
 
     public int GetRandomSeed()

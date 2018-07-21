@@ -14,6 +14,10 @@ public class FogController
 
     public void Update(float distanceToPlayers)
     {
+        if (!MyTile.Awake)
+        {
+            return;
+        }
         if (distanceToPlayers < Configuration.FOG_OUTER_RADIUS)
         {
             if (!Exposed)
@@ -46,7 +50,7 @@ public class FogController
 
     private void CreateGameObject()
     {
-        FogGameObject = GameObject.Instantiate(Prefabs.FOG_PREFAB, new Vector3(MyTile.Location.X, MyTile.Location.Y, 0), Quaternion.identity);
+        FogGameObject = GameObject.Instantiate(Prefabs.FOG_PREFAB, new Vector3(MyTile.WorldLocation.X, MyTile.WorldLocation.Y, 0), Quaternion.identity);
         FogRenderer = FogGameObject.GetComponent<SpriteRenderer>();
         if (Exposed)
         {

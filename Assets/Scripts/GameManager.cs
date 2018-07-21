@@ -91,8 +91,8 @@ public class GameManager : MonoBehaviour
             MaxMode = !MaxMode;
             if (MaxMode)
             {
-                Configuration.FOG_OUTER_RADIUS = 54;
-                Configuration.FOG_INNER_RADIUS = 45;
+                Configuration.FOG_OUTER_RADIUS = 80;
+                Configuration.FOG_INNER_RADIUS = 75;
                 PlayerController.MoveSpeed = 50;
             }
             else
@@ -106,7 +106,8 @@ public class GameManager : MonoBehaviour
         {
             Input(GameInputType.Pause);
         }
-
+        //print(GameObject.FindGameObjectsWithTag("Terrain").GetLength(0););
+        //print(1/Time.deltaTime);
     }
 
     public void Input(GameInputType inputType)

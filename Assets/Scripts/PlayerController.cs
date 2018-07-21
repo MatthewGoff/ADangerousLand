@@ -2,7 +2,7 @@
 
 public class PlayerController : MonoBehaviour
 {
-    public delegate float MovementMultiplierDelegate((int, int) location);
+    public delegate float MovementMultiplierDelegate(WorldLocation worldLocation);
 
     public MovementMultiplierDelegate MovementMultiplier = location => 1;
     public static float MoveSpeed = Configuration.DEFAULT_MOVE_SPEED;
@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
         {
             movement.Normalize();
         }
-        float movementMultiplier = MovementMultiplier(Util.RoundVector2(RB2D.position));
+        float movementMultiplier = MovementMultiplier(new WorldLocation(Util.RoundVector2(RB2D.position)));
         RB2D.MovePosition(RB2D.position + movement * MoveSpeed * movementMultiplier * Time.fixedDeltaTime);
     }
 

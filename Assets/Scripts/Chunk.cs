@@ -9,20 +9,24 @@ public class Chunk
     public bool LocalityInitialized { get; set; } = false;
     public bool Awake { get; set; } = false;
 
-    private readonly WorldController MyWorld;
-    private readonly (int X, int Y) ChunkIndex;
+    private int ResidentEnemies;
+    private List<WorldLocation> UnocupiedTiles;
 
+    private readonly WorldController MyWorld;
+    private readonly ChunkIndex ChunkIndex;
     private readonly RiverNode[,] RiverNodes;
     private readonly List<RiverPackage> ImportedRivers;
     private readonly Tile[,] Tiles;
 
-    public Chunk(WorldController myWorld, (int X, int Y) chunkIndex)
+    public Chunk(WorldController myWorld, ChunkIndex chunkIndex)
     {
         MyWorld = myWorld;
         ChunkIndex = chunkIndex;
         ImportedRivers = new List<RiverPackage>();
         RiverNodes = CreateRiverNodes();
         Tiles = CreateTiles();
+        ResidentEnemies = 0;
+        UnocupiedTiles = new List<WorldLocation>();
     }
 
     public void Update(Vector2 playerPosition)
@@ -31,37 +35,53 @@ public class Chunk
         {
             return;
         }
-        for (int x = 0; x < Tiles.GetLength(0); x++)
+        for (int chunkX = 0; chunkX < Tiles.GetLength(0); chunkX++)
         {
-            for (int y = 0; y < Tiles.GetLength(1); y++)
+            for (int chunkY = 0; chunkY < Tiles.GetLength(1); chunkY++)
             {
-                Tile tile = Tiles[x, y];
-                float distanceToPlayer = tile.DistanceToPlayer(playerPosition);
-                if (distanceToPlayer <= Configuration.TREADMILL_RADIUS && !tile.Awake)
+                Tile tile = Tiles[chunkX, chunkY];
+                float euclidianDistance = tile.EuclidianDistanceToPlayer(playerPosition);
+                float squareDistance = tile.SquareDistanceToPlayer(playerPosition);
+                if (squareDistance <= Configuration.TREADMILL_RADIUS && !tile.Awake)
                 {
                     tile.WakeUp();
                 }
-                else if (distanceToPlayer > Configuration.TREADMILL_RADIUS && tile.Awake)
+                else if (squareDistance > Configuration.TREADMILL_RADIUS && tile.Awake)
                 {
                     tile.Sleep();
                 }
-                if (distanceToPlayer < Configuration.FOG_OUTER_RADIUS + Configuration.FOG_UPDATE_MARGIN)
+                //if (euclidianDistance < Configuration.FOG_OUTER_RADIUS + Configuration.FOG_UPDATE_MARGIN)
                 {
-                    tile.UpdateFog(distanceToPlayer);
+                    tile.UpdateFog(euclidianDistance);
                 }
             }
         }
     }
 
+    public void SpawnEnemies()
+    {
+        /*
+         * while (ResidentEnemies < Configuration.EnemiesPerChunk)
+        {
+            SpawnEnemy();
+        }
+        */
+    }
+
+    private void SpawnEnemy()
+    {
+
+    }
+
     private Tile[,] CreateTiles()
     {
         Tile[,] tiles = new Tile[MyWorld.ChunkSize, MyWorld.ChunkSize];
-        for (int x = 0; x < MyWorld.ChunkSize; x++)
+        for (int chunkX = 0; chunkX < MyWorld.ChunkSize; chunkX++)
         {
-            for (int y = 0; y < MyWorld.ChunkSize; y++)
+            for (int chunkY = 0; chunkY < MyWorld.ChunkSize; chunkY++)
             {
-                (int X, int Y) worldLocation = ChunkToWorldLocation((x, y));
-                tiles[x, y] = new Tile(worldLocation);
+                WorldLocation worldLocation = ChunkToWorldLocation(new ChunkLocation(chunkX, chunkY));
+                tiles[chunkX, chunkY] = new Tile(worldLocation);
             }
         }
         return tiles;
@@ -70,11 +90,11 @@ public class Chunk
     private RiverNode[,] CreateRiverNodes()
     {
         RiverNode[,] riverNodes = new RiverNode[MyWorld.ChunkSize, MyWorld.ChunkSize];
-        for (int x = 0; x < MyWorld.ChunkSize; x++)
+        for (int chunkX = 0; chunkX < MyWorld.ChunkSize; chunkX++)
         {
-            for (int y = 0; y < MyWorld.ChunkSize; y++)
+            for (int chunkY = 0; chunkY < MyWorld.ChunkSize; chunkY++)
             {
-                riverNodes[x, y] = new RiverNode();
+                riverNodes[chunkX, chunkY] = new RiverNode();
             }
         }
         return riverNodes;
@@ -82,11 +102,11 @@ public class Chunk
 
     public void InitializeInternalRivers()
     {
-        for (int x = 0; x < MyWorld.ChunkSize; x++)
+        for (int worldX = ChunkIndex.X*MyWorld.ChunkSize; worldX < (ChunkIndex.X+1)*MyWorld.ChunkSize; worldX++)
         {
-            for (int y = 0; y < MyWorld.ChunkSize; y++)
+            for (int worldY = ChunkIndex.Y*MyWorld.ChunkSize; worldY < (ChunkIndex.Y+1)*MyWorld.ChunkSize; worldY++)
             {
-                (int X, int Y) worldLocation = ChunkToWorldLocation((x, y));
+                WorldLocation worldLocation = new WorldLocation(worldX, worldY);
                 if (IsRiverSource(worldLocation))
                 {
                     EstablishRiverSource(worldLocation);
@@ -95,7 +115,7 @@ public class Chunk
         }
     }
 
-    public void EstablishRiverSource((int X, int Y) worldLocation)
+    public void EstablishRiverSource(WorldLocation worldLocation)
     {
         EstablishRiverCenter(worldLocation);
         List<RiverPackage> outlets = GetSourceOutlets(worldLocation);
@@ -105,10 +125,10 @@ public class Chunk
         }
     }
 
-    public void EstablishRiverCenter((int X, int Y) worldLocation)
+    public void EstablishRiverCenter(WorldLocation worldLocation)
     {
         EstablishRiverFloodplain(worldLocation);
-        (int X, int Y) chunkLocation = WorldToChunkLocation(worldLocation);
+        ChunkLocation chunkLocation = WorldToChunkLocation(worldLocation);
         RiverNode riverCenter = RiverNodes[chunkLocation.X, chunkLocation.Y];
         //riverCenter.IncrementWaterLevel();
         List<RiverPackage> floodplains = GetFloodplains(worldLocation, riverCenter.WaterLevel);
@@ -118,29 +138,29 @@ public class Chunk
         }
     }
 
-    public void EstablishRiverFloodplain((int X, int Y) worldLocation)
+    public void EstablishRiverFloodplain(WorldLocation worldLocation)
     {
-        (int X, int Y) chunkLocation = WorldToChunkLocation(worldLocation);
+        ChunkLocation chunkLocation = WorldToChunkLocation(worldLocation);
         RiverNodes[chunkLocation.X, chunkLocation.Y].IsRiver = true;
     }
 
-    public float MovementMultiplierAt((int X, int Y) worldLocation)
+    public float MovementMultiplierAt(WorldLocation worldLocation)
     {
-        (int X, int Y) chunkLocation = WorldToChunkLocation(worldLocation);
+        ChunkLocation chunkLocation = WorldToChunkLocation(worldLocation);
         TerrainType terrain = Tiles[chunkLocation.X, chunkLocation.Y].TerrainType;
         return Configuration.MOVEMENT_MULTIPLIERS[terrain];
     }
 
-    public void AttemptToEstablishRiver(RiverPackage river)
+    public void AttemptToEstablishRiver(RiverPackage riverPackage)
     {
-        if (WithinChunk(river.WorldLocation))
+        if (WithinChunk(riverPackage.WorldLocation))
         {
-            EstablishRiver(river);
+            EstablishRiver(riverPackage);
         }
         else
         {
-            Chunk chunk = MyWorld.Chunks.GetChunk(MyWorld.GetChunkIndex(river.WorldLocation));
-            chunk.ImportRiver(river);
+            Chunk chunk = MyWorld.Chunks.GetChunk(MyWorld.GetChunkIndex(riverPackage.WorldLocation));
+            chunk.ImportRiver(riverPackage);
         }
     }
 
@@ -160,25 +180,25 @@ public class Chunk
         }
     }
 
-    public List<RiverPackage> GetFloodplains((int X, int Y) worldLocation, int depth)
+    public List<RiverPackage> GetFloodplains(WorldLocation worldLocation, int depth)
     {
         int radius = depth - 1;
         int lowerRadius = (int) Math.Ceiling(radius / 2.0f);
         int upperRadius = (int) Math.Floor(radius / 2.0f);
         List<RiverPackage> floodplains = new List<RiverPackage>();
-        for (int x = worldLocation.X - lowerRadius; x<worldLocation.X + upperRadius; x++)
+        for (int worldX = worldLocation.X - lowerRadius; worldX<worldLocation.X + upperRadius; worldX++)
         {
-            for (int y = worldLocation.Y - lowerRadius; y<worldLocation.Y + upperRadius; y++)
+            for (int worldY = worldLocation.Y - lowerRadius; worldY<worldLocation.Y + upperRadius; worldY++)
             {
-                floodplains.Add(new RiverPackage((x, y), RiverType.Floodplain));
+                floodplains.Add(new RiverPackage(new WorldLocation(worldX, worldY), RiverType.Floodplain));
             }
         }
         return floodplains;
     }
 
-    private List<RiverPackage> GetSourceOutlets((int X, int Y) sourceWorldLocation)
+    private List<RiverPackage> GetSourceOutlets(WorldLocation sourceWorldLocation)
     {
-        float sourceAltitude = Util.GetPerlinNoise(MyWorld.GenerationParameters.TopologyRandomSeed, MyWorld.GenerationParameters.TopologyPeriods, sourceWorldLocation);
+        float sourceAltitude = Util.GetPerlinNoise(MyWorld.GenerationParameters.TopologyRandomSeed, MyWorld.GenerationParameters.TopologyPeriods, sourceWorldLocation.Tuple);
         List<RiverPackage> outlets = new List<RiverPackage>();
 
         if (sourceAltitude < MyWorld.GenerationParameters.OceanAltitude)
@@ -190,13 +210,13 @@ public class Chunk
         bool outletFound = false;
         while (!outletFound && searchRadius < MyWorld.GenerationParameters.MaxRiverJumpDistance)
         {
-            (int X, int Y) outletWorldLocation = LowestLocationInRadius(sourceWorldLocation, searchRadius);
-            float outletAltitude = Util.GetPerlinNoise(MyWorld.GenerationParameters.TopologyRandomSeed, MyWorld.GenerationParameters.TopologyPeriods, outletWorldLocation);
+            WorldLocation outletWorldLocation = LowestLocationInRadius(sourceWorldLocation, searchRadius);
+            float outletAltitude = Util.GetPerlinNoise(MyWorld.GenerationParameters.TopologyRandomSeed, MyWorld.GenerationParameters.TopologyPeriods, outletWorldLocation.Tuple);
             if (outletAltitude < sourceAltitude)
             {
                 outlets.Add(new RiverPackage(outletWorldLocation, RiverType.Source));
-                List<(int X, int Y)> betweenLocations = GetRiverTunnel(sourceWorldLocation, outletWorldLocation);
-                foreach ((int X, int Y) betweenLocation in betweenLocations)
+                List<WorldLocation> betweenLocations = GetRiverTunnel(sourceWorldLocation, outletWorldLocation);
+                foreach (WorldLocation betweenLocation in betweenLocations)
                 {
                     outlets.Add(new RiverPackage(betweenLocation, RiverType.Center));
                 }
@@ -223,72 +243,75 @@ public class Chunk
         {
             for (int chunkY = 0; chunkY < MyWorld.ChunkSize; chunkY++)
             {
-                (int X, int Y) location = (chunkX, chunkY);
-                DecideGround(location);
-                DecideTrees(location);
-                DecideRivers(location);
+                ChunkLocation chunkLocation = new ChunkLocation(chunkX, chunkY);
+                DecideGround(chunkLocation);
+                DecideTrees(chunkLocation);
+                DecideRivers(chunkLocation);
             }
         }
     }
 
-    private void DecideGround((int X, int Y) location)
+    private void DecideGround(ChunkLocation chunkLocation)
     {
-        (int X, int Y) worldLocation = ChunkToWorldLocation(location);
-        float altitude = Util.GetPerlinNoise(MyWorld.GenerationParameters.TopologyRandomSeed, MyWorld.GenerationParameters.TopologyPeriods, worldLocation);
+        WorldLocation worldLocation = ChunkToWorldLocation(chunkLocation);
+        float altitude = Util.GetPerlinNoise(MyWorld.GenerationParameters.TopologyRandomSeed, MyWorld.GenerationParameters.TopologyPeriods, worldLocation.Tuple);
 
         if (altitude < MyWorld.GenerationParameters.OceanAltitude)
         {
-            Tiles[location.X, location.Y].TerrainType = TerrainType.Ocean;
+            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = TerrainType.Ocean;
         }
         else if (altitude < MyWorld.GenerationParameters.SandAltitude)
         {
-            Tiles[location.X, location.Y].TerrainType = TerrainType.Sand;
+            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = TerrainType.Sand;
         }
         else if (altitude < MyWorld.GenerationParameters.MountainAltitude)
         {
-            DecideGrass(location);
+            DecideGrass(chunkLocation);
         }
         else
         {
-            Tiles[location.X, location.Y].TerrainType = TerrainType.Mountain;
+            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = TerrainType.Mountain;
         }
     }
 
-    private void DecideGrass((int X, int Y) location)
+    private void DecideGrass(ChunkLocation chunkLocation)
     {
-        (int X, int Y) worldLocation = ChunkToWorldLocation(location);
-        float mediumGrassSample = Util.GetPerlinNoise(MyWorld.GenerationParameters.GrassMediumSeed, MyWorld.GenerationParameters.GrassMediumPeriods, worldLocation);
+        WorldLocation worldLocation = ChunkToWorldLocation(chunkLocation);
+        float mediumGrassSample = Util.GetPerlinNoise(MyWorld.GenerationParameters.GrassMediumSeed, MyWorld.GenerationParameters.GrassMediumPeriods, worldLocation.Tuple);
         if (mediumGrassSample < MyWorld.GenerationParameters.GrassMediumDensity)
         {
-            Tiles[location.X, location.Y].TerrainType = TerrainType.GrassMedium;
+            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = TerrainType.GrassMedium;
         }
         else
         {
-            Tiles[location.X, location.Y].TerrainType = TerrainType.GrassShort;
+            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = TerrainType.GrassShort;
         }
 
-        float tallGrassSample = Util.GetPerlinNoise(MyWorld.GenerationParameters.GrassTallSeed, MyWorld.GenerationParameters.GrassTallPeriods, worldLocation);
+        float tallGrassSample = Util.GetPerlinNoise(MyWorld.GenerationParameters.GrassTallSeed, MyWorld.GenerationParameters.GrassTallPeriods, worldLocation.Tuple);
         if (tallGrassSample < MyWorld.GenerationParameters.GrassTallDensity)
         {
-            Tiles[location.X, location.Y].TerrainType = TerrainType.GrassTall;
+            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = TerrainType.GrassTall;
         }
     }
 
-    private void DecideTrees((int X, int Y) location)
+    private void DecideTrees(ChunkLocation chunkLocation)
     {
-        (int X, int Y) worldLocation = ChunkToWorldLocation(location);
-        float treeSample = Util.GetPerlinNoise(MyWorld.GenerationParameters.TreeRandomSeed, MyWorld.GenerationParameters.TreePeriods, worldLocation);
-        if (treeSample < MyWorld.GenerationParameters.TreeDensity && Tiles[location.X, location.Y].TerrainType == TerrainType.GrassMedium)
+        WorldLocation worldLocation = ChunkToWorldLocation(chunkLocation);
+        float treeSample = Util.GetPerlinNoise(MyWorld.GenerationParameters.TreeRandomSeed, MyWorld.GenerationParameters.TreePeriods, worldLocation.Tuple);
+        if (treeSample < MyWorld.GenerationParameters.TreeDensity
+            && Tiles[chunkLocation.X, chunkLocation.Y].TerrainType == TerrainType.GrassMedium
+            && Tiles[chunkLocation.X, chunkLocation.Y].TerrainType == TerrainType.GrassTall
+            && Tiles[chunkLocation.X, chunkLocation.Y].TerrainType == TerrainType.GrassShort)
         {
-            Tiles[location.X, location.Y].TerrainType = TerrainType.Tree;
+            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = TerrainType.Tree;
         }
     }
 
-    private void DecideRivers((int X, int Y) location)
+    private void DecideRivers(ChunkLocation chunkLocation)
     {
-        if (RiverNodes[location.X, location.Y].IsRiver && Tiles[location.X, location.Y].TerrainType != TerrainType.Ocean)
+        if (RiverNodes[chunkLocation.X, chunkLocation.Y].IsRiver && Tiles[chunkLocation.X, chunkLocation.Y].TerrainType != TerrainType.Ocean)
         {
-            Tiles[location.X, location.Y].TerrainType = TerrainType.River;
+            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = TerrainType.River;
         }
     }
 
@@ -307,33 +330,33 @@ public class Chunk
         }
     }
 
-    public bool WithinChunk((int X, int Y) worldLocation)
+    public bool WithinChunk(WorldLocation worldLocation)
     {
-        (int X, int Y) chunkLocation = WorldToChunkLocation(worldLocation);
+        ChunkLocation chunkLocation = WorldToChunkLocation(worldLocation);
         return (chunkLocation.X >= 0 && chunkLocation.X < MyWorld.ChunkSize && chunkLocation.Y >= 0 && chunkLocation.Y < MyWorld.ChunkSize);
     }
 
-    public bool WithinInitializationRadius((int X, int Y) worldLocation)
+    public bool WithinInitializationRadius(WorldLocation worldLocation)
     {
-        (int X, int Y) chunkLocation = WorldToChunkLocation(worldLocation);
+        ChunkLocation chunkLocation = WorldToChunkLocation(worldLocation);
         return (chunkLocation.X >= -MyWorld.ChunkSize
             && chunkLocation.X < MyWorld.ChunkSize * 2
             && chunkLocation.Y >= -MyWorld.ChunkSize
             && chunkLocation.Y < MyWorld.ChunkSize * 2);
     }
 
-    public (int X, int Y) WorldToChunkLocation((int X, int Y) worldLocation)
+    public ChunkLocation WorldToChunkLocation(WorldLocation worldLocation)
     {
         int x = worldLocation.X - (ChunkIndex.X * MyWorld.ChunkSize);
         int y = worldLocation.Y - (ChunkIndex.Y * MyWorld.ChunkSize);
-        return (x, y);
+        return new ChunkLocation(x, y);
     }
 
-    public (int X, int Y) ChunkToWorldLocation((int X, int Y) chunkLocation)
+    public WorldLocation ChunkToWorldLocation(ChunkLocation chunkLocation)
     {
         int x = chunkLocation.X + ChunkIndex.X * MyWorld.ChunkSize;
         int y = chunkLocation.Y + ChunkIndex.Y * MyWorld.ChunkSize;
-        return (x, y);
+        return new WorldLocation(x, y);
     }
 
     public void ImportRiver(RiverPackage river)
@@ -348,7 +371,7 @@ public class Chunk
         }
     }
 
-    private List<(int X, int Y)> GetRiverTunnel((int X, int Y) A, (int X, int Y) B)
+    private List<WorldLocation> GetRiverTunnel(WorldLocation A, WorldLocation B)
     {
         float Weight((int X, int Y) C, (int X, int Y) D)
         {
@@ -377,34 +400,39 @@ public class Chunk
         {
             return (C.X == D.X && C.Y == D.Y);
         }
-        List<(int X, int Y)> tunnel = AStarPathfinder<(int X, int Y)>.FindPath(Neighbors, Weight, Heuristic, Equal, A, B);
-        tunnel.Remove(A);
-        tunnel.Remove(B);
-        return tunnel;
+        List<(int X, int Y)> tunnel = AStarPathfinder<(int X, int Y)>.FindPath(Neighbors, Weight, Heuristic, Equal, A.Tuple, B.Tuple);
+        tunnel.Remove(A.Tuple);
+        tunnel.Remove(B.Tuple);
+        List<WorldLocation> returnTunnel = new List<WorldLocation>();
+        foreach ((int X, int Y) tunnelEntry in tunnel)
+        {
+            returnTunnel.Add(new WorldLocation(tunnelEntry));
+        }
+        return returnTunnel;
     }
 
-    private (int X, int Y) LowestLocationInRadius((int X, int Y) worldLocation, int radius)
+    private WorldLocation LowestLocationInRadius(WorldLocation worldLocation, int radius)
     {
-        ((int X, int Y) Location, float Altitude) lowestLocation = ((0, 0), 1);
+        (WorldLocation WorldLocation, float Altitude) lowestLocation = (new WorldLocation(0, 0), 1);
         for (int x = worldLocation.X - radius; x <= worldLocation.X + radius; x++)
         {
             for (int y = worldLocation.Y - radius; y <= worldLocation.Y + radius; y++)
             {
-                (int X, int Y) candidate = (x, y);
-                float altitude = Util.GetPerlinNoise(MyWorld.GenerationParameters.TopologyRandomSeed, MyWorld.GenerationParameters.TopologyPeriods, candidate);
-                float distance = Util.EuclidianDistance(worldLocation, candidate);
+                WorldLocation candidate = new WorldLocation(x, y);
+                float altitude = Util.GetPerlinNoise(MyWorld.GenerationParameters.TopologyRandomSeed, MyWorld.GenerationParameters.TopologyPeriods, candidate.Tuple);
+                float distance = Util.EuclidianDistance(worldLocation.Tuple, candidate.Tuple);
                 if (altitude < lowestLocation.Altitude && distance <= radius)
                 {
                     lowestLocation = (candidate, altitude);
                 }
             }
         }
-        return lowestLocation.Location;
+        return lowestLocation.WorldLocation;
     }
 
-    private bool IsRiverSource((int X, int Y) worldLocation)
+    private bool IsRiverSource(WorldLocation worldLocation)
     {
-        float altitude = Util.GetPerlinNoise(MyWorld.GenerationParameters.TopologyRandomSeed, MyWorld.GenerationParameters.TopologyPeriods, worldLocation);
+        float altitude = Util.GetPerlinNoise(MyWorld.GenerationParameters.TopologyRandomSeed, MyWorld.GenerationParameters.TopologyPeriods, worldLocation.Tuple);
         //return ((altitude * 1000) % 1) < MyWorld.GenerationParameters.RiverDensity && altitude > MyWorld.GenerationParameters.MountainAltitude;
         return ((altitude * 1000) % 1) < MyWorld.GenerationParameters.RiverDensity * Math.Pow(altitude, 5);
     }

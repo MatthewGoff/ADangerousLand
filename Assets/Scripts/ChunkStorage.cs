@@ -18,70 +18,65 @@
         QuadFour = new ExtensibleArray2D<Chunk>(DEFAULT_QUAD_SIZE, DEFAULT_QUAD_SIZE);
     }
 
-    public Chunk GetChunk((int X, int Y) index)
+    public Chunk GetChunk(ChunkIndex chunkIndex)
     {
         Chunk chunk;
-        if (index.X >= 0 && index.Y >= 0)
+        if (chunkIndex.X >= 0 && chunkIndex.Y >= 0)
         {
-            chunk = QuadOne.Get(index.X, index.Y);
+            chunk = QuadOne.Get(chunkIndex.X, chunkIndex.Y);
             if (chunk == null)
             {
-                chunk = new Chunk(MyWorld, index);
-                QuadOne.Set(index.X, index.Y, chunk);
+                chunk = new Chunk(MyWorld, chunkIndex);
+                QuadOne.Set(chunkIndex.X, chunkIndex.Y, chunk);
             }
         }
-        else if (index.X < 0 && index.Y >= 0)
+        else if (chunkIndex.X < 0 && chunkIndex.Y >= 0)
         {
-            chunk = QuadTwo.Get(-index.X, index.Y);
+            chunk = QuadTwo.Get(-chunkIndex.X, chunkIndex.Y);
             if (chunk == null)
             {
-                chunk = new Chunk(MyWorld, index);
-                QuadTwo.Set(-index.X, index.Y, chunk);
+                chunk = new Chunk(MyWorld, chunkIndex);
+                QuadTwo.Set(-chunkIndex.X, chunkIndex.Y, chunk);
             }
         }
-        else if (index.X < 0 && index.Y < 0)
+        else if (chunkIndex.X < 0 && chunkIndex.Y < 0)
         {
-            chunk = QuadThree.Get(-index.X, -index.Y);
+            chunk = QuadThree.Get(-chunkIndex.X, -chunkIndex.Y);
             if (chunk == null)
             {
-                chunk = new Chunk(MyWorld, index);
-                QuadThree.Set(-index.X, -index.Y, chunk);
+                chunk = new Chunk(MyWorld, chunkIndex);
+                QuadThree.Set(-chunkIndex.X, -chunkIndex.Y, chunk);
             }
         }
         else
         {
-            chunk = QuadFour.Get(index.X, -index.Y);
+            chunk = QuadFour.Get(chunkIndex.X, -chunkIndex.Y);
             if (chunk == null)
             {
-                chunk = new Chunk(MyWorld, index);
-                QuadFour.Set(index.X, -index.Y, chunk);
+                chunk = new Chunk(MyWorld, chunkIndex);
+                QuadFour.Set(chunkIndex.X, -chunkIndex.Y, chunk);
             }
         }
         return chunk;
     }
 
-    public void SetChunk(int x, int y, Chunk c)
+    public void SetChunk(int x, int y, Chunk chunk)
     {
         if (x >= 0 && y >= 0)
         {
-            QuadOne.Set(x, y, c);
+            QuadOne.Set(x, y, chunk);
         }
         else if (x < 0 && y >= 0)
         {
-            QuadTwo.Set(-x, y, c);
+            QuadTwo.Set(-x, y, chunk);
         }
         else if (x < 0 && y < 0)
         {
-            QuadThree.Set(-x, -y, c);
+            QuadThree.Set(-x, -y, chunk);
         }
         else
         {
-            QuadFour.Set(x, -y, c);
+            QuadFour.Set(x, -y, chunk);
         }
-    }
-
-    public bool HasChunk((int X, int Y) index)
-    {
-        return GetChunk(index) != null;
     }
 }
