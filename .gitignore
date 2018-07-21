@@ -1,0 +1,20 @@
+# Matt's loot calculator experiment (python project)
+LootCalculator/
+
+# Folder where you should store your builds
+[Bb]uilds/
+
+# Visual Studio Files
+.vs/
+obj/
+*.sln
+*.csproj
+
+# Unity Files
+Library/
+Packages/
+*.meta
+
+# Not sure what creates these files or what they're for
+app.config
+compilation.log
