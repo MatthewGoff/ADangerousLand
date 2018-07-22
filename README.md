@@ -1,4 +1,9 @@
-Setup Instructions:
+# A Dangerous Land
+
+A Dangerouos Land is top-down 2D RPG focusing on intricate combat mechanics,
+crafting, exploration, and survival.
+
+## Setup Instructions:
 
 1) Have current versions of Unity and Visual Studio Installed. When you install
    Visual Studio also install the "Game Development with Unity" module. If you
@@ -20,4 +25,3 @@ Setup Instructions:
 
 5) In Unity select "File">"Open Scene" and open Assets/Scenes/StartingScene.
    Discard changes to the existing scene. You should be all set now.
-
