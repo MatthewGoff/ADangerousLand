@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class Prefabs
 {
-    public static Dictionary<TerrainType, (float, GameObject)[]> TERRAIN_PREFABS { get; private set; }
+    public static Dictionary<TerrainSubtypeEnum, (float, GameObject)[]> TERRAIN_PREFABS { get; private set; }
+    public static GameObject ENEMEY_PREFAB { get; private set; }
     public static GameObject FOG_PREFAB { get; private set; }
     public static GameObject PLAYER_PREFAB { get; private set; }
     public static GameObject ENEMY_PREFAB { get; private set; }
@@ -13,33 +14,33 @@ public class Prefabs
 
     public static void LoadPrefabs()
     {
-        TERRAIN_PREFABS = new Dictionary<TerrainType, (float, GameObject)[]>();
-        TERRAIN_PREFABS.Add(TerrainType.GrassShort,
+        TERRAIN_PREFABS = new Dictionary<TerrainSubtypeEnum, (float, GameObject)[]>();
+        TERRAIN_PREFABS.Add(TerrainSubtypeEnum.Grass_Short,
             new (float, GameObject)[]
             {
                 (1f, (GameObject)Resources.Load("prefabs/terrain/GrassShort", typeof(GameObject)))
             }
         );
-        TERRAIN_PREFABS.Add(TerrainType.Sand,
+        TERRAIN_PREFABS.Add(TerrainSubtypeEnum.Sand,
             new(float, GameObject)[]
             {
-                (1f, (GameObject)Resources.Load("prefabs/terrain/Sand", typeof(GameObject)))
+                (1f, (GameObject)Resources.Load("prefabs/Sand-Map", typeof(GameObject)))
             }
         );
-        TERRAIN_PREFABS.Add(TerrainType.River,
+        TERRAIN_PREFABS.Add(TerrainSubtypeEnum.River,
             new(float, GameObject)[]
             {
                 (1f, (GameObject)Resources.Load("prefabs/terrain/River", typeof(GameObject)))
             }
         );
-        TERRAIN_PREFABS.Add(TerrainType.Ocean,
+        TERRAIN_PREFABS.Add(TerrainSubtypeEnum.Ocean,
             new(float, GameObject)[]
             {
                 (0.1f, (GameObject)Resources.Load("prefabs/terrain/Ocean1", typeof(GameObject))),
                 (0.9f, (GameObject)Resources.Load("prefabs/terrain/Ocean2", typeof(GameObject)))
             }
         );
-        TERRAIN_PREFABS.Add(TerrainType.GrassMedium,
+        TERRAIN_PREFABS.Add(TerrainSubtypeEnum.Grass_Medium,
             new(float, GameObject)[]
             {
                 (0.2f, (GameObject)Resources.Load("prefabs/terrain/GrassMedium1", typeof(GameObject))),
@@ -49,7 +50,7 @@ public class Prefabs
                 (0.2f, (GameObject)Resources.Load("prefabs/terrain/GrassMedium5", typeof(GameObject)))
             }
         );
-        TERRAIN_PREFABS.Add(TerrainType.GrassTall,
+        TERRAIN_PREFABS.Add(TerrainSubtypeEnum.Grass_Tall,
             new(float, GameObject)[]
             {
                 (0.2f, (GameObject)Resources.Load("prefabs/terrain/GrassTall1", typeof(GameObject))),
@@ -59,7 +60,7 @@ public class Prefabs
                 (0.2f, (GameObject)Resources.Load("prefabs/terrain/GrassTall5", typeof(GameObject)))
             }
         );
-        TERRAIN_PREFABS.Add(TerrainType.Mountain,
+        TERRAIN_PREFABS.Add(TerrainSubtypeEnum.Mountain,
             new(float, GameObject)[]
             {
                 (0.2f, (GameObject)Resources.Load("prefabs/terrain/Mountain1", typeof(GameObject))),
@@ -69,7 +70,7 @@ public class Prefabs
                 (0.2f, (GameObject)Resources.Load("prefabs/terrain/Mountain5", typeof(GameObject)))
             }
         );
-        TERRAIN_PREFABS.Add(TerrainType.Tree,
+        TERRAIN_PREFABS.Add(TerrainSubtypeEnum.Tree,
             new(float, GameObject)[]
             {
                 (0.2f, (GameObject)Resources.Load("prefabs/terrain/Tree1", typeof(GameObject))),
@@ -80,6 +81,7 @@ public class Prefabs
             }
         );
 
+        ENEMY_PREFAB =           (GameObject)Resources.Load("prefabs/Enemy", typeof(GameObject));
         FOG_PREFAB =             (GameObject)Resources.Load("prefabs/Fog", typeof(GameObject));
         PLAYER_PREFAB =          (GameObject)Resources.Load("prefabs/Player", typeof(GameObject));
         ENEMY_PREFAB =           (GameObject)Resources.Load("prefabs/Enemy", typeof(GameObject));
@@ -87,9 +89,9 @@ public class Prefabs
         CAMERA_PREFAB =          (GameObject)Resources.Load("prefabs/PlayerCamera", typeof(GameObject));
     }
 
-    public static GameObject GetRandomTerrainVarient(TerrainType terrain)
+    public static GameObject GetRandomTerrainVarient(TerrainSubtypeEnum terrainType)
     {
-        (float prob, GameObject prefab)[] varients = TERRAIN_PREFABS[terrain];
+        (float prob, GameObject prefab)[] varients = TERRAIN_PREFABS[terrainType];
 
         float random = Random.Range(0f, 1f);
         float accumulator = 0f;

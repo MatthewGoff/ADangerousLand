@@ -99,4 +99,4 @@ MonoBehaviour:
   ZoomSpeed: 1.2
   MinimumZoom: 1
   DefaultZoom: 8
-  MaximumZoom: 24
+  MaximumZoom: 8000

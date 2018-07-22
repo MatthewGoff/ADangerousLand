@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class Chunk
 {
+    private delegate void PostInitAction();
+
     public bool RiversInitialized { get; private set; } = false;
     public bool Initialized { get; private set; } = false;
     public bool LocalityInitialized { get; set; } = false;
     public bool Awake { get; set; } = false;
 
-    private int ResidentEnemies;
-    private List<WorldLocation> UnocupiedTiles;
+    private readonly List<Enemy> ResidentEnemies;
+    private readonly List<WorldLocation> UnocupiedTiles;
 
     private readonly WorldController MyWorld;
     private readonly ChunkIndex ChunkIndex;
     private readonly RiverNode[,] RiverNodes;
     private readonly List<RiverPackage> ImportedRivers;
     private readonly Tile[,] Tiles;
+    private readonly Queue<PostInitAction> PostInitActions;
 
     public Chunk(WorldController myWorld, ChunkIndex chunkIndex)
     {
@@ -25,8 +28,9 @@ public class Chunk
         ImportedRivers = new List<RiverPackage>();
         RiverNodes = CreateRiverNodes();
         Tiles = CreateTiles();
-        ResidentEnemies = 0;
+        ResidentEnemies = new List<Enemy>();
         UnocupiedTiles = new List<WorldLocation>();
+        PostInitActions = new Queue<PostInitAction>();
     }
 
     public void Update(Vector2 playerPosition)
@@ -60,17 +64,26 @@ public class Chunk
 
     public void SpawnEnemies()
     {
-        /*
-         * while (ResidentEnemies < Configuration.EnemiesPerChunk)
+        if (!Initialized)
         {
-            SpawnEnemy();
+            PostInitActions.Enqueue(SpawnEnemies);
         }
-        */
+        else
+        {
+            while (ResidentEnemies.Count < Configuration.EnemiesPerChunk && UnocupiedTiles.Count != 0)
+            {
+                SpawnEnemy();
+            }
+        }
     }
 
     private void SpawnEnemy()
     {
+        WorldLocation spawnLocation = UnocupiedTiles[Util.RandomInt(0, UnocupiedTiles.Count)];
+        UnocupiedTiles.Remove(spawnLocation);
 
+        ResidentEnemies.Add(new Enemy(spawnLocation));
+        GameObject Enemy = GameObject.Instantiate(Prefabs.ENEMY_PREFAB, new Vector3(spawnLocation.X, spawnLocation.Y, 0), Quaternion.identity);
     }
 
     private Tile[,] CreateTiles()
@@ -148,7 +161,7 @@ public class Chunk
     {
         ChunkLocation chunkLocation = WorldToChunkLocation(worldLocation);
         TerrainType terrain = Tiles[chunkLocation.X, chunkLocation.Y].TerrainType;
-        return Configuration.MOVEMENT_MULTIPLIERS[terrain];
+        return Configuration.MOVEMENT_MULTIPLIERS[terrain.Type];
     }
 
     public void AttemptToEstablishRiver(RiverPackage riverPackage)
@@ -235,18 +248,32 @@ public class Chunk
     {
         DecideTerrain();
         Initialized = true;
+        
+        foreach (PostInitAction postInitAction in PostInitActions)
+        {
+            postInitAction();
+        }
     }
 
     public void DecideTerrain()
     {
+        ChunkLocation chunkLocation;
+        WorldLocation worldLocation;
+
         for (int chunkX = 0; chunkX < MyWorld.ChunkSize; chunkX++)
         {
             for (int chunkY = 0; chunkY < MyWorld.ChunkSize; chunkY++)
             {
-                ChunkLocation chunkLocation = new ChunkLocation(chunkX, chunkY);
+                chunkLocation = new ChunkLocation(chunkX, chunkY);
                 DecideGround(chunkLocation);
                 DecideTrees(chunkLocation);
                 DecideRivers(chunkLocation);
+
+                worldLocation = ChunkToWorldLocation(chunkLocation);
+                if (Tiles[chunkLocation.X, chunkLocation.Y].TerrainType.Type == TerrainTypeEnum.Grass)
+                {
+                    UnocupiedTiles.Add(worldLocation);
+                }
             }
         }
     }
@@ -258,11 +285,11 @@ public class Chunk
 
         if (altitude < MyWorld.GenerationParameters.OceanAltitude)
         {
-            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = TerrainType.Ocean;
+            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = new TerrainType(TerrainTypeEnum.Ocean, TerrainSubtypeEnum.Ocean);
         }
         else if (altitude < MyWorld.GenerationParameters.SandAltitude)
         {
-            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = TerrainType.Sand;
+            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = new TerrainType(TerrainTypeEnum.Sand, TerrainSubtypeEnum.Sand);
         }
         else if (altitude < MyWorld.GenerationParameters.MountainAltitude)
         {
@@ -270,7 +297,7 @@ public class Chunk
         }
         else
         {
-            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = TerrainType.Mountain;
+            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = new TerrainType(TerrainTypeEnum.Mountain, TerrainSubtypeEnum.Mountain);
         }
     }
 
@@ -280,17 +307,17 @@ public class Chunk
         float mediumGrassSample = Util.GetPerlinNoise(MyWorld.GenerationParameters.GrassMediumSeed, MyWorld.GenerationParameters.GrassMediumPeriods, worldLocation.Tuple);
         if (mediumGrassSample < MyWorld.GenerationParameters.GrassMediumDensity)
         {
-            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = TerrainType.GrassMedium;
+            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = new TerrainType(TerrainTypeEnum.Grass, TerrainSubtypeEnum.Grass_Medium);
         }
         else
         {
-            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = TerrainType.GrassShort;
+            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = new TerrainType(TerrainTypeEnum.Grass, TerrainSubtypeEnum.Grass_Short);
         }
 
         float tallGrassSample = Util.GetPerlinNoise(MyWorld.GenerationParameters.GrassTallSeed, MyWorld.GenerationParameters.GrassTallPeriods, worldLocation.Tuple);
         if (tallGrassSample < MyWorld.GenerationParameters.GrassTallDensity)
         {
-            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = TerrainType.GrassTall;
+            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = new TerrainType(TerrainTypeEnum.Grass, TerrainSubtypeEnum.Grass_Tall);
         }
     }
 
@@ -298,20 +325,17 @@ public class Chunk
     {
         WorldLocation worldLocation = ChunkToWorldLocation(chunkLocation);
         float treeSample = Util.GetPerlinNoise(MyWorld.GenerationParameters.TreeRandomSeed, MyWorld.GenerationParameters.TreePeriods, worldLocation.Tuple);
-        if (treeSample < MyWorld.GenerationParameters.TreeDensity
-            && Tiles[chunkLocation.X, chunkLocation.Y].TerrainType == TerrainType.GrassMedium
-            && Tiles[chunkLocation.X, chunkLocation.Y].TerrainType == TerrainType.GrassTall
-            && Tiles[chunkLocation.X, chunkLocation.Y].TerrainType == TerrainType.GrassShort)
+        if (treeSample < MyWorld.GenerationParameters.TreeDensity && Tiles[chunkLocation.X, chunkLocation.Y].TerrainType.Type == TerrainTypeEnum.Grass)
         {
-            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = TerrainType.Tree;
+            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = new TerrainType(TerrainTypeEnum.Tree, TerrainSubtypeEnum.Tree);
         }
     }
 
     private void DecideRivers(ChunkLocation chunkLocation)
     {
-        if (RiverNodes[chunkLocation.X, chunkLocation.Y].IsRiver && Tiles[chunkLocation.X, chunkLocation.Y].TerrainType != TerrainType.Ocean)
+        if (RiverNodes[chunkLocation.X, chunkLocation.Y].IsRiver && Tiles[chunkLocation.X, chunkLocation.Y].TerrainType.Type != TerrainTypeEnum.Ocean)
         {
-            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = TerrainType.River;
+            Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = new TerrainType(TerrainTypeEnum.River, TerrainSubtypeEnum.River);
         }
     }
 

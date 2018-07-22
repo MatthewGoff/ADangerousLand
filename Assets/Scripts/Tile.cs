@@ -38,7 +38,8 @@ public class Tile {
 
     public void CreateGameObject()
     {
-        GameObject prefab = Prefabs.GetRandomTerrainVarient(TerrainType);
+        //GameObject prefab = Prefabs.GetRandomTerrainVarient(TerrainType.Subtype);
+        GameObject prefab = Prefabs.GetRandomTerrainVarient(TerrainSubtypeEnum.Sand);
         TerrainGameObject = GameObject.Instantiate(prefab, new Vector3(WorldLocation.X, WorldLocation.Y, 0), Quaternion.identity);
         //BlackHighlightGameObject = GameObject.Instantiate(Prefabs.BLACK_HIGHLIGHT_PREFAB, new Vector3(Location.X, Location.Y, 0), Quaternion.identity);
     }

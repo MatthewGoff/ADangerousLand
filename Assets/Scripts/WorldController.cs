@@ -99,7 +99,7 @@ public class WorldController : MonoBehaviour
                 if (distance == 3)
                 {
                     chunk.Awake = false;
-                    chunk.SpawnEnemies();
+                    //chunk.SpawnEnemies();
                 }
                 else
                 {

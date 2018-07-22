@@ -25,6 +25,12 @@ public static class Util
         return ((int)Mathf.Round(vector.x), (int)Mathf.Round(vector.y));
     }
 
+    public static int RandomInt(int min, int max)
+    {
+        int var = (int)Mathf.Floor(UnityEngine.Random.Range(min, max + 1));
+        return Mathf.Clamp(var, min, max);
+    }
+
     public static float ArrayMinimum(float[] array)
     {
         if (array == null || array.GetLength(0) == 0)

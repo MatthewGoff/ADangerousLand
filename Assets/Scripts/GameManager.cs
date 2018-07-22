@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
             Input(GameInputType.Pause);
         }
         //print(GameObject.FindGameObjectsWithTag("Terrain").GetLength(0););
-        //print(1/Time.deltaTime);
+        print(1/Time.deltaTime);
     }
 
     public void Input(GameInputType inputType)
