@@ -15,16 +15,11 @@ crafting, exploration, and survival.
 
 3) Start Unity, select "Open" at the top right and select the project folder.
 
-4) This project is written in C#7 which Unity does not yet support as of Unity
-   2018. Follow the instructions here to replace the default Unity compiler:
-      https://bitbucket.org/alexzzzz/unity-c-5.0-and-6.0-integration/src
+4) In Unity select "File">"Open Scene" and open Assets/Scenes/MainScene.
 
-6) Open VS from Unity by selecting "Assets">"Open C# Project". The first time
+5) Open VS from Unity by selecting "Assets">"Open C# Project". The first time
    you do so you may be prompted to update your .NET version. Go ahead and do
    that.
-
-5) In Unity select "File">"Open Scene" and open Assets/Scenes/StartingScene.
-   Discard changes to the existing scene. You should be all set now.
 
 ## DevelopmentNotes
 

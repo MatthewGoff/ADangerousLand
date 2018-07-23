@@ -54,7 +54,6 @@ public class GameManager : MonoBehaviour
 
         //Loading
         stateMachine.AddTransition(GameStateType.Loading, GameStateType.Playing, GameInputType.FinishedLoading);
-        stateMachine.OnEnter(GameStateType.Loading, OnStartLoading);
         stateMachine.OnExit(GameStateType.Loading, OnFinishedLoading);
 
         //Playing
@@ -116,11 +115,6 @@ public class GameManager : MonoBehaviour
     public void Input(GameInputType inputType)
     {
         StateMachine.GiveInput(inputType);
-    }
-
-    public void OnStartLoading(GameStateType previousState, GameInputType intputType)
-    {
-        SplashScreen.SetActive(true);
     }
 
     public void OnFinishedLoading(GameInputType intputType, GameStateType nextState)
