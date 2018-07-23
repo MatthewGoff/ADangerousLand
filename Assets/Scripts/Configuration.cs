@@ -15,6 +15,7 @@ public class Configuration
     //World
     public static readonly int TREADMILL_RADIUS = 63;
     public static readonly int TREADMILL_UPDATE_MARGIN = 1;
+    public static readonly int CHUNK_SIZE = 32;
 
     //Player
     public static readonly float DEFAULT_MOVE_SPEED = 5f;

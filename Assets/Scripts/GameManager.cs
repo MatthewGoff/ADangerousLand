@@ -4,16 +4,6 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Singleton;
-
-    public GameObject SplashScreen;
-    public GameObject PausedMenu;
-    public GameObject GameInfoMenu;
-    public Text RandomSeedText;
-    public Text PlayerLocationText;
-    
-    public static bool MaxMode = false;
-    public GameObject PlayerCamera;
-    public GameObject MyWorld;
     public GameStateType GameState
     {
         get
@@ -29,20 +19,55 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private WorldController MyWorldScript;
+    // UI stuff
+    private GameObject EventSystem;
+    private GameObject SplashScreen;
+    private GameObject PausedMenu;
+    private GameObject GameInfo;
+    private Text RandomSeedText;
+    private Text PlayerLocationText;
+
+    private static bool MaxMode = false;
+    private GameObject PlayerCamera;
+    private World World;
     private FiniteStateMachine<GameStateType, GameInputType> StateMachine;
 
     void Awake()
     {
         Singleton = this;
+
+        // These two happen before we enter the state machine because the
+        // splash screen is put up in the first state.
+        Prefabs.LoadPrefabs();
+        InitializeGUIElements();
+        
+        
         StateMachine = CreateStateMachine();
         StateMachine.Enter();
 
-        Prefabs.LoadPrefabs();
-        MyWorld = Instantiate(MyWorld, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-        MyWorldScript = MyWorld.GetComponent<WorldController>();
+        World = new World();
         PlayerCamera = Instantiate(Prefabs.CAMERA_PREFAB, new Vector3(0, 0, -10), Quaternion.identity) as GameObject;
         InitGame();
+    }
+
+    private void InitializeGUIElements()
+    {
+        EventSystem = Instantiate(Prefabs.EVENT_SYSTEM_PREFAB, Vector3.zero, Quaternion.identity) as GameObject;
+        SplashScreen = Instantiate(Prefabs.SPLASH_SCREEN_PREFAB, Vector3.zero, Quaternion.identity) as GameObject;
+        PausedMenu = Instantiate(Prefabs.PAUSED_MENU_PREFAB, Vector3.zero, Quaternion.identity) as GameObject;
+        GameInfo = Instantiate(Prefabs.GAME_INFO_PREFAB, Vector3.zero, Quaternion.identity) as GameObject;
+
+        Button ResumeButton = PausedMenu.transform.Find("PausedMenu-ResumeButton").GetComponent<Button>();
+        ResumeButton.onClick.AddListener(ResumePressed);
+        Button GameInfoButton = PausedMenu.transform.Find("PausedMenu-GameInfoButton").GetComponent<Button>();
+        GameInfoButton.onClick.AddListener(GameInfoPressed);
+        Button QuitButton = PausedMenu.transform.Find("PausedMenu-QuitButton").GetComponent<Button>();
+        QuitButton.onClick.AddListener(QuitPressed);
+        RandomSeedText = GameInfo.transform.Find("GameInfo-RandomSeedText").GetComponent<Text>();
+        PlayerLocationText = GameInfo.transform.Find("GameInfo-PlayerLocationText").GetComponent<Text>();
+        Button BackButton = GameInfo.transform.Find("GameInfo-BackButton").GetComponent<Button>();
+        BackButton.onClick.AddListener(BackPressed);
+
     }
 
     private FiniteStateMachine<GameStateType, GameInputType> CreateStateMachine()
@@ -79,9 +104,9 @@ public class GameManager : MonoBehaviour
 
     private void InitGame()
     {
-        MyWorldScript.CreateWorld();
-        PlayerCamera.GetComponent<CameraController>().AssignPlayer(MyWorldScript.PlayerController);
-        MyWorldScript.PlayerController.AssignCamera(PlayerCamera);
+        World.Start();
+        PlayerCamera.GetComponent<CameraController>().AssignPlayer(World.PlayerMonoBehaviour);
+        World.PlayerMonoBehaviour.AssignCamera(PlayerCamera);
     }
 
     public void Update()
@@ -93,13 +118,13 @@ public class GameManager : MonoBehaviour
             {
                 Configuration.FOG_OUTER_RADIUS = 80;
                 Configuration.FOG_INNER_RADIUS = 75;
-                PlayerController.MoveSpeed = 50;
+                PlayerMonoBehaviour.MoveSpeed = 50;
             }
             else
             {
                 Configuration.FOG_OUTER_RADIUS = 11;
                 Configuration.FOG_INNER_RADIUS = 7;
-                PlayerController.MoveSpeed = 5;
+                PlayerMonoBehaviour.MoveSpeed = 5;
             }
         }
         if (UnityEngine.Input.GetKeyUp(KeyCode.Escape))
@@ -110,6 +135,11 @@ public class GameManager : MonoBehaviour
         print(1/Time.deltaTime);
     }
 
+    public void FixedUpdate()
+    {
+        World.FixedUpdate();
+    }
+
     public void Input(GameInputType inputType)
     {
         StateMachine.GiveInput(inputType);
@@ -117,7 +147,7 @@ public class GameManager : MonoBehaviour
 
     public void OnStartLoading(GameStateType previousState, GameInputType intputType)
     {
-        SplashScreen.SetActive(true);
+        //SplashScreen.SetActive(true);
     }
 
     public void OnFinishedLoading(GameInputType intputType, GameStateType nextState)
@@ -137,14 +167,14 @@ public class GameManager : MonoBehaviour
 
     public void OnOpenGameInfo(GameStateType previousState, GameInputType inputType)
     {
-        GameInfoMenu.SetActive(true);
-        RandomSeedText.GetComponent<Text>().text = "Random Seed: "+MyWorldScript.GetRandomSeed().ToString();
-        PlayerLocationText.GetComponent<Text>().text = "Player Location: "+MyWorldScript.GetPlayerLocation().ToString();
+        GameInfo.SetActive(true);
+        RandomSeedText.GetComponent<Text>().text = "Random Seed: "+World.GetRandomSeed().ToString();
+        PlayerLocationText.GetComponent<Text>().text = "Player Location: "+World.GetPlayerLocation().ToString();
     }
 
     public void OnCloseGameInfo(GameInputType inputType, GameStateType nextState)
     {
-        GameInfoMenu.SetActive(false);
+        GameInfo.SetActive(false);
     }
 
     public void ResumePressed()
@@ -165,5 +195,10 @@ public class GameManager : MonoBehaviour
     public void QuitPressed()
     {
         Application.Quit();
+    }
+
+    public void Print(string s)
+    {
+        print(s);
     }
 }

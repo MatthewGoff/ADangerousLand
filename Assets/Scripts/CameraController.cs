@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
     public float MaximumZoom;
 
     private Camera MyCamera;
-    private PlayerController MyPlayerController;
+    private PlayerMonoBehaviour MyPlayerController;
 
     void Start()
     {
@@ -51,7 +51,7 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public void AssignPlayer(PlayerController playerController)
+    public void AssignPlayer(PlayerMonoBehaviour playerController)
     {
         MyPlayerController = playerController;
     }

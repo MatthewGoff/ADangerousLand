@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerMonoBehaviour : MonoBehaviour
 {
     public delegate float MovementMultiplierDelegate(WorldLocation worldLocation);
 

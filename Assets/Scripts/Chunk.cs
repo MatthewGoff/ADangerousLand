@@ -11,24 +11,24 @@ public class Chunk
     public bool LocalityInitialized { get; set; } = false;
     public bool Awake { get; set; } = false;
 
-    private readonly List<Enemy> ResidentEnemies;
+    private readonly List<EnemyManager> ResidentEnemies;
     private readonly List<WorldLocation> UnocupiedTiles;
 
-    private readonly WorldController MyWorld;
+    private readonly World MyWorld;
     private readonly ChunkIndex ChunkIndex;
     private readonly RiverNode[,] RiverNodes;
     private readonly List<RiverPackage> ImportedRivers;
     private readonly Tile[,] Tiles;
     private readonly Queue<PostInitAction> PostInitActions;
 
-    public Chunk(WorldController myWorld, ChunkIndex chunkIndex)
+    public Chunk(World myWorld, ChunkIndex chunkIndex)
     {
         MyWorld = myWorld;
         ChunkIndex = chunkIndex;
         ImportedRivers = new List<RiverPackage>();
         RiverNodes = CreateRiverNodes();
         Tiles = CreateTiles();
-        ResidentEnemies = new List<Enemy>();
+        ResidentEnemies = new List<EnemyManager>();
         UnocupiedTiles = new List<WorldLocation>();
         PostInitActions = new Queue<PostInitAction>();
     }
@@ -82,16 +82,16 @@ public class Chunk
         WorldLocation spawnLocation = UnocupiedTiles[Util.RandomInt(0, UnocupiedTiles.Count)];
         UnocupiedTiles.Remove(spawnLocation);
 
-        ResidentEnemies.Add(new Enemy(spawnLocation));
+        ResidentEnemies.Add(new EnemyManager(spawnLocation));
         GameObject Enemy = GameObject.Instantiate(Prefabs.ENEMY_PREFAB, new Vector3(spawnLocation.X, spawnLocation.Y, 0), Quaternion.identity);
     }
 
     private Tile[,] CreateTiles()
     {
-        Tile[,] tiles = new Tile[MyWorld.ChunkSize, MyWorld.ChunkSize];
-        for (int chunkX = 0; chunkX < MyWorld.ChunkSize; chunkX++)
+        Tile[,] tiles = new Tile[Configuration.CHUNK_SIZE, Configuration.CHUNK_SIZE];
+        for (int chunkX = 0; chunkX < Configuration.CHUNK_SIZE; chunkX++)
         {
-            for (int chunkY = 0; chunkY < MyWorld.ChunkSize; chunkY++)
+            for (int chunkY = 0; chunkY < Configuration.CHUNK_SIZE; chunkY++)
             {
                 WorldLocation worldLocation = ChunkToWorldLocation(new ChunkLocation(chunkX, chunkY));
                 tiles[chunkX, chunkY] = new Tile(worldLocation);
@@ -102,10 +102,10 @@ public class Chunk
 
     private RiverNode[,] CreateRiverNodes()
     {
-        RiverNode[,] riverNodes = new RiverNode[MyWorld.ChunkSize, MyWorld.ChunkSize];
-        for (int chunkX = 0; chunkX < MyWorld.ChunkSize; chunkX++)
+        RiverNode[,] riverNodes = new RiverNode[Configuration.CHUNK_SIZE, Configuration.CHUNK_SIZE];
+        for (int chunkX = 0; chunkX < Configuration.CHUNK_SIZE; chunkX++)
         {
-            for (int chunkY = 0; chunkY < MyWorld.ChunkSize; chunkY++)
+            for (int chunkY = 0; chunkY < Configuration.CHUNK_SIZE; chunkY++)
             {
                 riverNodes[chunkX, chunkY] = new RiverNode();
             }
@@ -115,9 +115,9 @@ public class Chunk
 
     public void InitializeInternalRivers()
     {
-        for (int worldX = ChunkIndex.X*MyWorld.ChunkSize; worldX < (ChunkIndex.X+1)*MyWorld.ChunkSize; worldX++)
+        for (int worldX = ChunkIndex.X* Configuration.CHUNK_SIZE; worldX < (ChunkIndex.X+1)* Configuration.CHUNK_SIZE; worldX++)
         {
-            for (int worldY = ChunkIndex.Y*MyWorld.ChunkSize; worldY < (ChunkIndex.Y+1)*MyWorld.ChunkSize; worldY++)
+            for (int worldY = ChunkIndex.Y* Configuration.CHUNK_SIZE; worldY < (ChunkIndex.Y+1)* Configuration.CHUNK_SIZE; worldY++)
             {
                 WorldLocation worldLocation = new WorldLocation(worldX, worldY);
                 if (IsRiverSource(worldLocation))
@@ -260,9 +260,9 @@ public class Chunk
         ChunkLocation chunkLocation;
         WorldLocation worldLocation;
 
-        for (int chunkX = 0; chunkX < MyWorld.ChunkSize; chunkX++)
+        for (int chunkX = 0; chunkX < Configuration.CHUNK_SIZE; chunkX++)
         {
-            for (int chunkY = 0; chunkY < MyWorld.ChunkSize; chunkY++)
+            for (int chunkY = 0; chunkY < Configuration.CHUNK_SIZE; chunkY++)
             {
                 chunkLocation = new ChunkLocation(chunkX, chunkY);
                 DecideGround(chunkLocation);
@@ -357,29 +357,20 @@ public class Chunk
     public bool WithinChunk(WorldLocation worldLocation)
     {
         ChunkLocation chunkLocation = WorldToChunkLocation(worldLocation);
-        return (chunkLocation.X >= 0 && chunkLocation.X < MyWorld.ChunkSize && chunkLocation.Y >= 0 && chunkLocation.Y < MyWorld.ChunkSize);
-    }
-
-    public bool WithinInitializationRadius(WorldLocation worldLocation)
-    {
-        ChunkLocation chunkLocation = WorldToChunkLocation(worldLocation);
-        return (chunkLocation.X >= -MyWorld.ChunkSize
-            && chunkLocation.X < MyWorld.ChunkSize * 2
-            && chunkLocation.Y >= -MyWorld.ChunkSize
-            && chunkLocation.Y < MyWorld.ChunkSize * 2);
+        return (chunkLocation.X >= 0 && chunkLocation.X < Configuration.CHUNK_SIZE && chunkLocation.Y >= 0 && chunkLocation.Y < Configuration.CHUNK_SIZE);
     }
 
     public ChunkLocation WorldToChunkLocation(WorldLocation worldLocation)
     {
-        int x = worldLocation.X - (ChunkIndex.X * MyWorld.ChunkSize);
-        int y = worldLocation.Y - (ChunkIndex.Y * MyWorld.ChunkSize);
+        int x = worldLocation.X - (ChunkIndex.X * Configuration.CHUNK_SIZE);
+        int y = worldLocation.Y - (ChunkIndex.Y * Configuration.CHUNK_SIZE);
         return new ChunkLocation(x, y);
     }
 
     public WorldLocation ChunkToWorldLocation(ChunkLocation chunkLocation)
     {
-        int x = chunkLocation.X + ChunkIndex.X * MyWorld.ChunkSize;
-        int y = chunkLocation.Y + ChunkIndex.Y * MyWorld.ChunkSize;
+        int x = chunkLocation.X + ChunkIndex.X * Configuration.CHUNK_SIZE;
+        int y = chunkLocation.Y + ChunkIndex.Y * Configuration.CHUNK_SIZE;
         return new WorldLocation(x, y);
     }
 

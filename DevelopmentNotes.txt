@@ -1,0 +1,7 @@
+I'm planning to fill this document with explainations of nontrivial design decisions I've made in the project. 
+
+Conventions:
+When naming, "position" refers to an objects real valued position in the world (type float). "location" refers to integer value indecies in the world and corespond to Tiles. Each tile is one unity unit.
+
+Design Patterns:
+- "Two classes for one game object". Lets say we want a class to represent something that exists in the scene like an enemy. Naturally we have a game object with a component script with one class which inherits from MonoDevelop. This script is neccesary to provide us with the MonoDevelop API: Update(), OnMouseEnter() etc. . But this script does not persist through object creation/deletion and cannot use a constructor. For this reason we use an additional script which owns the MonoDevelop script as a property. This script serves two purposes. First, it accepts initialization input via its constructor. Second, it manages the instantiation and destruction of the Prefab/MonoBehaviour. We will call the wrapper script "EnemyManager", the MonoBahaviour script "EnemyMonoBahaviour", the prefab "EnemyPrefab", and the GameObject doesn't matter (It's "Enemy (clone)" by default). Note that "GameManager" is not part of this convention, think of "GameManager" as the "Main" script and the entry point.

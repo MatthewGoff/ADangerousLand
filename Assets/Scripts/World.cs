@@ -2,27 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldController : MonoBehaviour
+public class World
 {
-    public int ChunkSize;
     private Queue<WorldInitializer> WorldInitializers;
 
     public WorldGenParameters GenerationParameters { get; private set; }
 
-    public PlayerController PlayerController { get; private set; }
+    public PlayerMonoBehaviour PlayerMonoBehaviour { get; private set; }
     public ChunkStorage Chunks { get; private set; }
 
     private ChunkIndex CurrentChunk;
     private bool Initialized = false;
 
-    public void CreateWorld()
+    public World()
     {
         GenerationParameters = new WorldGenParameters();
-
-
         WorldInitializers = new Queue<WorldInitializer>();
         Chunks = new ChunkStorage(this);
+    }
 
+    public void Start()
+    {
         SpawnPlayer();
         PlayerChangedChunks();
         Initialized = true;
@@ -30,11 +30,11 @@ public class WorldController : MonoBehaviour
 
     public void FixedUpdate()
     {
+
         if (!Initialized)
         {
             return;
         }
-
         UpdateCurrentChunk();
         UpdateWorldInitializers();
         UpdateChunks();
@@ -69,12 +69,12 @@ public class WorldController : MonoBehaviour
 
     private void UpdateChunks()
     {
-        int updateRadius = (int)Math.Ceiling((Configuration.TREADMILL_RADIUS + Configuration.TREADMILL_UPDATE_MARGIN) / (float)ChunkSize);
+        int updateRadius = (int)Math.Ceiling((Configuration.TREADMILL_RADIUS + Configuration.TREADMILL_UPDATE_MARGIN) / (float)Configuration.CHUNK_SIZE);
         for (int indexX = CurrentChunk.X - updateRadius; indexX <= CurrentChunk.X + updateRadius; indexX++)
         {
             for (int indexY = CurrentChunk.Y - updateRadius; indexY <= CurrentChunk.Y + updateRadius; indexY++)
             {
-                Chunks.GetChunk(new ChunkIndex(indexX, indexY)).Update(PlayerController.GetPlayerPosition());
+                Chunks.GetChunk(new ChunkIndex(indexX, indexY)).Update(PlayerMonoBehaviour.GetPlayerPosition());
             }
         }
     }
@@ -112,7 +112,7 @@ public class WorldController : MonoBehaviour
     public void InitializeRiverLocality(ChunkIndex chunkIndex)
     {
         float radius = Util.ArrayMaximum(GenerationParameters.TopologyPeriods);
-        int chunkRadius = (int)(radius / ChunkSize) + 3;
+        int chunkRadius = (int)(radius / Configuration.CHUNK_SIZE) + 3;
 
         for (int indexX = chunkIndex.X - chunkRadius; indexX <= chunkIndex.X + chunkRadius; indexX++)
         {
@@ -152,22 +152,22 @@ public class WorldController : MonoBehaviour
 
     public WorldLocation GetPlayerLocation()
     {
-        return new WorldLocation(Util.RoundVector2(PlayerController.GetPlayerPosition()));
+        return new WorldLocation(Util.RoundVector2(PlayerMonoBehaviour.GetPlayerPosition()));
     }
 
     public ChunkIndex GetChunkIndex(WorldLocation worldLocation)
     {
-        int x = (int)Mathf.Floor(worldLocation.X / (float)ChunkSize);
-        int y = (int)Mathf.Floor(worldLocation.Y / (float)ChunkSize);
+        int x = (int)Mathf.Floor(worldLocation.X / (float)Configuration.CHUNK_SIZE);
+        int y = (int)Mathf.Floor(worldLocation.Y / (float)Configuration.CHUNK_SIZE);
         return new ChunkIndex(x, y);
     }
 
     private void SpawnPlayer()
     {
         WorldLocation spawnLocation = DecideSpawnPoint();
-        GameObject player = Instantiate(Prefabs.PLAYER_PREFAB, new Vector3(spawnLocation.X, spawnLocation.Y, 0), Quaternion.identity) as GameObject;
-        PlayerController = player.GetComponent<PlayerController>();
-        PlayerController.AssignMovementMultiplier(MovementMultiplier);
+        GameObject player = GameObject.Instantiate(Prefabs.PLAYER_PREFAB, new Vector3(spawnLocation.X, spawnLocation.Y, 0), Quaternion.identity) as GameObject;
+        PlayerMonoBehaviour = player.GetComponent<PlayerMonoBehaviour>();
+        PlayerMonoBehaviour.AssignMovementMultiplier(MovementMultiplier);
     }
     
     public float MovementMultiplier(WorldLocation worldLocation)

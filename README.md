@@ -25,3 +25,14 @@ crafting, exploration, and survival.
 
 5) In Unity select "File">"Open Scene" and open Assets/Scenes/StartingScene.
    Discard changes to the existing scene. You should be all set now.
+
+## DevelopmentNotes
+
+See DevelopmentNotes.txt in the top level directory. 
+
+## Coding Conventions
+
+I try to strickly adhere to the "official" recomendations for C# at https://docs.microsoft.com
+
+[Naming Convensions](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/naming-guidelines)
+[Layout, Comments etc.](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions)
