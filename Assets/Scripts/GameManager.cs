@@ -20,12 +20,11 @@ public class GameManager : MonoBehaviour
     }
 
     // UI stuff
-    private GameObject EventSystem;
-    private GameObject SplashScreen;
-    private GameObject PausedMenu;
-    private GameObject GameInfo;
-    private Text RandomSeedText;
-    private Text PlayerLocationText;
+    public GameObject SplashScreen;
+    public GameObject PausedMenu;
+    public GameObject GameInfo;
+    public GameObject RandomSeedText;
+    public GameObject PlayerLocationText;
 
     private static bool MaxMode = false;
     private GameObject PlayerCamera;
@@ -35,41 +34,13 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Singleton = this;
-
-        // These two happen before we enter the state machine because the
-        // splash screen is put up in the first state.
-        Prefabs.LoadPrefabs();
-        InitializeGUIElements();
-        
-        
         StateMachine = CreateStateMachine();
         StateMachine.Enter();
 
+        Prefabs.LoadPrefabs();
         World = new World();
         PlayerCamera = Instantiate(Prefabs.CAMERA_PREFAB, new Vector3(0, 0, -10), Quaternion.identity) as GameObject;
         InitGame();
-    }
-
-    private void InitializeGUIElements()
-    {
-        // The Splash Screen prefab is enabled by default, the others are not
-        EventSystem = Instantiate(Prefabs.EVENT_SYSTEM_PREFAB, Vector3.zero, Quaternion.identity) as GameObject;
-        SplashScreen = Instantiate(Prefabs.SPLASH_SCREEN_PREFAB, Vector3.zero, Quaternion.identity) as GameObject;
-        PausedMenu = Instantiate(Prefabs.PAUSED_MENU_PREFAB, Vector3.zero, Quaternion.identity) as GameObject;
-        GameInfo = Instantiate(Prefabs.GAME_INFO_PREFAB, Vector3.zero, Quaternion.identity) as GameObject;
-
-        Button ResumeButton = PausedMenu.transform.Find("PausedMenu-ResumeButton").GetComponent<Button>();
-        ResumeButton.onClick.AddListener(ResumePressed);
-        Button GameInfoButton = PausedMenu.transform.Find("PausedMenu-GameInfoButton").GetComponent<Button>();
-        GameInfoButton.onClick.AddListener(GameInfoPressed);
-        Button QuitButton = PausedMenu.transform.Find("PausedMenu-QuitButton").GetComponent<Button>();
-        QuitButton.onClick.AddListener(QuitPressed);
-
-        RandomSeedText = GameInfo.transform.Find("GameInfo-RandomSeedText").GetComponent<Text>();
-        PlayerLocationText = GameInfo.transform.Find("GameInfo-PlayerLocationText").GetComponent<Text>();
-        Button BackButton = GameInfo.transform.Find("GameInfo-BackButton").GetComponent<Button>();
-        BackButton.onClick.AddListener(BackPressed);
-
     }
 
     private FiniteStateMachine<GameStateType, GameInputType> CreateStateMachine()
