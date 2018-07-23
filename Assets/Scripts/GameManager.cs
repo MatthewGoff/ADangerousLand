@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
 
     private void InitializeGUIElements()
     {
+        // The Splash Screen prefab is enabled by default, the others are not
         EventSystem = Instantiate(Prefabs.EVENT_SYSTEM_PREFAB, Vector3.zero, Quaternion.identity) as GameObject;
         SplashScreen = Instantiate(Prefabs.SPLASH_SCREEN_PREFAB, Vector3.zero, Quaternion.identity) as GameObject;
         PausedMenu = Instantiate(Prefabs.PAUSED_MENU_PREFAB, Vector3.zero, Quaternion.identity) as GameObject;
@@ -63,6 +64,7 @@ public class GameManager : MonoBehaviour
         GameInfoButton.onClick.AddListener(GameInfoPressed);
         Button QuitButton = PausedMenu.transform.Find("PausedMenu-QuitButton").GetComponent<Button>();
         QuitButton.onClick.AddListener(QuitPressed);
+
         RandomSeedText = GameInfo.transform.Find("GameInfo-RandomSeedText").GetComponent<Text>();
         PlayerLocationText = GameInfo.transform.Find("GameInfo-PlayerLocationText").GetComponent<Text>();
         Button BackButton = GameInfo.transform.Find("GameInfo-BackButton").GetComponent<Button>();
@@ -147,7 +149,7 @@ public class GameManager : MonoBehaviour
 
     public void OnStartLoading(GameStateType previousState, GameInputType intputType)
     {
-        //SplashScreen.SetActive(true);
+        SplashScreen.SetActive(true);
     }
 
     public void OnFinishedLoading(GameInputType intputType, GameStateType nextState)
