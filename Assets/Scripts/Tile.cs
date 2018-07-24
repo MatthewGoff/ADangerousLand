@@ -3,44 +3,72 @@
 public class Tile {
 
     public TerrainType TerrainType { get; set; }
-    private GameObject TerrainGameObject;
-    //private GameObject BlackHighlightGameObject;
-    public readonly WorldLocation WorldLocation;
     public bool Awake { get; private set; } = false;
 
-    private FogController MyFogController;
-
+    private GameObject FogGameObject;
+    private SpriteRenderer FogRenderer;
+    private float LastFrameFog = -1f;
+    private bool Exposed = false;
+    private GameObject TerrainGameObject;
+    private readonly WorldLocation WorldLocation;
+    
     public Tile(WorldLocation worldLocation)
     {
         WorldLocation = worldLocation;
-        MyFogController = new FogController(this);
     }
 
     public void WakeUp()
     {
         Awake = true;
-        CreateGameObject();
-        MyFogController.WakeUp();
+        CreateGameObjects();
     }
 
     public void Sleep()
     {
         Awake = false;
         GameObject.Destroy(TerrainGameObject);
-        //GameObject.Destroy(BlackHighlightGameObject);
-        MyFogController.Sleep();
+        GameObject.Destroy(FogGameObject);
+        GameManager.Singleton.GameObjectCount -= 2;
     }
 
     public void UpdateFog(float distanceToPlayer)
     {
-        MyFogController.Update(distanceToPlayer);
+        if (!Awake)
+        {
+            return;
+        }
+        if (distanceToPlayer < Configuration.FOG_OUTER_RADIUS)
+        {
+            if (!Exposed)
+            {
+                Exposed = true;
+            }
+            float alpha = Configuration.FOG_ALPHA * (distanceToPlayer - Configuration.FOG_INNER_RADIUS) / (Configuration.FOG_OUTER_RADIUS - Configuration.FOG_INNER_RADIUS);
+            if (alpha != LastFrameFog)
+            {
+                FogRenderer.color = new Color(0, 0, 0, alpha);
+                LastFrameFog = alpha;
+            }
+        }
+        else if (Exposed)
+        {
+            FogRenderer.color = new Color(0, 0, 0, Configuration.FOG_ALPHA);
+        }
     }
 
-    public void CreateGameObject()
+    public void CreateGameObjects()
     {
         GameObject prefab = Prefabs.GetRandomTerrainVarient(TerrainType.Subtype);
         TerrainGameObject = GameObject.Instantiate(prefab, new Vector3(WorldLocation.X, WorldLocation.Y, 0), Quaternion.identity);
-        //BlackHighlightGameObject = GameObject.Instantiate(Prefabs.BLACK_HIGHLIGHT_PREFAB, new Vector3(Location.X, Location.Y, 0), Quaternion.identity);
+
+        FogGameObject = GameObject.Instantiate(Prefabs.FOG_PREFAB, new Vector3(WorldLocation.X, WorldLocation.Y, 0), Quaternion.identity);
+        FogRenderer = FogGameObject.GetComponent<SpriteRenderer>();
+        if (Exposed)
+        {
+            FogRenderer.color = new Color(0, 0, 0, Configuration.FOG_ALPHA);
+        }
+
+        GameManager.Singleton.GameObjectCount += 2;
     }
 
     public float EuclidianDistanceToPlayer(Vector2 playerPosition)

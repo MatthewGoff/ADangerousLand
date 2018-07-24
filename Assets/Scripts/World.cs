@@ -70,6 +70,7 @@ public class World
     private void UpdateChunks()
     {
         int updateRadius = (int)Math.Ceiling((Configuration.TREADMILL_RADIUS + Configuration.TREADMILL_UPDATE_MARGIN) / (float)Configuration.CHUNK_SIZE);
+        //GameManager.Singleton.Print(updateRadius.ToString());
         for (int indexX = CurrentChunk.X - updateRadius; indexX <= CurrentChunk.X + updateRadius; indexX++)
         {
             for (int indexY = CurrentChunk.Y - updateRadius; indexY <= CurrentChunk.Y + updateRadius; indexY++)
@@ -90,13 +91,13 @@ public class World
             };
             WorldInitializers.Enqueue(newInitializer);
         }
-        for (int x = -3; x <= 3; x++)
+        for (int x = -2; x <= 2; x++)
         {
-            for (int y = -3; y <= 3; y++)
+            for (int y = -2; y <= 2; y++)
             {
                 int distance = Math.Max(Math.Abs(x), Math.Abs(y));
                 Chunk chunk = Chunks.GetChunk(CurrentChunk.Add(x, y));
-                if (distance == 3)
+                if (distance == 2)
                 {
                     chunk.Awake = false;
                     //chunk.SpawnEnemies();
@@ -112,7 +113,7 @@ public class World
     public void InitializeRiverLocality(ChunkIndex chunkIndex)
     {
         float radius = Util.ArrayMaximum(GenerationParameters.TopologyPeriods);
-        int chunkRadius = (int)(radius / Configuration.CHUNK_SIZE) + 3;
+        int chunkRadius = (int)(radius / Configuration.CHUNK_SIZE) + 2;
 
         for (int indexX = chunkIndex.X - chunkRadius; indexX <= chunkIndex.X + chunkRadius; indexX++)
         {
@@ -129,7 +130,7 @@ public class World
 
     public void FinalLocalityInitialization(ChunkIndex chunkIndex)
     {
-        int radius = 3;
+        int radius = 2;
         for (int indexX = chunkIndex.X - radius; indexX <= chunkIndex.X + radius; indexX++)
         {
             for (int indexY = chunkIndex.Y - radius; indexY <= chunkIndex.Y + radius; indexY++)
