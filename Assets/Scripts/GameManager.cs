@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,6 +28,16 @@ public class GameManager : MonoBehaviour
     public GameObject RandomSeedText;
     public GameObject PlayerLocationText;
 
+    // GameStats
+    public GameObject GameStatsCanvas;
+    public GameObject FPSText;
+    public GameObject UPSText;
+    public GameObject GameObjectText;
+    public int GameObjectCount = 0;
+    private Queue<float> FPSQueue;
+    private Queue<float> UPSQueue;
+    private Queue<float> GameObjectsQueue;
+
     private static bool MaxMode = false;
     private GameObject PlayerCamera;
     private World World;
@@ -37,10 +49,61 @@ public class GameManager : MonoBehaviour
         StateMachine = CreateStateMachine();
         StateMachine.Enter();
 
+        FPSQueue = new Queue<float>();
+        UPSQueue = new Queue<float>();
+        GameObjectsQueue = new Queue<float>();
+
+        StartCoroutine("PrintFPS");
+        StartCoroutine("PrintUPS");
+        StartCoroutine("PrintGameObjects");
+
         Prefabs.LoadPrefabs();
         World = new World();
         PlayerCamera = Instantiate(Prefabs.CAMERA_PREFAB, new Vector3(0, 0, -10), Quaternion.identity) as GameObject;
         InitGame();
+    }
+
+    IEnumerator PrintFPS()
+    {
+        while (true)
+        {
+            float accumulator = 0f;
+            foreach (float x in FPSQueue)
+            {
+                accumulator += x;
+            }
+            accumulator /= FPSQueue.Count;
+            FPSText.GetComponent<Text>().text = accumulator.ToString();
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+    IEnumerator PrintUPS()
+    {
+        while (true)
+        {
+            float accumulator = 0f;
+            foreach (float x in UPSQueue)
+            {
+                accumulator += x;
+            }
+            accumulator /= UPSQueue.Count;
+            UPSText.GetComponent<Text>().text = accumulator.ToString();
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+    IEnumerator PrintGameObjects()
+    {
+        while (true)
+        {
+            float accumulator = 0f;
+            foreach (float x in GameObjectsQueue)
+            {
+                accumulator += x;
+            }
+            accumulator /= GameObjectsQueue.Count;
+            GameObjectText.GetComponent<Text>().text = accumulator.ToString();
+            yield return new WaitForSeconds(.1f);
+        }
     }
 
     private FiniteStateMachine<GameStateType, GameInputType> CreateStateMachine()
@@ -103,12 +166,29 @@ public class GameManager : MonoBehaviour
         {
             Input(GameInputType.Pause);
         }
-        //print(GameObject.FindGameObjectsWithTag("Terrain").GetLength(0););
-        print(1/Time.deltaTime);
+        if (UnityEngine.Input.GetKeyUp(KeyCode.BackQuote))
+        {
+            GameStatsCanvas.SetActive(!GameStatsCanvas.activeInHierarchy);
+        }
+        GameObjectsQueue.Enqueue(GameObjectCount);
+        if (GameObjectsQueue.Count > 10)
+        {
+            GameObjectsQueue.Dequeue();
+        }
+        FPSQueue.Enqueue(1 / Time.deltaTime);
+        if (FPSQueue.Count > 10)
+        {
+            FPSQueue.Dequeue();
+        }
     }
 
     public void FixedUpdate()
     {
+        UPSQueue.Enqueue(1 / Time.deltaTime);
+        if (UPSQueue.Count > 10)
+        {
+            UPSQueue.Dequeue();
+        }
         World.FixedUpdate();
     }
 

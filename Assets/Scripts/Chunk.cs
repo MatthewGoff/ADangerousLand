@@ -54,10 +54,7 @@ public class Chunk
                 {
                     tile.Sleep();
                 }
-                //if (euclidianDistance < Configuration.FOG_OUTER_RADIUS + Configuration.FOG_UPDATE_MARGIN)
-                {
-                    tile.UpdateFog(euclidianDistance);
-                }
+                tile.UpdateFog(euclidianDistance);
             }
         }
     }
@@ -84,6 +81,7 @@ public class Chunk
 
         ResidentEnemies.Add(new EnemyManager(spawnLocation));
         GameObject Enemy = GameObject.Instantiate(Prefabs.ENEMY_PREFAB, new Vector3(spawnLocation.X, spawnLocation.Y, 0), Quaternion.identity);
+        GameManager.Singleton.GameObjectCount++;
     }
 
     private Tile[,] CreateTiles()
