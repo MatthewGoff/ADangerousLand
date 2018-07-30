@@ -21,4 +21,9 @@
         X = tuple.x;
         Y = tuple.y;
     }
+
+    public override string ToString()
+    {
+        return "(" + X.ToString() + "," + Y.ToString() + ")";
+    }
 }

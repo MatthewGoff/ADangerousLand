@@ -1,19 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Singleton;
-
-    public GameObject SplashScreen;
-    public GameObject PausedMenu;
-    public GameObject GameInfoMenu;
-    public Text RandomSeedText;
-    public Text PlayerLocationText;
-    
-    public static bool MaxMode = false;
-    public GameObject PlayerCamera;
-    public GameObject MyWorld;
     public GameStateType GameState
     {
         get
@@ -29,7 +21,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private WorldController MyWorldScript;
+    // UI stuff
+    public GameObject SplashScreen;
+    public GameObject PausedMenu;
+    public GameObject GameInfo;
+    public GameObject RandomSeedText;
+    public GameObject PlayerLocationText;
+
+    // GameStats
+    public GameObject GameStatsCanvas;
+    public GameObject FPSText;
+    public GameObject UPSText;
+    public GameObject GameObjectText;
+    public int GameObjectCount = 0;
+    private Queue<float> FPSQueue;
+    private Queue<float> UPSQueue;
+    private Queue<float> GameObjectsQueue;
+
+    private static bool MaxMode = false;
+    private GameObject PlayerCamera;
+    private World World;
     private FiniteStateMachine<GameStateType, GameInputType> StateMachine;
 
     void Awake()
@@ -38,11 +49,61 @@ public class GameManager : MonoBehaviour
         StateMachine = CreateStateMachine();
         StateMachine.Enter();
 
+        FPSQueue = new Queue<float>();
+        UPSQueue = new Queue<float>();
+        GameObjectsQueue = new Queue<float>();
+
+        StartCoroutine("PrintFPS");
+        StartCoroutine("PrintUPS");
+        StartCoroutine("PrintGameObjects");
+
         Prefabs.LoadPrefabs();
-        MyWorld = Instantiate(MyWorld, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-        MyWorldScript = MyWorld.GetComponent<WorldController>();
+        World = new World();
         PlayerCamera = Instantiate(Prefabs.CAMERA_PREFAB, new Vector3(0, 0, -10), Quaternion.identity) as GameObject;
         InitGame();
+    }
+
+    IEnumerator PrintFPS()
+    {
+        while (true)
+        {
+            float accumulator = 0f;
+            foreach (float x in FPSQueue)
+            {
+                accumulator += x;
+            }
+            accumulator /= FPSQueue.Count;
+            FPSText.GetComponent<Text>().text = accumulator.ToString();
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+    IEnumerator PrintUPS()
+    {
+        while (true)
+        {
+            float accumulator = 0f;
+            foreach (float x in UPSQueue)
+            {
+                accumulator += x;
+            }
+            accumulator /= UPSQueue.Count;
+            UPSText.GetComponent<Text>().text = accumulator.ToString();
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+    IEnumerator PrintGameObjects()
+    {
+        while (true)
+        {
+            float accumulator = 0f;
+            foreach (float x in GameObjectsQueue)
+            {
+                accumulator += x;
+            }
+            accumulator /= GameObjectsQueue.Count;
+            GameObjectText.GetComponent<Text>().text = accumulator.ToString();
+            yield return new WaitForSeconds(.1f);
+        }
     }
 
     private FiniteStateMachine<GameStateType, GameInputType> CreateStateMachine()
@@ -56,7 +117,6 @@ public class GameManager : MonoBehaviour
 
         //Loading
         stateMachine.AddTransition(GameStateType.Loading, GameStateType.Playing, GameInputType.FinishedLoading);
-        stateMachine.OnEnter(GameStateType.Loading, OnStartLoading);
         stateMachine.OnExit(GameStateType.Loading, OnFinishedLoading);
 
         //Playing
@@ -79,9 +139,9 @@ public class GameManager : MonoBehaviour
 
     private void InitGame()
     {
-        MyWorldScript.CreateWorld();
-        PlayerCamera.GetComponent<CameraController>().AssignPlayer(MyWorldScript.PlayerController);
-        MyWorldScript.PlayerController.AssignCamera(PlayerCamera);
+        World.Start();
+        PlayerCamera.GetComponent<CameraController>().AssignPlayer(World.PlayerMonoBehaviour);
+        World.PlayerMonoBehaviour.AssignCamera(PlayerCamera);
     }
 
     public void Update()
@@ -93,31 +153,48 @@ public class GameManager : MonoBehaviour
             {
                 Configuration.FOG_OUTER_RADIUS = 80;
                 Configuration.FOG_INNER_RADIUS = 75;
-                PlayerController.MoveSpeed = 50;
+                PlayerMonoBehaviour.MoveSpeed = 50;
             }
             else
             {
                 Configuration.FOG_OUTER_RADIUS = 11;
                 Configuration.FOG_INNER_RADIUS = 7;
-                PlayerController.MoveSpeed = 5;
+                PlayerMonoBehaviour.MoveSpeed = 5;
             }
         }
         if (UnityEngine.Input.GetKeyUp(KeyCode.Escape))
         {
             Input(GameInputType.Pause);
         }
-        //print(GameObject.FindGameObjectsWithTag("Terrain").GetLength(0););
-        //print(1/Time.deltaTime);
+        if (UnityEngine.Input.GetKeyUp(KeyCode.BackQuote))
+        {
+            GameStatsCanvas.SetActive(!GameStatsCanvas.activeInHierarchy);
+        }
+        GameObjectsQueue.Enqueue(GameObjectCount);
+        if (GameObjectsQueue.Count > 10)
+        {
+            GameObjectsQueue.Dequeue();
+        }
+        FPSQueue.Enqueue(1 / Time.deltaTime);
+        if (FPSQueue.Count > 10)
+        {
+            FPSQueue.Dequeue();
+        }
+        World.Update();
+    }
+
+    public void FixedUpdate()
+    {
+        UPSQueue.Enqueue(1 / Time.deltaTime);
+        if (UPSQueue.Count > 10)
+        {
+            UPSQueue.Dequeue();
+        }
     }
 
     public void Input(GameInputType inputType)
     {
         StateMachine.GiveInput(inputType);
-    }
-
-    public void OnStartLoading(GameStateType previousState, GameInputType intputType)
-    {
-        SplashScreen.SetActive(true);
     }
 
     public void OnFinishedLoading(GameInputType intputType, GameStateType nextState)
@@ -137,14 +214,14 @@ public class GameManager : MonoBehaviour
 
     public void OnOpenGameInfo(GameStateType previousState, GameInputType inputType)
     {
-        GameInfoMenu.SetActive(true);
-        RandomSeedText.GetComponent<Text>().text = "Random Seed: "+MyWorldScript.GetRandomSeed().ToString();
-        PlayerLocationText.GetComponent<Text>().text = "Player Location: "+MyWorldScript.GetPlayerLocation().ToString();
+        GameInfo.SetActive(true);
+        RandomSeedText.GetComponent<Text>().text = "Random Seed: "+World.GetRandomSeed().ToString();
+        PlayerLocationText.GetComponent<Text>().text = "Player Location: "+World.GetPlayerLocation().ToString();
     }
 
     public void OnCloseGameInfo(GameInputType inputType, GameStateType nextState)
     {
-        GameInfoMenu.SetActive(false);
+        GameInfo.SetActive(false);
     }
 
     public void ResumePressed()
@@ -165,5 +242,10 @@ public class GameManager : MonoBehaviour
     public void QuitPressed()
     {
         Application.Quit();
+    }
+
+    public void Print(string s)
+    {
+        print(s);
     }
 }

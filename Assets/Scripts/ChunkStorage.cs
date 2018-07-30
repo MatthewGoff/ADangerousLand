@@ -3,13 +3,13 @@
 
     private static readonly int DEFAULT_QUAD_SIZE = 10;
 
-    private WorldController MyWorld;
+    private World MyWorld;
     private ExtensibleArray2D<Chunk> QuadOne;
     private ExtensibleArray2D<Chunk> QuadTwo;
     private ExtensibleArray2D<Chunk> QuadThree;
     private ExtensibleArray2D<Chunk> QuadFour;
 
-    public ChunkStorage(WorldController world)
+    public ChunkStorage(World world)
     {
         MyWorld = world;
         QuadOne = new ExtensibleArray2D<Chunk>(DEFAULT_QUAD_SIZE, DEFAULT_QUAD_SIZE);

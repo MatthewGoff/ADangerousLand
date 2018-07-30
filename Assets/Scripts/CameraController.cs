@@ -8,13 +8,14 @@ public class CameraController : MonoBehaviour
     public float DefaultZoom;
     public float MaximumZoom;
 
-    private Camera MyCamera;
-    private PlayerController MyPlayerController;
+    private Camera Camera;
+    private PlayerMonoBehaviour MyPlayerController;
 
     void Start()
     {
-        MyCamera = GetComponent<Camera>();
-        MyCamera.orthographicSize = DefaultZoom;
+        Camera = GetComponent<Camera>();
+        Camera.orthographicSize = DefaultZoom;
+        //MaximumZoom = 100;// (32 / Camera.aspect) - 1.5f;
     }
 
     void Update()
@@ -41,17 +42,17 @@ public class CameraController : MonoBehaviour
             float cameraSize;
             if (scroll < 0.0f)
             {
-                cameraSize = MyCamera.orthographicSize * ZoomSpeed;
+                cameraSize = Camera.orthographicSize * ZoomSpeed;
             }
             else
             {
-                cameraSize = MyCamera.orthographicSize / ZoomSpeed;
+                cameraSize = Camera.orthographicSize / ZoomSpeed;
             }
-            MyCamera.orthographicSize = Mathf.Clamp(cameraSize, MinimumZoom, MaximumZoom);
+            Camera.orthographicSize = Mathf.Clamp(cameraSize, MinimumZoom, MaximumZoom);
         }
     }
 
-    public void AssignPlayer(PlayerController playerController)
+    public void AssignPlayer(PlayerMonoBehaviour playerController)
     {
         MyPlayerController = playerController;
     }

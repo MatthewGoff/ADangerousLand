@@ -44,9 +44,9 @@ TagManager:
   - name: Highlight
     uniqueID: 3182513515
     locked: 0
-  - name: Fog
-    uniqueID: 2069041531
-    locked: 0
   - name: Player
     uniqueID: 925301899
+    locked: 0
+  - name: Fog
+    uniqueID: 2069041531
     locked: 0

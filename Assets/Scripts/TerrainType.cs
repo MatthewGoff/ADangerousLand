@@ -1,11 +1,11 @@
-﻿public enum TerrainType
+﻿public struct TerrainType
 {
-    GrassShort,
-    GrassMedium,
-    GrassTall,
-    Tree,
-    Mountain,
-    Sand,
-    Ocean,
-    River,
+    public readonly TerrainTypeEnum Type;
+    public readonly TerrainSubtypeEnum Subtype;
+
+    public TerrainType(TerrainTypeEnum type, TerrainSubtypeEnum subtype)
+    {
+        Type = type;
+        Subtype = subtype;
+    }
 }
