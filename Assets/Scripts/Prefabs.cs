@@ -14,6 +14,7 @@ public class Prefabs
     public static GameObject GAME_INFO_PREFAB { get; private set; }
     public static GameObject PAUSED_MENU_PREFAB { get; private set; }
     public static GameObject SPLASH_SCREEN_PREFAB { get; private set; }
+    public static GameObject SLASH_PREFAB { get; private set; }
 
     public static void LoadPrefabs()
     {
@@ -94,6 +95,7 @@ public class Prefabs
         GAME_INFO_PREFAB =       (GameObject)Resources.Load("Prefabs/Canvases/GameInfo");
         PAUSED_MENU_PREFAB =     (GameObject)Resources.Load("Prefabs/Canvases/PausedMenu");
         SPLASH_SCREEN_PREFAB =   (GameObject)Resources.Load("Prefabs/Canvases/SplashScreen");
+        SLASH_PREFAB =           (GameObject)Resources.Load("Prefabs/Slash");
     }
 
     public static GameObject GetRandomTerrainVarient(TerrainSubtypeEnum terrainType)

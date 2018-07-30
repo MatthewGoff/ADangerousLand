@@ -31,6 +31,21 @@ public class Tile {
         GameManager.Singleton.GameObjectCount -= 2;
     }
 
+    public void Update(Treadmill treadmill)
+    {
+        bool onTreadmill = treadmill.OnTreadmill(WorldLocation.Tuple);
+        if (onTreadmill && !Awake)
+        {
+            WakeUp();
+        }
+        else if (!onTreadmill && Awake)
+        {
+            Sleep();
+        }
+        float distanceToPlayer = Util.EuclidianDistance(treadmill.Center, WorldLocation.Tuple);
+        UpdateFog(distanceToPlayer);
+    }
+
     public void UpdateFog(float distanceToPlayer)
     {
         if (!Awake)
@@ -69,18 +84,5 @@ public class Tile {
         }
 
         GameManager.Singleton.GameObjectCount += 2;
-    }
-
-    public float EuclidianDistanceToPlayer(Vector2 playerPosition)
-    {
-        Vector2 location = new Vector3(WorldLocation.X, WorldLocation.Y);
-        return (location - playerPosition).magnitude;
-    }
-
-    public float SquareDistanceToPlayer(Vector2 playerPosition)
-    {
-        float x = System.Math.Abs(WorldLocation.X - playerPosition.x);
-        float y = System.Math.Abs(WorldLocation.Y - playerPosition.y);
-        return System.Math.Max(x, y);
     }
 }

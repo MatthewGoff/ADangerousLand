@@ -1,16 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyMonoBehaviour : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private EnemyManager Manager;
+
+    public void Destory()
+    {
+        GameManager.Singleton.GameObjectCount--;
+        Destroy(gameObject);
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        Manager.Die();
+    }
+
+    public void AssignManager(EnemyManager manager)
+    {
+        Manager = manager;
+    }
+
 }

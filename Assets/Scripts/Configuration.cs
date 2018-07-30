@@ -13,7 +13,8 @@ public class Configuration
     };
 
     //World
-    public static readonly int TREADMILL_RADIUS = 31;
+    public static readonly int TREADMILL_WIDTH = 62;
+    public static readonly int TREADMIL_HEIGHT = 62;
     public static readonly int TREADMILL_UPDATE_MARGIN = 1;
     public static readonly int CHUNK_SIZE = 32;
 

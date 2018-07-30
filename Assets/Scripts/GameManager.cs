@@ -180,6 +180,7 @@ public class GameManager : MonoBehaviour
         {
             FPSQueue.Dequeue();
         }
+        World.Update();
     }
 
     public void FixedUpdate()
@@ -189,7 +190,6 @@ public class GameManager : MonoBehaviour
         {
             UPSQueue.Dequeue();
         }
-        World.FixedUpdate();
     }
 
     public void Input(GameInputType inputType)

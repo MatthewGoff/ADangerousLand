@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class World
 {
-    private Queue<WorldInitializer> WorldInitializers;
-
     public WorldGenParameters GenerationParameters { get; private set; }
 
     public PlayerMonoBehaviour PlayerMonoBehaviour { get; private set; }
-    public ChunkStorage Chunks { get; private set; }
+    public readonly ChunkStorage Chunks;
+
+    private bool Initialized = false;
+    private readonly Treadmill Treadmill;
+    private readonly Queue<WorldInitializer> WorldInitializers;
 
     private ChunkIndex CurrentChunk;
-    private bool Initialized = false;
+    private readonly List<Chunk> AwakeChunks;
 
     public World()
     {
         GenerationParameters = new WorldGenParameters();
         WorldInitializers = new Queue<WorldInitializer>();
+        Treadmill = new Treadmill(Configuration.TREADMILL_WIDTH, Configuration.TREADMIL_HEIGHT);
         Chunks = new ChunkStorage(this);
     }
 
@@ -28,13 +31,13 @@ public class World
         Initialized = true;
     }
 
-    public void FixedUpdate()
+    public void Update()
     {
-
         if (!Initialized)
         {
             return;
         }
+        Treadmill.Center = PlayerMonoBehaviour.GetPlayerPosition();
         UpdateCurrentChunk();
         UpdateWorldInitializers();
         UpdateChunks();
@@ -69,13 +72,12 @@ public class World
 
     private void UpdateChunks()
     {
-        int updateRadius = (int)Math.Ceiling((Configuration.TREADMILL_RADIUS + Configuration.TREADMILL_UPDATE_MARGIN) / (float)Configuration.CHUNK_SIZE);
-        //GameManager.Singleton.Print(updateRadius.ToString());
+        int updateRadius = 2;
         for (int indexX = CurrentChunk.X - updateRadius; indexX <= CurrentChunk.X + updateRadius; indexX++)
         {
             for (int indexY = CurrentChunk.Y - updateRadius; indexY <= CurrentChunk.Y + updateRadius; indexY++)
             {
-                Chunks.GetChunk(new ChunkIndex(indexX, indexY)).Update(PlayerMonoBehaviour.GetPlayerPosition());
+                Chunks.GetChunk(new ChunkIndex(indexX, indexY)).Update(Treadmill);
             }
         }
     }
@@ -100,7 +102,7 @@ public class World
                 if (distance == 2)
                 {
                     chunk.Awake = false;
-                    //chunk.SpawnEnemies();
+                    chunk.SpawnEnemies();
                 }
                 else
                 {
@@ -160,6 +162,13 @@ public class World
     {
         int x = (int)Mathf.Floor(worldLocation.X / (float)Configuration.CHUNK_SIZE);
         int y = (int)Mathf.Floor(worldLocation.Y / (float)Configuration.CHUNK_SIZE);
+        return new ChunkIndex(x, y);
+    }
+
+    public ChunkIndex GetChunkIndex(Vector2 position)
+    {
+        int x = (int)Mathf.Floor(position.x / Configuration.CHUNK_SIZE);
+        int y = (int)Mathf.Floor(position.y / Configuration.CHUNK_SIZE);
         return new ChunkIndex(x, y);
     }
 

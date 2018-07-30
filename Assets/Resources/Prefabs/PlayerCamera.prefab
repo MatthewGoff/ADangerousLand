@@ -101,6 +101,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ZoomSpeed: 1.2
-  MinimumZoom: 1
-  DefaultZoom: 8
-  MaximumZoom: 18
+  MinimumZoom: 16.5
+  DefaultZoom: 16.5
+  MaximumZoom: 16.5

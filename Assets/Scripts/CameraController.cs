@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
     public float ZoomSpeed;
     public float MinimumZoom;
     public float DefaultZoom;
-    private float MaximumZoom;
+    public float MaximumZoom;
 
     private Camera Camera;
     private PlayerMonoBehaviour MyPlayerController;
@@ -15,7 +15,7 @@ public class CameraController : MonoBehaviour
     {
         Camera = GetComponent<Camera>();
         Camera.orthographicSize = DefaultZoom;
-        MaximumZoom = (32 / Camera.aspect) - 1.5f;
+        //MaximumZoom = 100;// (32 / Camera.aspect) - 1.5f;
     }
 
     void Update()

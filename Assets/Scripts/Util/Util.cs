@@ -101,9 +101,14 @@ public static class Util
         return rand;
     }
 
-    public static float EuclidianDistance((int X, int Y) point1, (int X, int Y) point2)
+    public static float EuclidianDistance((float X, float Y) point1, (float X, float Y) point2)
     {
         return (float)Math.Sqrt(Math.Pow((point1.X - point2.X),2) + Math.Pow((point1.Y - point2.Y),2));
+    }
+
+    public static float EuclidianDistance(Vector2 point1, (float X, float Y) point2)
+    {
+        return (float)Math.Sqrt(Math.Pow((point1.x - point2.X),2) + Math.Pow((point1.y - point2.Y),2));
     }
 
     public static float NextGaussianFloat()

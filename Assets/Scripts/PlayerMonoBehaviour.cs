@@ -9,19 +9,38 @@ public class PlayerMonoBehaviour : MonoBehaviour
     public GameObject MyCamera;
     private Rigidbody2D RB2D;
     private Vector2 MoveTarget;
+    private Cooldown SlashCooldown;
 
     public void Start()
     {
         RB2D = GetComponent<Rigidbody2D>();
         MoveTarget = RB2D.position;
+        SlashCooldown = new Cooldown(1f);
     }
 
-    public void FixedUpdate()
+    public void Update()
     {
         if (Input.GetMouseButton(0) && MyCamera != null && GameManager.Singleton.PlayerInputEnabled)
         {
             MoveTarget = MyCamera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
         }
+
+        if (Input.GetMouseButton(1) && MyCamera != null && GameManager.Singleton.PlayerInputEnabled && SlashCooldown.Use())
+        {
+            Slash();   
+        }
+    }
+
+    private void Slash()
+    {
+        Vector2 attackTarget = MyCamera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
+        Vector2 attackVector = attackTarget - (Vector2)RB2D.transform.position;
+        Quaternion attackAngle = Quaternion.Euler(0, 0, -Vector2.SignedAngle(attackVector, new Vector2(-1, 1)));
+        Instantiate(Prefabs.SLASH_PREFAB, RB2D.transform.position, attackAngle);
+    }
+
+    public void FixedUpdate()
+    {
         Vector2 movement = MoveTarget - RB2D.position;
         if (movement.magnitude > 1.0f)
         {
