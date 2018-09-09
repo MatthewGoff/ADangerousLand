@@ -4,7 +4,7 @@ public class Configuration
 {
     public static readonly Dictionary<TerrainTypeEnum, float> MOVEMENT_MULTIPLIERS = new Dictionary<TerrainTypeEnum, float>()
     {
-        { TerrainTypeEnum.Grass, 1f },
+        { TerrainTypeEnum.Grass, 1f},
         { TerrainTypeEnum.Sand, 1f},
         { TerrainTypeEnum.Tree, 0.7f},
         { TerrainTypeEnum.River, 0.5f},
@@ -19,7 +19,7 @@ public class Configuration
     public static readonly int CHUNK_SIZE = 32;
 
     //Player
-    public static readonly float DEFAULT_MOVE_SPEED = 3f;
+    public static readonly float DEFAULT_MOVE_SPEED = 5f;
 
     //Fog
     public static float FOG_OUTER_RADIUS = 11;

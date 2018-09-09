@@ -50,6 +50,12 @@ public class PlayerMonoBehaviour : MonoBehaviour
         RB2D.MovePosition(RB2D.position + movement * MoveSpeed * movementMultiplier * Time.fixedDeltaTime);
     }
 
+    private void LateUpdate()
+    {
+        //RB2D.position = Util.RoundToPixel(RB2D.position, MyCamera.GetComponent<CameraController>().PixelsPerUnit);
+        transform.position = Util.RoundToPixel(transform.position, MyCamera.GetComponent<CameraController>().PixelsPerUnit);
+    }
+
     public void AssignCamera(GameObject camera)
     {
         MyCamera = camera;

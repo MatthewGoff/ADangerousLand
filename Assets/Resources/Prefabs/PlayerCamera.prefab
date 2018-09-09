@@ -104,3 +104,4 @@ MonoBehaviour:
   MinimumZoom: 16.5
   DefaultZoom: 16.5
   MaximumZoom: 16.5
+  PixelsPerUnit: 32

@@ -151,15 +151,15 @@ public class GameManager : MonoBehaviour
             MaxMode = !MaxMode;
             if (MaxMode)
             {
-                Configuration.FOG_OUTER_RADIUS = 80;
-                Configuration.FOG_INNER_RADIUS = 75;
-                PlayerMonoBehaviour.MoveSpeed = 50;
+                Configuration.FOG_OUTER_RADIUS = 80f;
+                Configuration.FOG_INNER_RADIUS = 75f;
+                PlayerMonoBehaviour.MoveSpeed = 50f;
             }
             else
             {
-                Configuration.FOG_OUTER_RADIUS = 11;
-                Configuration.FOG_INNER_RADIUS = 7;
-                PlayerMonoBehaviour.MoveSpeed = 5;
+                Configuration.FOG_OUTER_RADIUS = 11f;
+                Configuration.FOG_INNER_RADIUS = 7f;
+                PlayerMonoBehaviour.MoveSpeed = 5f;
             }
         }
         if (UnityEngine.Input.GetKeyUp(KeyCode.Escape))

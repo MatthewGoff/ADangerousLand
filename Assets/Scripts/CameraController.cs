@@ -3,10 +3,7 @@
 public class CameraController : MonoBehaviour
 {
 
-    public float ZoomSpeed;
-    public float MinimumZoom;
-    public float DefaultZoom;
-    public float MaximumZoom;
+    public int PixelsPerUnit;
 
     private Camera Camera;
     private PlayerMonoBehaviour MyPlayerController;
@@ -14,41 +11,23 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         Camera = GetComponent<Camera>();
-        Camera.orthographicSize = DefaultZoom;
-        //MaximumZoom = 100;// (32 / Camera.aspect) - 1.5f;
+        Camera.orthographicSize = Screen.height / (2f * PixelsPerUnit);
     }
 
-    void Update()
-    {
-        Translate();
-        Zoom();
-    }
-
-    void Translate()
+    public void LateUpdate()
     {
         if (MyPlayerController != null)
         {
             Vector3 newPosition = MyPlayerController.GetPlayerPosition();
-            newPosition.z = -10;
-            transform.position = newPosition;
-        }
-    }
+            newPosition = Util.RoundToPixel(newPosition, PixelsPerUnit);
 
-    void Zoom()
-    {
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll != 0.0f && GameManager.Singleton.PlayerInputEnabled)
-        {
-            float cameraSize;
-            if (scroll < 0.0f)
-            {
-                cameraSize = Camera.orthographicSize * ZoomSpeed;
-            }
-            else
-            {
-                cameraSize = Camera.orthographicSize / ZoomSpeed;
-            }
-            Camera.orthographicSize = Mathf.Clamp(cameraSize, MinimumZoom, MaximumZoom);
+            // Move the camera slightly so it is NOT perfectly alligned. This
+            // is required to fix bug with directX relating to half pixels.
+            newPosition -= new Vector3(0.01f, 0.01f, 0f);
+
+            // Move the camera so it is "above" our two dimentional world
+            newPosition.z = -1;
+            transform.position = newPosition;
         }
     }
 

@@ -124,4 +124,12 @@ public static class Util
         float fac = Mathf.Sqrt(-2.0f * Mathf.Log(S) / S);
         return u * fac;
     }
+
+    public static Vector2 RoundToPixel(Vector2 vector, int pixelsPerUnit)
+    {
+        vector *= pixelsPerUnit;
+        vector = new Vector2(Mathf.Round(vector.x), Mathf.Round(vector.y));
+        vector /= pixelsPerUnit;
+        return vector;
+    }
 }
