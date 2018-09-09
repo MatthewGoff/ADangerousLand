@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class EnemyMonoBehaviour : MonoBehaviour {
-
-    private EnemyManager Manager;
+public class EnemyMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
+{
+    EnemyManager Manager;
 
     public void Destory()
     {
@@ -10,14 +10,13 @@ public class EnemyMonoBehaviour : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        Manager.Die();
-    }
-
     public void AssignManager(EnemyManager manager)
     {
         Manager = manager;
     }
 
+    public CombatantManager GetCombatantManager()
+    {
+        return Manager;
+    }
 }

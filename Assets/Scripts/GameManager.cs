@@ -140,8 +140,8 @@ public class GameManager : MonoBehaviour
     private void InitGame()
     {
         World.Start();
-        PlayerCamera.GetComponent<CameraController>().AssignPlayer(World.PlayerMonoBehaviour);
-        World.PlayerMonoBehaviour.AssignCamera(PlayerCamera);
+        PlayerCamera.GetComponent<CameraController>().AssignPlayer(World.PlayerManager.MonoBehaviour);
+        World.PlayerManager.MonoBehaviour.AssignCamera(PlayerCamera);
     }
 
     public void Update()
@@ -153,13 +153,13 @@ public class GameManager : MonoBehaviour
             {
                 Configuration.FOG_OUTER_RADIUS = 80f;
                 Configuration.FOG_INNER_RADIUS = 75f;
-                PlayerMonoBehaviour.MoveSpeed = 50f;
+                World.PlayerManager.MoveSpeed = 50f;
             }
             else
             {
                 Configuration.FOG_OUTER_RADIUS = 11f;
                 Configuration.FOG_INNER_RADIUS = 7f;
-                PlayerMonoBehaviour.MoveSpeed = 5f;
+                World.PlayerManager.MoveSpeed = 5f;
             }
         }
         if (UnityEngine.Input.GetKeyUp(KeyCode.Escape))

@@ -6,7 +6,7 @@ public class World
 {
     public WorldGenParameters GenerationParameters { get; private set; }
 
-    public PlayerMonoBehaviour PlayerMonoBehaviour { get; private set; }
+    public PlayerManager PlayerManager { get; private set; }
     public readonly ChunkStorage Chunks;
 
     private bool Initialized = false;
@@ -37,7 +37,7 @@ public class World
         {
             return;
         }
-        Treadmill.Center = PlayerMonoBehaviour.GetPlayerPosition();
+        Treadmill.Center = PlayerManager.GetPlayerPosition();
         UpdateCurrentChunk();
         UpdateWorldInitializers();
         UpdateChunks();
@@ -155,7 +155,7 @@ public class World
 
     public WorldLocation GetPlayerLocation()
     {
-        return new WorldLocation(Util.RoundVector2(PlayerMonoBehaviour.GetPlayerPosition()));
+        return new WorldLocation(Util.RoundVector2(PlayerManager.GetPlayerPosition()));
     }
 
     public ChunkIndex GetChunkIndex(WorldLocation worldLocation)
@@ -175,9 +175,7 @@ public class World
     private void SpawnPlayer()
     {
         WorldLocation spawnLocation = DecideSpawnPoint();
-        GameObject player = GameObject.Instantiate(Prefabs.PLAYER_PREFAB, new Vector3(spawnLocation.X, spawnLocation.Y, 0), Quaternion.identity) as GameObject;
-        PlayerMonoBehaviour = player.GetComponent<PlayerMonoBehaviour>();
-        PlayerMonoBehaviour.AssignMovementMultiplier(MovementMultiplier);
+        PlayerManager = new PlayerManager(spawnLocation, MovementMultiplier);
     }
     
     public float MovementMultiplier(WorldLocation worldLocation)

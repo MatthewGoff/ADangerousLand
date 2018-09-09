@@ -1,21 +1,17 @@
 ﻿using UnityEngine;
 
-public class PlayerMonoBehaviour : MonoBehaviour
+public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
 {
-    public delegate float MovementMultiplierDelegate(WorldLocation worldLocation);
-
-    public MovementMultiplierDelegate MovementMultiplier = location => 1;
-    public static float MoveSpeed = Configuration.DEFAULT_MOVE_SPEED;
     public GameObject MyCamera;
+
     private Rigidbody2D RB2D;
     private Vector2 MoveTarget;
-    private Cooldown SlashCooldown;
+    private PlayerManager Manager;
 
     public void Start()
     {
         RB2D = GetComponent<Rigidbody2D>();
         MoveTarget = RB2D.position;
-        SlashCooldown = new Cooldown(1f);
     }
 
     public void Update()
@@ -25,18 +21,13 @@ public class PlayerMonoBehaviour : MonoBehaviour
             MoveTarget = MyCamera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
         }
 
-        if (Input.GetMouseButton(1) && MyCamera != null && GameManager.Singleton.PlayerInputEnabled && SlashCooldown.Use())
+        if (Input.GetMouseButton(1) && MyCamera != null && GameManager.Singleton.PlayerInputEnabled)
         {
-            Slash();   
+            Vector2 attackTarget = MyCamera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
+            Vector2 attackVector = attackTarget - (Vector2)RB2D.transform.position;
+            Quaternion attackAngle = Quaternion.Euler(0, 0, -Vector2.SignedAngle(attackVector, new Vector2(-1, 1)));
+            Manager.SlashAttack(RB2D.transform.position, attackAngle);
         }
-    }
-
-    private void Slash()
-    {
-        Vector2 attackTarget = MyCamera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
-        Vector2 attackVector = attackTarget - (Vector2)RB2D.transform.position;
-        Quaternion attackAngle = Quaternion.Euler(0, 0, -Vector2.SignedAngle(attackVector, new Vector2(-1, 1)));
-        Instantiate(Prefabs.SLASH_PREFAB, RB2D.transform.position, attackAngle);
     }
 
     public void FixedUpdate()
@@ -46,13 +37,14 @@ public class PlayerMonoBehaviour : MonoBehaviour
         {
             movement.Normalize();
         }
-        float movementMultiplier = MovementMultiplier(new WorldLocation(Util.RoundVector2(RB2D.position)));
-        RB2D.MovePosition(RB2D.position + movement * MoveSpeed * movementMultiplier * Time.fixedDeltaTime);
+        float movementMultiplier = Manager.MovementMultiplier(new WorldLocation(Util.RoundVector2(RB2D.position)));
+        RB2D.MovePosition(RB2D.position + movement * Manager.MoveSpeed * movementMultiplier * Time.fixedDeltaTime);
     }
 
     private void LateUpdate()
     {
-        //RB2D.position = Util.RoundToPixel(RB2D.position, MyCamera.GetComponent<CameraController>().PixelsPerUnit);
+        // We move the transform but not the rigid body. This is to that the
+        // player is rendered pixel perfect but we don't mess up the physics.
         transform.position = Util.RoundToPixel(transform.position, MyCamera.GetComponent<CameraController>().PixelsPerUnit);
     }
 
@@ -61,13 +53,18 @@ public class PlayerMonoBehaviour : MonoBehaviour
         MyCamera = camera;
     }
 
-    public void AssignMovementMultiplier(MovementMultiplierDelegate movementMultiplier)
-    {
-        MovementMultiplier = movementMultiplier;
-    }
-
     public Vector2 GetPlayerPosition()
     {
         return RB2D.position;
+    }
+
+    public void AssignManager(PlayerManager manager)
+    {
+        Manager = manager;
+    }
+
+    public CombatantManager GetCombatantManager()
+    {
+        return Manager;
     }
 }

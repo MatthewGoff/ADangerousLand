@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EnemyManager
+public class EnemyManager : CombatantManager
 {
     public bool Awake;
     public Vector2 Position { get; private set; }
@@ -53,5 +53,10 @@ public class EnemyManager
     {
         MonoBehaviour.Destory();
         Chunk.EnemyHasDied(this);
+    }
+
+    public override void RecieveHit()
+    {
+        Die();
     }
 }
