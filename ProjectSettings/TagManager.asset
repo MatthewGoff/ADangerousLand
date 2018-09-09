@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Combatant
   layers:
   - Default
   - TransparentFX
@@ -46,6 +47,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 925301899
+    locked: 0
+  - name: HealthBars
+    uniqueID: 69774171
     locked: 0
   - name: Fog
     uniqueID: 2069041531

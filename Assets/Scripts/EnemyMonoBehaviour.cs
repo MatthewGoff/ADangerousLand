@@ -4,7 +4,7 @@ public class EnemyMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
 {
     EnemyManager Manager;
 
-    public void Destory()
+    public void Destroy()
     {
         GameManager.Singleton.GameObjectCount--;
         Destroy(gameObject);

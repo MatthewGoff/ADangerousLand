@@ -5,12 +5,15 @@ public class EnemyManager : CombatantManager
     public bool Awake;
     public Vector2 Position { get; private set; }
     private EnemyMonoBehaviour MonoBehaviour;
-    private Chunk Chunk;
+    private HealthBarMonoBehaviour HealthBar;
+    private Chunk CurrentChunk;
 
     public EnemyManager(WorldLocation worldLocation, Chunk chunk)
     {
         Position = new Vector2(worldLocation.X, worldLocation.Y);
-        Chunk = chunk;
+        CurrentChunk = chunk;
+        MaxHealth = 10;
+        CurrentHealth = MaxHealth;
     }
 
     public void Update(Treadmill treadmill)
@@ -36,27 +39,39 @@ public class EnemyManager : CombatantManager
     public void WakeUp()
     {
         Awake = true;
-        GameObject GameObject = GameObject.Instantiate(Prefabs.ENEMY_PREFAB, Position, Quaternion.identity);
-        MonoBehaviour = GameObject.GetComponent<EnemyMonoBehaviour>();
-        MonoBehaviour.AssignManager(this);
+
+        GameObject enemy = GameObject.Instantiate(Prefabs.ENEMY_PREFAB, Position, Quaternion.identity);
         GameManager.Singleton.GameObjectCount++;
+        MonoBehaviour = enemy.GetComponent<EnemyMonoBehaviour>();
+        MonoBehaviour.AssignManager(this);
+
+        GameObject healthBar = GameObject.Instantiate(Prefabs.HEALTH_BAR_PREFAB, Position + new Vector2(0, 0.625f), Quaternion.identity);
+        GameManager.Singleton.GameObjectCount++;
+        healthBar.transform.SetParent(enemy.transform);
+        HealthBar = healthBar.GetComponent<HealthBarMonoBehaviour>();
     }
 
     public void Sleep()
     {
         Awake = false;
         Position = MonoBehaviour.transform.position;
-        MonoBehaviour.Destory();
+        MonoBehaviour.Destroy();
+        HealthBar.Destroy();
     }
 
     public void Die()
     {
-        MonoBehaviour.Destory();
-        Chunk.EnemyHasDied(this);
+        MonoBehaviour.Destroy();
+        CurrentChunk.EnemyHasDied(this);
     }
 
     public override void RecieveHit()
     {
-        Die();
+        CurrentHealth--;
+        HealthBar.ShowHealth((float)CurrentHealth / MaxHealth);
+        if (CurrentHealth == 0)
+        {
+            Die();
+        }
     }
 }
