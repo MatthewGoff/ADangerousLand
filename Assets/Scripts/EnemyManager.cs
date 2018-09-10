@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyManager : CombatantManager
 {
@@ -6,6 +7,7 @@ public class EnemyManager : CombatantManager
     public Vector2 Position { get; private set; }
     private EnemyMonoBehaviour MonoBehaviour;
     private HealthBarMonoBehaviour HealthBar;
+    private DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;
     private Chunk CurrentChunk;
 
     public EnemyManager(WorldLocation worldLocation, Chunk chunk)
@@ -49,24 +51,36 @@ public class EnemyManager : CombatantManager
         GameManager.Singleton.GameObjectCount++;
         healthBar.transform.SetParent(enemy.transform);
         HealthBar = healthBar.GetComponent<HealthBarMonoBehaviour>();
+
+        GameObject damageNumbersCanvas = GameObject.Instantiate(Prefabs.DAMAGE_NUMBER_CANVAS_PREFAB, Position + new Vector2(0, 0.625f), Quaternion.identity);
+        GameManager.Singleton.GameObjectCount++;
+        damageNumbersCanvas.transform.SetParent(enemy.transform);
+        DamageNumbersCanvas = damageNumbersCanvas.GetComponent<DamageNumbersCanvasMonoBehaviour>();
     }
 
     public void Sleep()
     {
         Awake = false;
         Position = MonoBehaviour.transform.position;
+        DamageNumbersCanvas.transform.SetParent(null);
         MonoBehaviour.Destroy();
         HealthBar.Destroy();
+        DamageNumbersCanvas.Destroy();
     }
 
     public void Die()
     {
+        DamageNumbersCanvas.transform.SetParent(null);
         MonoBehaviour.Destroy();
+        HealthBar.Destroy();
+        DamageNumbersCanvas.Destroy();
         CurrentChunk.EnemyHasDied(this);
     }
 
     public override void RecieveHit()
     {
+        DamageNumbersCanvas.Log("12345");
+
         CurrentHealth--;
         HealthBar.ShowHealth((float)CurrentHealth / MaxHealth);
         if (CurrentHealth == 0)

@@ -76,7 +76,7 @@ public class Chunk
         }
         else
         {
-            while ((ResidentEnemies.Count < Configuration.EnemiesPerChunk) && (UnocupiedTiles.Count != 0))
+            while ((ResidentEnemies.Count < Configuration.ENEMIES_PER_CHUNK) && (UnocupiedTiles.Count != 0))
             {
                 SpawnEnemy();
             }

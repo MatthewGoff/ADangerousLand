@@ -27,5 +27,9 @@ public class Configuration
     public static readonly float FOG_ALPHA = 0.5f;
 
     //Enemies
-    public static readonly int EnemiesPerChunk = 4;
+    public static readonly int ENEMIES_PER_CHUNK = 4;
+
+    //Damage Numbers
+    public static readonly int DAMAGE_NUMBERS_HEIGHT = 100;
+    public static readonly float DAMAGE_NUMBERS_DURATION = 2f;
 }
