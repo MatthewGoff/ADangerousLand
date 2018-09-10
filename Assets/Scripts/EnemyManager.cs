@@ -51,6 +51,7 @@ public class EnemyManager : CombatantManager
         GameManager.Singleton.GameObjectCount++;
         healthBar.transform.SetParent(enemy.transform);
         HealthBar = healthBar.GetComponent<HealthBarMonoBehaviour>();
+        UpdateHealthBar();
 
         GameObject damageNumbersCanvas = GameObject.Instantiate(Prefabs.DAMAGE_NUMBER_CANVAS_PREFAB, Position + new Vector2(0, 0.625f), Quaternion.identity);
         GameManager.Singleton.GameObjectCount++;
@@ -82,10 +83,16 @@ public class EnemyManager : CombatantManager
         DamageNumbersCanvas.Log("12345");
 
         CurrentHealth--;
-        HealthBar.ShowHealth((float)CurrentHealth / MaxHealth);
+        UpdateHealthBar();
         if (CurrentHealth == 0)
         {
             Die();
         }
+    }
+
+    private void UpdateHealthBar()
+    {
+        HealthBar.ShowHealth((float)CurrentHealth / MaxHealth);
+
     }
 }

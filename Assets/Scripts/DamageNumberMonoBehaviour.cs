@@ -26,6 +26,7 @@ public class DamageNumberMonoBehaviour : MonoBehaviour {
             yield return new WaitForSeconds(1f/60);
         }
         SignalFinish();
+        Destroy(gameObject);
     }
 
     public void AssignSignalFinish(SignalFinishDelegate signalFinish)
