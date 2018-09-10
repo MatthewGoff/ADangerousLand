@@ -37,7 +37,7 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
         {
             movement.Normalize();
         }
-        float movementMultiplier = Manager.MovementMultiplier(new WorldLocation(Util.RoundVector2(RB2D.position)));
+        float movementMultiplier = Manager.World.MovementMultiplier(new WorldLocation(Util.RoundVector2(RB2D.position)));
         RB2D.MovePosition(RB2D.position + movement * Manager.MoveSpeed * movementMultiplier * Time.fixedDeltaTime);
     }
 
@@ -45,7 +45,7 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
     {
         // We move the transform but not the rigid body. This is to that the
         // player is rendered pixel perfect but we don't mess up the physics.
-        transform.position = Util.RoundToPixel(transform.position, MyCamera.GetComponent<CameraController>().PixelsPerUnit);
+        transform.position = Util.RoundToPixel(transform.position, Configuration.PIXELS_PER_UNIT);
     }
 
     public void AssignCamera(GameObject camera)

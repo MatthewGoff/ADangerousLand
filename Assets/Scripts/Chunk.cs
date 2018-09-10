@@ -89,7 +89,7 @@ public class Chunk
         WorldLocation spawnLocation = UnocupiedTiles[Util.RandomInt(0, UnocupiedTiles.Count-1)];
         UnocupiedTiles.Remove(spawnLocation);
 
-        ResidentEnemies.Add(new EnemyManager(spawnLocation, this));
+        ResidentEnemies.Add(new EnemyManager(World, spawnLocation, this));
     }
 
     private Tile[,] CreateTiles()

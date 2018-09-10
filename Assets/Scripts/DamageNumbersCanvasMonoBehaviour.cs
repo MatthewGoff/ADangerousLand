@@ -5,6 +5,7 @@ public class DamageNumbersCanvasMonoBehaviour : MonoBehaviour
 {
     private bool ToDestroy = false;
     private int CurrentNumbers = 0;
+    private EnemyManager Manager;
 
     public void Destroy()
     {
@@ -23,6 +24,7 @@ public class DamageNumbersCanvasMonoBehaviour : MonoBehaviour
         damageText.transform.SetParent(transform);
         damageText.GetComponent<Text>().text = message;
         damageText.GetComponent<DamageNumberMonoBehaviour>().AssignSignalFinish(MessageEnd);
+        damageText.GetComponent<DamageNumberMonoBehaviour>().AssignManager(Manager);
         CurrentNumbers++;
     }
 
@@ -34,5 +36,10 @@ public class DamageNumbersCanvasMonoBehaviour : MonoBehaviour
             GameManager.Singleton.GameObjectCount--;
             Destroy(gameObject);
         }
+    }
+
+    public void AssignManager(EnemyManager manager)
+    {
+        Manager = manager;
     }
 }

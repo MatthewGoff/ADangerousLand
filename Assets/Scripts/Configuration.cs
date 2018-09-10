@@ -32,4 +32,7 @@ public class Configuration
     //Damage Numbers
     public static readonly int DAMAGE_NUMBERS_HEIGHT = 100;
     public static readonly float DAMAGE_NUMBERS_DURATION = 2f;
+
+    //Display
+    public static readonly int PIXELS_PER_UNIT = 32;
 }

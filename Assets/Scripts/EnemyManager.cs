@@ -4,15 +4,21 @@ public class EnemyManager : CombatantManager
 {
     public bool Awake;
     public Vector2 Position { get; private set; }
+    public readonly World World;
+    public readonly EnemyAI AI;
+    public readonly float MoveSpeed = 4f;
+
     private EnemyMonoBehaviour MonoBehaviour;
     private HealthBarMonoBehaviour HealthBar;
     private DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;
     private Chunk CurrentChunk;
-
-    public EnemyManager(WorldLocation worldLocation, Chunk chunk)
+    
+    public EnemyManager(World world, WorldLocation worldLocation, Chunk chunk)
     {
+        World = world;
         Position = new Vector2(worldLocation.X, worldLocation.Y);
         CurrentChunk = chunk;
+        AI = new EnemyAI(this);
         MaxHealth = 10;
         CurrentHealth = MaxHealth;
     }
@@ -50,12 +56,14 @@ public class EnemyManager : CombatantManager
         GameManager.Singleton.GameObjectCount++;
         healthBar.transform.SetParent(enemy.transform);
         HealthBar = healthBar.GetComponent<HealthBarMonoBehaviour>();
+        HealthBar.AssignManager(this);
         UpdateHealthBar();
 
         GameObject damageNumbersCanvas = GameObject.Instantiate(Prefabs.DAMAGE_NUMBER_CANVAS_PREFAB, Position + new Vector2(0, 0.625f), Quaternion.identity);
         GameManager.Singleton.GameObjectCount++;
         damageNumbersCanvas.transform.SetParent(enemy.transform);
         DamageNumbersCanvas = damageNumbersCanvas.GetComponent<DamageNumbersCanvasMonoBehaviour>();
+        DamageNumbersCanvas.AssignManager(this);
     }
 
     public void Sleep()

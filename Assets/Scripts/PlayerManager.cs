@@ -2,18 +2,16 @@
 
 public class PlayerManager : CombatantManager
 {
-    public delegate float MovementMultiplierDelegate(WorldLocation worldLocation);
-
-    public MovementMultiplierDelegate MovementMultiplier;
     public float MoveSpeed = Configuration.DEFAULT_MOVE_SPEED;
+    public readonly World World;
     public PlayerMonoBehaviour MonoBehaviour;
 
     private Cooldown SlashCooldown;
 
-    public PlayerManager(WorldLocation spawnLocation, MovementMultiplierDelegate movementMultiplier)
+    public PlayerManager(World world, WorldLocation spawnLocation)
     {
         SlashCooldown = new Cooldown(1f);
-        MovementMultiplier = movementMultiplier;
+        World = world;
 
         GameObject player = GameObject.Instantiate(Prefabs.PLAYER_PREFAB, new Vector3(spawnLocation.X, spawnLocation.Y, 0), Quaternion.identity);
         MonoBehaviour = player.GetComponent<PlayerMonoBehaviour>();

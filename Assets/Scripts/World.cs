@@ -158,6 +158,13 @@ public class World
         return new WorldLocation(Util.RoundVector2(PlayerManager.GetPlayerPosition()));
     }
 
+    public float GetVisibilityLevel(Vector2 position)
+    {
+        float distance = (PlayerManager.GetPlayerPosition() - position).magnitude;
+        float alpha = (distance - Configuration.FOG_INNER_RADIUS) / (Configuration.FOG_OUTER_RADIUS - Configuration.FOG_INNER_RADIUS);
+        return 1 - Mathf.Clamp(alpha, 0f, 1f);
+    }
+
     public ChunkIndex GetChunkIndex(WorldLocation worldLocation)
     {
         int x = (int)Mathf.Floor(worldLocation.X / (float)Configuration.CHUNK_SIZE);
@@ -175,13 +182,12 @@ public class World
     private void SpawnPlayer()
     {
         WorldLocation spawnLocation = DecideSpawnPoint();
-        PlayerManager = new PlayerManager(spawnLocation, MovementMultiplier);
+        PlayerManager = new PlayerManager(this, spawnLocation);
     }
     
     public float MovementMultiplier(WorldLocation worldLocation)
     {
         return Chunks.GetChunk(GetChunkIndex(worldLocation)).MovementMultiplierAt(worldLocation);
-        
     }
 
     private WorldLocation DecideSpawnPoint()

@@ -2,16 +2,13 @@
 
 public class CameraController : MonoBehaviour
 {
-
-    public int PixelsPerUnit;
-
     private Camera Camera;
     private PlayerMonoBehaviour MyPlayerController;
 
     void Start()
     {
         Camera = GetComponent<Camera>();
-        Camera.orthographicSize = Screen.height / (2f * PixelsPerUnit);
+        Camera.orthographicSize = Screen.height / (2f * Configuration.PIXELS_PER_UNIT);
     }
 
     public void LateUpdate()
@@ -19,7 +16,7 @@ public class CameraController : MonoBehaviour
         if (MyPlayerController != null)
         {
             Vector3 newPosition = MyPlayerController.GetPlayerPosition();
-            newPosition = Util.RoundToPixel(newPosition, PixelsPerUnit);
+            newPosition = Util.RoundToPixel(newPosition, Configuration.PIXELS_PER_UNIT);
 
             // Move the camera slightly so it is NOT perfectly alligned. This
             // is required to fix bug with directX relating to half pixels.
@@ -27,6 +24,7 @@ public class CameraController : MonoBehaviour
 
             // Move the camera so it is "above" our two dimentional world
             newPosition.z = -1;
+
             transform.position = newPosition;
         }
     }

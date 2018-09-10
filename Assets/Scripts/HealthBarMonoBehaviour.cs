@@ -3,10 +3,16 @@
 public class HealthBarMonoBehaviour : MonoBehaviour {
 
     private SpriteRenderer Renderer;
+    private EnemyManager Manager;
 
     public void Awake()
     {
         Renderer = GetComponent<SpriteRenderer>();
+    }
+
+    public void Update()
+    {
+        Renderer.color = new Color(1, 1, 1, Manager.World.GetVisibilityLevel(transform.position));
     }
 
     public void Destroy()
@@ -26,5 +32,10 @@ public class HealthBarMonoBehaviour : MonoBehaviour {
             Renderer.enabled = true;
             transform.localScale = new Vector3(health, 1, 1);
         }
+    }
+
+    public void AssignManager(EnemyManager manager)
+    {
+        Manager = manager;
     }
 }
