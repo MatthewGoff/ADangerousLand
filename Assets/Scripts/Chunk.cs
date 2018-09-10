@@ -52,9 +52,10 @@ public class Chunk
             enemy.Update(treadmill);
             if (!WithinChunk(enemy.Position))
             {
-                WithinChunk(enemy.Position);
                 emigrantEnemies.Add(enemy);
-                World.Chunks.GetChunk(World.GetChunkIndex(enemy.Position)).RecieveImmigrantEnemy(enemy);
+                Chunk newHome = World.Chunks.GetChunk(World.GetChunkIndex(enemy.Position));
+                newHome.RecieveImmigrantEnemy(enemy);
+                enemy.Immigrate(newHome);
             }
         }
         foreach (EnemyManager enemy in emigrantEnemies)

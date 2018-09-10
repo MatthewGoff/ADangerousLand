@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class EnemyManager : CombatantManager
 {
@@ -94,5 +93,10 @@ public class EnemyManager : CombatantManager
     {
         HealthBar.ShowHealth((float)CurrentHealth / MaxHealth);
 
+    }
+
+    public void Immigrate(Chunk newHome)
+    {
+        CurrentChunk = newHome;
     }
 }
