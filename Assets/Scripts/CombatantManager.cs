@@ -2,8 +2,5 @@
 {
     public int Team;
 
-    protected int MaxHealth;
-    protected int CurrentHealth;
-
     public abstract void RecieveHit();
 }

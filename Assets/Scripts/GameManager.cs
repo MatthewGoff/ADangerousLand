@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public GameObject GameInfo;
     public GameObject RandomSeedText;
     public GameObject PlayerLocationText;
+    public GameObject HUD;
 
     // GameStats
     public GameObject GameStatsCanvas;
@@ -40,7 +41,7 @@ public class GameManager : MonoBehaviour
 
     private static bool MaxMode = false;
     private GameObject PlayerCamera;
-    private World World;
+    public World World;
     private FiniteStateMachine<GameStateType, GameInputType> StateMachine;
 
     void Awake()

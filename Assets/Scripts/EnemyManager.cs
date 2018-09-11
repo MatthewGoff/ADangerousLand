@@ -8,6 +8,8 @@ public class EnemyManager : CombatantManager
     public readonly EnemyAI AI;
     public readonly float MoveSpeed = 4f;
 
+    private int MaxHealth;
+    private float CurrentHealth;
     private EnemyMonoBehaviour MonoBehaviour;
     private HealthBarMonoBehaviour HealthBar;
     private DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;

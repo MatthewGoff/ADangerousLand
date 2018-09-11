@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
 {
@@ -16,6 +17,8 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
 
     public void Update()
     {
+        Manager.Update(Time.deltaTime);
+
         if (Input.GetMouseButton(0) && MyCamera != null && GameManager.Singleton.PlayerInputEnabled)
         {
             MoveTarget = MyCamera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);

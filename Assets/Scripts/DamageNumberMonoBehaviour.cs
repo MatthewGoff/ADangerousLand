@@ -32,6 +32,7 @@ public class DamageNumberMonoBehaviour : MonoBehaviour {
         }
         SignalFinish();
         Destroy(gameObject);
+        GameManager.Singleton.GameObjectCount--;
     }
 
     public void AssignSignalFinish(SignalFinishDelegate signalFinish)
