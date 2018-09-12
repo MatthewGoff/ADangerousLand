@@ -100,7 +100,7 @@ public class EnemyManager : CombatantManager
 
     public override void RecieveHit()
     {
-        DamageNumbersCanvas.Log("12345");
+        DamageNumbersCanvas.Log("1");
 
         CurrentHealth--;
         UpdateHealthBar();
