@@ -7,25 +7,28 @@ public class EnemyManager : CombatantManager
     public readonly World World;
     public readonly EnemyAI AI;
     public readonly float MoveSpeed = 4f;
+    public EnemyMonoBehaviour MonoBehaviour;
 
     private int MaxHealth;
     private float CurrentHealth;
-    private EnemyMonoBehaviour MonoBehaviour;
     private HealthBarMonoBehaviour HealthBar;
     private DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;
     private Chunk CurrentChunk;
-    
+    private Cooldown SlashCooldown;
+
     public EnemyManager(World world, WorldLocation worldLocation, Chunk chunk)
     {
+        SlashCooldown = new Cooldown(1f);
         World = world;
         Position = new Vector2(worldLocation.X, worldLocation.Y);
         CurrentChunk = chunk;
         AI = new EnemyAI(this);
         MaxHealth = 10;
         CurrentHealth = MaxHealth;
+        Team = 1;
     }
 
-    public void Update(Treadmill treadmill)
+    public void CheckTreadmill(Treadmill treadmill)
     {
         if (Awake)
         {
@@ -43,6 +46,11 @@ public class EnemyManager : CombatantManager
                 WakeUp();
             }
         }
+    }
+
+    public Vector2 Update()
+    {
+        return AI.Update();
     }
 
     public void WakeUp()
@@ -70,12 +78,15 @@ public class EnemyManager : CombatantManager
 
     public void Sleep()
     {
-        Awake = false;
-        Position = MonoBehaviour.transform.position;
-        DamageNumbersCanvas.transform.SetParent(null);
-        MonoBehaviour.Destroy();
-        HealthBar.Destroy();
-        DamageNumbersCanvas.Destroy();
+        if (Awake)
+        {
+            Awake = false;
+            Position = MonoBehaviour.transform.position;
+            DamageNumbersCanvas.transform.SetParent(null);
+            MonoBehaviour.Destroy();
+            HealthBar.Destroy();
+            DamageNumbersCanvas.Destroy();
+        }
     }
 
     public void Die()
@@ -93,9 +104,22 @@ public class EnemyManager : CombatantManager
 
         CurrentHealth--;
         UpdateHealthBar();
-        if (CurrentHealth == 0)
+        if (CurrentHealth <= 0)
         {
             Die();
+        }
+    }
+
+    public void SlashAttack(Vector2 attackTarget)
+    {
+        if (SlashCooldown.Use())
+        {
+            Vector2 attackPosition = MonoBehaviour.transform.position;
+            Vector2 attackVector = attackTarget - attackPosition;
+            Quaternion attackAngle = Quaternion.Euler(0, 0, -Vector2.SignedAngle(attackVector, new Vector2(-1, 1)));
+            float aoe = 2f;
+
+            SlashManager slash = new SlashManager(this, attackPosition, attackAngle, aoe);
         }
     }
 

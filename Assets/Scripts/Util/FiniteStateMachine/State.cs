@@ -6,13 +6,13 @@ public class State<S, I>
     public OnExitDelegate<S, I> OnExit;
     public readonly S StateIdentifier;
     public readonly Dictionary<I, State<S, I>> Transitions;
-    public readonly bool PlayerInputEnabled;
+    public readonly bool GameIsLive;
 
     public State(S stateIdentifier, bool playerInputEnabled)
     {
         StateIdentifier = stateIdentifier;
         Transitions = new Dictionary<I, State<S, I>>();
-        PlayerInputEnabled = playerInputEnabled;
+        GameIsLive = playerInputEnabled;
     }
 
     public void AddTransition(I input, State<S, I> state)

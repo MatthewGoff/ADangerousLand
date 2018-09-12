@@ -30,7 +30,11 @@ public class SlashMonoBehaviour : MonoBehaviour
     {
         if (other.gameObject.tag == "Combatant")
         {
-            Manager.ResolveCollision(other.gameObject.GetComponent<ICombatantMonoBehaviour>().GetCombatantManager());
+            ICombatantMonoBehaviour MonoBehaviour = other.gameObject.GetComponent<ICombatantMonoBehaviour>();
+            if (MonoBehaviour != null)
+            {
+                Manager.ResolveCollision(MonoBehaviour.GetCombatantManager());
+            }
         }
     }
 

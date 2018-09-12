@@ -35,4 +35,5 @@ public class Configuration
 
     //Display
     public static readonly int PIXELS_PER_UNIT = 32;
+    public static readonly float DEATH_DURATION = 3f;
 }

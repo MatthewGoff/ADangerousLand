@@ -17,7 +17,7 @@ public class SlashManager
 
     public void ResolveCollision(CombatantManager other)
     {
-        if (other != Originator)
+        if (other.Team != Originator.Team)
         {
             other.RecieveHit();
         }

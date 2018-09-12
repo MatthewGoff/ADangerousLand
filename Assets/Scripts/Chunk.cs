@@ -9,7 +9,6 @@ public class Chunk
     public bool RiversInitialized { get; private set; } = false;
     public bool Initialized { get; private set; } = false;
     public bool LocalityInitialized { get; set; } = false;
-    public bool Awake { get; set; } = false;
 
     private readonly List<EnemyManager> ResidentEnemies;
     private readonly List<WorldLocation> UnocupiedTiles;
@@ -49,7 +48,7 @@ public class Chunk
         List<EnemyManager> emigrantEnemies = new List<EnemyManager>();
         foreach (EnemyManager enemy in ResidentEnemies)
         {
-            enemy.Update(treadmill);
+            enemy.CheckTreadmill(treadmill);
             if (!WithinChunk(enemy.Position))
             {
                 emigrantEnemies.Add(enemy);
@@ -61,6 +60,21 @@ public class Chunk
         foreach (EnemyManager enemy in emigrantEnemies)
         {
             ResidentEnemies.Remove(enemy);
+        }
+    }
+
+    public void Sleep()
+    {
+        for (int chunkX = 0; chunkX < Tiles.GetLength(0); chunkX++)
+        {
+            for (int chunkY = 0; chunkY < Tiles.GetLength(1); chunkY++)
+            {
+                Tiles[chunkX, chunkY].Sleep();
+            }
+        }
+        foreach (EnemyManager enemy in ResidentEnemies)
+        {
+            enemy.Sleep();
         }
     }
 

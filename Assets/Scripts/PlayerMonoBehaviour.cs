@@ -3,8 +3,6 @@ using UnityEngine.UI;
 
 public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
 {
-    public GameObject MyCamera;
-
     private Rigidbody2D RB2D;
     private Vector2 MoveTarget;
     private PlayerManager Manager;
@@ -15,21 +13,26 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
         MoveTarget = RB2D.position;
     }
 
+    public void Destroy()
+    {
+        Destroy(gameObject);
+    }
+
     public void Update()
     {
         Manager.Update(Time.deltaTime);
+        GameObject Camera = GameManager.Singleton.PlayerCamera;
 
-        if (Input.GetMouseButton(0) && MyCamera != null && GameManager.Singleton.PlayerInputEnabled)
+        if (Input.GetMouseButton(0) && Camera != null && GameManager.Singleton.GameIsLive)
         {
-            MoveTarget = MyCamera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
+            MoveTarget = Camera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
         }
 
-        if (Input.GetMouseButton(1) && MyCamera != null && GameManager.Singleton.PlayerInputEnabled)
+        if (Input.GetMouseButton(1) && Camera != null && GameManager.Singleton.GameIsLive)
         {
-            Vector2 attackTarget = MyCamera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
-            Vector2 attackVector = attackTarget - (Vector2)RB2D.transform.position;
-            Quaternion attackAngle = Quaternion.Euler(0, 0, -Vector2.SignedAngle(attackVector, new Vector2(-1, 1)));
-            Manager.SlashAttack(RB2D.transform.position, attackAngle);
+            Vector2 attackTarget = Camera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
+            
+            Manager.SlashAttack(attackTarget);
         }
     }
 
@@ -51,14 +54,16 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
         transform.position = Util.RoundToPixel(transform.position, Configuration.PIXELS_PER_UNIT);
     }
 
-    public void AssignCamera(GameObject camera)
-    {
-        MyCamera = camera;
-    }
-
     public Vector2 GetPlayerPosition()
     {
-        return RB2D.position;
+        if (RB2D == null)
+        {
+            return new Vector2(0, 0);
+        }
+        else
+        {
+            return RB2D.position;
+        }
     }
 
     public void AssignManager(PlayerManager manager)
@@ -69,5 +74,11 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
     public CombatantManager GetCombatantManager()
     {
         return Manager;
+    }
+
+    public void Freeze()
+    {
+        RB2D.isKinematic = true;
+        MoveTarget = RB2D.position;
     }
 }

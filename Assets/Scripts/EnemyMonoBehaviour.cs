@@ -16,7 +16,7 @@ public class EnemyMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
 
     public void Update()
     {
-        MoveTarget = Manager.AI.GetMoveTarget();
+        MoveTarget = Manager.Update();
         Renderer.color = new Color(1, 1, 1, Manager.World.GetVisibilityLevel(RB2D.position));
     }
 

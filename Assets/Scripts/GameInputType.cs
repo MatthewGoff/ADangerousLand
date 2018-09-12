@@ -5,4 +5,6 @@
     OpenGameInfoMenu,
     CloseGameInfoMenu,
     FinishedLoading,
+    PlayerDeath,
+    PlayerRespawn
 }

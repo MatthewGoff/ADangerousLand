@@ -9,11 +9,11 @@ public class FiniteStateMachine<S, I>
     private Dictionary<S, State<S, I>> GameStates;
     private State<S, I> EntryState;
     public State<S, I> CurrentState;
-    public bool PlayerInputEnabled
+    public bool GameIsLive
     {
         get
         {
-            return CurrentState.PlayerInputEnabled;
+            return CurrentState.GameIsLive;
         }
     }
 

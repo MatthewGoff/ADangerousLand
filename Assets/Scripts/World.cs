@@ -22,6 +22,7 @@ public class World
         WorldInitializers = new Queue<WorldInitializer>();
         Treadmill = new Treadmill(Configuration.TREADMILL_WIDTH, Configuration.TREADMIL_HEIGHT);
         Chunks = new ChunkStorage(this);
+        PlayerManager = new PlayerManager(this);
     }
 
     public void Start()
@@ -101,13 +102,23 @@ public class World
                 Chunk chunk = Chunks.GetChunk(CurrentChunk.Add(x, y));
                 if (distance == 2)
                 {
-                    chunk.Awake = false;
+                    chunk.Sleep();
                     chunk.SpawnEnemies();
                 }
-                else
-                {
-                    chunk.Awake = true;
-                }
+            }
+        }
+    }
+
+    public void Sleep()
+    {
+        Initialized = false;
+        PlayerManager.Sleep();
+        int updateRadius = 2;
+        for (int indexX = CurrentChunk.X - updateRadius; indexX <= CurrentChunk.X + updateRadius; indexX++)
+        {
+            for (int indexY = CurrentChunk.Y - updateRadius; indexY <= CurrentChunk.Y + updateRadius; indexY++)
+            {
+                Chunks.GetChunk(new ChunkIndex(indexX, indexY)).Sleep();
             }
         }
     }
@@ -182,7 +193,7 @@ public class World
     private void SpawnPlayer()
     {
         WorldLocation spawnLocation = DecideSpawnPoint();
-        PlayerManager = new PlayerManager(this, spawnLocation);
+        PlayerManager.Spawn(spawnLocation);
     }
     
     public float MovementMultiplier(WorldLocation worldLocation)

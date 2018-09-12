@@ -13,11 +13,11 @@ public class GameManager : MonoBehaviour
             return StateMachine.GetCurrentState();
         }
     }
-    public bool PlayerInputEnabled
+    public bool GameIsLive
     {
         get
         {
-            return StateMachine.PlayerInputEnabled;
+            return StateMachine.GameIsLive;
         }
     }
 
@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     public GameObject RandomSeedText;
     public GameObject PlayerLocationText;
     public GameObject HUD;
+    public GameObject DeathScreen;
+    public GameObject DeathBackground;
 
     // GameStats
     public GameObject GameStatsCanvas;
@@ -40,7 +42,7 @@ public class GameManager : MonoBehaviour
     private Queue<float> GameObjectsQueue;
 
     private static bool MaxMode = false;
-    private GameObject PlayerCamera;
+    public GameObject PlayerCamera;
     public World World;
     private FiniteStateMachine<GameStateType, GameInputType> StateMachine;
 
@@ -60,8 +62,8 @@ public class GameManager : MonoBehaviour
 
         Prefabs.LoadPrefabs();
         World = new World();
-        PlayerCamera = Instantiate(Prefabs.CAMERA_PREFAB, new Vector3(0, 0, -10), Quaternion.identity) as GameObject;
-        InitGame();
+        PlayerCamera = Instantiate(Prefabs.CAMERA_PREFAB, new Vector3(0, 0, -1), Quaternion.identity);
+        World.Start();
     }
 
     IEnumerator PrintFPS()
@@ -115,39 +117,38 @@ public class GameManager : MonoBehaviour
         stateMachine.AddState(GameStateType.Playing, true);
         stateMachine.AddState(GameStateType.PausedMenu, false);
         stateMachine.AddState(GameStateType.GameInfoMenu, false);
+        stateMachine.AddState(GameStateType.PlayerDead, false);
 
-        //Loading
+        // Loading
         stateMachine.AddTransition(GameStateType.Loading, GameStateType.Playing, GameInputType.FinishedLoading);
         stateMachine.OnExit(GameStateType.Loading, OnFinishedLoading);
 
-        //Playing
+        // Playing
         stateMachine.AddTransition(GameStateType.Playing, GameStateType.PausedMenu, GameInputType.Pause);
+        stateMachine.AddTransition(GameStateType.Playing, GameStateType.PlayerDead, GameInputType.PlayerDeath);
 
-        //Paused Menu
+        // Paused Menu
         stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.Playing, GameInputType.Pause);
         stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.GameInfoMenu, GameInputType.OpenGameInfoMenu);
         stateMachine.OnEnter(GameStateType.PausedMenu, OnPause);
         stateMachine.OnExit(GameStateType.PausedMenu, OnResume);
 
-        //GameInfo Menu
+        // GameInfo Menu
         stateMachine.AddTransition(GameStateType.GameInfoMenu, GameStateType.Playing, GameInputType.Pause);
         stateMachine.AddTransition(GameStateType.GameInfoMenu, GameStateType.PausedMenu, GameInputType.CloseGameInfoMenu);
         stateMachine.OnEnter(GameStateType.GameInfoMenu, OnOpenGameInfo);
         stateMachine.OnExit(GameStateType.GameInfoMenu, OnCloseGameInfo);
 
-        return stateMachine;
-    }
+        // Player Dead
+        stateMachine.AddTransition(GameStateType.PlayerDead, GameStateType.Playing, GameInputType.PlayerRespawn);
+        stateMachine.OnEnter(GameStateType.PlayerDead, OnPlayerDeath);
 
-    private void InitGame()
-    {
-        World.Start();
-        PlayerCamera.GetComponent<CameraController>().AssignPlayer(World.PlayerManager.MonoBehaviour);
-        World.PlayerManager.MonoBehaviour.AssignCamera(PlayerCamera);
+        return stateMachine;
     }
 
     public void Update()
     {
-        if (UnityEngine.Input.GetKeyUp(KeyCode.M) && PlayerInputEnabled)
+        if (UnityEngine.Input.GetKeyUp(KeyCode.M) && GameIsLive)
         {
             MaxMode = !MaxMode;
             if (MaxMode)
@@ -243,6 +244,26 @@ public class GameManager : MonoBehaviour
     public void QuitPressed()
     {
         Application.Quit();
+    }
+
+    public void OnPlayerDeath(GameStateType previousState, GameInputType inputType)
+    {
+        DeathScreen.SetActive(true);
+        StartCoroutine("FadeToBlack");
+    }
+
+    private IEnumerator FadeToBlack()
+    {
+        DeathBackground.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+        for (float i = 0f; i < Configuration.DEATH_DURATION; i += Time.deltaTime)
+        {
+            DeathBackground.GetComponent<Image>().color = new Color(0, 0, 0, (i/ Configuration.DEATH_DURATION));
+            yield return null;
+        }
+        World.Sleep();
+        World.Start();
+        DeathScreen.SetActive(false);
+        Singleton.Input(GameInputType.PlayerRespawn);
     }
 
     public void Print(string s)

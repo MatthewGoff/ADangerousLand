@@ -25,10 +25,13 @@ public class Tile {
 
     public void Sleep()
     {
-        Awake = false;
-        GameObject.Destroy(TerrainGameObject);
-        GameObject.Destroy(FogGameObject);
-        GameManager.Singleton.GameObjectCount -= 2;
+        if (Awake)
+        {
+            Awake = false;
+            GameObject.Destroy(TerrainGameObject);
+            GameObject.Destroy(FogGameObject);
+            GameManager.Singleton.GameObjectCount -= 2;
+        }
     }
 
     public void Update(Treadmill treadmill)

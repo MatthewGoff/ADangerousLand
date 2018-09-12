@@ -3,7 +3,6 @@
 public class CameraController : MonoBehaviour
 {
     private Camera Camera;
-    private PlayerMonoBehaviour MyPlayerController;
 
     void Start()
     {
@@ -13,9 +12,9 @@ public class CameraController : MonoBehaviour
 
     public void LateUpdate()
     {
-        if (MyPlayerController != null)
+        if (GameManager.Singleton.World.PlayerManager.MonoBehaviour != null)
         {
-            Vector3 newPosition = MyPlayerController.GetPlayerPosition();
+            Vector3 newPosition = GameManager.Singleton.World.PlayerManager.MonoBehaviour.GetPlayerPosition();
             newPosition = Util.RoundToPixel(newPosition, Configuration.PIXELS_PER_UNIT);
 
             // Move the camera slightly so it is NOT perfectly alligned. This
@@ -27,10 +26,5 @@ public class CameraController : MonoBehaviour
 
             transform.position = newPosition;
         }
-    }
-
-    public void AssignPlayer(PlayerMonoBehaviour playerController)
-    {
-        MyPlayerController = playerController;
     }
 }

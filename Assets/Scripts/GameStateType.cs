@@ -4,5 +4,6 @@
     Loading,
     PausedMenu,
     GameInfoMenu,
-    Playing
+    Playing,
+    PlayerDead
 }

@@ -8,7 +8,6 @@ public class DamageNumberMonoBehaviour : MonoBehaviour {
 
     private SignalFinishDelegate SignalFinish;
     private Text Text;
-    private float Alpha = 1f;
     private EnemyManager Manager;
 
 	void Start () {
