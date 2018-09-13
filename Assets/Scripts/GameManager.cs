@@ -259,6 +259,7 @@ public class GameManager : MonoBehaviour
     public void OnOpenPassives(GameStateType previousState, GameInputType inputType)
     {
         PassiveMenu.SetActive(true);
+        PassiveMenu.GetComponent<PassiveMenuController>().UpdateFields();
         Time.timeScale = 0;
     }
 
@@ -286,6 +287,54 @@ public class GameManager : MonoBehaviour
     public void QuitPressed()
     {
         Application.Quit();
+    }
+
+    public void UpgradeAttackDamage()
+    {
+        World.PlayerManager.UpgradeAttackDamage();
+        PassiveMenu.GetComponent<PassiveMenuController>().UpdateFields();
+    }
+
+    public void UpgradeAttackSpeed()
+    {
+        World.PlayerManager.UpgradeAttackSpeed();
+        PassiveMenu.GetComponent<PassiveMenuController>().UpdateFields();
+    }
+
+    public void UpgradeMoveSpeed()
+    {
+        World.PlayerManager.UpgradeMoveSpeed();
+        PassiveMenu.GetComponent<PassiveMenuController>().UpdateFields();
+    }
+
+    public void UpgradeSightRadius()
+    {
+        World.PlayerManager.UpgradeSightRadius();
+        PassiveMenu.GetComponent<PassiveMenuController>().UpdateFields();
+    }
+
+    public void UpgradeProjectileDamage()
+    {
+        World.PlayerManager.UpgradeProjectileDamage();
+        PassiveMenu.GetComponent<PassiveMenuController>().UpdateFields();
+    }
+
+    public void UpgradeMeleeAoe()
+    {
+        World.PlayerManager.UpgradeMeleeAoe();
+        PassiveMenu.GetComponent<PassiveMenuController>().UpdateFields();
+    }
+
+    public void UpgradeHealthRegen()
+    {
+        World.PlayerManager.UpgradeHealthRegen();
+        PassiveMenu.GetComponent<PassiveMenuController>().UpdateFields();
+    }
+
+    public void UpgradeStaminaRegen()
+    {
+        World.PlayerManager.UpgradeStaminaRegen();
+        PassiveMenu.GetComponent<PassiveMenuController>().UpdateFields();
     }
 
     public void OnPlayerDeath(GameStateType previousState, GameInputType inputType)

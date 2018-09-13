@@ -16,17 +16,17 @@ public class PlayerManager : CombatantManager
     private Cooldown AttackCooldown;
     private bool Dead;
 
-    private float AttackDamage = 1;
-    private float AttackSpeed = 1;
+    public float AttackDamage = 1;
+    public float AttackSpeed = 1;
     public float MoveSpeed = 5;
-    private float SightRadiusNear = 7;
-    private float SightRadiusFar = 11;
-    private float ProjectileDamage = 0.5f;
-    private float MeleeAoe = 1.5f;
+    public float SightRadiusNear = 7;
+    public float SightRadiusFar = 11;
+    public float ProjectileDamage = 0.5f;
+    public float MeleeAoe = 1.5f;
     public int MaxHealth = 10;
-    public int MaxMana = 5;
-    private float HealthRegen = 0.1f;
-    private float ManaRegen = 0.5f;
+    public int MaxStamina = 5;
+    public float HealthRegen = 0.1f;
+    public float StaminaRegen = 0.5f;
 
     public PlayerManager(World world)
     {
@@ -42,7 +42,7 @@ public class PlayerManager : CombatantManager
     {
         Dead = false;
         CurrentHealth = MaxHealth;
-        CurrentMana = MaxMana;
+        CurrentMana = MaxStamina;
         Sprinting = false;
         AttemptingSprint = false;
 
@@ -62,8 +62,8 @@ public class PlayerManager : CombatantManager
         {
             CurrentHealth += HealthRegen * deltaTime;
             CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
-            CurrentMana += ManaRegen * deltaTime;
-            CurrentMana = Mathf.Clamp(CurrentMana, 0, MaxMana);
+            CurrentMana += StaminaRegen * deltaTime;
+            CurrentMana = Mathf.Clamp(CurrentMana, 0, MaxStamina);
         }
     }
 
@@ -163,5 +163,87 @@ public class PlayerManager : CombatantManager
         CurrentHealth = 0;
         MonoBehaviour.Freeze();
         GameManager.Singleton.Input(GameInputType.PlayerDeath);
+    }
+
+    public float GetNextAttackDamage()
+    {
+        return AttackDamage * 1.1f;
+    }
+
+    public float GetNextAttackSpeed()
+    {
+        return AttackSpeed * 1.1f;
+    }
+
+    public float GetNextMoveSpeed()
+    {
+        return MoveSpeed * 1.1f;
+    }
+
+    public float GetNextSightRadius()
+    {
+        return SightRadiusNear * 1.1f;
+    }
+
+    public float GetNextProjectileDamage()
+    {
+        return ProjectileDamage * 1.1f;
+    }
+
+    public float GetNextMeleeAoe()
+    {
+        return MeleeAoe * 1.1f;
+    }
+
+    public float GetNextHealthRegen()
+    {
+        return HealthRegen * 1.1f;
+    }
+
+    public float GetNextStaminaRegen()
+    {
+        return StaminaRegen * 1.1f;
+    }
+
+    public void UpgradeAttackDamage()
+    {
+        AttackDamage = GetNextAttackDamage();
+    }
+
+    public void UpgradeAttackSpeed()
+    {
+        AttackSpeed = GetNextAttackSpeed();
+        AttackCooldown.Modify(1 / AttackSpeed);
+    }
+
+    public void UpgradeMoveSpeed()
+    {
+        MoveSpeed = GetNextMoveSpeed();
+    }
+
+    public void UpgradeSightRadius()
+    {
+        SightRadiusFar *= 1.1f;
+        SightRadiusNear *= 1.1f;
+    }
+
+    public void UpgradeProjectileDamage()
+    {
+        ProjectileDamage = GetNextProjectileDamage();
+    }
+
+    public void UpgradeMeleeAoe()
+    {
+        MeleeAoe = GetNextMeleeAoe();
+    }
+
+    public void UpgradeHealthRegen()
+    {
+        HealthRegen = GetNextHealthRegen();
+    }
+
+    public void UpgradeStaminaRegen()
+    {
+        StaminaRegen = GetNextStaminaRegen();
     }
 }

@@ -18,7 +18,7 @@ public class ManaTextController : MonoBehaviour
         {
             float mana = Player.CurrentMana;
             mana = Mathf.Floor(mana * 10) / 10;
-            Text.text = mana.ToString() + "/" + Player.MaxMana.ToString();
+            Text.text = mana.ToString() + "/" + Player.MaxStamina.ToString();
         }
         else
         {

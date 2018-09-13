@@ -15,7 +15,7 @@ public class ManaBarController : MonoBehaviour
     {
         if (PlayerInitialized)
         {
-            Rect.localScale = new Vector2(Player.CurrentMana / Player.MaxMana, 1);
+            Rect.localScale = new Vector2(Player.CurrentMana / Player.MaxStamina, 1);
         }
         else
         {

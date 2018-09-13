@@ -1490,12 +1490,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442391847}
-        m_MethodName: 
+      - m_Target: {fileID: 1442391848}
+        m_MethodName: UpgradeAttackSpeed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2132,12 +2132,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442391847}
-        m_MethodName: 
+      - m_Target: {fileID: 1442391848}
+        m_MethodName: UpgradeAttackDamage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5929,12 +5929,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442391847}
-        m_MethodName: 
+      - m_Target: {fileID: 1442391848}
+        m_MethodName: UpgradeMoveSpeed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -6330,6 +6330,7 @@ MonoBehaviour:
   UPSText: {fileID: 284655217}
   GameObjectText: {fileID: 1329438534}
   LevelUpText: {fileID: 69834675}
+  PassiveMenu: {fileID: 1567625273}
   GameObjectCount: 0
   PlayerCamera: {fileID: 0}
 --- !u!4 &1442391849
@@ -6825,6 +6826,7 @@ GameObject:
   - component: {fileID: 1567625276}
   - component: {fileID: 1567625275}
   - component: {fileID: 1567625274}
+  - component: {fileID: 1567625278}
   m_Layer: 5
   m_Name: Passives
   m_TagString: Untagged
@@ -6920,6 +6922,33 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1567625278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1567625273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ea930783ffcf9244900b8bc58cd5671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackDamageCurrentField: {fileID: 1024711288}
+  AttackDamageNextField: {fileID: 40093981}
+  AttackSpeedCurrentField: {fileID: 1504982108}
+  AttackSpeedNextField: {fileID: 457010446}
+  MoveSpeedCurrentField: {fileID: 1500058035}
+  MoveSpeedNextField: {fileID: 958345429}
+  SightRadiusCurrentField: {fileID: 1703993795}
+  SightRadiusNextField: {fileID: 2140661789}
+  ProjectileDamageCurrentField: {fileID: 1625567744}
+  ProjectileDamageNextField: {fileID: 1894644930}
+  MeleeAoeCurrentField: {fileID: 1012980788}
+  MeleeAoeNextField: {fileID: 1415723557}
+  HealthRegenCurrentField: {fileID: 482195951}
+  HealthRegenNextField: {fileID: 1465451111}
+  StaminaRegenCurrentField: {fileID: 1199874253}
+  StaminaRegenNextField: {fileID: 1117705183}
 --- !u!1 &1572026029
 GameObject:
   m_ObjectHideFlags: 0
@@ -6995,12 +7024,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442391847}
-        m_MethodName: 
+      - m_Target: {fileID: 1442391848}
+        m_MethodName: UpgradeMeleeAoe
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -7117,12 +7146,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442391847}
-        m_MethodName: 
+      - m_Target: {fileID: 1442391848}
+        m_MethodName: UpgradeStaminaRegen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -7435,12 +7464,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442391847}
-        m_MethodName: 
+      - m_Target: {fileID: 1442391848}
+        m_MethodName: UpgradeProjectileDamage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -9223,12 +9252,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442391847}
-        m_MethodName: 
+      - m_Target: {fileID: 1442391848}
+        m_MethodName: UpgradeHealthRegen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -9920,12 +9949,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442391847}
-        m_MethodName: 
+      - m_Target: {fileID: 1442391848}
+        m_MethodName: UpgradeSightRadius
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
