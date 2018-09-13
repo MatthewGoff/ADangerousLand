@@ -19,7 +19,7 @@ public class SlashMonoBehaviour : MonoBehaviour
     {
         for (float i=0; i<Lifetime; i+=Time.deltaTime)
         {
-            if (i == 2)
+            if (i >= 3*Time.deltaTime)
             {
                 Destroy(GetComponent<PolygonCollider2D>());
             }

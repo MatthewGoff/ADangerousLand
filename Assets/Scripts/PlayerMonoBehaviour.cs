@@ -38,6 +38,10 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
     {
         Destroy(Sprite);
         Destroy(gameObject);
+        for (int i=0; i<SprintFrames; i++)
+        {
+            Destroy(SprintSprites[i]);
+        }
     }
 
     public void Update()
