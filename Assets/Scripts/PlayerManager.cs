@@ -14,7 +14,7 @@ public class PlayerManager : CombatantManager
     public float ManaRegen;
     public int Experience;
     public int Level;
-    public bool Sprint;
+    public bool Sprinting;
 
     private Cooldown AttackCooldown;
     private bool Dead;
@@ -96,7 +96,7 @@ public class PlayerManager : CombatantManager
     public bool AttemptSprint()
     {
         float manaCost = 1 * Time.fixedDeltaTime;
-        if (Sprint && CurrentMana >= manaCost)
+        if (Sprinting && CurrentMana >= manaCost)
         {
             CurrentMana -= manaCost;
             return true;

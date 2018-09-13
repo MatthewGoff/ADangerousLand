@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using System.Collections;
+using System;
 
 public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
 {
@@ -9,13 +10,28 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
     private Vector2 MoveTarget;
     private PlayerManager Manager;
     private Animator Animator;
+    private readonly int SprintFrames = 10;
+    private readonly float SprintDelay = 0.01f;
+    private readonly float SprintMinAlpha = 0.0f;
+    private GameObject[] SprintSprites;
+    private Vector2[] SprintPositions;
 
     public void Start()
     {
         Sprite = GameObject.Instantiate(Sprite, transform.position, Quaternion.identity);
+        SprintSprites = new GameObject[SprintFrames];
+        SprintPositions = new Vector2[SprintFrames];
+        for (int i = 0; i < SprintFrames; i++)
+        {
+            SprintSprites[i] = GameObject.Instantiate(Sprite, transform.position, Quaternion.identity);
+            SprintSprites[i].GetComponent<SpriteRenderer>().sortingOrder = -i-1;
+            SprintSprites[i].GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1 - (1 - SprintMinAlpha) * i / (float)SprintFrames);
+            SprintPositions[i] = transform.position;
+        }
         Animator = Sprite.GetComponent<Animator>();
         RB2D = GetComponent<Rigidbody2D>();
         MoveTarget = RB2D.position;
+        StartCoroutine("LaySprintSprites");
     }
 
     public void Destroy()
@@ -48,50 +64,111 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
             Manager.BoltAttack(attackTarget);
         }
 
-        Manager.Sprint = Input.GetKey(KeyCode.LeftShift);
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            ResetSprintSprites();
+        }
+
+        Manager.Sprinting = Input.GetKey(KeyCode.LeftShift) && GameManager.Singleton.GameIsLive;
     }
 
     public void FixedUpdate()
     {
         Vector2 movementVector = MoveTarget - RB2D.position;
-        float angle = Vector2.SignedAngle(new Vector2(1, 0), movementVector);
         if (movementVector.magnitude > 1.0f)
         {
             movementVector.Normalize();
         }
+                
         float movementMultiplier = Manager.World.MovementMultiplier(new WorldLocation(Util.RoundVector2(RB2D.position)));
-        if (Manager.AttemptSprint())
+        bool Sprinting = Manager.AttemptSprint();
+        if (Sprinting)
         {
-            movementMultiplier *= 2;
+            movementMultiplier *= 3;
+            EnableSprintSprites();
+        }
+        else
+        {
+            DisableSprintSprites();
         }
         RB2D.MovePosition(RB2D.position + movementVector * Manager.MoveSpeed * movementMultiplier * Time.fixedDeltaTime);
 
         Animator.SetFloat("Multiplier", movementMultiplier * Manager.MoveSpeed / 5f);
+        float angle = Vector2.SignedAngle(new Vector2(1, 0), movementVector);
         if (movementVector.magnitude <= 0.05f)
         {
-            Animator.SetTrigger("Idleing");
+            TriggerAnimation("Idleing");
         }
         else if (Mathf.Abs(angle) < 45)
         {
-            Animator.SetTrigger("WalkingRight");
+            TriggerAnimation("WalkingRight");
         }
         else if (Mathf.Abs(angle) > 135)
         {
-            Animator.SetTrigger("WalkingLeft");
+            TriggerAnimation("WalkingLeft");
         }
         else if (angle > 0)
         {
-            Animator.SetTrigger("WalkingBackwards");
+            TriggerAnimation("WalkingBackwards");
         }
         else
         {
-            Animator.SetTrigger("WalkingForwards");
+            TriggerAnimation("WalkingForwards");
+        }
+    }
+
+    private void ResetSprintSprites()
+    {
+        for (int i = 0; i < SprintFrames; i++)
+        {
+            SprintPositions[i] = transform.position;
+        }
+    }
+
+    private void EnableSprintSprites()
+    {
+        for (int i=0; i<SprintFrames; i++)
+        {
+            SprintSprites[i].SetActive(true);
+        }
+    }
+
+    private void DisableSprintSprites()
+    {
+        for (int i = 0; i < SprintFrames; i++)
+        {
+            SprintSprites[i].SetActive(false);
+        }
+    }
+
+    public void TriggerAnimation(String trigger)
+    {
+        Animator.SetTrigger(trigger);
+        for (int i=0; i<SprintFrames; i++)
+        {
+            if (SprintSprites[i].activeSelf) {
+                SprintSprites[i].GetComponent<Animator>().SetTrigger(trigger);
+            }
         }
     }
 
     private void LateUpdate()
     {
         Sprite.transform.position = Util.RoundToPixel(transform.position, Configuration.PIXELS_PER_UNIT);
+    }
+    
+    private IEnumerator LaySprintSprites()
+    {
+        while (true)
+        {
+            Array.Copy(SprintPositions, 0, SprintPositions, 1, SprintFrames-1);
+            SprintPositions[0] = transform.position;
+            for (int i=0; i< SprintFrames; i++)
+            {
+                SprintSprites[i].transform.position = SprintPositions[i];
+            }
+            yield return new WaitForSeconds(SprintDelay);
+        }
     }
 
     public Vector2 GetPlayerPosition()
