@@ -30,12 +30,13 @@ public class GameManager : MonoBehaviour
     public GameObject HUD;
     public GameObject DeathScreen;
     public GameObject DeathBackground;
-
-    // GameStats
     public GameObject GameStatsCanvas;
     public GameObject FPSText;
     public GameObject UPSText;
     public GameObject GameObjectText;
+    public GameObject LevelUpText;
+
+    // GameStats
     public int GameObjectCount = 0;
     private Queue<float> FPSQueue;
     private Queue<float> UPSQueue;
@@ -192,6 +193,36 @@ public class GameManager : MonoBehaviour
         {
             UPSQueue.Dequeue();
         }
+    }
+
+    public void LevelUp()
+    {
+        StartCoroutine("ShowLevelUp");
+    }
+
+    private IEnumerator ShowLevelUp()
+    {
+        LevelUpText.GetComponent<Text>().text = "Level " + World.PlayerManager.Level.ToString() + "!";
+        LevelUpText.GetComponent<Text>().color = new Color(1,1,1,1);
+        LevelUpText.SetActive(true);
+        float duration = 2f;
+        for (float i = 0f; i<duration; i+=Time.deltaTime)
+        {
+            yield return null;
+        }
+        StartCoroutine("FadeLevelUp");
+    }
+
+    private IEnumerator FadeLevelUp()
+    {
+        float duration = 3f;
+        Text text = LevelUpText.GetComponent<Text>();
+        for (float i = 0f; i < duration; i += Time.deltaTime)
+        {
+            text.color = new Color(1, 1, 1, 1 - (i/duration));
+            yield return null;
+        }
+        LevelUpText.SetActive(false);
     }
 
     public void Input(GameInputType inputType)

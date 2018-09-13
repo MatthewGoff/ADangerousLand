@@ -20,14 +20,23 @@ public class Configuration
 
     //Player
     public static readonly float DEFAULT_MOVE_SPEED = 5f;
+    public static readonly int[] LEVEL_EXPERIENCE = new int[]
+    {
+        0,
+        0,
+        1,
+        5,
+        12,
+        25,
+        50,
+        100,
+        200
+    };
 
     //Fog
     public static float FOG_OUTER_RADIUS = 11;
     public static float FOG_INNER_RADIUS = 7;
     public static readonly float FOG_ALPHA = 0.5f;
-
-    //Enemies
-    public static readonly int ENEMIES_PER_CHUNK = 4;
 
     //Damage Numbers
     public static readonly int DAMAGE_NUMBERS_HEIGHT = 100;
@@ -36,4 +45,5 @@ public class Configuration
     //Display
     public static readonly int PIXELS_PER_UNIT = 32;
     public static readonly float DEATH_DURATION = 3f;
+
 }

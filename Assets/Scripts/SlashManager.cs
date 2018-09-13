@@ -17,7 +17,8 @@ public class SlashManager
     {
         if (other.Team != Originator.Team)
         {
-            other.RecieveHit();
+            int exp = other.RecieveHit();
+            Originator.RecieveExp(exp);
         }
     }
 }

@@ -20,16 +20,24 @@ public class Chunk
     private readonly Tile[,] Tiles;
     private readonly Queue<PostInitAction> PostInitActions;
 
+    private int MaxEnemies;
+
     public Chunk(World world, ChunkIndex chunkIndex)
     {
         World = world;
         ChunkIndex = chunkIndex;
+        MaxEnemies = DecideMaxEnemies();
         ImportedRivers = new List<RiverPackage>();
         RiverNodes = CreateRiverNodes();
         Tiles = CreateTiles();
         ResidentEnemies = new List<EnemyManager>();
         UnocupiedTiles = new List<WorldLocation>();
         PostInitActions = new Queue<PostInitAction>();
+    }
+
+    private int DecideMaxEnemies()
+    {
+        return Mathf.FloorToInt((new Vector2(ChunkIndex.X, ChunkIndex.Y)).magnitude)-1;
     }
 
     public void Update(Treadmill treadmill)
@@ -91,7 +99,7 @@ public class Chunk
         }
         else
         {
-            while ((ResidentEnemies.Count < Configuration.ENEMIES_PER_CHUNK) && (UnocupiedTiles.Count != 0))
+            while ((ResidentEnemies.Count < MaxEnemies) && (UnocupiedTiles.Count != 0))
             {
                 SpawnEnemy();
             }

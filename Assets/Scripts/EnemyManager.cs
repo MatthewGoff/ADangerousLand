@@ -6,7 +6,7 @@ public class EnemyManager : CombatantManager
     public Vector2 Position { get; private set; }
     public readonly World World;
     public readonly EnemyAI AI;
-    public readonly float MoveSpeed = 4f;
+    public readonly float MoveSpeed = 3.5f;
     public EnemyMonoBehaviour MonoBehaviour;
 
     private int MaxHealth;
@@ -15,6 +15,7 @@ public class EnemyManager : CombatantManager
     private DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;
     private Chunk CurrentChunk;
     private Cooldown SlashCooldown;
+    private readonly int Exp = 1;
 
     public EnemyManager(World world, WorldLocation worldLocation, Chunk chunk)
     {
@@ -23,7 +24,7 @@ public class EnemyManager : CombatantManager
         Position = new Vector2(worldLocation.X, worldLocation.Y);
         CurrentChunk = chunk;
         AI = new EnemyAI(this);
-        MaxHealth = 10;
+        MaxHealth = 5;
         CurrentHealth = MaxHealth;
         Team = 1;
     }
@@ -98,7 +99,7 @@ public class EnemyManager : CombatantManager
         CurrentChunk.EnemyHasDied(this);
     }
 
-    public override void RecieveHit()
+    public override int RecieveHit()
     {
         DamageNumbersCanvas.Log("1");
 
@@ -107,7 +108,17 @@ public class EnemyManager : CombatantManager
         if (CurrentHealth <= 0)
         {
             Die();
+            return Exp;
         }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public override void RecieveExp(int exp)
+    {
+
     }
 
     public void SlashAttack(Vector2 attackTarget)

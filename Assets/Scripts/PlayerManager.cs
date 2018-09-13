@@ -12,6 +12,9 @@ public class PlayerManager : CombatantManager
     public int MaxMana;
     public float CurrentMana;
     public float ManaRegen;
+    public int Experience;
+    public int Level;
+    public bool Sprint;
 
     private Cooldown AttackCooldown;
     private bool Dead;
@@ -23,10 +26,12 @@ public class PlayerManager : CombatantManager
 
         MaxHealth = 10;
         HealthRegen = 0.1f;
-        MaxMana = 10;
+        MaxMana = 5;
         ManaRegen = 0.5f;
 
         Team = 0;
+        Experience = 0;
+        Level = 1;
     }
 
     public void Spawn(WorldLocation spawnLocation)
@@ -88,12 +93,37 @@ public class PlayerManager : CombatantManager
         }
     }
 
-    public override void RecieveHit()
+    public bool AttemptSprint()
     {
-        CurrentHealth--;
+        float manaCost = 1 * Time.fixedDeltaTime;
+        if (Sprint && CurrentMana >= manaCost)
+        {
+            CurrentMana -= manaCost;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public override int RecieveHit()
+    {
+        CurrentHealth -= 0.5f;
         if (CurrentHealth <= 0)
         {
             Die();
+        }
+        return 0;
+    }
+
+    public override void RecieveExp(int exp)
+    {
+        Experience += exp;
+        if (Experience >= Configuration.LEVEL_EXPERIENCE[Level+1])
+        {
+            Level++;
+            GameManager.Singleton.LevelUp();
         }
     }
 

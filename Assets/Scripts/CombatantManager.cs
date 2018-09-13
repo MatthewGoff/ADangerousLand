@@ -2,5 +2,6 @@
 {
     public int Team;
 
-    public abstract void RecieveHit();
+    public abstract int RecieveHit();
+    public abstract void RecieveExp(int exp);
 }
