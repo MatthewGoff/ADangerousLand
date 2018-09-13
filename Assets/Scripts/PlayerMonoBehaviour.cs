@@ -69,6 +69,12 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
             ResetSprintSprites();
         }
 
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            Configuration.FOG_INNER_RADIUS = 7f;
+            Configuration.FOG_OUTER_RADIUS = 11f;
+        }
+
         Manager.Sprinting = Input.GetKey(KeyCode.LeftShift) && GameManager.Singleton.GameIsLive;
     }
 

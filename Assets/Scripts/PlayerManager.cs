@@ -99,6 +99,8 @@ public class PlayerManager : CombatantManager
         if (Sprinting && CurrentMana >= manaCost)
         {
             CurrentMana -= manaCost;
+            Configuration.FOG_INNER_RADIUS = 3.5f;
+            Configuration.FOG_OUTER_RADIUS = 5.5f;
             return true;
         }
         else
