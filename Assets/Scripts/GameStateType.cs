@@ -5,5 +5,6 @@
     PausedMenu,
     GameInfoMenu,
     Playing,
-    PlayerDead
+    PlayerDead,
+    PassiveMenu
 }

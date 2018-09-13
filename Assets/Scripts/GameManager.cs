@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     public GameObject UPSText;
     public GameObject GameObjectText;
     public GameObject LevelUpText;
+    public GameObject PassiveMenu;
 
     // GameStats
     public int GameObjectCount = 0;
@@ -118,6 +119,7 @@ public class GameManager : MonoBehaviour
         stateMachine.AddState(GameStateType.PausedMenu, false);
         stateMachine.AddState(GameStateType.GameInfoMenu, false);
         stateMachine.AddState(GameStateType.PlayerDead, false);
+        stateMachine.AddState(GameStateType.PassiveMenu, false);
 
         // Loading
         stateMachine.AddTransition(GameStateType.Loading, GameStateType.Playing, GameInputType.FinishedLoading);
@@ -126,6 +128,7 @@ public class GameManager : MonoBehaviour
         // Playing
         stateMachine.AddTransition(GameStateType.Playing, GameStateType.PausedMenu, GameInputType.Pause);
         stateMachine.AddTransition(GameStateType.Playing, GameStateType.PlayerDead, GameInputType.PlayerDeath);
+        stateMachine.AddTransition(GameStateType.Playing, GameStateType.PassiveMenu, GameInputType.PassiveMenu);
 
         // Paused Menu
         stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.Playing, GameInputType.Pause);
@@ -143,6 +146,11 @@ public class GameManager : MonoBehaviour
         stateMachine.AddTransition(GameStateType.PlayerDead, GameStateType.Playing, GameInputType.PlayerRespawn);
         stateMachine.OnEnter(GameStateType.PlayerDead, OnPlayerDeath);
 
+        // Passive Menu
+        stateMachine.AddTransition(GameStateType.PassiveMenu, GameStateType.Playing, GameInputType.PassiveMenu);
+        stateMachine.OnEnter(GameStateType.PassiveMenu, OnOpenPassives);
+        stateMachine.OnExit(GameStateType.PassiveMenu, OnClosePassives);
+
         return stateMachine;
     }
 
@@ -156,6 +164,11 @@ public class GameManager : MonoBehaviour
         {
             GameStatsCanvas.SetActive(!GameStatsCanvas.activeInHierarchy);
         }
+        if (UnityEngine.Input.GetKeyUp(KeyCode.P))
+        {
+            Input(GameInputType.PassiveMenu);
+        }
+
         GameObjectsQueue.Enqueue(GameObjectCount);
         if (GameObjectsQueue.Count > 10)
         {
@@ -166,6 +179,7 @@ public class GameManager : MonoBehaviour
         {
             FPSQueue.Dequeue();
         }
+
         World.Update();
     }
 
@@ -220,11 +234,13 @@ public class GameManager : MonoBehaviour
 
     public void OnPause(GameStateType previousState, GameInputType inputType)
     {
+        Time.timeScale = 0;
         PausedMenu.SetActive(true);
     }
 
     public void OnResume(GameInputType intputType, GameStateType nextState)
     {
+        Time.timeScale = 1;
         PausedMenu.SetActive(false);
     }
 
@@ -238,6 +254,18 @@ public class GameManager : MonoBehaviour
     public void OnCloseGameInfo(GameInputType inputType, GameStateType nextState)
     {
         GameInfo.SetActive(false);
+    }
+
+    public void OnOpenPassives(GameStateType previousState, GameInputType inputType)
+    {
+        PassiveMenu.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void OnClosePassives(GameInputType intputType, GameStateType nextState)
+    {
+        PassiveMenu.SetActive(false);
+        Time.timeScale = 1;
     }
 
     public void ResumePressed()

@@ -6,5 +6,6 @@
     CloseGameInfoMenu,
     FinishedLoading,
     PlayerDeath,
-    PlayerRespawn
+    PlayerRespawn,
+    PassiveMenu,
 }
