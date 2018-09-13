@@ -1,16 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SlashManager
 {
     private CombatantManager Originator;
 
-    public SlashManager(CombatantManager originator, Vector2 position, Quaternion angle, float aoe)
+    public SlashManager(CombatantManager originator, Vector2 position, float angle, float aoe)
     {
         Originator = originator;
 
-        GameObject slash = GameObject.Instantiate(Prefabs.SLASH_PREFAB, position, angle);
+        GameObject slash = GameObject.Instantiate(Prefabs.SLASH_PREFAB, position, Quaternion.Euler(0, 0, angle));
         slash.transform.localScale = new Vector3(aoe, aoe, 1);
         slash.GetComponent<SlashMonoBehaviour>().AssignManager(this);
     }

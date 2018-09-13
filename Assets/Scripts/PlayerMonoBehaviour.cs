@@ -40,6 +40,13 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
             
             Manager.SlashAttack(attackTarget);
         }
+
+        if (Input.GetMouseButton(2) && Camera != null && GameManager.Singleton.GameIsLive)
+        {
+            Vector2 attackTarget = Camera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
+
+            Manager.BoltAttack(attackTarget);
+        }
     }
 
     public void FixedUpdate()

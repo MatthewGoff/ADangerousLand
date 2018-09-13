@@ -13,12 +13,12 @@ public class PlayerManager : CombatantManager
     public float CurrentMana;
     public float ManaRegen;
 
-    private Cooldown SlashCooldown;
+    private Cooldown AttackCooldown;
     private bool Dead;
 
     public PlayerManager(World world)
     {
-        SlashCooldown = new Cooldown(1f);
+        AttackCooldown = new Cooldown(1f);
         World = world;
 
         MaxHealth = 10;
@@ -63,15 +63,28 @@ public class PlayerManager : CombatantManager
 
     public void SlashAttack(Vector2 attackTarget)
     {
-        if (CurrentMana >= 1f && SlashCooldown.Use())
+        if (CurrentMana >= 1f && AttackCooldown.Use())
         {
             Vector2 attackPosition = MonoBehaviour.transform.position;
             Vector2 attackVector = attackTarget - attackPosition;
-            Quaternion attackAngle = Quaternion.Euler(0, 0, -Vector2.SignedAngle(attackVector, new Vector2(-1, 1)));
+            float attackAngle = Vector2.SignedAngle(Vector2.right, attackVector);
             float aoe = 2f;
 
             CurrentMana -= 1;
             SlashManager slash = new SlashManager(this, attackPosition, attackAngle, aoe);
+        }
+    }
+
+    public void BoltAttack(Vector2 attackTarget)
+    {
+        if (CurrentMana >= 1f && AttackCooldown.Use())
+        {
+            Vector2 attackPosition = MonoBehaviour.transform.position;
+            Vector2 attackVector = attackTarget - attackPosition;
+            float attackAngle = Vector2.SignedAngle(Vector2.right, attackVector);
+
+            CurrentMana -= 1;
+            BoltManager slash = new BoltManager(this, attackPosition, attackAngle);
         }
     }
 

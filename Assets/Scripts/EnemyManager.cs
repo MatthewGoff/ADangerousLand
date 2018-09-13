@@ -116,7 +116,7 @@ public class EnemyManager : CombatantManager
         {
             Vector2 attackPosition = MonoBehaviour.transform.position;
             Vector2 attackVector = attackTarget - attackPosition;
-            Quaternion attackAngle = Quaternion.Euler(0, 0, -Vector2.SignedAngle(attackVector, new Vector2(-1, 1)));
+            float attackAngle = Vector2.SignedAngle(Vector2.right, attackVector);
             float aoe = 2f;
 
             SlashManager slash = new SlashManager(this, attackPosition, attackAngle, aoe);

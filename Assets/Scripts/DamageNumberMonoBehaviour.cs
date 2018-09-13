@@ -27,7 +27,7 @@ public class DamageNumberMonoBehaviour : MonoBehaviour {
             float fogAlpha = Manager.World.GetVisibilityLevel(transform.position);
             color.a = fadeAlpha * fogAlpha;
             Text.color = color;
-            yield return new WaitForSeconds(1f/60);
+            yield return null;
         }
         SignalFinish();
         Destroy(gameObject);
