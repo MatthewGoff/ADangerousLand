@@ -3,6 +3,17 @@ using UnityEngine.UI;
 
 public class PassiveMenuController : MonoBehaviour {
 
+    public GameObject RemainingPoints;
+
+    public GameObject AttackDamageButton;
+    public GameObject AttackSpeedButton;
+    public GameObject MovementSpeedButton;
+    public GameObject SightRadiusButton;
+    public GameObject ProjectileDamageButton;
+    public GameObject MeleeAoeButton;
+    public GameObject HeathRegenButton;
+    public GameObject StaminaRegenButton;
+
     public GameObject AttackDamageCurrentField;
     public GameObject AttackDamageNextField;
     public GameObject AttackSpeedCurrentField;
@@ -59,13 +70,43 @@ public class PassiveMenuController : MonoBehaviour {
 
 	}
 
-	public void UpdateFields () {
+	public void UpdateUI () {
         if (!Initialized)
         {
             Initialize();
             Initialized = true;
         }
-		AttackDamageCurrentText.text = GameManager.Singleton.World.PlayerManager.AttackDamage.ToString();
+
+        if (GameManager.Singleton.World.PlayerManager.PassivePoints == 0)
+        {
+            RemainingPoints.SetActive(false);
+
+            AttackDamageButton.SetActive(false);
+            AttackSpeedButton.SetActive(false);
+            MovementSpeedButton.SetActive(false);
+            SightRadiusButton.SetActive(false);
+            ProjectileDamageButton.SetActive(false);
+            MeleeAoeButton.SetActive(false);
+            HeathRegenButton.SetActive(false);
+            StaminaRegenButton.SetActive(false);
+        }
+        else
+        {
+            RemainingPoints.SetActive(true);
+            RemainingPoints.GetComponent<Text>().text = GameManager.Singleton.World.PlayerManager.PassivePoints.ToString() + " Points Remaining!";
+
+            AttackDamageButton.SetActive(true);
+            AttackSpeedButton.SetActive(true);
+            MovementSpeedButton.SetActive(true);
+            SightRadiusButton.SetActive(true);
+            ProjectileDamageButton.SetActive(true);
+            MeleeAoeButton.SetActive(true);
+            HeathRegenButton.SetActive(true);
+            StaminaRegenButton.SetActive(true);
+        }
+
+
+        AttackDamageCurrentText.text = GameManager.Singleton.World.PlayerManager.AttackDamage.ToString();
         AttackDamageNextText.text = GameManager.Singleton.World.PlayerManager.GetNextAttackDamage().ToString();
         AttackSpeedCurrentText.text = GameManager.Singleton.World.PlayerManager.AttackSpeed.ToString();
         AttackSpeedNextText.text = GameManager.Singleton.World.PlayerManager.GetNextAttackSpeed().ToString();

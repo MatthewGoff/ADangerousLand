@@ -6933,6 +6933,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ea930783ffcf9244900b8bc58cd5671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RemainingPoints: {fileID: 440379698}
+  AttackDamageButton: {fileID: 422116322}
+  AttackSpeedButton: {fileID: 260948408}
+  MovementSpeedButton: {fileID: 1355432290}
+  SightRadiusButton: {fileID: 2134159003}
+  ProjectileDamageButton: {fileID: 1598130161}
+  MeleeAoeButton: {fileID: 1572026029}
+  HeathRegenButton: {fileID: 2009013146}
+  StaminaRegenButton: {fileID: 1585005490}
   AttackDamageCurrentField: {fileID: 1024711288}
   AttackDamageNextField: {fileID: 40093981}
   AttackSpeedCurrentField: {fileID: 1504982108}

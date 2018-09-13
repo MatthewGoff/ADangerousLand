@@ -27,6 +27,7 @@ public class PlayerManager : CombatantManager
     public int MaxStamina = 5;
     public float HealthRegen = 0.1f;
     public float StaminaRegen = 0.5f;
+    public int PassivePoints = 0;
 
     public PlayerManager(World world)
     {
@@ -153,6 +154,7 @@ public class PlayerManager : CombatantManager
         if (Experience >= Configuration.GetLevelExperience(Level+1))
         {
             Level++;
+            PassivePoints += Configuration.GetLevelSkillPoints(Level);
             GameManager.Singleton.LevelUp();
         }
     }
@@ -207,43 +209,75 @@ public class PlayerManager : CombatantManager
 
     public void UpgradeAttackDamage()
     {
-        AttackDamage = GetNextAttackDamage();
+        if (PassivePoints > 0)
+        {
+            PassivePoints--;
+            AttackDamage = GetNextAttackDamage();
+        }
     }
 
     public void UpgradeAttackSpeed()
     {
-        AttackSpeed = GetNextAttackSpeed();
-        AttackCooldown.Modify(1 / AttackSpeed);
+        if (PassivePoints > 0)
+        {
+            PassivePoints--;
+            AttackSpeed = GetNextAttackSpeed();
+            AttackCooldown.Modify(1 / AttackSpeed);
+        }
     }
 
     public void UpgradeMoveSpeed()
     {
-        MoveSpeed = GetNextMoveSpeed();
+        if (PassivePoints > 0)
+        {
+            PassivePoints--;
+            MoveSpeed = GetNextMoveSpeed();
+        }
     }
 
     public void UpgradeSightRadius()
     {
-        SightRadiusFar *= 1.1f;
-        SightRadiusNear *= 1.1f;
+        if (PassivePoints > 0)
+        {
+            PassivePoints--;
+            SightRadiusFar *= 1.1f;
+            SightRadiusNear *= 1.1f;
+        }
     }
 
     public void UpgradeProjectileDamage()
     {
-        ProjectileDamage = GetNextProjectileDamage();
+        if (PassivePoints > 0)
+        {
+            PassivePoints--;
+            ProjectileDamage = GetNextProjectileDamage();
+        }
     }
 
     public void UpgradeMeleeAoe()
     {
-        MeleeAoe = GetNextMeleeAoe();
+        if (PassivePoints > 0)
+        {
+            PassivePoints--;
+            MeleeAoe = GetNextMeleeAoe();
+        }
     }
 
     public void UpgradeHealthRegen()
     {
-        HealthRegen = GetNextHealthRegen();
+        if (PassivePoints > 0)
+        {
+            PassivePoints--;
+            HealthRegen = GetNextHealthRegen();
+        }
     }
 
     public void UpgradeStaminaRegen()
     {
-        StaminaRegen = GetNextStaminaRegen();
+        if (PassivePoints > 0)
+        {
+            PassivePoints--;
+            StaminaRegen = GetNextStaminaRegen();
+        }
     }
 }
