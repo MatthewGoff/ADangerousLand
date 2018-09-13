@@ -35,12 +35,12 @@ public class Configuration
         if (level == 0) { return 0; }
         else if (level == 1) { return 0; }
         else if (level == 2) { return 1; }
-        else if (level == 4) { return 5; }
-        else if (level == 5) { return 12; }
-        else if (level == 6) { return 25; }
-        else if (level == 7) { return 50; }
-        else if (level == 8) { return 100; }
-        else if (level == 9) { return 200; }
+        else if (level == 3) { return 5; }
+        else if (level == 4) { return 12; }
+        else if (level == 5) { return 25; }
+        else if (level == 6) { return 50; }
+        else if (level == 7) { return 100; }
+        else if (level == 8) { return 200; }
         else { return 200; }
     }
     public static int GetLevelSkillPoints(int level)
@@ -48,12 +48,12 @@ public class Configuration
         if (level == 0) { return 0; }
         else if (level == 1) { return 0; }
         else if (level == 2) { return 1; }
-        else if (level == 4) { return 2; }
-        else if (level == 5) { return 4; }
-        else if (level == 6) { return 8; }
-        else if (level == 7) { return 15; }
-        else if (level == 8) { return 25; }
-        else if (level == 9) { return 50; }
+        else if (level == 3) { return 2; }
+        else if (level == 4) { return 4; }
+        else if (level == 5) { return 8; }
+        else if (level == 6) { return 15; }
+        else if (level == 7) { return 25; }
+        else if (level == 8) { return 50; }
         else { return 50; }
     }
 

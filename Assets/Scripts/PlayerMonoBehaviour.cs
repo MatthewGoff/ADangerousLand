@@ -49,6 +49,11 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
         Manager.Update(Time.deltaTime);
         GameObject Camera = GameManager.Singleton.PlayerCamera;
 
+        if (Input.GetKeyDown(KeyCode.Space) && GameManager.Singleton.GameIsLive)
+        {
+            Manager.WeaponSwap();
+        }
+
         if (Input.GetMouseButton(0) && Camera != null && GameManager.Singleton.GameIsLive)
         {
             MoveTarget = Camera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
@@ -58,14 +63,15 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
         {
             Vector2 attackTarget = Camera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
 
-            Manager.SlashAttack(attackTarget);
-        }
-
-        if (Input.GetMouseButton(2) && Camera != null && GameManager.Singleton.GameIsLive)
-        {
-            Vector2 attackTarget = Camera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
-
-            Manager.BoltAttack(attackTarget);
+            if (Manager.AttackType == 0)
+            {
+                Manager.SlashAttack(attackTarget);
+            }
+            else if (Manager.AttackType == 1)
+            {
+                Manager.BoltAttack(attackTarget);
+            }
+            
         }
 
         Manager.AttemptingSprint = Input.GetKey(KeyCode.LeftShift) && GameManager.Singleton.GameIsLive;

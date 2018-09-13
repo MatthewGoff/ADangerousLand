@@ -12,6 +12,7 @@ public class PlayerManager : CombatantManager
     public int Level;
     public bool AttemptingSprint;
     public bool Sprinting;
+    public int AttackType = 0;
 
     private Cooldown AttackCooldown;
     private bool Dead;
@@ -71,6 +72,11 @@ public class PlayerManager : CombatantManager
     public Vector2 GetPlayerPosition()
     {
         return MonoBehaviour.transform.position;
+    }
+
+    public void WeaponSwap()
+    {
+        AttackType = (AttackType + 1) % 2;
     }
 
     public void SlashAttack(Vector2 attackTarget)
