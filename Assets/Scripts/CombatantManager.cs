@@ -2,6 +2,6 @@
 {
     public int Team;
 
-    public abstract int RecieveHit();
+    public abstract int RecieveHit(float damage);
     public abstract void RecieveExp(int exp);
 }

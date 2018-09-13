@@ -99,11 +99,11 @@ public class EnemyManager : CombatantManager
         CurrentChunk.EnemyHasDied(this);
     }
 
-    public override int RecieveHit()
+    public override int RecieveHit(float damage)
     {
-        DamageNumbersCanvas.Log("1");
+        DamageNumbersCanvas.Log(damage.ToString());
 
-        CurrentHealth--;
+        CurrentHealth -= damage;
         UpdateHealthBar();
         if (CurrentHealth <= 0)
         {
@@ -128,9 +128,10 @@ public class EnemyManager : CombatantManager
             Vector2 attackPosition = MonoBehaviour.transform.position;
             Vector2 attackVector = attackTarget - attackPosition;
             float attackAngle = Vector2.SignedAngle(Vector2.right, attackVector);
-            float aoe = 2f;
+            float aoe = 1f;
+            float damage = 0.5f;
 
-            SlashManager slash = new SlashManager(this, attackPosition, attackAngle, aoe);
+            SlashManager slash = new SlashManager(this, attackPosition, attackAngle, aoe, damage);
         }
     }
 

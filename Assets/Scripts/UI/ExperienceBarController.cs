@@ -15,8 +15,8 @@ public class ExperienceBarController : MonoBehaviour
     {
         if (PlayerInitialized)
         {
-            int min = Configuration.LEVEL_EXPERIENCE[Player.Level];
-            int max = Configuration.LEVEL_EXPERIENCE[Player.Level+1];
+            int min = Configuration.GetLevelExperience(Player.Level);
+            int max = Configuration.GetLevelExperience(Player.Level+1);
             int goal = max - min;
             int progress = Player.Experience - min;
             Rect.localScale = new Vector2((float)progress / goal, 1);

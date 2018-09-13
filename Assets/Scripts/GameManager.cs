@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour
     private Queue<float> UPSQueue;
     private Queue<float> GameObjectsQueue;
 
-    private static bool MaxMode = false;
     public GameObject PlayerCamera;
     public World World;
     private FiniteStateMachine<GameStateType, GameInputType> StateMachine;
@@ -149,22 +148,6 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
-        if (UnityEngine.Input.GetKeyUp(KeyCode.M) && GameIsLive)
-        {
-            MaxMode = !MaxMode;
-            if (MaxMode)
-            {
-                Configuration.FOG_OUTER_RADIUS = 80f;
-                Configuration.FOG_INNER_RADIUS = 75f;
-                World.PlayerManager.MoveSpeed = 50f;
-            }
-            else
-            {
-                Configuration.FOG_OUTER_RADIUS = 11f;
-                Configuration.FOG_INNER_RADIUS = 7f;
-                World.PlayerManager.MoveSpeed = 5f;
-            }
-        }
         if (UnityEngine.Input.GetKeyUp(KeyCode.Escape))
         {
             Input(GameInputType.Pause);

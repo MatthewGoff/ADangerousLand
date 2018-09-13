@@ -2,32 +2,36 @@
 
 public class PlayerManager : CombatantManager
 {
-    public float MoveSpeed = Configuration.DEFAULT_MOVE_SPEED;
     public readonly World World;
     public PlayerMonoBehaviour MonoBehaviour;
 
-    public int MaxHealth;
     public float CurrentHealth;
-    public float HealthRegen;
-    public int MaxMana;
     public float CurrentMana;
-    public float ManaRegen;
+
     public int Experience;
     public int Level;
+    public bool AttemptingSprint;
     public bool Sprinting;
 
     private Cooldown AttackCooldown;
     private bool Dead;
 
+    private float AttackDamage = 1;
+    private float AttackSpeed = 1;
+    public float MoveSpeed = 5;
+    private float SightRadiusNear = 7;
+    private float SightRadiusFar = 11;
+    private float ProjectileDamage = 0.5f;
+    private float MeleeAoe = 1.5f;
+    public int MaxHealth = 10;
+    public int MaxMana = 5;
+    private float HealthRegen = 0.1f;
+    private float ManaRegen = 0.5f;
+
     public PlayerManager(World world)
     {
-        AttackCooldown = new Cooldown(1f);
+        AttackCooldown = new Cooldown(1/AttackSpeed);
         World = world;
-
-        MaxHealth = 10;
-        HealthRegen = 0.1f;
-        MaxMana = 5;
-        ManaRegen = 0.5f;
 
         Team = 0;
         Experience = 0;
@@ -39,6 +43,8 @@ public class PlayerManager : CombatantManager
         Dead = false;
         CurrentHealth = MaxHealth;
         CurrentMana = MaxMana;
+        Sprinting = false;
+        AttemptingSprint = false;
 
         GameObject player = GameObject.Instantiate(Prefabs.PLAYER_PREFAB, new Vector3(spawnLocation.X, spawnLocation.Y, 0), Quaternion.identity);
         MonoBehaviour = player.GetComponent<PlayerMonoBehaviour>();
@@ -73,10 +79,9 @@ public class PlayerManager : CombatantManager
             Vector2 attackPosition = MonoBehaviour.transform.position;
             Vector2 attackVector = attackTarget - attackPosition;
             float attackAngle = Vector2.SignedAngle(Vector2.right, attackVector);
-            float aoe = 2f;
 
             CurrentMana -= 1;
-            SlashManager slash = new SlashManager(this, attackPosition, attackAngle, aoe);
+            SlashManager slash = new SlashManager(this, attackPosition, attackAngle, MeleeAoe, AttackDamage);
         }
     }
 
@@ -89,29 +94,28 @@ public class PlayerManager : CombatantManager
             float attackAngle = Vector2.SignedAngle(Vector2.right, attackVector);
 
             CurrentMana -= 1;
-            BoltManager slash = new BoltManager(this, attackPosition, attackAngle);
+            BoltManager slash = new BoltManager(this, attackPosition, attackAngle, AttackDamage*ProjectileDamage);
         }
     }
 
     public bool AttemptSprint()
     {
         float manaCost = 1 * Time.fixedDeltaTime;
-        if (Sprinting && CurrentMana >= manaCost)
+        if (AttemptingSprint && CurrentMana >= manaCost)
         {
             CurrentMana -= manaCost;
-            Configuration.FOG_INNER_RADIUS = 3.5f;
-            Configuration.FOG_OUTER_RADIUS = 5.5f;
-            return true;
+            Sprinting = true;
         }
         else
         {
-            return false;
+            Sprinting = false;
         }
+        return Sprinting;
     }
 
-    public override int RecieveHit()
+    public override int RecieveHit(float damage)
     {
-        CurrentHealth -= 0.5f;
+        CurrentHealth -= damage;
         if (CurrentHealth <= 0)
         {
             Die();
@@ -119,10 +123,34 @@ public class PlayerManager : CombatantManager
         return 0;
     }
 
+    public float GetSightRadiusNear()
+    {
+        if (Sprinting)
+        {
+            return SightRadiusNear * 0.5f;
+        }
+        else
+        {
+            return SightRadiusNear;
+        }
+    }
+
+    public float GetSightRadiusFar()
+    {
+        if (Sprinting)
+        {
+            return SightRadiusFar * 0.5f;
+        }
+        else
+        {
+            return SightRadiusFar;
+        }
+    }
+
     public override void RecieveExp(int exp)
     {
         Experience += exp;
-        if (Experience >= Configuration.LEVEL_EXPERIENCE[Level+1])
+        if (Experience >= Configuration.GetLevelExperience(Level+1))
         {
             Level++;
             GameManager.Singleton.LevelUp();

@@ -5,13 +5,12 @@ public class BoltMonoBehaviour : MonoBehaviour
 {
     private BoltManager Manager;
 
-    private float Speed = 8;
-    private float Distance;
+    private float Speed = 10;
+    private float Distance = 10;
     private Vector2 VelocityVector;
 
     void Start()
     {
-        Distance = 10f;
         VelocityVector = Quaternion.Euler(0,0,transform.eulerAngles.z) * Vector2.right;
         StartCoroutine("Fly");
     }

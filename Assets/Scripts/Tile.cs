@@ -55,13 +55,15 @@ public class Tile {
         {
             return;
         }
-        if (distanceToPlayer < Configuration.FOG_OUTER_RADIUS)
+        float fogInnerRadius = GameManager.Singleton.World.PlayerManager.GetSightRadiusNear();
+        float fogOuterRadius = GameManager.Singleton.World.PlayerManager.GetSightRadiusFar();
+        if (distanceToPlayer < fogOuterRadius)
         {
             if (!Exposed)
             {
                 Exposed = true;
             }
-            float alpha = Configuration.FOG_ALPHA * (distanceToPlayer - Configuration.FOG_INNER_RADIUS) / (Configuration.FOG_OUTER_RADIUS - Configuration.FOG_INNER_RADIUS);
+            float alpha = Configuration.FOG_ALPHA * (distanceToPlayer - fogInnerRadius) / (fogOuterRadius - fogInnerRadius);
             if (alpha != LastFrameFog)
             {
                 FogRenderer.color = new Color(0, 0, 0, alpha);
@@ -85,7 +87,5 @@ public class Tile {
         {
             FogRenderer.color = new Color(0, 0, 0, Configuration.FOG_ALPHA);
         }
-
-        GameManager.Singleton.GameObjectCount += 2;
     }
 }

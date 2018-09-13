@@ -18,24 +18,7 @@ public class Configuration
     public static readonly int TREADMILL_UPDATE_MARGIN = 1;
     public static readonly int CHUNK_SIZE = 32;
 
-    //Player
-    public static readonly float DEFAULT_MOVE_SPEED = 5f;
-    public static readonly int[] LEVEL_EXPERIENCE = new int[]
-    {
-        0,
-        0,
-        1,
-        5,
-        12,
-        25,
-        50,
-        100,
-        200
-    };
-
     //Fog
-    public static float FOG_OUTER_RADIUS = 11;
-    public static float FOG_INNER_RADIUS = 7;
     public static readonly float FOG_ALPHA = 0.5f;
 
     //Damage Numbers
@@ -45,5 +28,33 @@ public class Configuration
     //Display
     public static readonly int PIXELS_PER_UNIT = 32;
     public static readonly float DEATH_DURATION = 3f;
+
+    //Levels
+    public static int GetLevelExperience(int level)
+    {
+        if (level == 0) { return 0; }
+        else if (level == 1) { return 0; }
+        else if (level == 2) { return 1; }
+        else if (level == 4) { return 5; }
+        else if (level == 5) { return 12; }
+        else if (level == 6) { return 25; }
+        else if (level == 7) { return 50; }
+        else if (level == 8) { return 100; }
+        else if (level == 9) { return 200; }
+        else { return 200; }
+    }
+    public static int GetLevelSkillPoints(int level)
+    {
+        if (level == 0) { return 0; }
+        else if (level == 1) { return 0; }
+        else if (level == 2) { return 1; }
+        else if (level == 4) { return 2; }
+        else if (level == 5) { return 4; }
+        else if (level == 6) { return 8; }
+        else if (level == 7) { return 15; }
+        else if (level == 8) { return 25; }
+        else if (level == 9) { return 50; }
+        else { return 50; }
+    }
 
 }

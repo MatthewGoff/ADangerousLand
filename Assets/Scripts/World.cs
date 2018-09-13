@@ -172,7 +172,7 @@ public class World
     public float GetVisibilityLevel(Vector2 position)
     {
         float distance = (PlayerManager.GetPlayerPosition() - position).magnitude;
-        float alpha = (distance - Configuration.FOG_INNER_RADIUS) / (Configuration.FOG_OUTER_RADIUS - Configuration.FOG_INNER_RADIUS);
+        float alpha = (distance - PlayerManager.GetSightRadiusNear()) / (PlayerManager.GetSightRadiusFar() - PlayerManager.GetSightRadiusNear());
         return 1 - Mathf.Clamp(alpha, 0f, 1f);
     }
 

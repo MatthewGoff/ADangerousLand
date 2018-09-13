@@ -68,18 +68,7 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
             Manager.BoltAttack(attackTarget);
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            ResetSprintSprites();
-        }
-
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            Configuration.FOG_INNER_RADIUS = 7f;
-            Configuration.FOG_OUTER_RADIUS = 11f;
-        }
-
-        Manager.Sprinting = Input.GetKey(KeyCode.LeftShift) && GameManager.Singleton.GameIsLive;
+        Manager.AttemptingSprint = Input.GetKey(KeyCode.LeftShift) && GameManager.Singleton.GameIsLive;
     }
 
     public void FixedUpdate()
@@ -99,6 +88,7 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
         }
         else
         {
+            ResetSprintSprites();
             DisableSprintSprites();
         }
         RB2D.MovePosition(RB2D.position + movementVector * Manager.MoveSpeed * movementMultiplier * Time.fixedDeltaTime);

@@ -2,7 +2,7 @@
 
 public class Cooldown
 {
-    private readonly float Duration;
+    private float Duration;
     private float LastUseTime;
 
     public Cooldown(float duration)
@@ -22,5 +22,10 @@ public class Cooldown
         {
             return false;
         }
+    }
+
+    public void Modify(float duration)
+    {
+        Duration = duration;
     }
 }
