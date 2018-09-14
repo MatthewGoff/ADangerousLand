@@ -3,7 +3,7 @@
     BeforeEntry,
     Loading,
     PausedMenu,
-    GameInfoMenu,
+    InfoMenu,
     Playing,
     PlayerDead,
     PassiveMenu

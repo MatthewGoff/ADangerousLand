@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     // UI stuff
     public GameObject SplashScreen;
     public GameObject PausedMenu;
-    public GameObject GameInfo;
+    public GameObject InfoMenu;
     public GameObject RandomSeedText;
     public GameObject PlayerLocationText;
     public GameObject HUD;
@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
         stateMachine.AddEntryState(GameStateType.Loading, false);
         stateMachine.AddState(GameStateType.Playing, true);
         stateMachine.AddState(GameStateType.PausedMenu, false);
-        stateMachine.AddState(GameStateType.GameInfoMenu, false);
+        stateMachine.AddState(GameStateType.InfoMenu, false);
         stateMachine.AddState(GameStateType.PlayerDead, false);
         stateMachine.AddState(GameStateType.PassiveMenu, false);
 
@@ -132,15 +132,15 @@ public class GameManager : MonoBehaviour
 
         // Paused Menu
         stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.Playing, GameInputType.Pause);
-        stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.GameInfoMenu, GameInputType.OpenGameInfoMenu);
+        stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.InfoMenu, GameInputType.OpenInfoMenu);
         stateMachine.OnEnter(GameStateType.PausedMenu, OnPause);
         stateMachine.OnExit(GameStateType.PausedMenu, OnResume);
 
-        // GameInfo Menu
-        stateMachine.AddTransition(GameStateType.GameInfoMenu, GameStateType.Playing, GameInputType.Pause);
-        stateMachine.AddTransition(GameStateType.GameInfoMenu, GameStateType.PausedMenu, GameInputType.CloseGameInfoMenu);
-        stateMachine.OnEnter(GameStateType.GameInfoMenu, OnOpenGameInfo);
-        stateMachine.OnExit(GameStateType.GameInfoMenu, OnCloseGameInfo);
+        // Info Menu
+        stateMachine.AddTransition(GameStateType.InfoMenu, GameStateType.Playing, GameInputType.Pause);
+        stateMachine.AddTransition(GameStateType.InfoMenu, GameStateType.PausedMenu, GameInputType.CloseInfoMenu);
+        stateMachine.OnEnter(GameStateType.InfoMenu, OnOpenInfoMenu);
+        stateMachine.OnExit(GameStateType.InfoMenu, OnCloseInfoMenu);
 
         // Player Dead
         stateMachine.AddTransition(GameStateType.PlayerDead, GameStateType.Playing, GameInputType.PlayerRespawn);
@@ -167,6 +167,10 @@ public class GameManager : MonoBehaviour
         if (UnityEngine.Input.GetKeyUp(KeyCode.P))
         {
             Input(GameInputType.PassiveMenu);
+        }
+        if (UnityEngine.Input.GetKeyUp(KeyCode.C))
+        {
+            World.PlayerManager.RecieveExp(190);
         }
 
         GameObjectsQueue.Enqueue(GameObjectCount);
@@ -245,16 +249,16 @@ public class GameManager : MonoBehaviour
         PausedMenu.SetActive(false);
     }
 
-    public void OnOpenGameInfo(GameStateType previousState, GameInputType inputType)
+    public void OnOpenInfoMenu(GameStateType previousState, GameInputType inputType)
     {
-        GameInfo.SetActive(true);
+        InfoMenu.SetActive(true);
         RandomSeedText.GetComponent<Text>().text = "Random Seed: "+World.GetRandomSeed().ToString();
         PlayerLocationText.GetComponent<Text>().text = "Player Location: "+World.GetPlayerLocation().ToString();
     }
 
-    public void OnCloseGameInfo(GameInputType inputType, GameStateType nextState)
+    public void OnCloseInfoMenu(GameInputType inputType, GameStateType nextState)
     {
-        GameInfo.SetActive(false);
+        InfoMenu.SetActive(false);
     }
 
     public void OnOpenPassives(GameStateType previousState, GameInputType inputType)
@@ -270,24 +274,49 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    public void ResumePressed()
+    public void ButtonPressed_PauseMenu_Resume()
     {
         Input(GameInputType.Pause);
     }
 
-    public void GameInfoPressed()
+    public void ButtonPressed_PauseMenu_Options()
     {
-        Input(GameInputType.OpenGameInfoMenu);
+
     }
 
-    public void BackPressed()
+    public void ButtonPressed_PauseMenu_InfoMenu()
     {
-        Input(GameInputType.CloseGameInfoMenu);
+        Input(GameInputType.OpenInfoMenu);
     }
 
-    public void QuitPressed()
+    public void ButtonPressed_PauseMenu_Quit()
     {
-        Application.Quit();
+
+    }
+
+    public void ButtonPressed_InfoMenu_Back()
+    {
+        Input(GameInputType.CloseInfoMenu);
+    }
+
+    public void ButtonPressed_MainMenu_Play()
+    {
+
+    }
+
+    public void ButtonPressed_MainMenu_Options()
+    {
+
+    }
+
+    public void ButtonPressed_MainMenu_Credits()
+    {
+
+    }
+
+    public void ButtonPressed_MainMenu_Quit()
+    {
+
     }
 
     public void UpgradeAttackDamage()

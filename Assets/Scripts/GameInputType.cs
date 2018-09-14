@@ -2,8 +2,8 @@
 {
     Entry,
     Pause,
-    OpenGameInfoMenu,
-    CloseGameInfoMenu,
+    OpenInfoMenu,
+    CloseInfoMenu,
     FinishedLoading,
     PlayerDeath,
     PlayerRespawn,

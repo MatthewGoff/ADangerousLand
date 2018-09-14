@@ -162,6 +162,7 @@ public class PlayerManager : CombatantManager
             Level++;
             PassivePoints += Configuration.GetLevelSkillPoints(Level);
             GameManager.Singleton.LevelUp();
+            RecieveExp(0);
         }
     }
 

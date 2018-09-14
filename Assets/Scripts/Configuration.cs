@@ -41,7 +41,7 @@ public class Configuration
         else if (level == 6) { return 50; }
         else if (level == 7) { return 100; }
         else if (level == 8) { return 200; }
-        else { return 200; }
+        else { return 200+200*(level-8); }
     }
     public static int GetLevelSkillPoints(int level)
     {
