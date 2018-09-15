@@ -49,17 +49,17 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
         Manager.Update(Time.deltaTime);
         GameObject Camera = GameManager.Singleton.PlayerCamera;
 
-        if (Input.GetKeyDown(KeyCode.Space) && GameManager.Singleton.GameIsLive)
+        if (Input.GetKeyDown(KeyCode.Space) && GameManager.Singleton.GameState == GameStateType.Playing)
         {
             Manager.WeaponSwap();
         }
 
-        if (Input.GetMouseButton(0) && Camera != null && GameManager.Singleton.GameIsLive)
+        if (Input.GetMouseButton(0) && Camera != null && GameManager.Singleton.GameState == GameStateType.Playing)
         {
             MoveTarget = Camera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
         }
 
-        if (Input.GetMouseButton(1) && Camera != null && GameManager.Singleton.GameIsLive)
+        if (Input.GetMouseButton(1) && Camera != null && GameManager.Singleton.GameState == GameStateType.Playing)
         {
             Vector2 attackTarget = Camera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
 
@@ -74,7 +74,7 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
             
         }
 
-        Manager.AttemptingSprint = Input.GetKey(KeyCode.LeftShift) && GameManager.Singleton.GameIsLive;
+        Manager.AttemptingSprint = Input.GetKey(KeyCode.LeftShift) && GameManager.Singleton.GameState == GameStateType.Playing;
     }
 
     public void FixedUpdate()

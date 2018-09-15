@@ -13,13 +13,6 @@ public class GameManager : MonoBehaviour
             return StateMachine.GetCurrentState();
         }
     }
-    public bool GameIsLive
-    {
-        get
-        {
-            return StateMachine.GameIsLive;
-        }
-    }
 
     // UI stuff
     public GameObject SplashScreen;
@@ -114,40 +107,42 @@ public class GameManager : MonoBehaviour
     {
         FiniteStateMachine<GameStateType, GameInputType> stateMachine = new FiniteStateMachine<GameStateType, GameInputType>();
 
-        stateMachine.AddEntryState(GameStateType.Loading, false);
-        stateMachine.AddState(GameStateType.Playing, true);
-        stateMachine.AddState(GameStateType.PausedMenu, false);
-        stateMachine.AddState(GameStateType.InfoMenu, false);
-        stateMachine.AddState(GameStateType.PlayerDead, false);
-        stateMachine.AddState(GameStateType.PassiveMenu, false);
+        stateMachine.AddEntryState(GameStateType.Loading);
+        stateMachine.AddState(GameStateType.Playing);
+        stateMachine.AddState(GameStateType.PausedMenu);
+        stateMachine.AddState(GameStateType.InfoMenu);
+        stateMachine.AddState(GameStateType.PlayerDead);
+        stateMachine.AddState(GameStateType.PassiveMenu);
 
         // Loading
-        stateMachine.AddTransition(GameStateType.Loading, GameStateType.Playing, GameInputType.FinishedLoading);
+        stateMachine.AddTransition(GameStateType.Loading, GameStateType.Playing, GameInputType.FinishedLoading, false);
         stateMachine.OnExit(GameStateType.Loading, OnFinishedLoading);
 
         // Playing
-        stateMachine.AddTransition(GameStateType.Playing, GameStateType.PausedMenu, GameInputType.Pause);
-        stateMachine.AddTransition(GameStateType.Playing, GameStateType.PlayerDead, GameInputType.PlayerDeath);
-        stateMachine.AddTransition(GameStateType.Playing, GameStateType.PassiveMenu, GameInputType.PassiveMenu);
+        stateMachine.AddTransition(GameStateType.Playing, GameStateType.PausedMenu, GameInputType.Escape, true);
+        stateMachine.AddTransition(GameStateType.Playing, GameStateType.PlayerDead, GameInputType.PlayerDeath, false);
+        stateMachine.AddTransition(GameStateType.Playing, GameStateType.PassiveMenu, GameInputType.TogglePassivesMenu, false);
+        stateMachine.OnEnter(GameStateType.Playing, OnStartPlaying);
+        stateMachine.OnExit(GameStateType.Playing, OnStopPlaying);
 
         // Paused Menu
-        stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.Playing, GameInputType.Pause);
-        stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.InfoMenu, GameInputType.OpenInfoMenu);
-        stateMachine.OnEnter(GameStateType.PausedMenu, OnPause);
-        stateMachine.OnExit(GameStateType.PausedMenu, OnResume);
+        stateMachine.AddTransitionToPrevious(GameStateType.PausedMenu, GameInputType.Escape, false);
+        stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.InfoMenu, GameInputType.OpenInfoMenu, false);
+        stateMachine.OnEnter(GameStateType.PausedMenu, OnOpenPauseMenu);
+        stateMachine.OnExit(GameStateType.PausedMenu, OnClosePauseMenu);
 
         // Info Menu
-        stateMachine.AddTransition(GameStateType.InfoMenu, GameStateType.Playing, GameInputType.Pause);
-        stateMachine.AddTransition(GameStateType.InfoMenu, GameStateType.PausedMenu, GameInputType.CloseInfoMenu);
+        stateMachine.AddTransition(GameStateType.InfoMenu, GameStateType.PausedMenu, GameInputType.Escape, false);
         stateMachine.OnEnter(GameStateType.InfoMenu, OnOpenInfoMenu);
         stateMachine.OnExit(GameStateType.InfoMenu, OnCloseInfoMenu);
 
         // Player Dead
-        stateMachine.AddTransition(GameStateType.PlayerDead, GameStateType.Playing, GameInputType.PlayerRespawn);
+        stateMachine.AddTransition(GameStateType.PlayerDead, GameStateType.Playing, GameInputType.PlayerRespawn, false);
         stateMachine.OnEnter(GameStateType.PlayerDead, OnPlayerDeath);
 
         // Passive Menu
-        stateMachine.AddTransition(GameStateType.PassiveMenu, GameStateType.Playing, GameInputType.PassiveMenu);
+        stateMachine.AddTransition(GameStateType.PassiveMenu, GameStateType.Playing, GameInputType.Escape, true);
+        stateMachine.AddTransition(GameStateType.PassiveMenu, GameStateType.Playing, GameInputType.TogglePassivesMenu, false);
         stateMachine.OnEnter(GameStateType.PassiveMenu, OnOpenPassives);
         stateMachine.OnExit(GameStateType.PassiveMenu, OnClosePassives);
 
@@ -156,19 +151,19 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
-        if (UnityEngine.Input.GetKeyUp(KeyCode.Escape))
+        if (Input.GetKeyUp(KeyCode.Escape))
         {
-            Input(GameInputType.Pause);
+            TakeInput(GameInputType.Escape);
         }
-        if (UnityEngine.Input.GetKeyUp(KeyCode.BackQuote))
+        if (Input.GetKeyUp(KeyCode.BackQuote))
         {
             GameStatsCanvas.SetActive(!GameStatsCanvas.activeInHierarchy);
         }
-        if (UnityEngine.Input.GetKeyUp(KeyCode.P))
+        if (Input.GetKeyUp(KeyCode.P))
         {
-            Input(GameInputType.PassiveMenu);
+            TakeInput(GameInputType.TogglePassivesMenu);
         }
-        if (UnityEngine.Input.GetKeyUp(KeyCode.C))
+        if (Input.GetKeyUp(KeyCode.C))
         {
             World.PlayerManager.RecieveExp(190);
         }
@@ -227,9 +222,9 @@ public class GameManager : MonoBehaviour
         LevelUpText.SetActive(false);
     }
 
-    public void Input(GameInputType inputType)
+    public void TakeInput(GameInputType inputType)
     {
-        StateMachine.GiveInput(inputType);
+        StateMachine.TakeInput(inputType);
     }
 
     public void OnFinishedLoading(GameInputType intputType, GameStateType nextState)
@@ -237,15 +232,23 @@ public class GameManager : MonoBehaviour
         SplashScreen.SetActive(false);
     }
 
-    public void OnPause(GameStateType previousState, GameInputType inputType)
+    public void OnStartPlaying(GameStateType previousState, GameInputType inputType)
+    {
+        Time.timeScale = 1;
+    }
+
+    public void OnStopPlaying(GameInputType intputType, GameStateType nextState)
     {
         Time.timeScale = 0;
+    }
+
+    public void OnOpenPauseMenu(GameStateType previousState, GameInputType inputType)
+    {
         PausedMenu.SetActive(true);
     }
 
-    public void OnResume(GameInputType intputType, GameStateType nextState)
+    public void OnClosePauseMenu(GameInputType intputType, GameStateType nextState)
     {
-        Time.timeScale = 1;
         PausedMenu.SetActive(false);
     }
 
@@ -265,106 +268,11 @@ public class GameManager : MonoBehaviour
     {
         PassiveMenu.SetActive(true);
         PassiveMenu.GetComponent<PassiveMenuController>().UpdateUI();
-        Time.timeScale = 0;
     }
 
     public void OnClosePassives(GameInputType intputType, GameStateType nextState)
     {
         PassiveMenu.SetActive(false);
-        Time.timeScale = 1;
-    }
-
-    public void ButtonPressed_PauseMenu_Resume()
-    {
-        Input(GameInputType.Pause);
-    }
-
-    public void ButtonPressed_PauseMenu_Options()
-    {
-
-    }
-
-    public void ButtonPressed_PauseMenu_InfoMenu()
-    {
-        Input(GameInputType.OpenInfoMenu);
-    }
-
-    public void ButtonPressed_PauseMenu_Quit()
-    {
-
-    }
-
-    public void ButtonPressed_InfoMenu_Back()
-    {
-        Input(GameInputType.CloseInfoMenu);
-    }
-
-    public void ButtonPressed_MainMenu_Play()
-    {
-
-    }
-
-    public void ButtonPressed_MainMenu_Options()
-    {
-
-    }
-
-    public void ButtonPressed_MainMenu_Credits()
-    {
-
-    }
-
-    public void ButtonPressed_MainMenu_Quit()
-    {
-
-    }
-
-    public void UpgradeAttackDamage()
-    {
-        World.PlayerManager.UpgradeAttackDamage();
-        PassiveMenu.GetComponent<PassiveMenuController>().UpdateUI();
-    }
-
-    public void UpgradeAttackSpeed()
-    {
-        World.PlayerManager.UpgradeAttackSpeed();
-        PassiveMenu.GetComponent<PassiveMenuController>().UpdateUI();
-    }
-
-    public void UpgradeMoveSpeed()
-    {
-        World.PlayerManager.UpgradeMoveSpeed();
-        PassiveMenu.GetComponent<PassiveMenuController>().UpdateUI();
-    }
-
-    public void UpgradeSightRadius()
-    {
-        World.PlayerManager.UpgradeSightRadius();
-        PassiveMenu.GetComponent<PassiveMenuController>().UpdateUI();
-    }
-
-    public void UpgradeProjectileDamage()
-    {
-        World.PlayerManager.UpgradeProjectileDamage();
-        PassiveMenu.GetComponent<PassiveMenuController>().UpdateUI();
-    }
-
-    public void UpgradeMeleeAoe()
-    {
-        World.PlayerManager.UpgradeMeleeAoe();
-        PassiveMenu.GetComponent<PassiveMenuController>().UpdateUI();
-    }
-
-    public void UpgradeHealthRegen()
-    {
-        World.PlayerManager.UpgradeHealthRegen();
-        PassiveMenu.GetComponent<PassiveMenuController>().UpdateUI();
-    }
-
-    public void UpgradeStaminaRegen()
-    {
-        World.PlayerManager.UpgradeStaminaRegen();
-        PassiveMenu.GetComponent<PassiveMenuController>().UpdateUI();
     }
 
     public void OnPlayerDeath(GameStateType previousState, GameInputType inputType)
@@ -384,7 +292,7 @@ public class GameManager : MonoBehaviour
         World.Sleep();
         World.Start();
         DeathScreen.SetActive(false);
-        Singleton.Input(GameInputType.PlayerRespawn);
+        Singleton.TakeInput(GameInputType.PlayerRespawn);
     }
 
     public void Print(string s)

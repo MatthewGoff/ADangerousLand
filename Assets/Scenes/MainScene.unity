@@ -3118,7 +3118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3614,7 +3614,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &310848361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7244,7 +7244,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &780529196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7818,7 +7818,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 808413830}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1306376805}
+        m_MethodName: OptionsPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &808413830
@@ -11607,7 +11618,7 @@ GameObject:
   - component: {fileID: 1096627987}
   - component: {fileID: 1096627986}
   m_Layer: 5
-  m_Name: Credits Button
+  m_Name: Info Menu Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11670,7 +11681,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1096627987}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1306376805}
+        m_MethodName: InfoMenuPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1096627987
@@ -13650,6 +13672,7 @@ GameObject:
   - component: {fileID: 1306376803}
   - component: {fileID: 1306376802}
   - component: {fileID: 1306376801}
+  - component: {fileID: 1306376805}
   m_Layer: 5
   m_Name: PausedMenu
   m_TagString: Untagged
@@ -13740,6 +13763,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1306376805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1306376800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eba5f36eda8d534e8e6be6852b6bfda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1313528141
 GameObject:
   m_ObjectHideFlags: 0
@@ -14956,7 +14990,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SplashScreen: {fileID: 1561971885}
   PausedMenu: {fileID: 1306376800}
-  InfoMenu: {fileID: 0}
+  InfoMenu: {fileID: 1761876306}
   RandomSeedText: {fileID: 1077770097}
   PlayerLocationText: {fileID: 930642501}
   HUD: {fileID: 310848360}
@@ -15203,8 +15237,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442391848}
-        m_MethodName: ButtonPressed_PauseMenu_Resume
+      - m_Target: {fileID: 1306376805}
+        m_MethodName: ResumePressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17961,8 +17995,9 @@ GameObject:
   - component: {fileID: 1761876309}
   - component: {fileID: 1761876308}
   - component: {fileID: 1761876307}
+  - component: {fileID: 1761876311}
   m_Layer: 5
-  m_Name: GameInfo
+  m_Name: InfoMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18052,6 +18087,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1761876311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1761876306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49a77b112ac813140a5ff5f6c2e29985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1775026292
 GameObject:
   m_ObjectHideFlags: 0
@@ -20449,7 +20495,7 @@ GameObject:
   - component: {fileID: 1944425101}
   - component: {fileID: 1944425100}
   m_Layer: 5
-  m_Name: Quit Button
+  m_Name: Exit Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20512,7 +20558,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1944425101}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1306376805}
+        m_MethodName: ExitPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1944425101

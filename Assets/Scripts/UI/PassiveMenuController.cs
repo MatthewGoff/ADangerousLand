@@ -123,4 +123,52 @@ public class PassiveMenuController : MonoBehaviour {
         StaminaRegenCurrentText.text = GameManager.Singleton.World.PlayerManager.StaminaRegen.ToString();
         StaminaRegenNextText.text = GameManager.Singleton.World.PlayerManager.GetNextStaminaRegen().ToString();
     }
+
+    public void UpgradeAttackDamage()
+    {
+        GameManager.Singleton.World.PlayerManager.UpgradeAttackDamage();
+        UpdateUI();
+    }
+
+    public void UpgradeAttackSpeed()
+    {
+        GameManager.Singleton.World.PlayerManager.UpgradeAttackSpeed();
+        UpdateUI();
+    }
+
+    public void UpgradeMoveSpeed()
+    {
+        GameManager.Singleton.World.PlayerManager.UpgradeMoveSpeed();
+        UpdateUI();
+    }
+
+    public void UpgradeSightRadius()
+    {
+        GameManager.Singleton.World.PlayerManager.UpgradeSightRadius();
+        UpdateUI();
+    }
+
+    public void UpgradeProjectileDamage()
+    {
+        GameManager.Singleton.World.PlayerManager.UpgradeProjectileDamage();
+        UpdateUI();
+    }
+
+    public void UpgradeMeleeAoe()
+    {
+        GameManager.Singleton.World.PlayerManager.UpgradeMeleeAoe();
+        UpdateUI();
+    }
+
+    public void UpgradeHealthRegen()
+    {
+        GameManager.Singleton.World.PlayerManager.UpgradeHealthRegen();
+        UpdateUI();
+    }
+
+    public void UpgradeStaminaRegen()
+    {
+        GameManager.Singleton.World.PlayerManager.UpgradeStaminaRegen();
+        UpdateUI();
+    }
 }

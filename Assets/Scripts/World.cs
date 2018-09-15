@@ -156,7 +156,7 @@ public class World
             }
         }
         Chunks.GetChunk(chunkIndex).LocalityInitialized = true;
-        GameManager.Singleton.Input(GameInputType.FinishedLoading);
+        GameManager.Singleton.TakeInput(GameInputType.FinishedLoading);
     }
 
     private ChunkIndex GetPlayerChunk()

@@ -1,35 +1,24 @@
 ﻿using System.Collections.Generic;
 
-/*
- * 
- * 
- */
 public class FiniteStateMachine<S, I>
 {
     private Dictionary<S, State<S, I>> GameStates;
     private State<S, I> EntryState;
     public State<S, I> CurrentState;
-    public bool GameIsLive
-    {
-        get
-        {
-            return CurrentState.GameIsLive;
-        }
-    }
 
     public FiniteStateMachine()
     {
         GameStates = new Dictionary<S, State<S, I>>();
     }
 
-    public void AddState(S gameStateType, bool playerInputEnabled)
+    public void AddState(S gameStateType)
     {
-        GameStates.Add(gameStateType, new State<S, I>(gameStateType, playerInputEnabled));
+        GameStates.Add(gameStateType, new State<S, I>(gameStateType));
     }
 
-    public void AddEntryState(S gameStateType, bool playerInputEnabled)
+    public void AddEntryState(S gameStateType)
     {
-        State<S, I> state = new State<S, I>(gameStateType, playerInputEnabled);
+        State<S, I> state = new State<S, I>(gameStateType);
         GameStates.Add(gameStateType, state);
         EntryState = state;
     }
@@ -37,7 +26,7 @@ public class FiniteStateMachine<S, I>
     public void Enter()
     {
         CurrentState = EntryState;
-        CurrentState.OnEnter?.Invoke(default(S), default(I));
+        CurrentState.OnEnter?.Invoke(default, default);
     }
 
     public void AssignEntryState(S entryState)
@@ -45,16 +34,36 @@ public class FiniteStateMachine<S, I>
         EntryState = GameStates[entryState];
     }
 
-    public void AddTransition(S state1, S state2, I intput)
+    public void AddTransition(S state1, S state2, I intput, bool cachePrevious)
     {
-        GameStates[state1].AddTransition(intput, GameStates[state2]);
+        GameStates[state1].AddTransition(intput, GameStates[state2], cachePrevious);
     }
 
-    public void GiveInput(I input)
+    public void AddTransitionToPrevious(S state, I input, bool cachePrevious)
+    {
+        GameStates[state].AddTransitionToPrevious(input, cachePrevious);
+    }
+
+    public void TakeInput(I input)
     {
         if (CurrentState.Transitions.ContainsKey(input))
         {
-            State<S, I> nextState = CurrentState.Transitions[input];
+            Transition<S, I> transition = CurrentState.Transitions[input];
+            State<S, I> nextState;
+            if (transition.IsTransitionToPrevious)
+            {
+                nextState = CurrentState.PreviousState;
+            }
+            else
+            {
+                nextState = CurrentState.Transitions[input].Destination;
+            }
+
+            if (transition.CachePrevious)
+            {
+                nextState.PreviousState = CurrentState;
+            }
+
             CurrentState.OnExit?.Invoke(input, nextState.StateIdentifier);
             CurrentState = nextState;
             CurrentState.OnEnter?.Invoke(CurrentState.StateIdentifier, input);

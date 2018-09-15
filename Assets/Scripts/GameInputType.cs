@@ -1,11 +1,10 @@
 ﻿public enum GameInputType
 {
     Entry,
-    Pause,
+    Escape,
+    TogglePassivesMenu,
     OpenInfoMenu,
-    CloseInfoMenu,
     FinishedLoading,
     PlayerDeath,
     PlayerRespawn,
-    PassiveMenu,
 }

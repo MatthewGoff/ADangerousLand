@@ -171,7 +171,7 @@ public class PlayerManager : CombatantManager
         Dead = true;
         CurrentHealth = 0;
         MonoBehaviour.Freeze();
-        GameManager.Singleton.Input(GameInputType.PlayerDeath);
+        GameManager.Singleton.TakeInput(GameInputType.PlayerDeath);
     }
 
     public float GetNextAttackDamage()
