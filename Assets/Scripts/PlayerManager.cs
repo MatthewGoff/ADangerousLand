@@ -2,7 +2,6 @@
 
 public class PlayerManager : CombatantManager
 {
-    public readonly World World;
     public PlayerMonoBehaviour MonoBehaviour;
 
     public float CurrentHealth;
@@ -30,10 +29,9 @@ public class PlayerManager : CombatantManager
     public float StaminaRegen = 0.5f;
     public int PassivePoints = 0;
 
-    public PlayerManager(World world)
+    public PlayerManager()
     {
         AttackCooldown = new Cooldown(1/AttackSpeed);
-        World = world;
 
         Team = 0;
         Experience = 0;
