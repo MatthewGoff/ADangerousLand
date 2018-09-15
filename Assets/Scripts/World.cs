@@ -22,7 +22,7 @@ public class World
         WorldInitializers = new Queue<WorldInitializer>();
         Treadmill = new Treadmill(Configuration.TREADMILL_WIDTH, Configuration.TREADMIL_HEIGHT);
         Chunks = new ChunkStorage(this);
-        PlayerManager = new PlayerManager(this);
+        PlayerManager = new PlayerManager();
     }
 
     public void Start()

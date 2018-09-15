@@ -3,17 +3,18 @@
 public class PlayerManager : CombatantManager
 {
     public PlayerMonoBehaviour MonoBehaviour;
+    private Cooldown AttackCooldown;
+
+    public string Name;
+    public DeathPenaltyType DeathPenalty;
 
     public float CurrentHealth;
     public float CurrentMana;
-
     public int Experience;
     public int Level;
     public bool AttemptingSprint;
     public bool Sprinting;
     public int AttackType = 0;
-
-    private Cooldown AttackCooldown;
     private bool Dead;
 
     public float AttackDamage = 1;
@@ -29,8 +30,11 @@ public class PlayerManager : CombatantManager
     public float StaminaRegen = 0.5f;
     public int PassivePoints = 0;
 
-    public PlayerManager()
+    public PlayerManager(string name, DeathPenaltyType deathPenalty)
     {
+        Name = name;
+        DeathPenalty = deathPenalty;
+
         AttackCooldown = new Cooldown(1/AttackSpeed);
 
         Team = 0;
