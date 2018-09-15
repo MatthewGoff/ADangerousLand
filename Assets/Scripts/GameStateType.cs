@@ -6,5 +6,11 @@
     InfoMenu,
     Playing,
     PlayerDead,
-    PassiveMenu
+    PassivesMenu,
+    PlayerMenu,
+    NewPlayerMenu,
+    WorldMenu,
+    NewWorldMenu,
+    MainMenu,
+    Exit
 }

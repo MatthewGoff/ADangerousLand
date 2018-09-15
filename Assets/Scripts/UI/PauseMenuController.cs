@@ -19,6 +19,6 @@ public class PauseMenuController : MonoBehaviour {
 
     public void ExitPressed()
     {
-        //GameManager.Singleton.Input(GameInputType.Exit);
+        GameManager.Singleton.TakeInput(GameInputType.OpenMainMenu);
     }
 }

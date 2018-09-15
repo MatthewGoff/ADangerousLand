@@ -124,6 +124,11 @@ public class PassiveMenuController : MonoBehaviour {
         StaminaRegenNextText.text = GameManager.Singleton.World.PlayerManager.GetNextStaminaRegen().ToString();
     }
 
+    public void OnEnable()
+    {
+        UpdateUI();
+    }
+
     public void UpgradeAttackDamage()
     {
         GameManager.Singleton.World.PlayerManager.UpgradeAttackDamage();

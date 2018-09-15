@@ -2,9 +2,15 @@
 {
     Entry,
     Escape,
-    TogglePassivesMenu,
-    OpenInfoMenu,
     FinishedLoading,
+    StartPlay,
     PlayerDeath,
     PlayerRespawn,
+    TogglePassivesMenu,
+    OpenInfoMenu,
+    OpenPlayerMenu,
+    OpenNewPlayerMenu,
+    OpenWorldMenu,
+    OpenNewWorldMenu,
+    OpenMainMenu
 }

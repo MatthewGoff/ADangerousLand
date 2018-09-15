@@ -18,8 +18,6 @@ public class GameManager : MonoBehaviour
     public GameObject SplashScreen;
     public GameObject PausedMenu;
     public GameObject InfoMenu;
-    public GameObject RandomSeedText;
-    public GameObject PlayerLocationText;
     public GameObject HUD;
     public GameObject DeathScreen;
     public GameObject DeathBackground;
@@ -28,7 +26,12 @@ public class GameManager : MonoBehaviour
     public GameObject UPSText;
     public GameObject GameObjectText;
     public GameObject LevelUpText;
-    public GameObject PassiveMenu;
+    public GameObject PassivesMenu;
+    public GameObject MainMenu;
+    public GameObject PlayerMenu;
+    public GameObject NewPlayerMenu;
+    public GameObject WorldMenu;
+    public GameObject NewWorldMenu;
 
     // GameStats
     public int GameObjectCount = 0;
@@ -55,12 +58,16 @@ public class GameManager : MonoBehaviour
         StartCoroutine("PrintGameObjects");
 
         Prefabs.LoadPrefabs();
-        World = new World();
-        PlayerCamera = Instantiate(Prefabs.CAMERA_PREFAB, new Vector3(0, 0, -1), Quaternion.identity);
-        World.Start();
+        StartCoroutine("Load");
     }
 
-    IEnumerator PrintFPS()
+    private IEnumerator Load()
+    {
+        yield return new WaitForSecondsRealtime(2f);
+        TakeInput(GameInputType.FinishedLoading);
+    }
+
+    private IEnumerator PrintFPS()
     {
         while (true)
         {
@@ -74,7 +81,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(.1f);
         }
     }
-    IEnumerator PrintUPS()
+    private IEnumerator PrintUPS()
     {
         while (true)
         {
@@ -88,7 +95,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(.1f);
         }
     }
-    IEnumerator PrintGameObjects()
+    private IEnumerator PrintGameObjects()
     {
         while (true)
         {
@@ -112,39 +119,81 @@ public class GameManager : MonoBehaviour
         stateMachine.AddState(GameStateType.PausedMenu);
         stateMachine.AddState(GameStateType.InfoMenu);
         stateMachine.AddState(GameStateType.PlayerDead);
-        stateMachine.AddState(GameStateType.PassiveMenu);
+        stateMachine.AddState(GameStateType.PassivesMenu);
+        stateMachine.AddState(GameStateType.PlayerMenu);
+        stateMachine.AddState(GameStateType.NewPlayerMenu);
+        stateMachine.AddState(GameStateType.WorldMenu);
+        stateMachine.AddState(GameStateType.NewWorldMenu);
+        stateMachine.AddState(GameStateType.MainMenu);
+        stateMachine.AddState(GameStateType.Exit);
 
         // Loading
-        stateMachine.AddTransition(GameStateType.Loading, GameStateType.Playing, GameInputType.FinishedLoading, false);
-        stateMachine.OnExit(GameStateType.Loading, OnFinishedLoading);
+        stateMachine.AddTransition(GameStateType.Loading, GameStateType.MainMenu, GameInputType.FinishedLoading, false);
+        stateMachine.OnExitState(GameStateType.Loading, delegate (GameInputType input, GameStateType state) { SplashScreen.SetActive(false); });
 
         // Playing
         stateMachine.AddTransition(GameStateType.Playing, GameStateType.PausedMenu, GameInputType.Escape, true);
         stateMachine.AddTransition(GameStateType.Playing, GameStateType.PlayerDead, GameInputType.PlayerDeath, false);
-        stateMachine.AddTransition(GameStateType.Playing, GameStateType.PassiveMenu, GameInputType.TogglePassivesMenu, false);
-        stateMachine.OnEnter(GameStateType.Playing, OnStartPlaying);
-        stateMachine.OnExit(GameStateType.Playing, OnStopPlaying);
+        stateMachine.AddTransition(GameStateType.Playing, GameStateType.PassivesMenu, GameInputType.TogglePassivesMenu, false);
+        stateMachine.OnEnterState(GameStateType.Playing, OnStartPlaying);
+        stateMachine.OnExitState(GameStateType.Playing, delegate (GameInputType input, GameStateType state) { Time.timeScale = 0; });
 
         // Paused Menu
         stateMachine.AddTransitionToPrevious(GameStateType.PausedMenu, GameInputType.Escape, false);
         stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.InfoMenu, GameInputType.OpenInfoMenu, false);
-        stateMachine.OnEnter(GameStateType.PausedMenu, OnOpenPauseMenu);
-        stateMachine.OnExit(GameStateType.PausedMenu, OnClosePauseMenu);
+        stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.MainMenu, GameInputType.OpenMainMenu, false);
+        stateMachine.OnEnterState(GameStateType.PausedMenu, delegate (GameStateType state, GameInputType input) { PausedMenu.SetActive(true); });
+        stateMachine.OnExitState(GameStateType.PausedMenu, delegate (GameInputType input, GameStateType state) { PausedMenu.SetActive(false); });
 
         // Info Menu
         stateMachine.AddTransition(GameStateType.InfoMenu, GameStateType.PausedMenu, GameInputType.Escape, false);
-        stateMachine.OnEnter(GameStateType.InfoMenu, OnOpenInfoMenu);
-        stateMachine.OnExit(GameStateType.InfoMenu, OnCloseInfoMenu);
+        stateMachine.OnEnterState(GameStateType.InfoMenu, delegate (GameStateType state, GameInputType input) { InfoMenu.SetActive(true); });
+        stateMachine.OnExitState(GameStateType.InfoMenu, delegate (GameInputType input, GameStateType state) { InfoMenu.SetActive(false); });
 
         // Player Dead
         stateMachine.AddTransition(GameStateType.PlayerDead, GameStateType.Playing, GameInputType.PlayerRespawn, false);
-        stateMachine.OnEnter(GameStateType.PlayerDead, OnPlayerDeath);
+        stateMachine.OnEnterState(GameStateType.PlayerDead, OnPlayerDeath);
 
-        // Passive Menu
-        stateMachine.AddTransition(GameStateType.PassiveMenu, GameStateType.Playing, GameInputType.Escape, true);
-        stateMachine.AddTransition(GameStateType.PassiveMenu, GameStateType.Playing, GameInputType.TogglePassivesMenu, false);
-        stateMachine.OnEnter(GameStateType.PassiveMenu, OnOpenPassives);
-        stateMachine.OnExit(GameStateType.PassiveMenu, OnClosePassives);
+        // Passives Menu
+        stateMachine.AddTransition(GameStateType.PassivesMenu, GameStateType.Playing, GameInputType.Escape, true);
+        stateMachine.AddTransition(GameStateType.PassivesMenu, GameStateType.Playing, GameInputType.TogglePassivesMenu, false);
+        stateMachine.OnEnterState(GameStateType.PassivesMenu, delegate (GameStateType state, GameInputType input) { PassivesMenu.SetActive(true); });
+        stateMachine.OnExitState(GameStateType.PassivesMenu, delegate (GameInputType input, GameStateType state) { PassivesMenu.SetActive(false); });
+
+        // Main Menu
+        stateMachine.AddTransition(GameStateType.MainMenu, GameStateType.PlayerMenu, GameInputType.OpenPlayerMenu, false);
+        stateMachine.AddTransition(GameStateType.MainMenu, GameStateType.Exit, GameInputType.Escape, false);
+        stateMachine.OnEnterState(GameStateType.MainMenu, delegate (GameStateType state, GameInputType input) { MainMenu.SetActive(true); });
+        stateMachine.OnExitState(GameStateType.MainMenu, delegate (GameInputType input, GameStateType state) { MainMenu.SetActive(false); });
+
+        // Player Menu
+        stateMachine.AddTransition(GameStateType.PlayerMenu, GameStateType.NewPlayerMenu, GameInputType.OpenNewPlayerMenu, false);
+        stateMachine.AddTransition(GameStateType.PlayerMenu, GameStateType.MainMenu, GameInputType.Escape, false);
+        stateMachine.AddTransition(GameStateType.PlayerMenu, GameStateType.WorldMenu, GameInputType.OpenWorldMenu, false);
+        stateMachine.OnEnterState(GameStateType.PlayerMenu, delegate (GameStateType state, GameInputType input) { PlayerMenu.SetActive(true); });
+        stateMachine.OnExitState(GameStateType.PlayerMenu, delegate (GameInputType input, GameStateType state) { PlayerMenu.SetActive(false); });
+
+        // New Player Menu
+        stateMachine.AddTransition(GameStateType.NewPlayerMenu, GameStateType.PlayerMenu, GameInputType.Escape, false);
+        stateMachine.OnEnterState(GameStateType.NewPlayerMenu, delegate (GameStateType state, GameInputType input) { NewPlayerMenu.SetActive(true); });
+        stateMachine.OnExitState(GameStateType.NewPlayerMenu, delegate (GameInputType input, GameStateType state) { NewPlayerMenu.SetActive(false); });
+
+        // World Menu
+        stateMachine.AddTransition(GameStateType.WorldMenu, GameStateType.NewWorldMenu, GameInputType.OpenNewWorldMenu, false);
+        stateMachine.AddTransition(GameStateType.WorldMenu, GameStateType.PlayerMenu, GameInputType.Escape, false);
+        stateMachine.AddTransition(GameStateType.WorldMenu, GameStateType.Playing, GameInputType.StartPlay, false);
+        stateMachine.OnEnterState(GameStateType.WorldMenu, delegate (GameStateType state, GameInputType input) { WorldMenu.SetActive(true); });
+        stateMachine.OnExitState(GameStateType.WorldMenu, delegate (GameInputType input, GameStateType state) { WorldMenu.SetActive(false); });
+
+
+        // New World Menu
+        stateMachine.AddTransition(GameStateType.NewWorldMenu, GameStateType.WorldMenu, GameInputType.Escape, false);
+        stateMachine.OnEnterState(GameStateType.NewWorldMenu, delegate (GameStateType state, GameInputType input) { NewWorldMenu.SetActive(true); });
+        stateMachine.OnExitState(GameStateType.NewWorldMenu, delegate (GameInputType input, GameStateType state) { NewWorldMenu.SetActive(false); });
+
+        // Exit
+        stateMachine.OnEnterState(GameStateType.Exit, delegate (GameStateType state, GameInputType input) { Application.Quit(); });
+
 
         return stateMachine;
     }
@@ -179,7 +228,10 @@ public class GameManager : MonoBehaviour
             FPSQueue.Dequeue();
         }
 
-        World.Update();
+        if (World != null)
+        {
+            World.Update();
+        }
     }
 
     public void FixedUpdate()
@@ -191,9 +243,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void OnStartPlaying(GameStateType previousState, GameInputType input)
+    {
+        if (previousState == GameStateType.WorldMenu)
+        {
+            World = new World();
+            PlayerCamera = Instantiate(Prefabs.CAMERA_PREFAB, new Vector3(0, 0, -1), Quaternion.identity);
+            World.Start();
+            HUD.SetActive(true);
+        }
+        Time.timeScale = 1f;
+    }
+
     public void LevelUp()
     {
-        PassiveMenu.GetComponent<PassiveMenuController>().UpdateUI();
         StartCoroutine("ShowLevelUp");
     }
 
@@ -225,54 +288,6 @@ public class GameManager : MonoBehaviour
     public void TakeInput(GameInputType inputType)
     {
         StateMachine.TakeInput(inputType);
-    }
-
-    public void OnFinishedLoading(GameInputType intputType, GameStateType nextState)
-    {
-        SplashScreen.SetActive(false);
-    }
-
-    public void OnStartPlaying(GameStateType previousState, GameInputType inputType)
-    {
-        Time.timeScale = 1;
-    }
-
-    public void OnStopPlaying(GameInputType intputType, GameStateType nextState)
-    {
-        Time.timeScale = 0;
-    }
-
-    public void OnOpenPauseMenu(GameStateType previousState, GameInputType inputType)
-    {
-        PausedMenu.SetActive(true);
-    }
-
-    public void OnClosePauseMenu(GameInputType intputType, GameStateType nextState)
-    {
-        PausedMenu.SetActive(false);
-    }
-
-    public void OnOpenInfoMenu(GameStateType previousState, GameInputType inputType)
-    {
-        InfoMenu.SetActive(true);
-        RandomSeedText.GetComponent<Text>().text = "Random Seed: "+World.GetRandomSeed().ToString();
-        PlayerLocationText.GetComponent<Text>().text = "Player Location: "+World.GetPlayerLocation().ToString();
-    }
-
-    public void OnCloseInfoMenu(GameInputType inputType, GameStateType nextState)
-    {
-        InfoMenu.SetActive(false);
-    }
-
-    public void OnOpenPassives(GameStateType previousState, GameInputType inputType)
-    {
-        PassiveMenu.SetActive(true);
-        PassiveMenu.GetComponent<PassiveMenuController>().UpdateUI();
-    }
-
-    public void OnClosePassives(GameInputType intputType, GameStateType nextState)
-    {
-        PassiveMenu.SetActive(false);
     }
 
     public void OnPlayerDeath(GameStateType previousState, GameInputType inputType)

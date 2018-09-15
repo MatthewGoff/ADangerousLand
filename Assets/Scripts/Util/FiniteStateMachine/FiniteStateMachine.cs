@@ -65,17 +65,18 @@ public class FiniteStateMachine<S, I>
             }
 
             CurrentState.OnExit?.Invoke(input, nextState.StateIdentifier);
+            State<S, I> PreviousState = CurrentState;
             CurrentState = nextState;
-            CurrentState.OnEnter?.Invoke(CurrentState.StateIdentifier, input);
+            CurrentState.OnEnter?.Invoke(PreviousState.StateIdentifier, input);
         }
     }
 
-    public void OnEnter(S state, OnEnterDelegate<S, I> onEnter)
+    public void OnEnterState(S state, OnEnterStateDelegate<S, I> onEnter)
     {
         GameStates[state].OnEnter = onEnter;
     }
 
-    public void OnExit(S state, OnExitDelegate<S, I> onExit)
+    public void OnExitState(S state, OnExitStateDelegate<S, I> onExit)
     {
         GameStates[state].OnExit = onExit;
     }

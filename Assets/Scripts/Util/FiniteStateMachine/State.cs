@@ -2,8 +2,8 @@
 
 public class State<S, I>
 {
-    public OnEnterDelegate<S, I> OnEnter;
-    public OnExitDelegate<S, I> OnExit;
+    public OnEnterStateDelegate<S, I> OnEnter;
+    public OnExitStateDelegate<S, I> OnExit;
     public readonly S StateIdentifier;
     public readonly Dictionary<I, Transition<S, I>> Transitions;
     public State<S, I> PreviousState;
