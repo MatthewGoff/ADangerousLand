@@ -10,6 +10,8 @@ public class PlayerMenuController : MonoBehaviour {
     public GameObject CharacterTogglePrefab;
     public List<GameObject> CharacterToggles;
     public PlayerManager SelectedPlayer;
+    public GameObject NextButton;
+    public GameObject DeleteButton;
 
     public void Awake()
     {
@@ -62,9 +64,34 @@ public class PlayerMenuController : MonoBehaviour {
         return playerManager;
     }
 
+    public void Update()
+    {
+        if (ToggleGroup.GetComponent<ToggleGroup>().AnyTogglesOn())
+        {
+            NextButton.GetComponent<Button>().interactable = true;
+            DeleteButton.GetComponent<Button>().interactable = true;
+        }
+        else
+        {
+            NextButton.GetComponent<Button>().interactable = false;
+            DeleteButton.GetComponent<Button>().interactable = false;
+        }
+    }
+
+    public void SelectPlayer(int toSelect)
+    {
+        foreach (GameObject characterToggle in CharacterToggles)
+        {
+            if (characterToggle.GetComponent<CharacterToggleController>().PlayerIdentifier == toSelect)
+            {
+                characterToggle.GetComponent<Toggle>().isOn = true;
+            }
+        }
+    }
+
     public void UpdateCharacterToggles()
     {
-        foreach(GameObject characterToggle in CharacterToggles)
+        foreach (GameObject characterToggle in CharacterToggles)
         {
             Destroy(characterToggle);
         }
@@ -74,17 +101,25 @@ public class PlayerMenuController : MonoBehaviour {
         int i = 0;
         int characterToggleHeight = 84;
         int selectionWindowHeight = 339;
-        foreach(int PlayerIdentifier in playerIdentifiers)
+        foreach (int PlayerIdentifier in playerIdentifiers)
         {
             GameObject newCharacterToggle = Instantiate(CharacterTogglePrefab, Vector3.zero, Quaternion.identity, ContentPort.transform);
             newCharacterToggle.GetComponent<CharacterToggleController>().Populate(PlayerIdentifier);
             newCharacterToggle.GetComponent<Toggle>().group = ToggleGroup.GetComponent<ToggleGroup>();
-            newCharacterToggle.GetComponent<RectTransform>().anchoredPosition = new Vector2(256, - 10 - (i * (characterToggleHeight+10)));
+            newCharacterToggle.GetComponent<RectTransform>().anchoredPosition = new Vector2(256, -10 - (i * (characterToggleHeight + 10)));
             CharacterToggles.Add(newCharacterToggle);
             i++;
         }
         RectTransform contentRect = ContentPort.GetComponent<RectTransform>();
         float contentHeight = Mathf.Max(10 + (i * (characterToggleHeight + 10)), selectionWindowHeight);
         contentRect.sizeDelta = new Vector2(17, contentHeight);
+
+        foreach (GameObject characterToggle in CharacterToggles)
+        {
+            if (characterToggle.GetComponent<CharacterToggleController>().PlayerIdentifier == toSelect)
+            {
+                characterToggle.GetComponent<Toggle>().isOn = true;
+            }
+        }
     }
 }
