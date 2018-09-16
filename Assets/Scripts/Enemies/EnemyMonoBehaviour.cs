@@ -2,8 +2,7 @@
 
 public class EnemyMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
 {
-    public GameObject Sprite;
-
+    private GameObject Sprite;
     private EnemyManager Manager;
     private Rigidbody2D RB2D;
     private SpriteRenderer Renderer;
@@ -12,7 +11,8 @@ public class EnemyMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
 
     public void Start()
     {
-        Sprite = GameObject.Instantiate(Sprite, transform.position, Quaternion.identity);
+        Sprite = (GameObject)Resources.Load("Prefabs/"+ Configuration.ENEMY_CONFIGURATIONS[Manager.EnemyType].SpriteLocation);
+        Sprite = Instantiate(Sprite, transform.position, Quaternion.identity);
         Animator = Sprite.GetComponent<Animator>();
         RB2D = GetComponent<Rigidbody2D>();
         Renderer = Sprite.GetComponent<SpriteRenderer>();

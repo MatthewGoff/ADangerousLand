@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class BasicAI
+public class BasicAI : EnemyAI
 {
     private readonly EnemyManager Manager;
 
@@ -14,7 +14,7 @@ public class BasicAI
         Vector2 playerPosition = Manager.World.PlayerManager.GetPlayerPosition();
         Vector2 myPosition = Manager.MonoBehaviour.transform.position;
         float distance = (playerPosition - myPosition).magnitude;
-        if (distance < 1.5f)
+        if (distance < Manager.Aoe)
         {
             Manager.SlashAttack(playerPosition);
         }

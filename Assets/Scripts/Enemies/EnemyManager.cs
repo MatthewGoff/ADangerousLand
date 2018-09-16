@@ -2,12 +2,14 @@
 
 public class EnemyManager : CombatantManager
 {
+    public EnemyType EnemyType;
     public bool Awake;
     public Vector2 Position { get; private set; }
     public readonly World World;
     public readonly BasicAI AI;
-    public readonly float MoveSpeed = 3.5f;
+    public readonly float MoveSpeed;
     public EnemyMonoBehaviour MonoBehaviour;
+    public float Aoe;
 
     private int MaxHealth;
     private float CurrentHealth;
@@ -15,18 +17,26 @@ public class EnemyManager : CombatantManager
     private DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;
     private Chunk CurrentChunk;
     private Cooldown SlashCooldown;
-    private readonly int Exp = 1;
+    private float Damage;
 
-    public EnemyManager(World world, WorldLocation worldLocation)
+    public EnemyManager(World world, WorldLocation worldLocation, EnemyType enemyType)
     {
-        SlashCooldown = new Cooldown(1f);
+        EnemyType = enemyType;
+        SlashCooldown = new Cooldown(1/Configuration.ENEMY_CONFIGURATIONS[EnemyType].AttackSpeed);
         World = world;
         Position = new Vector2(worldLocation.X, worldLocation.Y);
         CurrentChunk = world.GetChunk(world.GetChunkIndex(worldLocation));
         AI = new BasicAI(this);
-        MaxHealth = 5;
+        MaxHealth = Configuration.ENEMY_CONFIGURATIONS[EnemyType].MaxHealth;
+        MoveSpeed = Configuration.ENEMY_CONFIGURATIONS[EnemyType].MoveSpeed;
+        Aoe = Configuration.ENEMY_CONFIGURATIONS[EnemyType].Aoe;
+        Damage = Configuration.ENEMY_CONFIGURATIONS[EnemyType].Damage;
         CurrentHealth = MaxHealth;
         Team = 1;
+        if (Configuration.ENEMY_CONFIGURATIONS[EnemyType].AIType == AIType.Basic)
+        {
+            AI = new BasicAI(this);
+        }
     }
 
     public void CheckTreadmill(Treadmill treadmill)
@@ -108,7 +118,7 @@ public class EnemyManager : CombatantManager
         if (CurrentHealth <= 0)
         {
             Die();
-            return Exp;
+            return Configuration.ENEMY_CONFIGURATIONS[EnemyType].ExperienceReward;
         }
         else
         {
@@ -128,16 +138,14 @@ public class EnemyManager : CombatantManager
             Vector2 attackPosition = MonoBehaviour.transform.position;
             Vector2 attackVector = attackTarget - attackPosition;
             float attackAngle = Vector2.SignedAngle(Vector2.right, attackVector);
-            float aoe = 1.5f;
-            float damage = 0.5f;
 
-            SlashManager slash = new SlashManager(this, attackPosition, attackAngle, aoe, damage);
+            SlashManager slash = new SlashManager(this, attackPosition, attackAngle, Aoe, Damage);
         }
     }
 
     private void UpdateHealthBar()
     {
-        HealthBar.ShowHealth((float)CurrentHealth / MaxHealth);
+        HealthBar.ShowHealth(CurrentHealth / MaxHealth);
 
     }
 
