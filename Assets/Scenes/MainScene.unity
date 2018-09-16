@@ -8662,6 +8662,25 @@ MonoBehaviour:
   CharacterTogglePrefab: {fileID: 1703628409908854, guid: a027e9ee709bdee4ea1a31068ac36978,
     type: 2}
   CharacterToggles: []
+  SelectedPlayer:
+    PlayerIdentifier: 0
+    Name: 
+    DeathPenalty: 0
+    Experience: 0
+    Level: 0
+    PassivePoints: 0
+    AttackType: 0
+    AttackDamage: 0
+    AttackSpeed: 0
+    MoveSpeed: 0
+    SightRadiusNear: 0
+    SightRadiusFar: 0
+    ProjectileDamage: 0
+    MeleeAoe: 0
+    MaxHealth: 0
+    MaxStamina: 0
+    HealthRegen: 0
+    StaminaRegen: 0
 --- !u!1 &958345429
 GameObject:
   m_ObjectHideFlags: 0

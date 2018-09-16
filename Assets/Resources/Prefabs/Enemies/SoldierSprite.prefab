@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212679312371625378}
   - component: {fileID: 95919664177192688}
   m_Layer: 0
-  m_Name: EnemySprite
+  m_Name: SoldierSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
