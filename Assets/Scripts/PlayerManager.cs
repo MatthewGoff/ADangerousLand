@@ -1,54 +1,71 @@
 ﻿using UnityEngine;
+using System;
 
+[Serializable]
 public class PlayerManager : CombatantManager
 {
-    public PlayerMonoBehaviour MonoBehaviour;
-    private Cooldown AttackCooldown;
+    [NonSerialized] private bool Dead;
+    [NonSerialized] private Cooldown AttackCooldown;
+    [NonSerialized] public PlayerMonoBehaviour MonoBehaviour;
+    [NonSerialized] public bool AttemptingSprint;
+    [NonSerialized] public bool Sprinting;
+    [NonSerialized] public float CurrentHealth;
+    [NonSerialized] public float CurrentMana;
 
+    public int PlayerIdentifier;
     public string Name;
     public DeathPenaltyType DeathPenalty;
 
-    public float CurrentHealth;
-    public float CurrentMana;
     public int Experience;
     public int Level;
-    public bool AttemptingSprint;
-    public bool Sprinting;
-    public int AttackType = 0;
-    private bool Dead;
+    public int PassivePoints;
 
-    public float AttackDamage = 1;
-    public float AttackSpeed = 1;
-    public float MoveSpeed = 5;
-    public float SightRadiusNear = 7;
-    public float SightRadiusFar = 11;
-    public float ProjectileDamage = 0.5f;
-    public float MeleeAoe = 1.5f;
-    public int MaxHealth = 10;
-    public int MaxStamina = 5;
-    public float HealthRegen = 0.1f;
-    public float StaminaRegen = 0.5f;
-    public int PassivePoints = 0;
+    public int AttackType;
+    public float AttackDamage;
+    public float AttackSpeed;
+    public float MoveSpeed;
+    public float SightRadiusNear;
+    public float SightRadiusFar;
+    public float ProjectileDamage;
+    public float MeleeAoe;
+    public int MaxHealth;
+    public int MaxStamina;
+    public float HealthRegen;
+    public float StaminaRegen;
 
-    public PlayerManager(string name, DeathPenaltyType deathPenalty)
+    public PlayerManager(int identifier, string name, DeathPenaltyType deathPenalty)
     {
+        PlayerIdentifier = identifier;
         Name = name;
         DeathPenalty = deathPenalty;
 
-        AttackCooldown = new Cooldown(1/AttackSpeed);
-
-        Team = 0;
         Experience = 0;
         Level = 1;
+        PassivePoints = 0;
+
+        AttackType = 0;
+        AttackDamage = 1;
+        AttackSpeed = 1;
+        MoveSpeed = 5;
+        SightRadiusNear = 7;
+        SightRadiusFar = 11;
+        ProjectileDamage = 0.5f;
+        MeleeAoe = 1.5f;
+        MaxHealth = 10;
+        MaxStamina = 5;
+        HealthRegen = 0.1f;
+        StaminaRegen = 0.5f;
     }
 
     public void Spawn(WorldLocation spawnLocation)
     {
+        AttackCooldown = new Cooldown(1 / AttackSpeed);
+        Team = 0;
         Dead = false;
-        CurrentHealth = MaxHealth;
-        CurrentMana = MaxStamina;
         Sprinting = false;
         AttemptingSprint = false;
+        CurrentHealth = MaxHealth;
+        CurrentMana = MaxStamina;
 
         GameObject player = GameObject.Instantiate(Prefabs.PLAYER_PREFAB, new Vector3(spawnLocation.X, spawnLocation.Y, 0), Quaternion.identity);
         MonoBehaviour = player.GetComponent<PlayerMonoBehaviour>();

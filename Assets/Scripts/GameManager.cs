@@ -58,6 +58,8 @@ public class GameManager : MonoBehaviour
         StartCoroutine("PrintGameObjects");
 
         Prefabs.LoadPrefabs();
+        PlayerPersistenceManager.Initialize();
+        //WorldPersistenceManager.Initialize();
         StartCoroutine("Load");
     }
 
@@ -152,7 +154,9 @@ public class GameManager : MonoBehaviour
 
         // Player Dead
         stateMachine.AddTransition(GameStateType.PlayerDead, GameStateType.Playing, GameInputType.PlayerRespawn, false);
+        stateMachine.AddTransition(GameStateType.PlayerDead, GameStateType.PausedMenu, GameInputType.Escape, true);
         stateMachine.OnEnterState(GameStateType.PlayerDead, OnPlayerDeath);
+        stateMachine.OnExitState(GameStateType.PlayerDead, delegate (GameInputType input, GameStateType state) { Time.timeScale = 0; });
 
         // Passives Menu
         stateMachine.AddTransition(GameStateType.PassivesMenu, GameStateType.Playing, GameInputType.Escape, true);
@@ -247,8 +251,10 @@ public class GameManager : MonoBehaviour
     {
         if (previousState == GameStateType.WorldMenu)
         {
-            World = new World();
             PlayerCamera = Instantiate(Prefabs.CAMERA_PREFAB, new Vector3(0, 0, -1), Quaternion.identity);
+            PlayerManager playerManager = PlayerMenu.GetComponent<PlayerMenuController>().SelectedPlayer;
+            World = new World();
+            World.SetPlayerManager(playerManager);
             World.Start();
             HUD.SetActive(true);
         }
@@ -292,6 +298,7 @@ public class GameManager : MonoBehaviour
 
     public void OnPlayerDeath(GameStateType previousState, GameInputType inputType)
     {
+        Time.timeScale = 1f;
         DeathScreen.SetActive(true);
         StartCoroutine("FadeToBlack");
     }
@@ -308,6 +315,11 @@ public class GameManager : MonoBehaviour
         World.Start();
         DeathScreen.SetActive(false);
         Singleton.TakeInput(GameInputType.PlayerRespawn);
+    }
+
+    public void Save()
+    {
+        PlayerPersistenceManager.SavePlayer(World.PlayerManager);
     }
 
     public void Print(string s)

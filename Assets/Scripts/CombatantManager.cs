@@ -1,6 +1,9 @@
-﻿public abstract class CombatantManager
+﻿using System;
+
+[Serializable]
+public abstract class CombatantManager
 {
-    public int Team;
+    [NonSerialized] public int Team;
 
     public abstract int RecieveHit(float damage);
     public abstract void RecieveExp(int exp);

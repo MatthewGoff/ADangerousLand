@@ -85,7 +85,7 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
             movementVector.Normalize();
         }
                 
-        float movementMultiplier = Manager.World.MovementMultiplier(new WorldLocation(Util.RoundVector2(RB2D.position)));
+        float movementMultiplier = GameManager.Singleton.World.MovementMultiplier(new WorldLocation(Util.RoundVector2(RB2D.position)));
         bool Sprinting = Manager.AttemptSprint();
         if (Sprinting)
         {
