@@ -1,6 +1,9 @@
 # Folder where you should store your builds
 [Bb]uilds/
 
+# Folder where you should store your persistant data
+A\ Dangerous\ Land_Data/
+
 # Visual Studio Files
 .vs/
 obj/
