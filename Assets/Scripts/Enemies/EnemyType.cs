@@ -1,4 +1,6 @@
 ﻿public enum EnemyType
 {
-    Soldier
+    Soldier,
+    Werewolf,
+    Dragon,
 }

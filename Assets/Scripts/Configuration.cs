@@ -63,7 +63,7 @@ public class Configuration
     public static readonly Dictionary<EnemyType, EnemyConfiguration> ENEMY_CONFIGURATIONS = new Dictionary<EnemyType, EnemyConfiguration>()
     {
         {EnemyType.Soldier, new EnemyConfiguration(){
-            SpriteLocation = "Enemies/SoldierSprite",
+            SpriteLocation = "SoldierSprite",
             AIType = AIType.Basic,
             MaxHealth = 5,
             MoveSpeed = 3.5f,
@@ -71,7 +71,80 @@ public class Configuration
             Damage = 0.5f,
             AttackSpeed = 1f,
             Aoe = 1.5f
-        }}
+        }},
+        {EnemyType.Werewolf, new EnemyConfiguration(){
+            SpriteLocation = "WerewolfSprite",
+            AIType = AIType.Basic,
+            MaxHealth = 5,
+            MoveSpeed = 3.5f,
+            ExperienceReward = 1,
+            Damage = 0.5f,
+            AttackSpeed = 1f,
+            Aoe = 1.5f
+        }},
+        {EnemyType.Dragon, new EnemyConfiguration(){
+           SpriteLocation = "DragonSprite",
+           AIType = AIType.Basic,
+           MaxHealth = 1000,
+           MoveSpeed = 1f,
+           ExperienceReward = 200,
+           Damage = 5f,
+           AttackSpeed = 0.5f,
+           Aoe = 10f
+        }},
+    };
+    // SpawnProbabilities maps a difficulty rating to an array of spawn probabilities
+    public static readonly Dictionary<int, (float, EnemyType)[]> SPAWN_PROBABILITIES = new Dictionary<int, (float, EnemyType)[]>()
+    {
+        {0, new (float, EnemyType)[]
+        {
+            (1f, EnemyType.Soldier),
+        }},
+        {1, new (float, EnemyType)[]
+        {
+            (1f, EnemyType.Soldier),
+        }},
+        {2, new (float, EnemyType)[]
+        {
+            (0.9f, EnemyType.Soldier),
+            (0.1f, EnemyType.Werewolf),
+        }},
+        {3, new (float, EnemyType)[]
+        {
+            (0.8f, EnemyType.Soldier),
+            (0.2f, EnemyType.Werewolf),
+        }},
+        {4, new (float, EnemyType)[]
+        {
+            (0.7f, EnemyType.Soldier),
+            (0.3f, EnemyType.Werewolf),
+        }},
+        {5, new (float, EnemyType)[]
+        {
+            (0.6f, EnemyType.Soldier),
+            (0.4f, EnemyType.Werewolf),
+        }},
+        {6, new (float, EnemyType)[]
+        {
+            (0.5f, EnemyType.Soldier),
+            (0.5f, EnemyType.Werewolf),
+        }},
+        {7, new (float, EnemyType)[]
+        {
+            (0.5f, EnemyType.Soldier),
+            (0.5f, EnemyType.Werewolf),
+        }},
+        {8, new (float, EnemyType)[]
+        {
+            (0.5f, EnemyType.Soldier),
+            (0.5f, EnemyType.Werewolf),
+        }},
+        {9, new (float, EnemyType)[]
+        {
+            (0.45f, EnemyType.Soldier),
+            (0.45f, EnemyType.Werewolf),
+            (0.1f, EnemyType.Dragon),
+        }},
     };
 
 }

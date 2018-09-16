@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Chunk
@@ -20,13 +19,15 @@ public class Chunk
     private readonly Tile[,] Tiles;
     private readonly Queue<PostInitAction> PostInitActions;
 
+    private int DangerRating;
     private int MaxEnemies;
 
     public Chunk(World world, ChunkIndex chunkIndex)
     {
         World = world;
         ChunkIndex = chunkIndex;
-        MaxEnemies = DecideMaxEnemies();
+        DangerRating = DecideDangerRating();
+        MaxEnemies = DangerRating;
         ImportedRivers = new List<RiverPackage>();
         RiverNodes = CreateRiverNodes();
         Tiles = CreateTiles();
@@ -35,9 +36,9 @@ public class Chunk
         PostInitActions = new Queue<PostInitAction>();
     }
 
-    private int DecideMaxEnemies()
+    private int DecideDangerRating()
     {
-        return Mathf.FloorToInt((new Vector2(ChunkIndex.X, ChunkIndex.Y)).magnitude)-1;
+        return Mathf.Clamp(Mathf.FloorToInt((new Vector2(ChunkIndex.X, ChunkIndex.Y)).magnitude/3), 0, 9);
     }
 
     public void Update(Treadmill treadmill)
@@ -111,7 +112,25 @@ public class Chunk
         WorldLocation spawnLocation = UnocupiedTiles[Util.RandomInt(0, UnocupiedTiles.Count-1)];
         UnocupiedTiles.Remove(spawnLocation);
 
-        ResidentEnemies.Add(new EnemyManager(World, spawnLocation, EnemyType.Soldier));
+        EnemyType enemyType = DecideEnemyType();
+        ResidentEnemies.Add(new EnemyManager(World, spawnLocation, enemyType));
+    }
+
+    private EnemyType DecideEnemyType()
+    {
+        (float prob, EnemyType enemyType)[] enemyTypes = Configuration.SPAWN_PROBABILITIES[DangerRating];
+
+        float random = Random.Range(0f, 1f);
+        float accumulator = 0f;
+        for (int x = 0; x < enemyTypes.GetLength(0); x++)
+        {
+            accumulator += enemyTypes[x].prob;
+            if (random <= accumulator)
+            {
+                return enemyTypes[x].enemyType;
+            }
+        }
+        return enemyTypes[0].enemyType;
     }
 
     private Tile[,] CreateTiles()
@@ -224,8 +243,8 @@ public class Chunk
     public List<RiverPackage> GetFloodplains(WorldLocation worldLocation, int depth)
     {
         int radius = depth - 1;
-        int lowerRadius = (int) Math.Ceiling(radius / 2.0f);
-        int upperRadius = (int) Math.Floor(radius / 2.0f);
+        int lowerRadius = (int) Mathf.Ceil(radius / 2.0f);
+        int upperRadius = (int) Mathf.Floor(radius / 2.0f);
         List<RiverPackage> floodplains = new List<RiverPackage>();
         for (int worldX = worldLocation.X - lowerRadius; worldX<worldLocation.X + upperRadius; worldX++)
         {
@@ -485,7 +504,7 @@ public class Chunk
     {
         float altitude = Util.GetPerlinNoise(World.GenerationParameters.TopologyRandomSeed, World.GenerationParameters.TopologyPeriods, worldLocation.Tuple);
         //return ((altitude * 1000) % 1) < MyWorld.GenerationParameters.RiverDensity && altitude > MyWorld.GenerationParameters.MountainAltitude;
-        return ((altitude * 1000) % 1) < World.GenerationParameters.RiverDensity * Math.Pow(altitude, 5);
+        return ((altitude * 1000) % 1) < World.GenerationParameters.RiverDensity * Mathf.Pow(altitude, 5);
     }
 
     public void EnemyHasDied(EnemyManager enemyManager)

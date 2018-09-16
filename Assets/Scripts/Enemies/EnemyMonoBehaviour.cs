@@ -11,7 +11,7 @@ public class EnemyMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
 
     public void Start()
     {
-        Sprite = (GameObject)Resources.Load("Prefabs/"+ Configuration.ENEMY_CONFIGURATIONS[Manager.EnemyType].SpriteLocation);
+        Sprite = (GameObject)Resources.Load("Prefabs/Enemies/"+ Configuration.ENEMY_CONFIGURATIONS[Manager.EnemyType].SpriteLocation);
         Sprite = Instantiate(Sprite, transform.position, Quaternion.identity);
         Animator = Sprite.GetComponent<Animator>();
         RB2D = GetComponent<Rigidbody2D>();
@@ -42,26 +42,29 @@ public class EnemyMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
         float movementMultiplier = Manager.World.MovementMultiplier(new WorldLocation(Util.RoundVector2(RB2D.position)));
         RB2D.MovePosition(RB2D.position + movementVector * Manager.MoveSpeed * movementMultiplier * Time.fixedDeltaTime);
 
-        Animator.SetFloat("Multiplier", movementMultiplier * Manager.MoveSpeed / 5f);
-        if (movementVector.magnitude <= 0.05f)
+        if (Animator != null)
         {
-            Animator.SetTrigger("Idleing");
-        }
-        else if (Mathf.Abs(angle) < 45)
-        {
-            Animator.SetTrigger("WalkingRight");
-        }
-        else if (Mathf.Abs(angle) > 135)
-        {
-            Animator.SetTrigger("WalkingLeft");
-        }
-        else if (angle > 0)
-        {
-            Animator.SetTrigger("WalkingBackwards");
-        }
-        else
-        {
-            Animator.SetTrigger("WalkingForwards");
+            Animator.SetFloat("Multiplier", movementMultiplier * Manager.MoveSpeed / 5f);
+            if (movementVector.magnitude <= 0.05f)
+            {
+                Animator.SetTrigger("Idleing");
+            }
+            else if (Mathf.Abs(angle) < 45)
+            {
+                Animator.SetTrigger("WalkingRight");
+            }
+            else if (Mathf.Abs(angle) > 135)
+            {
+                Animator.SetTrigger("WalkingLeft");
+            }
+            else if (angle > 0)
+            {
+                Animator.SetTrigger("WalkingBackwards");
+            }
+            else
+            {
+                Animator.SetTrigger("WalkingForwards");
+            }
         }
     }
 
