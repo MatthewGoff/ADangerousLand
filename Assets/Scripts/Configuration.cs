@@ -75,12 +75,12 @@ public class Configuration
         {EnemyType.Werewolf, new EnemyConfiguration(){
             SpriteLocation = "WerewolfSprite",
             AIType = AIType.Basic,
-            MaxHealth = 5,
-            MoveSpeed = 3.5f,
-            ExperienceReward = 1,
-            Damage = 0.5f,
-            AttackSpeed = 1f,
-            Aoe = 1.5f
+            MaxHealth = 50,
+            MoveSpeed = 5.5f,
+            ExperienceReward = 10,
+            Damage = 0.1f,
+            AttackSpeed = 20f,
+            Aoe = 1.0f
         }},
         {EnemyType.Dragon, new EnemyConfiguration(){
            SpriteLocation = "DragonSprite",
