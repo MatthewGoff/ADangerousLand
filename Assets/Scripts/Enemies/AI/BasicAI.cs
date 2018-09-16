@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public class EnemyAI
+public class BasicAI
 {
     private readonly EnemyManager Manager;
 
-    public EnemyAI(EnemyManager manager)
+    public BasicAI(EnemyManager manager)
     {
         Manager = manager;
     }
@@ -14,7 +14,7 @@ public class EnemyAI
         Vector2 playerPosition = Manager.World.PlayerManager.GetPlayerPosition();
         Vector2 myPosition = Manager.MonoBehaviour.transform.position;
         float distance = (playerPosition - myPosition).magnitude;
-        if (distance < 2f)
+        if (distance < 1.5f)
         {
             Manager.SlashAttack(playerPosition);
         }

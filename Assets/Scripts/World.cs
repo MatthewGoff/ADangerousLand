@@ -193,6 +193,11 @@ public class World
         return new ChunkIndex(x, y);
     }
 
+    public Chunk GetChunk(ChunkIndex chunkIndex)
+    {
+        return Chunks.GetChunk(chunkIndex);
+    }
+
     private void SpawnPlayer()
     {
         WorldLocation spawnLocation = DecideSpawnPoint();

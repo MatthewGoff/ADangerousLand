@@ -5,7 +5,7 @@ public class EnemyManager : CombatantManager
     public bool Awake;
     public Vector2 Position { get; private set; }
     public readonly World World;
-    public readonly EnemyAI AI;
+    public readonly BasicAI AI;
     public readonly float MoveSpeed = 3.5f;
     public EnemyMonoBehaviour MonoBehaviour;
 
@@ -17,13 +17,13 @@ public class EnemyManager : CombatantManager
     private Cooldown SlashCooldown;
     private readonly int Exp = 1;
 
-    public EnemyManager(World world, WorldLocation worldLocation, Chunk chunk)
+    public EnemyManager(World world, WorldLocation worldLocation)
     {
         SlashCooldown = new Cooldown(1f);
         World = world;
         Position = new Vector2(worldLocation.X, worldLocation.Y);
-        CurrentChunk = chunk;
-        AI = new EnemyAI(this);
+        CurrentChunk = world.GetChunk(world.GetChunkIndex(worldLocation));
+        AI = new BasicAI(this);
         MaxHealth = 5;
         CurrentHealth = MaxHealth;
         Team = 1;
@@ -128,7 +128,7 @@ public class EnemyManager : CombatantManager
             Vector2 attackPosition = MonoBehaviour.transform.position;
             Vector2 attackVector = attackTarget - attackPosition;
             float attackAngle = Vector2.SignedAngle(Vector2.right, attackVector);
-            float aoe = 1f;
+            float aoe = 1.5f;
             float damage = 0.5f;
 
             SlashManager slash = new SlashManager(this, attackPosition, attackAngle, aoe, damage);
