@@ -33,6 +33,7 @@ public class PlayerPersistenceManager
 
     public static void SavePlayer(PlayerManager playerManager)
     {
+        GameManager.Singleton.Print("Saving player");
         Stream saveFileStream = File.Create(PATH + playerManager.PlayerIdentifier.ToString() + ".bin");
         BinaryFormatter binaryFormatter = new BinaryFormatter();
         binaryFormatter.Serialize(saveFileStream, playerManager);

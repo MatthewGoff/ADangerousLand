@@ -59,6 +59,7 @@ public class PlayerMenuController : MonoBehaviour {
         foreach (Toggle toggle in ToggleGroup.GetComponent<ToggleGroup>().ActiveToggles())
         {
             int playerIdentifier = toggle.GetComponent<CharacterToggleController>().PlayerIdentifier;
+            GameManager.Singleton.Print("you ordered playr " + playerIdentifier.ToString());
             playerManager = PlayerPersistenceManager.LoadPlayer(playerIdentifier);
         }
         return playerManager;
@@ -114,6 +115,9 @@ public class PlayerMenuController : MonoBehaviour {
         float contentHeight = Mathf.Max(10 + (i * (characterToggleHeight + 10)), selectionWindowHeight);
         contentRect.sizeDelta = new Vector2(17, contentHeight);
 
-        CharacterToggles.First().GetComponent<Toggle>().isOn = true;
+        if (CharacterToggles.Count != 0)
+        {
+            CharacterToggles.First().GetComponent<Toggle>().isOn = true;
+        }
     }
 }
