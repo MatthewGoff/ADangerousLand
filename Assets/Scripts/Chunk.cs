@@ -78,10 +78,10 @@ public class Chunk
         foreach (EnemyManager enemy in ResidentEnemies)
         {
             enemy.CheckTreadmill(treadmill);
-            if (!WithinChunk(enemy.Position))
+            if (!WithinChunk((enemy.XPosition,enemy.YPosition)))
             {
                 emigrantEnemies.Add(enemy);
-                ChunkIndex newHome = GameManager.Singleton.World.GetChunkIndex(enemy.Position);
+                ChunkIndex newHome = GameManager.Singleton.World.GetChunkIndex((enemy.XPosition, enemy.YPosition));
                 GameManager.Singleton.World.GetChunk(newHome).RecieveImmigrantEnemy(enemy);
                 enemy.Immigrate(newHome);
             }

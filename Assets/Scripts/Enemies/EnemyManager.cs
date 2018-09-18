@@ -11,20 +11,23 @@ public class EnemyManager : CombatantManager
     [IgnoreMember] private DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;
     [IgnoreMember] private Cooldown SlashCooldown;
 
-    [Key(0)] public EnemyType EnemyType;
-    [Key(1)] public (float X, float Y) Position { get; private set; }
-    [Key(2)] public readonly EnemyAI AI;
-    [Key(3)] public readonly float MoveSpeed;
-    [Key(4)] public float Aoe;
-    [Key(5)] public int MaxHealth;
-    [Key(6)] public float CurrentHealth;
-    [Key(7)] public ChunkIndex CurrentChunk;
-    [Key(8)] public float Damage;
+    // X and Y position are held separately since MessagePack cannot serialize tupples
+    [Key(0)] public float XPosition { get; private set; }
+    [Key(1)] public float YPosition { get; private set; }
+    [Key(2)] public EnemyType EnemyType;
+    [Key(3)] public readonly EnemyAI AI;
+    [Key(4)] public readonly float MoveSpeed;
+    [Key(5)] public float Aoe;
+    [Key(6)] public int MaxHealth;
+    [Key(7)] public float CurrentHealth;
+    [Key(8)] public ChunkIndex CurrentChunk;
+    [Key(9)] public float Damage;
 
     public EnemyManager(WorldLocation worldLocation, EnemyType enemyType)
     {
         EnemyType = enemyType;
-        Position = worldLocation.Tuple;
+        XPosition = worldLocation.X;
+        YPosition = worldLocation.Y;
         CurrentChunk = GameManager.Singleton.World.GetChunkIndex(worldLocation);
         MaxHealth = Configuration.ENEMY_CONFIGURATIONS[EnemyType].MaxHealth;
         MoveSpeed = Configuration.ENEMY_CONFIGURATIONS[EnemyType].MoveSpeed;
@@ -40,8 +43,9 @@ public class EnemyManager : CombatantManager
 
     [SerializationConstructor]
     public EnemyManager(
+        float xPosition,
+        float yPosition,
         EnemyType enemyType,
-        (float X, float Y) position,
         EnemyAI aI,
         float moveSpeed,
         float aoe,
@@ -50,14 +54,18 @@ public class EnemyManager : CombatantManager
         ChunkIndex currentChunk,
         float damage)
     {
+        XPosition = xPosition;
+        YPosition = yPosition;
         EnemyType = enemyType;
-        Position = position;
         AI = aI;
         MoveSpeed = moveSpeed;
         Aoe = aoe;
         MaxHealth = maxHealth;
         CurrentHealth = currentHealth;
+        CurrentChunk = currentChunk;
         Damage = damage;
+
+        Team = 1;
     }
 
     public void CheckTreadmill(Treadmill treadmill)
@@ -72,7 +80,7 @@ public class EnemyManager : CombatantManager
         }
         else
         {
-            bool onTreadmill = treadmill.OnTreadmill(Position);
+            bool onTreadmill = treadmill.OnTreadmill((XPosition, YPosition));
             if (onTreadmill)
             {
                 WakeUp();
@@ -89,7 +97,7 @@ public class EnemyManager : CombatantManager
     {
         Awake = true;
 
-        Vector2 position = new Vector2(Position.X, Position.Y);
+        Vector2 position = new Vector2(XPosition, YPosition);
         SlashCooldown = new Cooldown(1 / Configuration.ENEMY_CONFIGURATIONS[EnemyType].AttackSpeed);
 
 
@@ -116,7 +124,8 @@ public class EnemyManager : CombatantManager
         if (Awake)
         {
             Awake = false;
-            Position = (MonoBehaviour.transform.position.x, MonoBehaviour.transform.position.y);
+            XPosition = MonoBehaviour.transform.position.x;
+            YPosition = MonoBehaviour.transform.position.y;
             DamageNumbersCanvas.transform.SetParent(null);
             MonoBehaviour.Destroy();
             HealthBar.Destroy();
