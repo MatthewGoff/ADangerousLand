@@ -8,4 +8,7 @@
     public float Damage;
     public float AttackSpeed;
     public float Aoe;
+    public float AgroDistance;
+    public float DeAgroDistance;
+    public float MinAgroDuration;
 }

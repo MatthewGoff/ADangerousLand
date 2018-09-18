@@ -70,7 +70,10 @@ public class Configuration
             ExperienceReward = 1,
             Damage = 0.5f,
             AttackSpeed = 1f,
-            Aoe = 1.5f
+            Aoe = 1.5f,
+            AgroDistance = 10f,
+            DeAgroDistance = 15f,
+            MinAgroDuration = 3f
         }},
         {EnemyType.Werewolf, new EnemyConfiguration(){
             SpriteLocation = "WerewolfSprite",
@@ -80,17 +83,23 @@ public class Configuration
             ExperienceReward = 10,
             Damage = 0.1f,
             AttackSpeed = 20f,
-            Aoe = 1.0f
+            Aoe = 1.0f,
+            AgroDistance = 10f,
+            DeAgroDistance = 15f,
+            MinAgroDuration = 3f
         }},
         {EnemyType.Dragon, new EnemyConfiguration(){
-           SpriteLocation = "DragonSprite",
-           AIType = AIType.Basic,
-           MaxHealth = 1000,
-           MoveSpeed = 1f,
-           ExperienceReward = 200,
-           Damage = 5f,
-           AttackSpeed = 0.5f,
-           Aoe = 10f
+            SpriteLocation = "DragonSprite",
+            AIType = AIType.Basic,
+            MaxHealth = 1000,
+            MoveSpeed = 1f,
+            ExperienceReward = 200,
+            Damage = 15f,
+            AttackSpeed = 0.5f,
+            Aoe = 10f,
+            AgroDistance = 10f,
+            DeAgroDistance = 15f,
+            MinAgroDuration = 3f
         }},
     };
     // SpawnProbabilities maps a difficulty rating to an array of spawn probabilities

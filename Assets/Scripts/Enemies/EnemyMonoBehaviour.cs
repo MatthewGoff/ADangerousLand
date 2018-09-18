@@ -21,7 +21,6 @@ public class EnemyMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
 
     public void Update()
     {
-        MoveTarget = Manager.Update();
         Renderer.color = new Color(1, 1, 1, GameManager.Singleton.World.GetVisibilityLevel(RB2D.position));
     }
 
@@ -33,6 +32,7 @@ public class EnemyMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
 
     public void FixedUpdate()
     {
+        MoveTarget = Manager.FixedUpdate();
         Vector2 movementVector = MoveTarget - RB2D.position;
         float angle = Vector2.SignedAngle(new Vector2(1, 0), movementVector);
         if (movementVector.magnitude > 1.0f)

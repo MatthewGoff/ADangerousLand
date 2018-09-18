@@ -22,6 +22,9 @@ public class EnemyManager : CombatantManager
     [Key(7)] public float CurrentHealth;
     [Key(8)] public ChunkIndex CurrentChunk;
     [Key(9)] public float Damage;
+    [Key(10)] public float AgroDistance;
+    [Key(11)] public float DeAgroDistance;
+    [Key(12)] public float MinAgroDuration;
 
     public EnemyManager(WorldLocation worldLocation, EnemyType enemyType)
     {
@@ -33,6 +36,9 @@ public class EnemyManager : CombatantManager
         MoveSpeed = Configuration.ENEMY_CONFIGURATIONS[EnemyType].MoveSpeed;
         Aoe = Configuration.ENEMY_CONFIGURATIONS[EnemyType].Aoe;
         Damage = Configuration.ENEMY_CONFIGURATIONS[EnemyType].Damage;
+        AgroDistance = Configuration.ENEMY_CONFIGURATIONS[EnemyType].AgroDistance;
+        DeAgroDistance = Configuration.ENEMY_CONFIGURATIONS[EnemyType].DeAgroDistance;
+        MinAgroDuration = Configuration.ENEMY_CONFIGURATIONS[EnemyType].MinAgroDuration;
         CurrentHealth = MaxHealth;
         Team = 1;
         if (Configuration.ENEMY_CONFIGURATIONS[EnemyType].AIType == AIType.Basic)
@@ -52,7 +58,10 @@ public class EnemyManager : CombatantManager
         int maxHealth,
         float currentHealth,
         ChunkIndex currentChunk,
-        float damage)
+        float damage,
+        float agroDistance,
+        float deAgroDistance,
+        float minAgroDuration)
     {
         XPosition = xPosition;
         YPosition = yPosition;
@@ -64,7 +73,10 @@ public class EnemyManager : CombatantManager
         CurrentHealth = currentHealth;
         CurrentChunk = currentChunk;
         Damage = damage;
-
+        AgroDistance = agroDistance;
+        DeAgroDistance = deAgroDistance;
+        MinAgroDuration = minAgroDuration;
+        
         Team = 1;
     }
 
@@ -88,9 +100,9 @@ public class EnemyManager : CombatantManager
         }
     }
 
-    public Vector2 Update()
+    public Vector2 FixedUpdate()
     {
-        return AI.Update(this);
+        return AI.FixedUpdate(this);
     }
 
     public void WakeUp()
