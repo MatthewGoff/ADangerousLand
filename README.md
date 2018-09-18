@@ -19,7 +19,11 @@ crafting, exploration, and survival.
 
 5) Open VS from Unity by selecting "Assets">"Open C# Project". The first time
    you do so you may be prompted to update your .NET version. Go ahead and do
-   that.
+   that (you may need to restart your computer).
+
+6) In VS go to "Poject">"Manager Nuget Packages" and install MessagePack at the
+least. If you plan on working with MessagePack you can also install
+MessagePackAnalyzer as well.
 
 ## DevelopmentNotes
 
