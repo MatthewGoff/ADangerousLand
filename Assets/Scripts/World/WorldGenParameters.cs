@@ -1,31 +1,31 @@
-﻿using System;
+﻿using ProtoBuf;
 
-[Serializable]
+[ProtoContract]
 public class WorldGenParameters
 {
-    public readonly int MasterSeed;
+    [ProtoMember(1)] public readonly int MasterSeed;
 
-    public readonly float GrassMediumSeed;
-    public readonly float[] GrassMediumPeriods;
-    public readonly float GrassMediumDensity;
+    [ProtoMember(2)] public readonly float GrassMediumSeed;
+    [ProtoMember(3)] public readonly float[] GrassMediumPeriods;
+    [ProtoMember(4)] public readonly float GrassMediumDensity;
 
-    public readonly float GrassTallSeed;
-    public readonly float[] GrassTallPeriods;
-    public readonly float GrassTallDensity;
+    [ProtoMember(5)] public readonly float GrassTallSeed;
+    [ProtoMember(6)] public readonly float[] GrassTallPeriods;
+    [ProtoMember(7)] public readonly float GrassTallDensity;
 
-    public readonly float TreeRandomSeed;
-    public readonly float[] TreePeriods;
-    public readonly float TreeDensity;
+    [ProtoMember(8)] public readonly float TreeRandomSeed;
+    [ProtoMember(9)] public readonly float[] TreePeriods;
+    [ProtoMember(10)] public readonly float TreeDensity;
 
-    public readonly float Topography;
-    public readonly float[] TopographyPeriods;
-    public readonly float MountainAltitude;
-    public readonly float SandAltitude;
-    public readonly float OceanAltitude;
+    [ProtoMember(11)] public readonly float Topography;
+    [ProtoMember(12)] public readonly float[] TopographyPeriods;
+    [ProtoMember(13)] public readonly float MountainAltitude;
+    [ProtoMember(14)] public readonly float SandAltitude;
+    [ProtoMember(15)] public readonly float OceanAltitude;
 
-    public readonly float RiverDensity;
-    public readonly float MaxRiverJumpDistance;
-    public readonly float[] RiverJumpPeriods;
+    [ProtoMember(16)] public readonly float RiverDensity;
+    [ProtoMember(17)] public readonly float MaxRiverJumpDistance;
+    [ProtoMember(18)] public readonly float[] RiverJumpPeriods;
     
     public WorldGenParameters(int seed)
     {

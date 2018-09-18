@@ -1,10 +1,10 @@
-﻿using System;
+﻿using ProtoBuf;
 
-[Serializable]
+[ProtoContract]
 public struct ChunkIndex
 {
-    public int X { get; set; }
-    public int Y { get; set; }
+    [ProtoMember(1)] public int X { get; set; }
+    [ProtoMember(2)] public int Y { get; set; }
     public (int X, int Y) Tuple
     {
         get

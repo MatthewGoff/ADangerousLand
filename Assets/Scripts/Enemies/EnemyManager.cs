@@ -1,25 +1,25 @@
 ﻿using UnityEngine;
-using System;
+using ProtoBuf;
 
-[Serializable]
+[ProtoContract]
 public class EnemyManager : CombatantManager
 {
-    [NonSerialized] public EnemyMonoBehaviour MonoBehaviour;
-    [NonSerialized] private HealthBarMonoBehaviour HealthBar;
-    [NonSerialized] private DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;
-    [NonSerialized] public bool Awake = false;
+    public EnemyMonoBehaviour MonoBehaviour;
+    private HealthBarMonoBehaviour HealthBar;
+    private DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;
+    public bool Awake = false;
 
-    public EnemyType EnemyType;
-    public (float X, float Y) Position { get; private set; }
-    public readonly BasicAI AI;
-    public readonly float MoveSpeed;
-    public float Aoe;
+    [ProtoMember(1)] public EnemyType EnemyType;
+    [ProtoMember(2)] public (float X, float Y) Position { get; private set; }
+    [ProtoMember(3)] public readonly BasicAI AI;
+    [ProtoMember(4)] public readonly float MoveSpeed;
+    [ProtoMember(5)] public float Aoe;
 
-    private int MaxHealth;
-    private float CurrentHealth;
-    private ChunkIndex CurrentChunk;
-    private Cooldown SlashCooldown;
-    private float Damage;
+    [ProtoMember(6)] private int MaxHealth;
+    [ProtoMember(7)] private float CurrentHealth;
+    [ProtoMember(8)] private ChunkIndex CurrentChunk;
+    [ProtoMember(9)] private Cooldown SlashCooldown;
+    [ProtoMember(10)] private float Damage;
 
     public EnemyManager(WorldLocation worldLocation, EnemyType enemyType)
     {

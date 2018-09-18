@@ -1,28 +1,28 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using System;
+using ProtoBuf;
 
-[Serializable]
+[ProtoContract]
 public class Chunk
 {
     private delegate void PostInitAction();
 
-    [NonSerialized] private Queue<PostInitAction> PostInitActions;
+    private Queue<PostInitAction> PostInitActions;
 
-    public bool RiversInitialized { get; private set; } = false;
-    public bool Initialized { get; private set; } = false;
-    public bool LocalityInitialized { get; set; } = false;
+    [ProtoMember(1)] public bool RiversInitialized { get; private set; } = false;
+    [ProtoMember(2)] public bool Initialized { get; private set; } = false;
+    [ProtoMember(3)] public bool LocalityInitialized { get; set; } = false;
 
-    private readonly List<EnemyManager> ResidentEnemies;
-    private readonly List<WorldLocation> UnocupiedTiles;
+    [ProtoMember(4)] private readonly List<EnemyManager> ResidentEnemies;
+    [ProtoMember(5)] private readonly List<WorldLocation> UnocupiedTiles;
 
-    private readonly ChunkIndex ChunkIndex;
-    private readonly RiverNode[,] RiverNodes;
-    private readonly List<RiverPackage> ImportedRivers;
-    private readonly Tile[,] Tiles;
+    [ProtoMember(6)] private readonly ChunkIndex ChunkIndex;
+    [ProtoMember(7)] private readonly RiverNode[,] RiverNodes;
+    [ProtoMember(8)] private readonly List<RiverPackage> ImportedRivers;
+    [ProtoMember(9)] private readonly Tile[,] Tiles;
 
-    private readonly int DangerRating;
-    private readonly int MaxEnemies;
+    [ProtoMember(10)] private readonly int DangerRating;
+    [ProtoMember(11)] private readonly int MaxEnemies;
 
     public Chunk(ChunkIndex chunkIndex)
     {

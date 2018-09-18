@@ -1,19 +1,19 @@
-﻿using System;
+﻿using ProtoBuf;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
+[ProtoContract]
 public class World
 {
-    [NonSerialized] public PlayerManager PlayerManager;
-    [NonSerialized] private bool Active;
-    [NonSerialized] private Treadmill Treadmill;
-    [NonSerialized] private Queue<WorldInitializer> WorldInitializers;
-    [NonSerialized] private ChunkIndex CurrentChunk;
+    public PlayerManager PlayerManager;
+    private bool Active;
+    private Treadmill Treadmill;
+    private Queue<WorldInitializer> WorldInitializers;
+    private ChunkIndex CurrentChunk;
 
-    public int WorldIdentifier;
-    public WorldGenParameters GenerationParameters { get; private set; }
-    public readonly ChunkStorage Chunks;
+    [ProtoMember(1)] public int WorldIdentifier;
+    [ProtoMember(2)] public WorldGenParameters GenerationParameters { get; private set; }
+    [ProtoMember(3)] public readonly ChunkStorage Chunks;
 
     public World(int worldIdentifier, int seed)
     {
@@ -104,7 +104,7 @@ public class World
         {
             for (int y = -2; y <= 2; y++)
             {
-                int distance = Math.Max(Math.Abs(x), Math.Abs(y));
+                int distance = Mathf.Max(Mathf.Abs(x), Mathf.Abs(y));
                 Chunk chunk = Chunks.GetChunk(CurrentChunk.Add(x, y));
                 if (distance == 2)
                 {

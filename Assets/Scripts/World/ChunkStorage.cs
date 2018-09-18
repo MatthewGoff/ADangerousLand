@@ -1,15 +1,15 @@
-﻿using System;
+﻿using ProtoBuf;
 
-[Serializable]
+[ProtoContract]
 public class ChunkStorage
 {
 
-    private static readonly int DEFAULT_QUAD_SIZE = 10;
+    [ProtoMember(1)] private static readonly int DEFAULT_QUAD_SIZE = 10;
 
-    private ExtensibleArray2D<Chunk> QuadOne;
-    private ExtensibleArray2D<Chunk> QuadTwo;
-    private ExtensibleArray2D<Chunk> QuadThree;
-    private ExtensibleArray2D<Chunk> QuadFour;
+    [ProtoMember(2)] private ExtensibleArray2D<Chunk> QuadOne;
+    [ProtoMember(3)] private ExtensibleArray2D<Chunk> QuadTwo;
+    [ProtoMember(4)] private ExtensibleArray2D<Chunk> QuadThree;
+    [ProtoMember(5)] private ExtensibleArray2D<Chunk> QuadFour;
 
     public ChunkStorage()
     {

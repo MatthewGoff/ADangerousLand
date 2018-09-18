@@ -1,10 +1,10 @@
-﻿using System;
+﻿using ProtoBuf;
 
-[Serializable]
+[ProtoContract]
 public class ExtensibleArray2D<T>
 {
 
-    private T[,] Array;
+    [ProtoMember(1)] private T[,] Array;
 
     public ExtensibleArray2D(int width, int height)
     {

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using ProtoBuf;
 
-[Serializable]
+[ProtoContract]
 public struct TerrainType
 {
-    public readonly TerrainTypeEnum Type;
-    public readonly TerrainSubtypeEnum Subtype;
+    [ProtoMember(1)] public readonly TerrainTypeEnum Type;
+    [ProtoMember(2)] public readonly TerrainSubtypeEnum Subtype;
 
     public TerrainType(TerrainTypeEnum type, TerrainSubtypeEnum subtype)
     {

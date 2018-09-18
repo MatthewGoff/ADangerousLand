@@ -1,19 +1,19 @@
 ﻿using UnityEngine;
-using System;
+using ProtoBuf;
 
-[Serializable]
+[ProtoContract]
 public class Tile
 {
-    [NonSerialized] private GameObject FogGameObject;
-    [NonSerialized] private SpriteRenderer FogRenderer;
-    [NonSerialized] private GameObject TerrainGameObject;
-    [NonSerialized] public bool Awake = false;
-    [NonSerialized] private float LastFrameFog = -1f;
+    private GameObject FogGameObject;
+    private SpriteRenderer FogRenderer;
+    private GameObject TerrainGameObject;
+    public bool Awake = false;
+    private float LastFrameFog = -1f;
 
-    public TerrainType TerrainType { get; set; }
+    [ProtoMember(1)] public TerrainType TerrainType { get; set; }
 
-    private bool Exposed = false;
-    private readonly WorldLocation WorldLocation;
+    [ProtoMember(2)] private bool Exposed = false;
+    [ProtoMember(3)] private readonly WorldLocation WorldLocation;
     
     public Tile(WorldLocation worldLocation)
     {

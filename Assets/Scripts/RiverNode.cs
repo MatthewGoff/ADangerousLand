@@ -1,10 +1,10 @@
-﻿using System;
+﻿using ProtoBuf;
 
-[Serializable]
+[ProtoContract]
 public class RiverNode
 {
-    public int WaterLevel { get; private set; }
-    public bool IsRiver;
+    [ProtoMember(1)] public int WaterLevel { get; private set; }
+    [ProtoMember(2)] public bool IsRiver;
 
     public RiverNode()
     {

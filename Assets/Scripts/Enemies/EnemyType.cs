@@ -1,7 +1,4 @@
-﻿using System;
-
-[Serializable]
-public enum EnemyType
+﻿public enum EnemyType
 {
     Soldier,
     Werewolf,

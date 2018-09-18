@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-using System;
+using ProtoBuf;
 
-[Serializable]
+[ProtoContract]
 public class Cooldown
 {
-    private float Duration;
-    private float LastUseTime;
+    [ProtoMember(1)] private float Duration;
+    [ProtoMember(2)] private float LastUseTime;
 
     public Cooldown(float duration)
     {

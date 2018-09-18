@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using System;
+using ProtoBuf;
 
-[Serializable]
+[ProtoContract]
 public class BasicAI : EnemyAI
 {
     public Vector2 Update(EnemyManager manager)
