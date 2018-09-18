@@ -59,7 +59,6 @@ public class PlayerMenuController : MonoBehaviour {
         foreach (Toggle toggle in ToggleGroup.GetComponent<ToggleGroup>().ActiveToggles())
         {
             int playerIdentifier = toggle.GetComponent<CharacterToggleController>().PlayerIdentifier;
-            GameManager.Singleton.Print("you ordered playr " + playerIdentifier.ToString());
             playerManager = PlayerPersistenceManager.LoadPlayer(playerIdentifier);
         }
         return playerManager;

@@ -1,7 +1,7 @@
 ﻿using System;
 
 [Serializable]
-public struct PlayerPersistenceMetaData
+public class PlayerPersistenceMetaData
 {
     public int PlayerIdentifier;
     public string Version;

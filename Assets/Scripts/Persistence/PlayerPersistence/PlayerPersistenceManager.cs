@@ -33,11 +33,14 @@ public class PlayerPersistenceManager
 
     public static void SavePlayer(PlayerManager playerManager)
     {
-        GameManager.Singleton.Print("Saving player");
         Stream saveFileStream = File.Create(PATH + playerManager.PlayerIdentifier.ToString() + ".bin");
         BinaryFormatter binaryFormatter = new BinaryFormatter();
         binaryFormatter.Serialize(saveFileStream, playerManager);
         saveFileStream.Close();
+
+        PlayerPersistenceMetaData metaData = GetPlayerPersistenceMetaData(playerManager.PlayerIdentifier);
+        metaData.Level = playerManager.Level;
+        SaveMetaData();
     }
 
     public static void DeletePlayer(int playerIdentifier)
