@@ -1,28 +1,25 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using ProtoBuf;
+using MessagePack;
 
-[ProtoContract]
+[MessagePackObject]
 public class Chunk
 {
     private delegate void PostInitAction();
 
-    private Queue<PostInitAction> PostInitActions;
+    [IgnoreMember] private Queue<PostInitAction> PostInitActions;
 
-    [ProtoMember(1)] public bool RiversInitialized { get; private set; } = false;
-    [ProtoMember(2)] public bool Initialized { get; private set; } = false;
-    [ProtoMember(3)] public bool LocalityInitialized { get; set; } = false;
-
-    [ProtoMember(4)] private readonly List<EnemyManager> ResidentEnemies;
-    [ProtoMember(5)] private readonly List<WorldLocation> UnocupiedTiles;
-
-    [ProtoMember(6)] private readonly ChunkIndex ChunkIndex;
-    [ProtoMember(7)] private readonly RiverNode[,] RiverNodes;
-    [ProtoMember(8)] private readonly List<RiverPackage> ImportedRivers;
-    [ProtoMember(9)] private readonly Tile[,] Tiles;
-
-    [ProtoMember(10)] private readonly int DangerRating;
-    [ProtoMember(11)] private readonly int MaxEnemies;
+    [Key(0)] public bool RiversInitialized { get; private set; } = false;
+    [Key(1)] public bool Initialized { get; private set; } = false;
+    [Key(2)] public bool LocalityInitialized { get; set; } = false;
+    [Key(3)] public readonly List<EnemyManager> ResidentEnemies;
+    [Key(4)] public readonly List<WorldLocation> UnocupiedTiles;
+    [Key(5)] public readonly ChunkIndex ChunkIndex;
+    [Key(6)] public readonly RiverNode[,] RiverNodes;
+    [Key(7)] public readonly List<RiverPackage> ImportedRivers;
+    [Key(8)] public readonly Tile[,] Tiles;
+    [Key(9)] public readonly int DangerRating;
+    [Key(10)] public readonly int MaxEnemies;
 
     public Chunk(ChunkIndex chunkIndex)
     {
@@ -34,6 +31,29 @@ public class Chunk
         Tiles = CreateTiles();
         ResidentEnemies = new List<EnemyManager>();
         UnocupiedTiles = new List<WorldLocation>();
+    }
+
+    [SerializationConstructor]
+    public Chunk(
+        bool riversInitialized,
+        bool initialized,
+        bool localityInitialized,
+        List<EnemyManager> residentEnemies,
+        List<WorldLocation> unocupiedTiles,
+        ChunkIndex chunkIndex,
+        RiverNode[,] riverNodes,
+        List<RiverPackage> importedRivers,
+        Tile[,] tiles)
+    {
+        RiversInitialized = riversInitialized;
+        Initialized = initialized;
+        LocalityInitialized = localityInitialized;
+        ResidentEnemies = residentEnemies;
+        UnocupiedTiles = unocupiedTiles;
+        ChunkIndex = chunkIndex;
+        RiverNodes = riverNodes;
+        ImportedRivers = importedRivers;
+        Tiles = tiles;
     }
 
     private int DecideDangerRating()
@@ -158,7 +178,7 @@ public class Chunk
         {
             for (int chunkY = 0; chunkY < Configuration.CHUNK_SIZE; chunkY++)
             {
-                riverNodes[chunkX, chunkY] = new RiverNode();
+                riverNodes[chunkX, chunkY] = new RiverNode(0, false);
             }
         }
         return riverNodes;
@@ -262,7 +282,7 @@ public class Chunk
 
     private List<RiverPackage> GetSourceOutlets(WorldLocation sourceWorldLocation)
     {
-        float sourceAltitude = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.Topography, GameManager.Singleton.World.GenerationParameters.TopographyPeriods, sourceWorldLocation.Tuple);
+        float sourceAltitude = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.TopographySeed, GameManager.Singleton.World.GenerationParameters.TopographyPeriods, sourceWorldLocation.Tuple);
         List<RiverPackage> outlets = new List<RiverPackage>();
 
         if (sourceAltitude < GameManager.Singleton.World.GenerationParameters.OceanAltitude)
@@ -275,7 +295,7 @@ public class Chunk
         while (!outletFound && searchRadius < GameManager.Singleton.World.GenerationParameters.MaxRiverJumpDistance)
         {
             WorldLocation outletWorldLocation = LowestLocationInRadius(sourceWorldLocation, searchRadius);
-            float outletAltitude = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.Topography, GameManager.Singleton.World.GenerationParameters.TopographyPeriods, outletWorldLocation.Tuple);
+            float outletAltitude = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.TopographySeed, GameManager.Singleton.World.GenerationParameters.TopographyPeriods, outletWorldLocation.Tuple);
             if (outletAltitude < sourceAltitude)
             {
                 outlets.Add(new RiverPackage(outletWorldLocation, RiverType.Source));
@@ -335,7 +355,7 @@ public class Chunk
     private void DecideGround(ChunkLocation chunkLocation)
     {
         WorldLocation worldLocation = ChunkToWorldLocation(chunkLocation);
-        float altitude = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.Topography, GameManager.Singleton.World.GenerationParameters.TopographyPeriods, worldLocation.Tuple);
+        float altitude = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.TopographySeed, GameManager.Singleton.World.GenerationParameters.TopographyPeriods, worldLocation.Tuple);
 
         if (altitude < GameManager.Singleton.World.GenerationParameters.OceanAltitude)
         {
@@ -461,7 +481,7 @@ public class Chunk
         float Weight((int X, int Y) C, (int X, int Y) D)
         {
             (float X, float Y) midpoint = ((C.X + D.X) / 2.0f, (C.Y + D.Y) / 2.0f);
-            float weight = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.Topography, new float[] {7}, midpoint);
+            float weight = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.TopographySeed, new float[] {7}, midpoint);
             weight *= Util.EuclidianDistance(C, D);
             weight *= 10.0f;
             return weight;
@@ -504,7 +524,7 @@ public class Chunk
             for (int y = worldLocation.Y - radius; y <= worldLocation.Y + radius; y++)
             {
                 WorldLocation candidate = new WorldLocation(x, y);
-                float altitude = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.Topography, GameManager.Singleton.World.GenerationParameters.TopographyPeriods, candidate.Tuple);
+                float altitude = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.TopographySeed, GameManager.Singleton.World.GenerationParameters.TopographyPeriods, candidate.Tuple);
                 float distance = Util.EuclidianDistance(worldLocation.Tuple, candidate.Tuple);
                 if (altitude < lowestLocation.Altitude && distance <= radius)
                 {
@@ -517,7 +537,7 @@ public class Chunk
 
     private bool IsRiverSource(WorldLocation worldLocation)
     {
-        float altitude = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.Topography, GameManager.Singleton.World.GenerationParameters.TopographyPeriods, worldLocation.Tuple);
+        float altitude = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.TopographySeed, GameManager.Singleton.World.GenerationParameters.TopographyPeriods, worldLocation.Tuple);
         //return ((altitude * 1000) % 1) < MyWorld.GenerationParameters.RiverDensity && altitude > MyWorld.GenerationParameters.MountainAltitude;
         return ((altitude * 1000) % 1) < GameManager.Singleton.World.GenerationParameters.RiverDensity * Mathf.Pow(altitude, 5);
     }

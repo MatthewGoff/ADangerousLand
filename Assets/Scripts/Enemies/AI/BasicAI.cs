@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using ProtoBuf;
+using MessagePack;
 
-[ProtoContract]
+[MessagePackObject]
 public class BasicAI : EnemyAI
 {
     public Vector2 Update(EnemyManager manager)

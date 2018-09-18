@@ -1,14 +1,20 @@
-﻿using ProtoBuf;
+﻿using MessagePack;
 
-[ProtoContract]
+[MessagePackObject]
 public class ExtensibleArray2D<T>
 {
 
-    [ProtoMember(1)] private T[,] Array;
+    [Key(0)] public T[,] Array;
 
     public ExtensibleArray2D(int width, int height)
     {
         Array = new T[width, height];
+    }
+
+    [SerializationConstructor]
+    public ExtensibleArray2D(T[,] array)
+    {
+        Array = array;
     }
 
     public T Get(int x, int y)

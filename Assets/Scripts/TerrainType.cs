@@ -1,11 +1,12 @@
-﻿using ProtoBuf;
+﻿using MessagePack;
 
-[ProtoContract]
+[MessagePackObject]
 public struct TerrainType
 {
-    [ProtoMember(1)] public readonly TerrainTypeEnum Type;
-    [ProtoMember(2)] public readonly TerrainSubtypeEnum Subtype;
+    [Key(0)] public readonly TerrainTypeEnum Type;
+    [Key(1)] public readonly TerrainSubtypeEnum Subtype;
 
+    [SerializationConstructor]
     public TerrainType(TerrainTypeEnum type, TerrainSubtypeEnum subtype)
     {
         Type = type;

@@ -1,30 +1,29 @@
 ﻿using UnityEngine;
-using ProtoBuf;
+using MessagePack;
 
-[ProtoContract]
+[MessagePackObject]
 public class EnemyManager : CombatantManager
 {
-    public EnemyMonoBehaviour MonoBehaviour;
-    private HealthBarMonoBehaviour HealthBar;
-    private DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;
-    public bool Awake = false;
+    [IgnoreMember] public EnemyMonoBehaviour MonoBehaviour;
+    [IgnoreMember] public bool Awake = false;
 
-    [ProtoMember(1)] public EnemyType EnemyType;
-    [ProtoMember(2)] public (float X, float Y) Position { get; private set; }
-    [ProtoMember(3)] public readonly BasicAI AI;
-    [ProtoMember(4)] public readonly float MoveSpeed;
-    [ProtoMember(5)] public float Aoe;
+    [IgnoreMember] private HealthBarMonoBehaviour HealthBar;
+    [IgnoreMember] private DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;
+    [IgnoreMember] private Cooldown SlashCooldown;
 
-    [ProtoMember(6)] private int MaxHealth;
-    [ProtoMember(7)] private float CurrentHealth;
-    [ProtoMember(8)] private ChunkIndex CurrentChunk;
-    [ProtoMember(9)] private Cooldown SlashCooldown;
-    [ProtoMember(10)] private float Damage;
+    [Key(0)] public EnemyType EnemyType;
+    [Key(1)] public (float X, float Y) Position { get; private set; }
+    [Key(2)] public readonly EnemyAI AI;
+    [Key(3)] public readonly float MoveSpeed;
+    [Key(4)] public float Aoe;
+    [Key(5)] public int MaxHealth;
+    [Key(6)] public float CurrentHealth;
+    [Key(7)] public ChunkIndex CurrentChunk;
+    [Key(8)] public float Damage;
 
     public EnemyManager(WorldLocation worldLocation, EnemyType enemyType)
     {
         EnemyType = enemyType;
-        SlashCooldown = new Cooldown(1/Configuration.ENEMY_CONFIGURATIONS[EnemyType].AttackSpeed);
         Position = worldLocation.Tuple;
         CurrentChunk = GameManager.Singleton.World.GetChunkIndex(worldLocation);
         MaxHealth = Configuration.ENEMY_CONFIGURATIONS[EnemyType].MaxHealth;
@@ -37,6 +36,28 @@ public class EnemyManager : CombatantManager
         {
             AI = new BasicAI();
         }
+    }
+
+    [SerializationConstructor]
+    public EnemyManager(
+        EnemyType enemyType,
+        (float X, float Y) position,
+        EnemyAI aI,
+        float moveSpeed,
+        float aoe,
+        int maxHealth,
+        float currentHealth,
+        ChunkIndex currentChunk,
+        float damage)
+    {
+        EnemyType = enemyType;
+        Position = position;
+        AI = aI;
+        MoveSpeed = moveSpeed;
+        Aoe = aoe;
+        MaxHealth = maxHealth;
+        CurrentHealth = currentHealth;
+        Damage = damage;
     }
 
     public void CheckTreadmill(Treadmill treadmill)
@@ -69,6 +90,8 @@ public class EnemyManager : CombatantManager
         Awake = true;
 
         Vector2 position = new Vector2(Position.X, Position.Y);
+        SlashCooldown = new Cooldown(1 / Configuration.ENEMY_CONFIGURATIONS[EnemyType].AttackSpeed);
+
 
         GameObject enemy = GameObject.Instantiate(Prefabs.ENEMY_PREFAB, position, Quaternion.identity);
         GameManager.Singleton.GameObjectCount++;

@@ -1,25 +1,33 @@
-﻿using ProtoBuf;
+﻿using MessagePack;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ProtoContract]
+[MessagePackObject]
 public class World
 {
-    public PlayerManager PlayerManager;
-    private bool Active;
-    private Treadmill Treadmill;
-    private Queue<WorldInitializer> WorldInitializers;
-    private ChunkIndex CurrentChunk;
+    [IgnoreMember] public PlayerManager PlayerManager;
+    [IgnoreMember] private bool Active;
+    [IgnoreMember] private Treadmill Treadmill;
+    [IgnoreMember] private Queue<WorldInitializer> WorldInitializers;
+    [IgnoreMember] private ChunkIndex CurrentChunk;
 
-    [ProtoMember(1)] public int WorldIdentifier;
-    [ProtoMember(2)] public WorldGenParameters GenerationParameters { get; private set; }
-    [ProtoMember(3)] public readonly ChunkStorage Chunks;
+    [Key(0)] public int WorldIdentifier;
+    [Key(1)] public WorldGenParameters GenerationParameters { get; private set; }
+    [Key(2)] public readonly ChunkStorage Chunks;
 
     public World(int worldIdentifier, int seed)
     {
         WorldIdentifier = worldIdentifier;
         GenerationParameters = new WorldGenParameters(seed);
         Chunks = new ChunkStorage();
+    }
+
+    [SerializationConstructor]
+    public World(int worldIdentifier, WorldGenParameters generationParameters, ChunkStorage chunks)
+    {
+        WorldIdentifier = worldIdentifier;
+        GenerationParameters = generationParameters;
+        Chunks = chunks;
     }
 
     public void Setup(PlayerManager playerManager)
@@ -226,11 +234,11 @@ public class World
     {
         int y = 0;
         int x = 0;
-        float altitude = Util.GetPerlinNoise(GenerationParameters.Topography, GenerationParameters.TopographyPeriods, (x, y));
+        float altitude = Util.GetPerlinNoise(GenerationParameters.TopographySeed, GenerationParameters.TopographyPeriods, (x, y));
         while (altitude > GenerationParameters.MountainAltitude || altitude < GenerationParameters.OceanAltitude)
         {
             x++;
-            altitude = Util.GetPerlinNoise(GenerationParameters.Topography, GenerationParameters.TopographyPeriods, (x, y));
+            altitude = Util.GetPerlinNoise(GenerationParameters.TopographySeed, GenerationParameters.TopographyPeriods, (x, y));
         }
         return new WorldLocation(x, y);
     }

@@ -1,22 +1,30 @@
 ﻿using UnityEngine;
-using ProtoBuf;
+using MessagePack;
 
-[ProtoContract]
+[MessagePackObject]
 public class Tile
 {
-    private GameObject FogGameObject;
-    private SpriteRenderer FogRenderer;
-    private GameObject TerrainGameObject;
-    public bool Awake = false;
-    private float LastFrameFog = -1f;
+    [IgnoreMember] public bool Awake = false;
 
-    [ProtoMember(1)] public TerrainType TerrainType { get; set; }
+    [IgnoreMember] private GameObject FogGameObject;
+    [IgnoreMember] private SpriteRenderer FogRenderer;
+    [IgnoreMember] private GameObject TerrainGameObject;
+    [IgnoreMember] private float LastFrameFog = -1f;
 
-    [ProtoMember(2)] private bool Exposed = false;
-    [ProtoMember(3)] private readonly WorldLocation WorldLocation;
+    [Key(0)] public TerrainType TerrainType { get; set; }
+    [Key(1)] public bool Exposed = false;
+    [Key(2)] public readonly WorldLocation WorldLocation;
     
     public Tile(WorldLocation worldLocation)
     {
+        WorldLocation = worldLocation;
+    }
+
+    [SerializationConstructor]
+    public Tile(TerrainType terrainType, bool exposed, WorldLocation worldLocation)
+    {
+        TerrainType = terrainType;
+        Exposed = exposed;
         WorldLocation = worldLocation;
     }
 

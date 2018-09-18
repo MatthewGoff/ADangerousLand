@@ -1,11 +1,9 @@
-﻿using ProtoBuf;
+﻿using MessagePack;
 
-[ProtoContract]
+[MessagePackObject]
 public struct ChunkIndex
 {
-    [ProtoMember(1)] public int X { get; set; }
-    [ProtoMember(2)] public int Y { get; set; }
-    public (int X, int Y) Tuple
+    [IgnoreMember] public (int X, int Y) Tuple
     {
         get
         {
@@ -13,6 +11,12 @@ public struct ChunkIndex
         }
     }
 
+    [Key(0)] public int X { get; set; }
+    [Key(1)] public int Y { get; set; }
+
+
+
+    [SerializationConstructor]
     public ChunkIndex(int x, int y)
     {
         X = x;

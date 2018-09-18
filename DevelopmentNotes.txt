@@ -1,21 +1,114 @@
-I'm planning to fill this document with explainations of nontrivial design decisions I've made in the project. 
+I'm planning to fill this document with explainations of nontrivial design
+decisions I've made in the project. 
 
+------------
 Conventions:
-When naming, "position" refers to an objects real valued position in the world (type float). "location" refers to integer value indecies in the world and corespond to Tiles. Each tile is one unity unit.
+------------
+When naming, "position" refers to an objects real valued position in the world
+(type float). "location" refers to integer value indecies in the world and
+corespond to Tiles. Each tile is one unity unit.
 
+----------------
 Design Patterns:
-- "Two classes for one game object". Lets say we want a class to represent something that exists in the scene like an enemy. Naturally we have a game object with a component script with one class which inherits from MonoDevelop. This script is neccesary to provide us with the MonoDevelop API: Update(), OnMouseEnter() etc. . But this script does not persist through object creation/deletion and cannot use a constructor. For this reason we use an additional script which owns the MonoDevelop script as a property. This script serves two purposes. First, it accepts initialization input via its constructor. Second, it manages the instantiation and destruction of the Prefab/MonoBehaviour. We will call the wrapper script "EnemyManager", the MonoBahaviour script "EnemyMonoBahaviour", the prefab "EnemyPrefab", and the GameObject doesn't matter (It's "Enemy (clone)" by default). Note that "GameManager" is not part of this convention, think of "GameManager" as the "Main" script and the entry point.
-- "Treadmill". In order to improve performance we do not want to have the whole world active in the hierarchy. For this reason we create objects only when the player can see them and delete objects when out of view. We use the idea of a "treadmill" to describe the rectangular area around the player that is active in the hierarchy because as the player moves things will be created on one side and deleted on the other.
-- "Pixel perfect movement". Because we want to render sprites exactly the same as the original artwork we need the sprites to be located on the pixel grid, instead of inbetween pixels. At the same time the objects the sprites represent have a floating point position and we do not want to impose artificial constraints by forcing the physics body to be located on the pixel grid as this causes jerky, unatural movement. To solve this we use two game objects, one with a rigid body and a collider but no sprite and one with a sprite but no rigid body or collider. The two objects are controlled by the same monobehavior. In conjunction with the design pattern "Two classes for one game object" this means moving entities such as the player or the world have two scripts and to game objects.
+----------------
+- "Two classes for one game object". Lets say we want a class to represent
+something that exists in the scene like an enemy. Naturally we have a game
+object with a component script with one class which inherits from MonoDevelop.
+This script is neccesary to provide us with the MonoDevelop API: Update(),
+OnMouseEnter() etc. . But this script does not persist through object
+creation/deletion and cannot use a constructor. For this reason we use an
+additional script which owns the MonoDevelop script as a property. This script
+serves two purposes. First, it accepts initialization input via its constructor.
+Second, it manages the instantiation and destruction of the
+Prefab/MonoBehaviour. We will call the wrapper script "EnemyManager", the
+MonoBahaviour script "EnemyMonoBahaviour", the prefab "EnemyPrefab", and the
+GameObject doesn't matter (It's "Enemy (clone)" by default). Note that
+"GameManager" is not part of this convention, think of "GameManager" as the
+"Main" script and the entry point.
+- "Treadmill". In order to improve performance we do not want to have the whole
+world active in the hierarchy. For this reason we create objects only when the
+player can see them and delete objects when out of view. We use the idea of a
+"treadmill" to describe the rectangular area around the player that is active in
+the hierarchy because as the player moves things will be created on one side and
+deleted on the other.
+- "Pixel perfect movement". Because we want to render sprites exactly the same
+as the original artwork we need the sprites to be located on the pixel grid,
+instead of inbetween pixels. At the same time the objects the sprites represent
+have a floating point position and we do not want to impose artificial
+constraints by forcing the physics body to be located on the pixel grid as this
+causes jerky, unatural movement. To solve this we use two game objects, one with
+a rigid body and a collider but no sprite and one with a sprite but no rigid
+body or collider. The two objects are controlled by the same monobehavior. In
+conjunction with the design pattern "Two classes for one game object" this means
+moving entities such as the player or the world have two scripts and to game
+objects.
 
-An Explaination of World Generation:
+-------------------------
+__A note on permenence__:
+-------------------------
+I used the following guides
+Original guide: https://aloiskraus.wordpress.com/2017/04/23/the-definitive-serialization-performance-guide/
+.NET 4.7 guide update: https://aloiskraus.wordpress.com/2018/05/06/serialization-performance-update-with-net-4-7-2/
 
-Because the world is infinite we do not generate it all at once, instead we generate individual chunks as needed. And because the player can see chunks they are not presetly in we make sure to initialize chunks in a radius around the player (presently a radius of 2 or rather a 5x5 square with each chunk 32x32 tiles). This initializatin is started when the enemy first enteres a chunk or rather on the first frame update in which the player is in a new chunk. With the exception of rivers a chunk's terrain is generated without knowledge of neighboring chunks. This is desireable because we can't count on a chunk's neighbors existing when we need to initialize it (generally half of a chunks neighbors exist when we initialize it as the player has approached continuously from one direction, of course it isn't always the same half).
+I first tried using BinaryFormatter serialization but it was catastrophically
+slow. Then I tried protobuf-net but unity didn't recognize the nuget package
+for some reason and I could not find enough information online to fix the issue.
+Lastly I settled on MessagePackSharp
+(https://github.com/neuecc/MessagePack-CSharp). There are three things to keep
+in mind with MessagePackSharp. The first is that it is a tree type serializer as
+opposed to a graph type meaning it cannot serialize cyclic references. Second is
+that in order to instantiate an object while deserializing it requires a
+constructor (optionally marked with [SerializationConstructor], I choose to
+always mark). In most cases in this project classes contain two constructors,
+the one used when intitially creating the object and the one used when
+deserializing. Third it can only serialize public members.
 
-Now to address river generation imagine that a river starts in chunk A and continues into chunk B. If chunk A is generated first then when B is initialized it can check if there is a river in A and then continue the river into B. Unfortunatly it can be the case that B is generated first so when it comes time for A to generate the river either stops at the boarder to the chunk or we trigger a "re-initializatin" of B with newfound knowledge of the river (and you can imagine that the re-initialization may propogate to trigger chunk C to reiniitialize if the river travels through B). But if C or even D is re-initialized while the player is present they will witness the river spawn which is undesireable.
+----------------------------------------
+__An Explaination of World Generation__:
+----------------------------------------
+Because the world is infinite we do not generate it all at once, instead we
+generate individual chunks as needed. And because the player can see chunks they
+are not presetly in we make sure to initialize chunks in a radius around the
+player (presently a radius of 2 or rather a 5x5 square with each chunk 32x32
+tiles). This initializatin is started when the enemy first enteres a chunk or
+rather on the first frame update in which the player is in a new chunk. With the
+exception of rivers a chunk's terrain is generated without knowledge of
+neighboring chunks. This is desireable because we can't count on a chunk's
+neighbors existing when we need to initialize it (generally half of a chunks
+neighbors exist when we initialize it as the player has approached continuously
+from one direction, of course it isn't always the same half).
 
-So we do choose to propagate rivers into initialized chunks with the following workaround. When the player enters chunk 0,0 from the west (from chunk -1,0) we initialize the rivers in chunk 0,8. The rivers may propagate and reform the terrain but only for a certain length which is dependant on the topographical parameters. Once we do this we finalize the terrain in chunk 0,2. And per the design pattern "Treadmill" the tiles in chunk 0,2 don't actually manifest as game objects until the player is approximately in the middle chunk 0,1.
+Now to address river generation imagine that a river starts in chunk A and
+continues into chunk B. If chunk A is generated first then when B is initialized
+it can check if there is a river in A and then continue the river into B.
+Unfortunatly it can be the case that B is generated first so when it comes time
+for A to generate the river either stops at the boarder to the chunk or we
+trigger a "re-initializatin" of B with newfound knowledge of the river (and you
+can imagine that the re-initialization may propogate to trigger chunk C to
+reiniitialize if the river travels through B). But if C or even D is
+re-initialized while the player is present they will witness the river spawn
+which is undesireable.
 
-More explicitely, when a player enters chunk chunk 0,0 for the first time we loop over every chunk in a 17x17 chunk radius and initialize its rivers if they are not already initialized. This function is called "public void InitializeRiverLocality(ChunkIndex chunkIndex)". Once that completes we loop over every chunk in a 5x5 radius and initialize the terrain. That function is called "public void FinalLocalityInitialization(ChunkIndex chunkIndex)". Obviously when the player is moving in an established world the flamefront of chunks generated is small compared to the job size when the start in a completely new world location via spawn or teleport. But even the generation of the flamefront is wall time expensive so we thread the job to avoid the game pausing to generate chunks when the player moves between chunks. This means distant chunks are being generated concurent with player movement.
+So we do choose to propagate rivers into initialized chunks with the following
+workaround. When the player enters chunk 0,0 from the west (from chunk -1,0) we
+initialize the rivers in chunk 0,8. The rivers may propagate and reform the
+terrain but only for a certain length which is dependant on the topographical
+parameters. Once we do this we finalize the terrain in chunk 0,2. And per the
+design pattern "Treadmill" the tiles in chunk 0,2 don't actually manifest as
+game objects until the player is approximately in the middle chunk 0,1.
 
-Importantly we should wait for world generation jobs to finish before saving or destroying the world.
+More explicitely, when a player enters chunk chunk 0,0 for the first time we
+loop over every chunk in a 17x17 chunk radius and initialize its rivers if they
+are not already initialized. This function is called "public void
+InitializeRiverLocality(ChunkIndex chunkIndex)". Once that completes we loop
+over every chunk in a 5x5 radius and initialize the terrain. That function is
+called "public void FinalLocalityInitialization(ChunkIndex chunkIndex)".
+Obviously when the player is moving in an established world the flamefront of
+chunks generated is small compared to the job size when the start in a
+completely new world location via spawn or teleport. But even the generation of
+the flamefront is wall time expensive so we thread the job to avoid the game
+pausing to generate chunks when the player moves between chunks. This means
+distant chunks are being generated concurent with player movement.
+
+Importantly we should wait for world generation jobs to finish before saving or
+destroying the world.

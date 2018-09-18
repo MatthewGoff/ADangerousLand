@@ -1,15 +1,16 @@
-﻿using ProtoBuf;
+﻿using MessagePack;
 
-[ProtoContract]
-public class RiverNode
+[MessagePackObject]
+public struct RiverNode
 {
-    [ProtoMember(1)] public int WaterLevel { get; private set; }
-    [ProtoMember(2)] public bool IsRiver;
+    [Key(0)] public int WaterLevel { get; private set; }
+    [Key(1)] public bool IsRiver;
 
-    public RiverNode()
+    [SerializationConstructor]
+    public RiverNode(int waterLevel, bool isRiver)
     {
-        WaterLevel = 0;
-        IsRiver = false;
+        WaterLevel = waterLevel;
+        IsRiver = isRiver;
     }
 
     public void IncrementWaterLevel()

@@ -1,37 +1,37 @@
 ﻿using UnityEngine;
-using System;
+using MessagePack;
 
-[Serializable]
+[MessagePackObject]
 public class PlayerManager : CombatantManager
 {
-    [NonSerialized] private bool Dead;
-    private Cooldown AttackCooldown;
-    [NonSerialized] public PlayerMonoBehaviour MonoBehaviour;
-    [NonSerialized] public bool AttemptingSprint;
-    [NonSerialized] public bool Sprinting;
-    [NonSerialized] public float CurrentHealth;
-    [NonSerialized] public float CurrentMana;
+    [IgnoreMember] private bool Dead;
+    [IgnoreMember] public PlayerMonoBehaviour MonoBehaviour;
+    [IgnoreMember] public bool AttemptingSprint;
+    [IgnoreMember] public bool Sprinting;
+    [IgnoreMember] public float CurrentHealth;
+    [IgnoreMember] public float CurrentMana;
+    [IgnoreMember] private Cooldown AttackCooldown;
 
-    public int PlayerIdentifier;
-    public string Name;
-    public DeathPenaltyType DeathPenalty;
+    [Key(0)] public int PlayerIdentifier;
+    [Key(1)] public string Name;
+    [Key(2)] public DeathPenaltyType DeathPenalty;
 
-    public int Experience;
-    public int Level;
-    public int PassivePoints;
+    [Key(3)] public int Experience;
+    [Key(4)] public int Level;
+    [Key(5)] public int PassivePoints;
 
-    public int AttackType;
-    public float AttackDamage;
-    public float AttackSpeed;
-    public float MoveSpeed;
-    public float SightRadiusNear;
-    public float SightRadiusFar;
-    public float ProjectileDamage;
-    public float MeleeAoe;
-    public int MaxHealth;
-    public int MaxStamina;
-    public float HealthRegen;
-    public float StaminaRegen;
+    [Key(6)] public int AttackType;
+    [Key(7)] public float AttackDamage;
+    [Key(8)] public float AttackSpeed;
+    [Key(9)] public float MoveSpeed;
+    [Key(10)] public float SightRadiusNear;
+    [Key(11)] public float SightRadiusFar;
+    [Key(12)] public float ProjectileDamage;
+    [Key(13)] public float MeleeAoe;
+    [Key(14)] public int MaxHealth;
+    [Key(15)] public int MaxStamina;
+    [Key(16)] public float HealthRegen;
+    [Key(17)] public float StaminaRegen;
 
     public PlayerManager(int identifier, string name, DeathPenaltyType deathPenalty)
     {
@@ -55,6 +55,47 @@ public class PlayerManager : CombatantManager
         MaxStamina = 5;
         HealthRegen = 0.1f;
         StaminaRegen = 0.5f;
+    }
+
+    [SerializationConstructor]
+    public PlayerManager(
+        int playerIdentifier,
+        string name,
+        DeathPenaltyType deathPenalty,
+        int experience,
+        int level,
+        int passivePoints,
+        int attackType,
+        float attackDamage,
+        float attackSpeed,
+        float moveSpeed,
+        float sightRadiusNear,
+        float sightRadiusFar,
+        float projectileDamage,
+        float meleeAoe,
+        int maxHealth,
+        int maxStamina,
+        float healthRegen,
+        float staminaRegen)
+    {
+        PlayerIdentifier = playerIdentifier;
+        Name = name;
+        DeathPenalty = deathPenalty;
+        Experience = experience;
+        Level = level;
+        PassivePoints = passivePoints;
+        AttackType = attackType;
+        AttackDamage = attackDamage;
+        AttackSpeed = attackSpeed;
+        MoveSpeed = moveSpeed;
+        SightRadiusNear = sightRadiusNear;
+        SightRadiusFar = sightRadiusFar;
+        ProjectileDamage = projectileDamage;
+        MeleeAoe = meleeAoe;
+        MaxHealth = maxHealth;
+        MaxStamina = maxStamina;
+        HealthRegen = healthRegen;
+        StaminaRegen = staminaRegen;
     }
 
     public void Spawn(WorldLocation spawnLocation)

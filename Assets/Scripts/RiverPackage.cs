@@ -1,11 +1,12 @@
-﻿using System;
+﻿using MessagePack;
 
-[Serializable]
+[MessagePackObject]
 public struct RiverPackage
 {
-    public WorldLocation WorldLocation;
-    public RiverType Type;
+    [Key(0)] public WorldLocation WorldLocation;
+    [Key(1)] public RiverType Type;
    
+    [SerializationConstructor]
     public RiverPackage(WorldLocation worldLocation,  RiverType type)
     {
         WorldLocation = worldLocation;

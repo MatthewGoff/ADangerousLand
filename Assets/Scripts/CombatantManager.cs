@@ -1,9 +1,9 @@
-﻿using System;
+﻿using MessagePack;
 
-[Serializable]
+[MessagePackObject]
 public abstract class CombatantManager
 {
-    [NonSerialized] public int Team;
+    [IgnoreMember] public int Team;
 
     public abstract int RecieveHit(float damage);
     public abstract void RecieveExp(int exp);

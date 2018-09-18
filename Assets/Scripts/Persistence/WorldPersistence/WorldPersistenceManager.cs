@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
+using MessagePack;
 using System;
-using ProtoBuf;
 
 public class WorldPersistenceManager
 {
@@ -25,11 +25,8 @@ public class WorldPersistenceManager
 
     public static World LoadWorld(int worldIdentifier)
     {
-        GameManager.Singleton.Print("Starting to load world at " + DateTime.Now.ToString("h:mm:ss tt"));
-        World world;
-        Stream file = File.OpenRead(PATH + worldIdentifier.ToString() + ".bin");
-        world = Serializer.Deserialize<World>(file);
-        GameManager.Singleton.Print("Finished laoding world at " + DateTime.Now.ToString("h:mm:ss tt"));
+        byte[] bytes = File.ReadAllBytes(PATH + worldIdentifier.ToString() + ".bin");
+        World world = MessagePackSerializer.Deserialize<World>(bytes);
         return world;
     }
 
@@ -47,11 +44,8 @@ public class WorldPersistenceManager
 
     public static void SaveWorld(World world)
     {
-        GameManager.Singleton.Print("Starting to save world at " + DateTime.Now.ToString("h:mm:ss tt"));
-        Stream file = File.Create(PATH + world.WorldIdentifier.ToString() + ".bin");
-        Serializer.Serialize(file, world);
-        GameManager.Singleton.Print("Finished saving world at "+ DateTime.Now.ToString("h:mm:ss tt"));
-
+        byte[] bytes = MessagePackSerializer.Serialize(world);
+        File.WriteAllBytes(PATH + world.WorldIdentifier.ToString() + ".bin", bytes);
     }
 
     public static void SaveWorldBinaryFormatter(World world)
@@ -65,7 +59,7 @@ public class WorldPersistenceManager
 
     }
 
-public static void DeleteWorld(int worldIdentifier)
+    public static void DeleteWorld(int worldIdentifier)
     {
         File.Delete(PATH + worldIdentifier.ToString() + ".bin");
         WorldPersistenceMetaData toDelete = default;

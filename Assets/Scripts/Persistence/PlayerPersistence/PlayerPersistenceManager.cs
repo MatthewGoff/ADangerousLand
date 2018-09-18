@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
+using MessagePack;
 
 public class PlayerPersistenceManager
 {
@@ -21,7 +22,15 @@ public class PlayerPersistenceManager
         }        
     }
 
+
     public static PlayerManager LoadPlayer(int playerIdentifier)
+    {
+        byte[] bytes = File.ReadAllBytes(PATH + playerIdentifier.ToString() + ".bin");
+        PlayerManager playerManager = MessagePackSerializer.Deserialize<PlayerManager>(bytes);
+        return playerManager;
+    }
+
+    public static PlayerManager LoadPlayerBinaryFormatter(int playerIdentifier)
     {
         PlayerManager playerManager;
         Stream openFileStream = File.OpenRead(PATH + playerIdentifier.ToString() + ".bin");
@@ -32,6 +41,17 @@ public class PlayerPersistenceManager
     }
 
     public static void SavePlayer(PlayerManager playerManager)
+    {
+        byte[] bytes = MessagePackSerializer.Serialize(playerManager);
+        File.WriteAllBytes(PATH + playerManager.PlayerIdentifier.ToString() + ".bin", bytes);
+
+        PlayerPersistenceMetaData metaData = GetPlayerPersistenceMetaData(playerManager.PlayerIdentifier);
+        metaData.Level = playerManager.Level;
+        SaveMetaData();
+    }
+
+
+    public static void SavePlayerBinaryFormatter(PlayerManager playerManager)
     {
         Stream saveFileStream = File.Create(PATH + playerManager.PlayerIdentifier.ToString() + ".bin");
         BinaryFormatter binaryFormatter = new BinaryFormatter();
