@@ -1,4 +1,7 @@
-﻿public class RiverNode
+﻿using System;
+
+[Serializable]
+public class RiverNode
 {
     public int WaterLevel { get; private set; }
     public bool IsRiver;

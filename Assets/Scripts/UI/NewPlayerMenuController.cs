@@ -17,7 +17,6 @@ public class NewPlayerMenuController : MonoBehaviour {
     {
         int playerIdentifier = PlayerPersistenceManager.CreatePlayer(NameField.GetComponent<InputField>().text, DeathPenalty);
         PlayerMenu.GetComponent<PlayerMenuController>().UpdateCharacterToggles();
-        PlayerMenu.GetComponent<PlayerMenuController>().SelectPlayer(playerIdentifier);
         GameManager.Singleton.TakeInput(GameInputType.Escape);
     }
 

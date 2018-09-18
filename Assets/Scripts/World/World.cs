@@ -2,31 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class World
 {
-    public WorldGenParameters GenerationParameters { get; private set; }
+    [NonSerialized] public PlayerManager PlayerManager;
+    [NonSerialized] private bool Initialized;
+    [NonSerialized] private Treadmill Treadmill;
+    [NonSerialized] private Queue<WorldInitializer> WorldInitializers;
+    [NonSerialized] private ChunkIndex CurrentChunk;
 
-    public PlayerManager PlayerManager { get; private set; }
+    public WorldGenParameters GenerationParameters { get; private set; }
     public readonly ChunkStorage Chunks;
 
-    private bool Initialized = false;
-    private readonly Treadmill Treadmill;
-    private readonly Queue<WorldInitializer> WorldInitializers;
-
-    private ChunkIndex CurrentChunk;
-    private readonly List<Chunk> AwakeChunks;
-
-    public World()
+    public World(int seed)
     {
-        GenerationParameters = new WorldGenParameters();
-        WorldInitializers = new Queue<WorldInitializer>();
-        Treadmill = new Treadmill(Configuration.TREADMILL_WIDTH, Configuration.TREADMIL_HEIGHT);
-        Chunks = new ChunkStorage(this);
+        GenerationParameters = new WorldGenParameters(seed);
+        Chunks = new ChunkStorage();
     }
 
-    public void SetPlayerManager(PlayerManager playerManager)
+    public void Setup(PlayerManager playerManager)
     {
         PlayerManager = playerManager;
+        Initialized = false;
+
+        WorldInitializers = new Queue<WorldInitializer>();
+        Treadmill = new Treadmill(Configuration.TREADMILL_WIDTH, Configuration.TREADMIL_HEIGHT);
     }
 
     public void Start()
@@ -129,7 +129,7 @@ public class World
 
     public void InitializeRiverLocality(ChunkIndex chunkIndex)
     {
-        float radius = Util.ArrayMaximum(GenerationParameters.TopologyPeriods);
+        float radius = Util.ArrayMaximum(GenerationParameters.TopographyPeriods);
         int chunkRadius = (int)(radius / Configuration.CHUNK_SIZE) + 2;
 
         for (int indexX = chunkIndex.X - chunkRadius; indexX <= chunkIndex.X + chunkRadius; indexX++)
@@ -213,11 +213,11 @@ public class World
     {
         int y = 0;
         int x = 0;
-        float altitude = Util.GetPerlinNoise(GenerationParameters.TopologyRandomSeed, GenerationParameters.TopologyPeriods, (x, y));
+        float altitude = Util.GetPerlinNoise(GenerationParameters.Topography, GenerationParameters.TopographyPeriods, (x, y));
         while (altitude > GenerationParameters.MountainAltitude || altitude < GenerationParameters.OceanAltitude)
         {
             x++;
-            altitude = Util.GetPerlinNoise(GenerationParameters.TopologyRandomSeed, GenerationParameters.TopologyPeriods, (x, y));
+            altitude = Util.GetPerlinNoise(GenerationParameters.Topography, GenerationParameters.TopographyPeriods, (x, y));
         }
         return new WorldLocation(x, y);
     }

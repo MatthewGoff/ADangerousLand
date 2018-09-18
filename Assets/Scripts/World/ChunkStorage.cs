@@ -1,17 +1,18 @@
-﻿public class ChunkStorage
+﻿using System;
+
+[Serializable]
+public class ChunkStorage
 {
 
     private static readonly int DEFAULT_QUAD_SIZE = 10;
 
-    private World MyWorld;
     private ExtensibleArray2D<Chunk> QuadOne;
     private ExtensibleArray2D<Chunk> QuadTwo;
     private ExtensibleArray2D<Chunk> QuadThree;
     private ExtensibleArray2D<Chunk> QuadFour;
 
-    public ChunkStorage(World world)
+    public ChunkStorage()
     {
-        MyWorld = world;
         QuadOne = new ExtensibleArray2D<Chunk>(DEFAULT_QUAD_SIZE, DEFAULT_QUAD_SIZE);
         QuadTwo = new ExtensibleArray2D<Chunk>(DEFAULT_QUAD_SIZE, DEFAULT_QUAD_SIZE);
         QuadThree = new ExtensibleArray2D<Chunk>(DEFAULT_QUAD_SIZE, DEFAULT_QUAD_SIZE);
@@ -26,7 +27,7 @@
             chunk = QuadOne.Get(chunkIndex.X, chunkIndex.Y);
             if (chunk == null)
             {
-                chunk = new Chunk(MyWorld, chunkIndex);
+                chunk = new Chunk(chunkIndex);
                 QuadOne.Set(chunkIndex.X, chunkIndex.Y, chunk);
             }
         }
@@ -35,7 +36,7 @@
             chunk = QuadTwo.Get(-chunkIndex.X, chunkIndex.Y);
             if (chunk == null)
             {
-                chunk = new Chunk(MyWorld, chunkIndex);
+                chunk = new Chunk(chunkIndex);
                 QuadTwo.Set(-chunkIndex.X, chunkIndex.Y, chunk);
             }
         }
@@ -44,7 +45,7 @@
             chunk = QuadThree.Get(-chunkIndex.X, -chunkIndex.Y);
             if (chunk == null)
             {
-                chunk = new Chunk(MyWorld, chunkIndex);
+                chunk = new Chunk(chunkIndex);
                 QuadThree.Set(-chunkIndex.X, -chunkIndex.Y, chunk);
             }
         }
@@ -53,7 +54,7 @@
             chunk = QuadFour.Get(chunkIndex.X, -chunkIndex.Y);
             if (chunk == null)
             {
-                chunk = new Chunk(MyWorld, chunkIndex);
+                chunk = new Chunk(chunkIndex);
                 QuadFour.Set(chunkIndex.X, -chunkIndex.Y, chunk);
             }
         }

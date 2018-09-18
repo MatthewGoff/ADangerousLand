@@ -1,32 +1,32 @@
 ﻿using UnityEngine;
+using System;
 
+[Serializable]
 public class EnemyManager : CombatantManager
 {
+    [NonSerialized] public EnemyMonoBehaviour MonoBehaviour;
+    [NonSerialized] private HealthBarMonoBehaviour HealthBar;
+    [NonSerialized] private DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;
+
     public EnemyType EnemyType;
     public bool Awake;
     public Vector2 Position { get; private set; }
-    public readonly World World;
     public readonly BasicAI AI;
     public readonly float MoveSpeed;
-    public EnemyMonoBehaviour MonoBehaviour;
     public float Aoe;
 
     private int MaxHealth;
     private float CurrentHealth;
-    private HealthBarMonoBehaviour HealthBar;
-    private DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;
-    private Chunk CurrentChunk;
+    private ChunkIndex CurrentChunk;
     private Cooldown SlashCooldown;
     private float Damage;
 
-    public EnemyManager(World world, WorldLocation worldLocation, EnemyType enemyType)
+    public EnemyManager(WorldLocation worldLocation, EnemyType enemyType)
     {
         EnemyType = enemyType;
         SlashCooldown = new Cooldown(1/Configuration.ENEMY_CONFIGURATIONS[EnemyType].AttackSpeed);
-        World = world;
         Position = new Vector2(worldLocation.X, worldLocation.Y);
-        CurrentChunk = world.GetChunk(world.GetChunkIndex(worldLocation));
-        AI = new BasicAI(this);
+        CurrentChunk = GameManager.Singleton.World.GetChunkIndex(worldLocation);
         MaxHealth = Configuration.ENEMY_CONFIGURATIONS[EnemyType].MaxHealth;
         MoveSpeed = Configuration.ENEMY_CONFIGURATIONS[EnemyType].MoveSpeed;
         Aoe = Configuration.ENEMY_CONFIGURATIONS[EnemyType].Aoe;
@@ -35,7 +35,7 @@ public class EnemyManager : CombatantManager
         Team = 1;
         if (Configuration.ENEMY_CONFIGURATIONS[EnemyType].AIType == AIType.Basic)
         {
-            AI = new BasicAI(this);
+            AI = new BasicAI();
         }
     }
 
@@ -61,7 +61,7 @@ public class EnemyManager : CombatantManager
 
     public Vector2 Update()
     {
-        return AI.Update();
+        return AI.Update(this);
     }
 
     public void WakeUp()
@@ -84,7 +84,6 @@ public class EnemyManager : CombatantManager
         GameManager.Singleton.GameObjectCount++;
         damageNumbersCanvas.transform.SetParent(enemy.transform);
         DamageNumbersCanvas = damageNumbersCanvas.GetComponent<DamageNumbersCanvasMonoBehaviour>();
-        DamageNumbersCanvas.AssignManager(this);
     }
 
     public void Sleep()
@@ -106,7 +105,7 @@ public class EnemyManager : CombatantManager
         MonoBehaviour.Destroy();
         HealthBar.Destroy();
         DamageNumbersCanvas.Destroy();
-        CurrentChunk.EnemyHasDied(this);
+        GameManager.Singleton.World.GetChunk(CurrentChunk).EnemyHasDied(this);
     }
 
     public override int RecieveHit(float damage)
@@ -149,7 +148,7 @@ public class EnemyManager : CombatantManager
 
     }
 
-    public void Immigrate(Chunk newHome)
+    public void Immigrate(ChunkIndex newHome)
     {
         CurrentChunk = newHome;
     }

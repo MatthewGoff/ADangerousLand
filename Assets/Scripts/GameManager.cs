@@ -155,6 +155,7 @@ public class GameManager : MonoBehaviour
         // Player Dead
         stateMachine.AddTransition(GameStateType.PlayerDead, GameStateType.Playing, GameInputType.PlayerRespawn, false);
         stateMachine.AddTransition(GameStateType.PlayerDead, GameStateType.PausedMenu, GameInputType.Escape, true);
+        stateMachine.AddTransition(GameStateType.PlayerDead, GameStateType.MainMenu, GameInputType.PlayerDeath, false);
         stateMachine.OnEnterState(GameStateType.PlayerDead, OnPlayerDeath);
         stateMachine.OnExitState(GameStateType.PlayerDead, delegate (GameInputType input, GameStateType state) { Time.timeScale = 0; });
 
@@ -216,7 +217,7 @@ public class GameManager : MonoBehaviour
         {
             TakeInput(GameInputType.TogglePassivesMenu);
         }
-        if (Input.GetKeyUp(KeyCode.C))
+        if (Input.GetKeyUp(KeyCode.C) && GameState == GameStateType.Playing)
         {
             World.PlayerManager.RecieveExp(190);
         }
@@ -253,8 +254,8 @@ public class GameManager : MonoBehaviour
         {
             PlayerCamera = Instantiate(Prefabs.CAMERA_PREFAB, new Vector3(0, 0, -1), Quaternion.identity);
             PlayerManager playerManager = PlayerMenu.GetComponent<PlayerMenuController>().SelectedPlayer;
-            World = new World();
-            World.SetPlayerManager(playerManager);
+            World = new World(123);
+            World.Setup(playerManager);
             World.Start();
             HUD.SetActive(true);
         }
@@ -312,14 +313,26 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         World.Sleep();
-        World.Start();
-        DeathScreen.SetActive(false);
-        Singleton.TakeInput(GameInputType.PlayerRespawn);
+
+        DeathPenaltyType deathPenalty = World.PlayerManager.DeathPenalty;
+        if (deathPenalty == DeathPenaltyType.Softcore)
+        {
+            World.Start();
+            DeathScreen.SetActive(false);
+            Singleton.TakeInput(GameInputType.PlayerRespawn);
+        }
+        else
+        {
+            PlayerPersistenceManager.DeletePlayer(World.PlayerManager.PlayerIdentifier);
+            DeathScreen.SetActive(false);
+            Singleton.TakeInput(GameInputType.PlayerDeath);
+        }
     }
 
-    public void Save()
+    public void SaveAndExit()
     {
         PlayerPersistenceManager.SavePlayer(World.PlayerManager);
+        GameManager.Singleton.World.Sleep();
     }
 
     public void Print(string s)

@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System;
 
+[Serializable]
 public class Chunk
 {
     private delegate void PostInitAction();
+
+    [NonSerialized] private Queue<PostInitAction> PostInitActions;
 
     public bool RiversInitialized { get; private set; } = false;
     public bool Initialized { get; private set; } = false;
@@ -12,19 +16,16 @@ public class Chunk
     private readonly List<EnemyManager> ResidentEnemies;
     private readonly List<WorldLocation> UnocupiedTiles;
 
-    private readonly World World;
     private readonly ChunkIndex ChunkIndex;
     private readonly RiverNode[,] RiverNodes;
     private readonly List<RiverPackage> ImportedRivers;
     private readonly Tile[,] Tiles;
-    private readonly Queue<PostInitAction> PostInitActions;
 
-    private int DangerRating;
-    private int MaxEnemies;
+    private readonly int DangerRating;
+    private readonly int MaxEnemies;
 
-    public Chunk(World world, ChunkIndex chunkIndex)
+    public Chunk(ChunkIndex chunkIndex)
     {
-        World = world;
         ChunkIndex = chunkIndex;
         DangerRating = DecideDangerRating();
         MaxEnemies = DangerRating;
@@ -33,7 +34,6 @@ public class Chunk
         Tiles = CreateTiles();
         ResidentEnemies = new List<EnemyManager>();
         UnocupiedTiles = new List<WorldLocation>();
-        PostInitActions = new Queue<PostInitAction>();
     }
 
     private int DecideDangerRating()
@@ -61,8 +61,8 @@ public class Chunk
             if (!WithinChunk(enemy.Position))
             {
                 emigrantEnemies.Add(enemy);
-                Chunk newHome = World.Chunks.GetChunk(World.GetChunkIndex(enemy.Position));
-                newHome.RecieveImmigrantEnemy(enemy);
+                ChunkIndex newHome = GameManager.Singleton.World.GetChunkIndex(enemy.Position);
+                GameManager.Singleton.World.GetChunk(newHome).RecieveImmigrantEnemy(enemy);
                 enemy.Immigrate(newHome);
             }
         }
@@ -96,6 +96,10 @@ public class Chunk
     {
         if (!Initialized)
         {
+            if (PostInitActions == null)
+            {
+                PostInitActions = new Queue<PostInitAction>();
+            }
             PostInitActions.Enqueue(SpawnEnemies);
         }
         else
@@ -113,14 +117,14 @@ public class Chunk
         UnocupiedTiles.Remove(spawnLocation);
 
         EnemyType enemyType = DecideEnemyType();
-        ResidentEnemies.Add(new EnemyManager(World, spawnLocation, enemyType));
+        ResidentEnemies.Add(new EnemyManager(spawnLocation, enemyType));
     }
 
     private EnemyType DecideEnemyType()
     {
         (float prob, EnemyType enemyType)[] enemyTypes = Configuration.SPAWN_PROBABILITIES[DangerRating];
 
-        float random = Random.Range(0f, 1f);
+        float random = UnityEngine.Random.Range(0f, 1f);
         float accumulator = 0f;
         for (int x = 0; x < enemyTypes.GetLength(0); x++)
         {
@@ -219,7 +223,7 @@ public class Chunk
         }
         else
         {
-            Chunk chunk = World.Chunks.GetChunk(World.GetChunkIndex(riverPackage.WorldLocation));
+            Chunk chunk = GameManager.Singleton.World.Chunks.GetChunk(GameManager.Singleton.World.GetChunkIndex(riverPackage.WorldLocation));
             chunk.ImportRiver(riverPackage);
         }
     }
@@ -258,20 +262,20 @@ public class Chunk
 
     private List<RiverPackage> GetSourceOutlets(WorldLocation sourceWorldLocation)
     {
-        float sourceAltitude = Util.GetPerlinNoise(World.GenerationParameters.TopologyRandomSeed, World.GenerationParameters.TopologyPeriods, sourceWorldLocation.Tuple);
+        float sourceAltitude = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.Topography, GameManager.Singleton.World.GenerationParameters.TopographyPeriods, sourceWorldLocation.Tuple);
         List<RiverPackage> outlets = new List<RiverPackage>();
 
-        if (sourceAltitude < World.GenerationParameters.OceanAltitude)
+        if (sourceAltitude < GameManager.Singleton.World.GenerationParameters.OceanAltitude)
         {
             return outlets;
         }
 
         int searchRadius = 1;
         bool outletFound = false;
-        while (!outletFound && searchRadius < World.GenerationParameters.MaxRiverJumpDistance)
+        while (!outletFound && searchRadius < GameManager.Singleton.World.GenerationParameters.MaxRiverJumpDistance)
         {
             WorldLocation outletWorldLocation = LowestLocationInRadius(sourceWorldLocation, searchRadius);
-            float outletAltitude = Util.GetPerlinNoise(World.GenerationParameters.TopologyRandomSeed, World.GenerationParameters.TopologyPeriods, outletWorldLocation.Tuple);
+            float outletAltitude = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.Topography, GameManager.Singleton.World.GenerationParameters.TopographyPeriods, outletWorldLocation.Tuple);
             if (outletAltitude < sourceAltitude)
             {
                 outlets.Add(new RiverPackage(outletWorldLocation, RiverType.Source));
@@ -296,9 +300,12 @@ public class Chunk
         DecideTerrain();
         Initialized = true;
         
-        foreach (PostInitAction postInitAction in PostInitActions)
+        if (PostInitActions != null)
         {
-            postInitAction();
+            foreach (PostInitAction postInitAction in PostInitActions)
+            {
+                postInitAction();
+            }
         }
     }
 
@@ -328,17 +335,17 @@ public class Chunk
     private void DecideGround(ChunkLocation chunkLocation)
     {
         WorldLocation worldLocation = ChunkToWorldLocation(chunkLocation);
-        float altitude = Util.GetPerlinNoise(World.GenerationParameters.TopologyRandomSeed, World.GenerationParameters.TopologyPeriods, worldLocation.Tuple);
+        float altitude = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.Topography, GameManager.Singleton.World.GenerationParameters.TopographyPeriods, worldLocation.Tuple);
 
-        if (altitude < World.GenerationParameters.OceanAltitude)
+        if (altitude < GameManager.Singleton.World.GenerationParameters.OceanAltitude)
         {
             Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = new TerrainType(TerrainTypeEnum.Ocean, TerrainSubtypeEnum.Ocean);
         }
-        else if (altitude < World.GenerationParameters.SandAltitude)
+        else if (altitude < GameManager.Singleton.World.GenerationParameters.SandAltitude)
         {
             Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = new TerrainType(TerrainTypeEnum.Sand, TerrainSubtypeEnum.Sand);
         }
-        else if (altitude < World.GenerationParameters.MountainAltitude)
+        else if (altitude < GameManager.Singleton.World.GenerationParameters.MountainAltitude)
         {
             DecideGrass(chunkLocation);
         }
@@ -351,8 +358,8 @@ public class Chunk
     private void DecideGrass(ChunkLocation chunkLocation)
     {
         WorldLocation worldLocation = ChunkToWorldLocation(chunkLocation);
-        float mediumGrassSample = Util.GetPerlinNoise(World.GenerationParameters.GrassMediumSeed, World.GenerationParameters.GrassMediumPeriods, worldLocation.Tuple);
-        if (mediumGrassSample < World.GenerationParameters.GrassMediumDensity)
+        float mediumGrassSample = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.GrassMediumSeed, GameManager.Singleton.World.GenerationParameters.GrassMediumPeriods, worldLocation.Tuple);
+        if (mediumGrassSample < GameManager.Singleton.World.GenerationParameters.GrassMediumDensity)
         {
             Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = new TerrainType(TerrainTypeEnum.Grass, TerrainSubtypeEnum.Grass_Medium);
         }
@@ -361,8 +368,8 @@ public class Chunk
             Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = new TerrainType(TerrainTypeEnum.Grass, TerrainSubtypeEnum.Grass_Short);
         }
 
-        float tallGrassSample = Util.GetPerlinNoise(World.GenerationParameters.GrassTallSeed, World.GenerationParameters.GrassTallPeriods, worldLocation.Tuple);
-        if (tallGrassSample < World.GenerationParameters.GrassTallDensity)
+        float tallGrassSample = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.GrassTallSeed, GameManager.Singleton.World.GenerationParameters.GrassTallPeriods, worldLocation.Tuple);
+        if (tallGrassSample < GameManager.Singleton.World.GenerationParameters.GrassTallDensity)
         {
             Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = new TerrainType(TerrainTypeEnum.Grass, TerrainSubtypeEnum.Grass_Tall);
         }
@@ -371,8 +378,8 @@ public class Chunk
     private void DecideTrees(ChunkLocation chunkLocation)
     {
         WorldLocation worldLocation = ChunkToWorldLocation(chunkLocation);
-        float treeSample = Util.GetPerlinNoise(World.GenerationParameters.TreeRandomSeed, World.GenerationParameters.TreePeriods, worldLocation.Tuple);
-        if (treeSample < World.GenerationParameters.TreeDensity && Tiles[chunkLocation.X, chunkLocation.Y].TerrainType.Type == TerrainTypeEnum.Grass)
+        float treeSample = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.TreeRandomSeed, GameManager.Singleton.World.GenerationParameters.TreePeriods, worldLocation.Tuple);
+        if (treeSample < GameManager.Singleton.World.GenerationParameters.TreeDensity && Tiles[chunkLocation.X, chunkLocation.Y].TerrainType.Type == TerrainTypeEnum.Grass)
         {
             Tiles[chunkLocation.X, chunkLocation.Y].TerrainType = new TerrainType(TerrainTypeEnum.Tree, TerrainSubtypeEnum.Tree);
         }
@@ -446,7 +453,7 @@ public class Chunk
         float Weight((int X, int Y) C, (int X, int Y) D)
         {
             (float X, float Y) midpoint = ((C.X + D.X) / 2.0f, (C.Y + D.Y) / 2.0f);
-            float weight = Util.GetPerlinNoise(World.GenerationParameters.TopologyRandomSeed, new float[] {7}, midpoint);
+            float weight = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.Topography, new float[] {7}, midpoint);
             weight *= Util.EuclidianDistance(C, D);
             weight *= 10.0f;
             return weight;
@@ -489,7 +496,7 @@ public class Chunk
             for (int y = worldLocation.Y - radius; y <= worldLocation.Y + radius; y++)
             {
                 WorldLocation candidate = new WorldLocation(x, y);
-                float altitude = Util.GetPerlinNoise(World.GenerationParameters.TopologyRandomSeed, World.GenerationParameters.TopologyPeriods, candidate.Tuple);
+                float altitude = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.Topography, GameManager.Singleton.World.GenerationParameters.TopographyPeriods, candidate.Tuple);
                 float distance = Util.EuclidianDistance(worldLocation.Tuple, candidate.Tuple);
                 if (altitude < lowestLocation.Altitude && distance <= radius)
                 {
@@ -502,9 +509,9 @@ public class Chunk
 
     private bool IsRiverSource(WorldLocation worldLocation)
     {
-        float altitude = Util.GetPerlinNoise(World.GenerationParameters.TopologyRandomSeed, World.GenerationParameters.TopologyPeriods, worldLocation.Tuple);
+        float altitude = Util.GetPerlinNoise(GameManager.Singleton.World.GenerationParameters.Topography, GameManager.Singleton.World.GenerationParameters.TopographyPeriods, worldLocation.Tuple);
         //return ((altitude * 1000) % 1) < MyWorld.GenerationParameters.RiverDensity && altitude > MyWorld.GenerationParameters.MountainAltitude;
-        return ((altitude * 1000) % 1) < World.GenerationParameters.RiverDensity * Mathf.Pow(altitude, 5);
+        return ((altitude * 1000) % 1) < GameManager.Singleton.World.GenerationParameters.RiverDensity * Mathf.Pow(altitude, 5);
     }
 
     public void EnemyHasDied(EnemyManager enemyManager)

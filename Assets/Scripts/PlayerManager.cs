@@ -5,7 +5,7 @@ using System;
 public class PlayerManager : CombatantManager
 {
     [NonSerialized] private bool Dead;
-    [NonSerialized] private Cooldown AttackCooldown;
+    private Cooldown AttackCooldown;
     [NonSerialized] public PlayerMonoBehaviour MonoBehaviour;
     [NonSerialized] public bool AttemptingSprint;
     [NonSerialized] public bool Sprinting;
@@ -142,7 +142,7 @@ public class PlayerManager : CombatantManager
     public override int RecieveHit(float damage)
     {
         CurrentHealth -= damage;
-        if (CurrentHealth <= 0)
+        if (CurrentHealth <= 0 && !Dead)
         {
             Die();
         }

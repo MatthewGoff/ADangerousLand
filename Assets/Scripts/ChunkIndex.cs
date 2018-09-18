@@ -1,4 +1,7 @@
-﻿public struct ChunkIndex
+﻿using System;
+
+[Serializable]
+public struct ChunkIndex
 {
     public int X { get; set; }
     public int Y { get; set; }

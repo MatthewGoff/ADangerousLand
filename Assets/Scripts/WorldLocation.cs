@@ -1,4 +1,7 @@
-﻿public struct WorldLocation
+﻿using System;
+
+[Serializable]
+public struct WorldLocation
 {
     public int X { get; set; }
     public int Y { get; set; }

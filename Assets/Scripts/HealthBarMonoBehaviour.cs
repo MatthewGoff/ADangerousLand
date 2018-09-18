@@ -12,7 +12,7 @@ public class HealthBarMonoBehaviour : MonoBehaviour {
 
     public void Update()
     {
-        Renderer.color = new Color(1, 1, 1, Manager.World.GetVisibilityLevel(transform.position));
+        Renderer.color = new Color(1, 1, 1, GameManager.Singleton.World.GetVisibilityLevel(transform.position));
     }
 
     public void Destroy()

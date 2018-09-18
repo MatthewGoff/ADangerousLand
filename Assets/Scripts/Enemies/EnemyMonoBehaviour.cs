@@ -22,7 +22,7 @@ public class EnemyMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
     public void Update()
     {
         MoveTarget = Manager.Update();
-        Renderer.color = new Color(1, 1, 1, Manager.World.GetVisibilityLevel(RB2D.position));
+        Renderer.color = new Color(1, 1, 1, GameManager.Singleton.World.GetVisibilityLevel(RB2D.position));
     }
 
     public void Destroy()
@@ -39,7 +39,7 @@ public class EnemyMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
         {
             movementVector.Normalize();
         }
-        float movementMultiplier = Manager.World.MovementMultiplier(new WorldLocation(Util.RoundVector2(RB2D.position)));
+        float movementMultiplier = GameManager.Singleton.World.MovementMultiplier(new WorldLocation(Util.RoundVector2(RB2D.position)));
         RB2D.MovePosition(RB2D.position + movementVector * Manager.MoveSpeed * movementMultiplier * Time.fixedDeltaTime);
 
         if (Animator != null)

@@ -19,7 +19,7 @@ public class PauseMenuController : MonoBehaviour {
 
     public void ExitPressed()
     {
-        GameManager.Singleton.Save();
+        GameManager.Singleton.SaveAndExit();
         GameManager.Singleton.TakeInput(GameInputType.OpenMainMenu);
     }
 }

@@ -2,5 +2,5 @@
 
 public interface EnemyAI
 {
-    Vector2 Update();
+    Vector2 Update(EnemyManager manager);
 }

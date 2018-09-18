@@ -114,12 +114,6 @@ public class PlayerMenuController : MonoBehaviour {
         float contentHeight = Mathf.Max(10 + (i * (characterToggleHeight + 10)), selectionWindowHeight);
         contentRect.sizeDelta = new Vector2(17, contentHeight);
 
-        foreach (GameObject characterToggle in CharacterToggles)
-        {
-            if (characterToggle.GetComponent<CharacterToggleController>().PlayerIdentifier == toSelect)
-            {
-                characterToggle.GetComponent<Toggle>().isOn = true;
-            }
-        }
+        CharacterToggles.First().GetComponent<Toggle>().isOn = true;
     }
 }

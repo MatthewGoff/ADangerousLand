@@ -1,4 +1,7 @@
-﻿public struct RiverPackage
+﻿using System;
+
+[Serializable]
+public struct RiverPackage
 {
     public WorldLocation WorldLocation;
     public RiverType Type;
