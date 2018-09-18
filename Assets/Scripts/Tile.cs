@@ -72,7 +72,12 @@ public class Tile {
         }
         else if (Exposed)
         {
-            FogRenderer.color = new Color(0, 0, 0, Configuration.FOG_ALPHA);
+            float alpha = Configuration.FOG_ALPHA;
+            if (alpha != LastFrameFog)
+            {
+                FogRenderer.color = new Color(0, 0, 0, alpha);
+                LastFrameFog = alpha;
+            }
         }
     }
 
