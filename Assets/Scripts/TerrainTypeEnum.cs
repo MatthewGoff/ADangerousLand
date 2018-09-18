@@ -1,4 +1,7 @@
-﻿public enum TerrainTypeEnum
+﻿using System;
+
+[Serializable]
+public enum TerrainTypeEnum
 {
     Grass,
     Tree,

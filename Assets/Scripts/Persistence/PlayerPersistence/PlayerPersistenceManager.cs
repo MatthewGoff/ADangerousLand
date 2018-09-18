@@ -72,7 +72,7 @@ public class PlayerPersistenceManager
         MetaData.Add(newMetaData);
         SaveMetaData();
 
-        PlayerManager newPlayer = new PlayerManager(newMetaData.PlayerIdentifier, name, deathPenalty);
+        PlayerManager newPlayer = new PlayerManager(newMetaData.PlayerIdentifier, newMetaData.Name, newMetaData.DeathPenalty);
         SavePlayer(newPlayer);
         return newPlayer.PlayerIdentifier;
     }

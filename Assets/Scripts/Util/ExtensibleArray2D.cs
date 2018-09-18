@@ -1,4 +1,7 @@
-﻿public class ExtensibleArray2D<T>
+﻿using System;
+
+[Serializable]
+public class ExtensibleArray2D<T>
 {
 
     private T[,] Array;

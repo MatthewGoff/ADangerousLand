@@ -1,4 +1,7 @@
-﻿public struct TerrainType
+﻿using System;
+
+[Serializable]
+public struct TerrainType
 {
     public readonly TerrainTypeEnum Type;
     public readonly TerrainSubtypeEnum Subtype;

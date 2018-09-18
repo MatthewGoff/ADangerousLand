@@ -6,16 +6,18 @@ using UnityEngine;
 public class World
 {
     [NonSerialized] public PlayerManager PlayerManager;
-    [NonSerialized] private bool Initialized;
+    [NonSerialized] private bool Active;
     [NonSerialized] private Treadmill Treadmill;
     [NonSerialized] private Queue<WorldInitializer> WorldInitializers;
     [NonSerialized] private ChunkIndex CurrentChunk;
 
+    public int WorldIdentifier;
     public WorldGenParameters GenerationParameters { get; private set; }
     public readonly ChunkStorage Chunks;
 
-    public World(int seed)
+    public World(int worldIdentifier, int seed)
     {
+        WorldIdentifier = worldIdentifier;
         GenerationParameters = new WorldGenParameters(seed);
         Chunks = new ChunkStorage();
     }
@@ -23,7 +25,7 @@ public class World
     public void Setup(PlayerManager playerManager)
     {
         PlayerManager = playerManager;
-        Initialized = false;
+        Active = false;
 
         WorldInitializers = new Queue<WorldInitializer>();
         Treadmill = new Treadmill(Configuration.TREADMILL_WIDTH, Configuration.TREADMIL_HEIGHT);
@@ -33,12 +35,12 @@ public class World
     {
         SpawnPlayer();
         PlayerChangedChunks();
-        Initialized = true;
+        Active = true;
     }
 
     public void Update()
     {
-        if (!Initialized)
+        if (!Active)
         {
             return;
         }
@@ -115,8 +117,7 @@ public class World
 
     public void Sleep()
     {
-        Initialized = false;
-        PlayerManager.Sleep();
+        Active = false;
         int updateRadius = 2;
         for (int indexX = CurrentChunk.X - updateRadius; indexX <= CurrentChunk.X + updateRadius; indexX++)
         {
@@ -125,6 +126,7 @@ public class World
                 Chunks.GetChunk(new ChunkIndex(indexX, indexY)).Sleep();
             }
         }
+        PlayerManager.Sleep();
     }
 
     public void InitializeRiverLocality(ChunkIndex chunkIndex)
@@ -174,6 +176,10 @@ public class World
 
     public float GetVisibilityLevel(Vector2 position)
     {
+        if (!Active)
+        {
+            return 0f;
+        }
         float distance = (PlayerManager.GetPlayerPosition() - position).magnitude;
         float alpha = (distance - PlayerManager.GetSightRadiusNear()) / (PlayerManager.GetSightRadiusFar() - PlayerManager.GetSightRadiusNear());
         return 1 - Mathf.Clamp(alpha, 0f, 1f);
@@ -190,6 +196,13 @@ public class World
     {
         int x = (int)Mathf.Floor(position.x / Configuration.CHUNK_SIZE);
         int y = (int)Mathf.Floor(position.y / Configuration.CHUNK_SIZE);
+        return new ChunkIndex(x, y);
+    }
+
+    public ChunkIndex GetChunkIndex((float X, float Y) position)
+    {
+        int x = (int)Mathf.Floor(position.X / Configuration.CHUNK_SIZE);
+        int y = (int)Mathf.Floor(position.Y / Configuration.CHUNK_SIZE);
         return new ChunkIndex(x, y);
     }
 

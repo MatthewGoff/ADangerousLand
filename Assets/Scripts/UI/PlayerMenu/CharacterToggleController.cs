@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterToggleController : MonoBehaviour {
-
+public class CharacterToggleController : MonoBehaviour
+{
     public int PlayerIdentifier;
 
     public GameObject NameText;

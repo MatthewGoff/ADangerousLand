@@ -408,6 +408,14 @@ public class Chunk
         }
     }
 
+    public bool WithinChunk((float X, float Y) position)
+    {
+        return ((position.X >= ChunkIndex.X * Configuration.CHUNK_SIZE)
+            && (position.X < (ChunkIndex.X + 1) * Configuration.CHUNK_SIZE)
+            && (position.Y >= ChunkIndex.Y * Configuration.CHUNK_SIZE)
+            && (position.Y < (ChunkIndex.Y + 1) * Configuration.CHUNK_SIZE));
+    }
+
     public bool WithinChunk(WorldLocation worldLocation)
     {
         ChunkLocation chunkLocation = WorldToChunkLocation(worldLocation);

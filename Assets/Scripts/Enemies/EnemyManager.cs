@@ -7,10 +7,10 @@ public class EnemyManager : CombatantManager
     [NonSerialized] public EnemyMonoBehaviour MonoBehaviour;
     [NonSerialized] private HealthBarMonoBehaviour HealthBar;
     [NonSerialized] private DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;
+    [NonSerialized] public bool Awake = false;
 
     public EnemyType EnemyType;
-    public bool Awake;
-    public Vector2 Position { get; private set; }
+    public (float X, float Y) Position { get; private set; }
     public readonly BasicAI AI;
     public readonly float MoveSpeed;
     public float Aoe;
@@ -25,7 +25,7 @@ public class EnemyManager : CombatantManager
     {
         EnemyType = enemyType;
         SlashCooldown = new Cooldown(1/Configuration.ENEMY_CONFIGURATIONS[EnemyType].AttackSpeed);
-        Position = new Vector2(worldLocation.X, worldLocation.Y);
+        Position = worldLocation.Tuple;
         CurrentChunk = GameManager.Singleton.World.GetChunkIndex(worldLocation);
         MaxHealth = Configuration.ENEMY_CONFIGURATIONS[EnemyType].MaxHealth;
         MoveSpeed = Configuration.ENEMY_CONFIGURATIONS[EnemyType].MoveSpeed;
@@ -68,19 +68,21 @@ public class EnemyManager : CombatantManager
     {
         Awake = true;
 
-        GameObject enemy = GameObject.Instantiate(Prefabs.ENEMY_PREFAB, Position, Quaternion.identity);
+        Vector2 position = new Vector2(Position.X, Position.Y);
+
+        GameObject enemy = GameObject.Instantiate(Prefabs.ENEMY_PREFAB, position, Quaternion.identity);
         GameManager.Singleton.GameObjectCount++;
         MonoBehaviour = enemy.GetComponent<EnemyMonoBehaviour>();
         MonoBehaviour.AssignManager(this);
 
-        GameObject healthBar = GameObject.Instantiate(Prefabs.HEALTH_BAR_PREFAB, Position + new Vector2(0, 0.625f), Quaternion.identity);
+        GameObject healthBar = GameObject.Instantiate(Prefabs.HEALTH_BAR_PREFAB, position + new Vector2(0, 0.625f), Quaternion.identity);
         GameManager.Singleton.GameObjectCount++;
         healthBar.transform.SetParent(enemy.transform);
         HealthBar = healthBar.GetComponent<HealthBarMonoBehaviour>();
         HealthBar.AssignManager(this);
         UpdateHealthBar();
 
-        GameObject damageNumbersCanvas = GameObject.Instantiate(Prefabs.DAMAGE_NUMBER_CANVAS_PREFAB, Position + new Vector2(0, 0.625f), Quaternion.identity);
+        GameObject damageNumbersCanvas = GameObject.Instantiate(Prefabs.DAMAGE_NUMBER_CANVAS_PREFAB, position + new Vector2(0, 0.625f), Quaternion.identity);
         GameManager.Singleton.GameObjectCount++;
         damageNumbersCanvas.transform.SetParent(enemy.transform);
         DamageNumbersCanvas = damageNumbersCanvas.GetComponent<DamageNumbersCanvasMonoBehaviour>();
@@ -91,7 +93,7 @@ public class EnemyManager : CombatantManager
         if (Awake)
         {
             Awake = false;
-            Position = MonoBehaviour.transform.position;
+            Position = (MonoBehaviour.transform.position.x, MonoBehaviour.transform.position.y);
             DamageNumbersCanvas.transform.SetParent(null);
             MonoBehaviour.Destroy();
             HealthBar.Destroy();

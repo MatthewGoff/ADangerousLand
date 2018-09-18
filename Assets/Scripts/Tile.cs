@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
+using System;
 
-public class Tile {
+[Serializable]
+public class Tile
+{
+    [NonSerialized] private GameObject FogGameObject;
+    [NonSerialized] private SpriteRenderer FogRenderer;
+    [NonSerialized] private GameObject TerrainGameObject;
+    [NonSerialized] public bool Awake = false;
+    [NonSerialized] private float LastFrameFog = -1f;
 
     public TerrainType TerrainType { get; set; }
-    public bool Awake { get; private set; } = false;
 
-    private GameObject FogGameObject;
-    private SpriteRenderer FogRenderer;
-    private float LastFrameFog = -1f;
     private bool Exposed = false;
-    private GameObject TerrainGameObject;
     private readonly WorldLocation WorldLocation;
     
     public Tile(WorldLocation worldLocation)

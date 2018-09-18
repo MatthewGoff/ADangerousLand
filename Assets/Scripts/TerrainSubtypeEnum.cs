@@ -1,4 +1,7 @@
-﻿public enum TerrainSubtypeEnum
+﻿using System;
+
+[Serializable]
+public enum TerrainSubtypeEnum
 {
     Grass_Short,
     Grass_Medium,

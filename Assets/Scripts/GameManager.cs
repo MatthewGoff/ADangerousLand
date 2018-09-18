@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
 
         Prefabs.LoadPrefabs();
         PlayerPersistenceManager.Initialize();
-        //WorldPersistenceManager.Initialize();
+        WorldPersistenceManager.Initialize();
         StartCoroutine("Load");
     }
 
@@ -190,7 +190,6 @@ public class GameManager : MonoBehaviour
         stateMachine.OnEnterState(GameStateType.WorldMenu, delegate (GameStateType state, GameInputType input) { WorldMenu.SetActive(true); });
         stateMachine.OnExitState(GameStateType.WorldMenu, delegate (GameInputType input, GameStateType state) { WorldMenu.SetActive(false); });
 
-
         // New World Menu
         stateMachine.AddTransition(GameStateType.NewWorldMenu, GameStateType.WorldMenu, GameInputType.Escape, false);
         stateMachine.OnEnterState(GameStateType.NewWorldMenu, delegate (GameStateType state, GameInputType input) { NewWorldMenu.SetActive(true); });
@@ -254,7 +253,7 @@ public class GameManager : MonoBehaviour
         {
             PlayerCamera = Instantiate(Prefabs.CAMERA_PREFAB, new Vector3(0, 0, -1), Quaternion.identity);
             PlayerManager playerManager = PlayerMenu.GetComponent<PlayerMenuController>().SelectedPlayer;
-            World = new World(123);
+            World = WorldMenu.GetComponent<WorldMenuController>().SelectedWorld;
             World.Setup(playerManager);
             World.Start();
             HUD.SetActive(true);
@@ -332,11 +331,17 @@ public class GameManager : MonoBehaviour
     public void SaveAndExit()
     {
         PlayerPersistenceManager.SavePlayer(World.PlayerManager);
+        WorldPersistenceManager.SaveWorld(World);
         GameManager.Singleton.World.Sleep();
     }
 
     public void Print(string s)
     {
         print(s);
+    }
+
+    public float GetTime()
+    {
+        return Time.time;
     }
 }
