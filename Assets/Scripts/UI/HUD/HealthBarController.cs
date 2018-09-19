@@ -2,8 +2,6 @@
 
 public class HealthBarController : MonoBehaviour
 {
-    private PlayerManager Player;
-    private bool PlayerInitialized = false;
     private RectTransform Rect;
 
     private void Start()
@@ -13,19 +11,11 @@ public class HealthBarController : MonoBehaviour
 
     void Update()
     {
-        if (PlayerInitialized)
-        {
-            Rect.localScale = new Vector2(Player.CurrentHealth / Player.MaxHealth, 1);
-        }
-        else
-        {
-            if (GameManager.Singleton != null
-                && GameManager.Singleton.World != null
+        if (GameManager.Singleton.World != null
                 && GameManager.Singleton.World.PlayerManager != null)
-            {
-                Player = GameManager.Singleton.World.PlayerManager;
-                PlayerInitialized = true;
-            }
+        {
+            PlayerManager player = GameManager.Singleton.World.PlayerManager;
+            Rect.localScale = new Vector2(player.CurrentHealth / player.MaxHealth, 1);
         }
     }
 }

@@ -2,8 +2,6 @@
 
 public class ManaBarController : MonoBehaviour
 {
-    private PlayerManager Player;
-    private bool PlayerInitialized = false;
     private RectTransform Rect;
 
     private void Start()
@@ -13,19 +11,11 @@ public class ManaBarController : MonoBehaviour
 
     void Update()
     {
-        if (PlayerInitialized)
+        if (GameManager.Singleton.World != null
+            && GameManager.Singleton.World.PlayerManager != null)
         {
-            Rect.localScale = new Vector2(Player.CurrentMana / Player.MaxStamina, 1);
-        }
-        else
-        {
-            if (GameManager.Singleton != null
-                && GameManager.Singleton.World != null
-                && GameManager.Singleton.World.PlayerManager != null)
-            {
-                Player = GameManager.Singleton.World.PlayerManager;
-                PlayerInitialized = true;
-            }
+            PlayerManager player = GameManager.Singleton.World.PlayerManager;
+            Rect.localScale = new Vector2(player.CurrentMana / player.MaxStamina, 1);
         }
     }
 }

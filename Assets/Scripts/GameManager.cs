@@ -335,12 +335,12 @@ public class GameManager : MonoBehaviour
         GameManager.Singleton.World.Sleep();
     }
 
-    public void Print(string s)
+    public static void Print(string s)
     {
         print(s);
     }
 
-    public float GetTime()
+    public static float GetTime()
     {
         return Time.time;
     }

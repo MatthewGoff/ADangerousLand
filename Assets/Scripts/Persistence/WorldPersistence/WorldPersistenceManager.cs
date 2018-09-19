@@ -32,13 +32,13 @@ public class WorldPersistenceManager
 
     public static World LoadWorldBinaryFormatter(int worldIdentifier)
     {
-        GameManager.Singleton.Print("Starting to load world at " + DateTime.Now.ToString("h:mm:ss tt"));
+        GameManager.Print("Starting to load world at " + DateTime.Now.ToString("h:mm:ss tt"));
         World world;
         Stream openFileStream = File.OpenRead(PATH + worldIdentifier.ToString() + ".bin");
         BinaryFormatter binaryFormatter = new BinaryFormatter();
         world = (World)binaryFormatter.Deserialize(openFileStream);
         openFileStream.Close();
-        GameManager.Singleton.Print("Finished laoding world at " + DateTime.Now.ToString("h:mm:ss tt"));
+        GameManager.Print("Finished laoding world at " + DateTime.Now.ToString("h:mm:ss tt"));
         return world;
     }
 
@@ -50,12 +50,12 @@ public class WorldPersistenceManager
 
     public static void SaveWorldBinaryFormatter(World world)
     {
-        GameManager.Singleton.Print("Starting to save world at " + DateTime.Now.ToString("h:mm:ss tt"));
+        GameManager.Print("Starting to save world at " + DateTime.Now.ToString("h:mm:ss tt"));
         Stream saveFileStream = File.Create(PATH + world.WorldIdentifier.ToString() + ".bin");
         BinaryFormatter binaryFormatter = new BinaryFormatter();
         binaryFormatter.Serialize(saveFileStream, world);
         saveFileStream.Close();
-        GameManager.Singleton.Print("Finished saving world at " + DateTime.Now.ToString("h:mm:ss tt"));
+        GameManager.Print("Finished saving world at " + DateTime.Now.ToString("h:mm:ss tt"));
 
     }
 

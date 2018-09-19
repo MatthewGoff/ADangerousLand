@@ -3,9 +3,7 @@ using UnityEngine.UI;
 
 public class ManaTextController : MonoBehaviour
 {
-    private PlayerManager Player;
     private Text Text;
-    private bool PlayerInitialized = false;
 
     void Start()
     {
@@ -14,21 +12,14 @@ public class ManaTextController : MonoBehaviour
 
     void Update()
     {
-        if (PlayerInitialized)
+        if (GameManager.Singleton.World != null
+            && GameManager.Singleton.World.PlayerManager != null)
         {
-            float mana = Player.CurrentMana;
+            PlayerManager player = GameManager.Singleton.World.PlayerManager;
+            float mana = player.CurrentMana;
             mana = Mathf.Floor(mana * 10) / 10;
-            Text.text = mana.ToString() + "/" + Player.MaxStamina.ToString();
+            Text.text = mana.ToString() + "/" + player.MaxStamina.ToString();
         }
-        else
-        {
-            if (GameManager.Singleton != null
-                && GameManager.Singleton.World != null
-                && GameManager.Singleton.World.PlayerManager != null)
-            {
-                Player = GameManager.Singleton.World.PlayerManager;
-                PlayerInitialized = true;
-            }
-        }
+
     }
 }

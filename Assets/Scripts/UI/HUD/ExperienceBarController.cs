@@ -2,8 +2,6 @@
 
 public class ExperienceBarController : MonoBehaviour
 {
-    private PlayerManager Player;
-    private bool PlayerInitialized = false;
     private RectTransform Rect;
 
     private void Start()
@@ -13,23 +11,15 @@ public class ExperienceBarController : MonoBehaviour
 
     void Update()
     {
-        if (PlayerInitialized)
-        {
-            int min = Configuration.GetLevelExperience(Player.Level);
-            int max = Configuration.GetLevelExperience(Player.Level+1);
-            int goal = max - min;
-            int progress = Player.Experience - min;
-            Rect.localScale = new Vector2((float)progress / goal, 1);
-        }
-        else
-        {
-            if (GameManager.Singleton != null
-                && GameManager.Singleton.World != null
+        if (GameManager.Singleton.World != null
                 && GameManager.Singleton.World.PlayerManager != null)
-            {
-                Player = GameManager.Singleton.World.PlayerManager;
-                PlayerInitialized = true;
-            }
+        {
+            PlayerManager player = GameManager.Singleton.World.PlayerManager;
+            int min = Configuration.GetLevelExperience(player.Level);
+            int max = Configuration.GetLevelExperience(player.Level+1);
+            int goal = max - min;
+            int progress = player.Experience - min;
+            Rect.localScale = new Vector2((float)progress / goal, 1);
         }
     }
 }
