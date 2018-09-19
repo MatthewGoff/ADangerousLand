@@ -26,6 +26,12 @@ public class DamageNumbersCanvasMonoBehaviour : MonoBehaviour
         CurrentNumbers++;
     }
 
+    public void Log(float damage)
+    {
+        float displayDamage = Mathf.Floor(damage * 10) / 10;
+        Log(displayDamage.ToString());
+    }
+
     public void MessageEnd()
     {
         CurrentNumbers--;

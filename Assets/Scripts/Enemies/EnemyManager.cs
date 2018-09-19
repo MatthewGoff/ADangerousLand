@@ -156,7 +156,7 @@ public class EnemyManager : CombatantManager
 
     public override int RecieveHit(float damage)
     {
-        DamageNumbersCanvas.Log(damage.ToString());
+        DamageNumbersCanvas.Log(damage);
 
         CurrentHealth -= damage;
         UpdateHealthBar();
