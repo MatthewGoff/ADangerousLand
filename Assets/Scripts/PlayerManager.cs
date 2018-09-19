@@ -6,10 +6,9 @@ public class PlayerManager : CombatantManager
 {
     [IgnoreMember] private bool Dead;
     [IgnoreMember] public PlayerMonoBehaviour MonoBehaviour;
-    [IgnoreMember] public bool AttemptingSprint;
     [IgnoreMember] public bool Sprinting;
     [IgnoreMember] public float CurrentHealth;
-    [IgnoreMember] public float CurrentMana;
+    [IgnoreMember] public float CurrentStamina;
     [IgnoreMember] private Cooldown AttackCooldown;
 
     [Key(0)] public int PlayerIdentifier;
@@ -104,9 +103,8 @@ public class PlayerManager : CombatantManager
         Team = 0;
         Dead = false;
         Sprinting = false;
-        AttemptingSprint = false;
         CurrentHealth = MaxHealth;
-        CurrentMana = MaxStamina;
+        CurrentStamina = MaxStamina;
 
         GameObject player = GameObject.Instantiate(Prefabs.PLAYER_PREFAB, new Vector3(spawnLocation.X, spawnLocation.Y, 0), Quaternion.identity);
         MonoBehaviour = player.GetComponent<PlayerMonoBehaviour>();
@@ -118,14 +116,27 @@ public class PlayerManager : CombatantManager
         MonoBehaviour.Destroy();
     }
 
-    public void Update(float deltaTime)
+    public void FixedUpdate(float deltaTime)
     {
         if (!Dead)
         {
-            CurrentHealth += HealthRegen * deltaTime;
+            CurrentHealth += HealthRegen * Time.fixedDeltaTime;
             CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
-            CurrentMana += StaminaRegen * deltaTime;
-            CurrentMana = Mathf.Clamp(CurrentMana, 0, MaxStamina);
+            CurrentStamina += StaminaRegen * Time.fixedDeltaTime;
+            CurrentStamina = Mathf.Clamp(CurrentStamina, 0, MaxStamina);
+
+            if (Sprinting)
+            {
+                float staminaCost = 0.2f * MaxStamina * Time.fixedDeltaTime;
+                if (CurrentStamina >= staminaCost)
+                {
+                    CurrentStamina -= staminaCost;
+                }
+                else
+                {
+                    StopSprinting();
+                }
+            }
         }
     }
 
@@ -141,43 +152,41 @@ public class PlayerManager : CombatantManager
 
     public void SlashAttack(Vector2 attackTarget)
     {
-        if (CurrentMana >= 1f && AttackCooldown.Use())
+        if (CurrentStamina >= 1f && AttackCooldown.Use())
         {
             Vector2 attackPosition = MonoBehaviour.transform.position;
             Vector2 attackVector = attackTarget - attackPosition;
             float attackAngle = Vector2.SignedAngle(Vector2.right, attackVector);
 
-            CurrentMana -= 1;
+            CurrentStamina -= 1;
             SlashManager slash = new SlashManager(this, attackPosition, attackAngle, MeleeAoe, AttackDamage);
         }
     }
 
     public void BoltAttack(Vector2 attackTarget)
     {
-        if (CurrentMana >= 1f && AttackCooldown.Use())
+        if (CurrentStamina >= 1f && AttackCooldown.Use())
         {
             Vector2 attackPosition = MonoBehaviour.transform.position;
             Vector2 attackVector = attackTarget - attackPosition;
             float attackAngle = Vector2.SignedAngle(Vector2.right, attackVector);
 
-            CurrentMana -= 1;
+            CurrentStamina -= 1;
             BoltManager slash = new BoltManager(this, attackPosition, attackAngle, AttackDamage*ProjectileDamage);
         }
     }
 
-    public bool AttemptSprint()
+    public void StartSprinting()
     {
-        float manaCost = 1 * Time.fixedDeltaTime;
-        if (AttemptingSprint && CurrentMana >= manaCost)
+        if (CurrentStamina >= MaxStamina * 0.1f)
         {
-            CurrentMana -= manaCost;
             Sprinting = true;
         }
-        else
-        {
-            Sprinting = false;
-        }
-        return Sprinting;
+    }
+
+    public void StopSprinting()
+    {
+        Sprinting = false;
     }
 
     public override int RecieveHit(float damage)

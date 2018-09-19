@@ -46,7 +46,6 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
 
     public void Update()
     {
-        Manager.Update(Time.deltaTime);
         GameObject Camera = GameManager.Singleton.PlayerCamera;
 
         if (Input.GetKeyDown(KeyCode.Space) && GameManager.Singleton.GameState == GameStateType.Playing)
@@ -74,11 +73,20 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
             
         }
 
-        Manager.AttemptingSprint = Input.GetKey(KeyCode.LeftShift) && GameManager.Singleton.GameState == GameStateType.Playing;
+        if (Input.GetKey(KeyCode.LeftShift) && GameManager.Singleton.GameState == GameStateType.Playing)
+        {
+            Manager.StartSprinting();
+        }
+        else
+        {
+            Manager.StopSprinting();
+        }
     }
 
     public void FixedUpdate()
     {
+        Manager.FixedUpdate(Time.deltaTime);
+
         Vector2 movementVector = MoveTarget - RB2D.position;
         if (movementVector.magnitude > 1.0f)
         {
@@ -86,10 +94,9 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
         }
                 
         float movementMultiplier = GameManager.Singleton.World.MovementMultiplier(new WorldLocation(Util.RoundVector2(RB2D.position)));
-        bool Sprinting = Manager.AttemptSprint();
-        if (Sprinting)
+        if (Manager.Sprinting)
         {
-            movementMultiplier *= 3;
+            movementMultiplier *= 2.0f;
             EnableSprintSprites();
         }
         else
