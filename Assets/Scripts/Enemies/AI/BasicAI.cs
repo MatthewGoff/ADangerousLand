@@ -27,7 +27,7 @@ public class BasicAI : EnemyAI
         float distance = (playerPosition - myPosition).magnitude;
         if (distance < manager.Aoe)
         {
-            manager.SlashAttack(playerPosition);
+            //manager.SlashAttack(playerPosition);
         }
 
         if ((distance < manager.AgroDistance)

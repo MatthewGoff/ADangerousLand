@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Configuration
 {
@@ -15,9 +16,7 @@ public class Configuration
     };
 
     // World
-    public static readonly int TREADMILL_WIDTH = 62;
-    public static readonly int TREADMIL_HEIGHT = 62;
-    public static readonly int TREADMILL_UPDATE_MARGIN = 1;
+    public static readonly int TREADMILL_RADIUS = 32;
     public static readonly int CHUNK_SIZE = 32;
 
     // Fog
@@ -42,8 +41,8 @@ public class Configuration
         else if (level == 5) { return 25; }
         else if (level == 6) { return 50; }
         else if (level == 7) { return 100; }
-        else if (level == 8) { return 200; }
-        else { return 200+200*(level-8); }
+        else if (level == 8) { return 400; }
+        else { return 200+400*(int)Mathf.Pow(level-8, 2); }
     }
     public static int GetLevelSkillPoints(int level)
     {
@@ -51,29 +50,50 @@ public class Configuration
         else if (level == 1) { return 0; }
         else if (level == 2) { return 1; }
         else if (level == 3) { return 2; }
-        else if (level == 4) { return 4; }
-        else if (level == 5) { return 8; }
-        else if (level == 6) { return 15; }
-        else if (level == 7) { return 25; }
-        else if (level == 8) { return 50; }
-        else { return 50; }
+        else if (level == 4) { return 3; }
+        else if (level == 5) { return 4; }
+        else if (level == 6) { return 5; }
+        else if (level == 7) { return 7; }
+        else if (level == 8) { return 10; }
+        else { return 15; }
     }
 
     // Enemies
     public static readonly Dictionary<EnemyType, EnemyConfiguration> ENEMY_CONFIGURATIONS = new Dictionary<EnemyType, EnemyConfiguration>()
     {
+        {EnemyType.Bat, new EnemyConfiguration(){
+            SpriteLocation = "BatSprite",
+            AIType = AIType.Basic,
+            MaxHealth = 2,
+            MoveSpeed = 3.5f,
+            ExperienceReward = 1,
+            Damage = 0.1f,
+            AttackSpeed = 1f,
+            Aoe = 1.0f,
+            AgroDistance = 10f,
+            DeAgroDistance = 15f,
+            MinAgroDuration = 3f,
+            SpawnWidth = 2,
+            SpawnHeight = 1,
+            SpawnX = 1f,
+            SpawnY = .5f,
+        }},
         {EnemyType.Soldier, new EnemyConfiguration(){
             SpriteLocation = "SoldierSprite",
             AIType = AIType.Basic,
             MaxHealth = 5,
             MoveSpeed = 3.5f,
-            ExperienceReward = 1,
+            ExperienceReward = 2,
             Damage = 0.5f,
             AttackSpeed = 1f,
             Aoe = 1.5f,
             AgroDistance = 10f,
             DeAgroDistance = 15f,
-            MinAgroDuration = 3f
+            MinAgroDuration = 3f,
+            SpawnWidth = 1,
+            SpawnHeight = 1,
+            SpawnX = 0.5f,
+            SpawnY = 0.5f,
         }},
         {EnemyType.Werewolf, new EnemyConfiguration(){
             SpriteLocation = "WerewolfSprite",
@@ -86,7 +106,11 @@ public class Configuration
             Aoe = 1.0f,
             AgroDistance = 10f,
             DeAgroDistance = 15f,
-            MinAgroDuration = 3f
+            MinAgroDuration = 3f,
+            SpawnWidth = 1,
+            SpawnHeight = 1,
+            SpawnX = 0.5f,
+            SpawnY = 0.5f,
         }},
         {EnemyType.Dragon, new EnemyConfiguration(){
             SpriteLocation = "DragonSprite",
@@ -99,7 +123,11 @@ public class Configuration
             Aoe = 10f,
             AgroDistance = 10f,
             DeAgroDistance = 15f,
-            MinAgroDuration = 3f
+            MinAgroDuration = 3f,
+            SpawnWidth = 2,
+            SpawnHeight = 2,
+            SpawnX = 1f,
+            SpawnY = 1f,
         }},
     };
     // SpawnProbabilities maps a difficulty rating to an array of spawn probabilities
@@ -107,51 +135,57 @@ public class Configuration
     {
         {0, new (float, EnemyType)[]
         {
-            (1f, EnemyType.Soldier),
+            (1f, EnemyType.Bat),
         }},
         {1, new (float, EnemyType)[]
         {
-            (1f, EnemyType.Soldier),
+            (1f, EnemyType.Bat),
         }},
         {2, new (float, EnemyType)[]
         {
-            (0.9f, EnemyType.Soldier),
-            (0.1f, EnemyType.Werewolf),
+            (0.9f, EnemyType.Bat),
+            (0.1f, EnemyType.Soldier),
         }},
         {3, new (float, EnemyType)[]
         {
-            (0.8f, EnemyType.Soldier),
-            (0.2f, EnemyType.Werewolf),
+            (0.8f, EnemyType.Bat),
+            (0.2f, EnemyType.Soldier),
         }},
         {4, new (float, EnemyType)[]
         {
-            (0.7f, EnemyType.Soldier),
-            (0.3f, EnemyType.Werewolf),
+            (0.6f, EnemyType.Bat),
+            (0.3f, EnemyType.Soldier),
+            (0.1f, EnemyType.Werewolf)
         }},
         {5, new (float, EnemyType)[]
         {
-            (0.6f, EnemyType.Soldier),
-            (0.4f, EnemyType.Werewolf),
+            (0.4f, EnemyType.Bat),
+            (0.4f, EnemyType.Soldier),
+            (0.2f, EnemyType.Werewolf)
         }},
         {6, new (float, EnemyType)[]
         {
-            (0.5f, EnemyType.Soldier),
-            (0.5f, EnemyType.Werewolf),
+            (0.3f, EnemyType.Bat),
+            (0.4f, EnemyType.Soldier),
+            (0.3f, EnemyType.Werewolf)
         }},
         {7, new (float, EnemyType)[]
         {
-            (0.5f, EnemyType.Soldier),
-            (0.5f, EnemyType.Werewolf),
+            (0.2f, EnemyType.Bat),
+            (0.3f, EnemyType.Soldier),
+            (0.5f, EnemyType.Werewolf)
         }},
         {8, new (float, EnemyType)[]
         {
-            (0.5f, EnemyType.Soldier),
-            (0.5f, EnemyType.Werewolf),
+            (0.2f, EnemyType.Bat),
+            (0.2f, EnemyType.Soldier),
+            (0.6f, EnemyType.Werewolf)
         }},
         {9, new (float, EnemyType)[]
         {
-            (0.45f, EnemyType.Soldier),
-            (0.45f, EnemyType.Werewolf),
+            (0.1f, EnemyType.Bat),
+            (0.2f, EnemyType.Soldier),
+            (0.6f, EnemyType.Werewolf),
             (0.1f, EnemyType.Dragon),
         }},
     };

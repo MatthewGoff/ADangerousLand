@@ -27,7 +27,7 @@ public static class Util
 
     public static int RandomInt(int min, int max)
     {
-        int var = (int)Mathf.Floor(UnityEngine.Random.Range(min, max + 1));
+        int var = Mathf.FloorToInt(UnityEngine.Random.Range(min, max + 1));
         return Mathf.Clamp(var, min, max);
     }
 

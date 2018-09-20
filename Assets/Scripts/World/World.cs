@@ -7,9 +7,8 @@ public class World
 {
     [IgnoreMember] public PlayerManager PlayerManager;
     [IgnoreMember] private bool Active;
-    [IgnoreMember] private Treadmill Treadmill;
     [IgnoreMember] private Queue<WorldInitializer> WorldInitializers;
-    [IgnoreMember] private ChunkIndex CurrentChunk;
+    [IgnoreMember] private List<Chunk> LiveChunks;
 
     [Key(0)] public int WorldIdentifier;
     [Key(1)] public WorldGenParameters GenerationParameters { get; private set; }
@@ -36,13 +35,12 @@ public class World
         Active = false;
 
         WorldInitializers = new Queue<WorldInitializer>();
-        Treadmill = new Treadmill(Configuration.TREADMILL_WIDTH, Configuration.TREADMIL_HEIGHT);
+        LiveChunks = new List<Chunk>();
     }
 
     public void Start()
     {
         SpawnPlayer();
-        PlayerChangedChunks();
         Active = true;
     }
 
@@ -52,19 +50,92 @@ public class World
         {
             return;
         }
-        Treadmill.Center = PlayerManager.GetPlayerPosition();
-        UpdateCurrentChunk();
-        UpdateWorldInitializers();
-        UpdateChunks();
+
+        foreach (Chunk chunk in LiveChunks)
+        {
+            chunk.Update();
+        }
+
     }
 
-    private void UpdateCurrentChunk()
+    public void FixedUpdate()
     {
-        ChunkIndex currentChunk = GetPlayerChunk();
-        if (!currentChunk.Equals(CurrentChunk))
+        if (!Active)
         {
-            CurrentChunk = currentChunk;
-            PlayerChangedChunks();
+            return;
+        }
+
+        UpdateWorldInitializers();
+
+        ChunkIndex currentChunk = GetChunkIndex(PlayerManager.GetPlayerPosition());
+        for (int x = -3; x <= 3; x++)
+        {
+            for (int y = -3; y <= 3; y++)
+            {
+                Chunk chunk = Chunks.GetChunk(currentChunk.Add(x, y));
+                int distance = Mathf.Max(Mathf.Abs(x), Mathf.Abs(y));
+                if (distance == 0)
+                {
+                    chunk.NextState = ChunkState.Occupied;
+                }
+                else if (distance == 1)
+                {
+                    chunk.NextState = ChunkState.Live;
+                }
+                else if (distance == 2)
+                {
+                    chunk.NextState = ChunkState.SpawningGrounds;
+                }
+                else if (distance == 3)
+                {
+                    chunk.NextState = ChunkState.Inactive;
+                }
+            }
+        }
+
+        LiveChunks.Clear();
+        for (int x = -3; x <= 3; x++)
+        {
+            for (int y = -3; y <= 3; y++)
+            {
+                Chunk chunk = Chunks.GetChunk(currentChunk.Add(x, y));
+                if (chunk.NextState != chunk.State)
+                {
+                    if (chunk.NextState == ChunkState.Occupied)
+                    {
+                        if (!chunk.InitializingLocality && !chunk.LocalityInitialized)
+                        {
+                            chunk.InitializingLocality = true;
+                            WorldInitializer newInitializer = new WorldInitializer
+                            {
+                                World = this,
+                                ChunkIndex = currentChunk
+                            };
+                            WorldInitializers.Enqueue(newInitializer);
+                        }
+                    }
+                    if (chunk.NextState == ChunkState.Inactive)
+                    {
+                        chunk.Sleep();
+                    }
+                    if (chunk.NextState == ChunkState.SpawningGrounds)
+                    {
+                        chunk.SpawnEnemies();
+                    }
+                    chunk.State = chunk.NextState;
+                }
+
+                if (chunk.State == ChunkState.Occupied)
+                {
+                    LiveChunks.Add(chunk);
+                    chunk.FixedUpdate();
+                }
+                if (chunk.State == ChunkState.Live)
+                {
+                    LiveChunks.Add(chunk);
+                    chunk.FixedUpdate();
+                }
+            }
         }
     }
 
@@ -85,51 +156,13 @@ public class World
         }
     }
 
-    private void UpdateChunks()
-    {
-        int updateRadius = 2;
-        for (int indexX = CurrentChunk.X - updateRadius; indexX <= CurrentChunk.X + updateRadius; indexX++)
-        {
-            for (int indexY = CurrentChunk.Y - updateRadius; indexY <= CurrentChunk.Y + updateRadius; indexY++)
-            {
-                Chunks.GetChunk(new ChunkIndex(indexX, indexY)).Update(Treadmill);
-            }
-        }
-    }
-
-    public void PlayerChangedChunks()
-    {
-        if (!Chunks.GetChunk(CurrentChunk).LocalityInitialized)
-        {
-            WorldInitializer newInitializer = new WorldInitializer
-            {
-                MyWorld = this,
-                ChunkIndex = CurrentChunk
-            };
-            WorldInitializers.Enqueue(newInitializer);
-        }
-        for (int x = -2; x <= 2; x++)
-        {
-            for (int y = -2; y <= 2; y++)
-            {
-                int distance = Mathf.Max(Mathf.Abs(x), Mathf.Abs(y));
-                Chunk chunk = Chunks.GetChunk(CurrentChunk.Add(x, y));
-                if (distance == 2)
-                {
-                    chunk.Sleep();
-                    chunk.SpawnEnemies();
-                }
-            }
-        }
-    }
-
     public void Sleep()
     {
         Active = false;
-        int updateRadius = 2;
-        for (int indexX = CurrentChunk.X - updateRadius; indexX <= CurrentChunk.X + updateRadius; indexX++)
+        ChunkIndex currentchunk = GetChunkIndex(PlayerManager.GetPlayerPosition());
+        for (int indexX = currentchunk.X - 5; indexX <= currentchunk.X + 5; indexX++)
         {
-            for (int indexY = CurrentChunk.Y - updateRadius; indexY <= CurrentChunk.Y + updateRadius; indexY++)
+            for (int indexY = currentchunk.Y - 5; indexY <= currentchunk.Y + 5; indexY++)
             {
                 Chunks.GetChunk(new ChunkIndex(indexX, indexY)).Sleep();
             }
@@ -170,6 +203,7 @@ public class World
             }
         }
         Chunks.GetChunk(chunkIndex).LocalityInitialized = true;
+        Chunks.GetChunk(chunkIndex).InitializingLocality = false;
     }
 
     private ChunkIndex GetPlayerChunk()
@@ -188,8 +222,9 @@ public class World
         {
             return 0f;
         }
-        float distance = (PlayerManager.GetPlayerPosition() - position).magnitude;
-        float alpha = (distance - PlayerManager.GetSightRadiusNear()) / (PlayerManager.GetSightRadiusFar() - PlayerManager.GetSightRadiusNear());
+        PlayerManager playerManager = NearestPlayer(position);
+        float distance = (playerManager.GetPlayerPosition() - position).magnitude;
+        float alpha = (distance - playerManager.GetSightRadiusNear()) / (playerManager.GetSightRadiusFar() - playerManager.GetSightRadiusNear());
         return 1 - Mathf.Clamp(alpha, 0f, 1f);
     }
 
@@ -224,7 +259,7 @@ public class World
         WorldLocation spawnLocation = DecideSpawnPoint();
         PlayerManager.Spawn(spawnLocation);
     }
-    
+
     public float MovementMultiplier(WorldLocation worldLocation)
     {
         return Chunks.GetChunk(GetChunkIndex(worldLocation)).MovementMultiplierAt(worldLocation);
@@ -243,8 +278,32 @@ public class World
         return new WorldLocation(x, y);
     }
 
-    public int GetRandomSeed()
+    public PlayerManager NearestPlayer(WorldLocation worldLocation)
     {
-        return GenerationParameters.MasterSeed;
+        return PlayerManager;
+    }
+
+    public PlayerManager NearestPlayer(Vector2 position)
+    {
+        return PlayerManager;
+    }
+
+    public bool OnTreadmill(WorldLocation worldLocation)
+    {
+        Vector2 center = NearestPlayer(worldLocation).GetPlayerPosition();
+        int radius = Configuration.TREADMILL_RADIUS;
+        bool withinX = (worldLocation.X > center.x - radius) && (worldLocation.X < center.x + radius);
+        bool withinY = (worldLocation.Y > center.y - radius) && (worldLocation.Y < center.y + radius);
+        return withinX && withinY;
+    }
+
+    public bool OnTreadmill(Vector2 position)
+    {
+        Vector2 center = NearestPlayer(position).GetPlayerPosition();
+        int radius = Configuration.TREADMILL_RADIUS;
+        bool withinX = (position.x > center.x - radius) && (position.x < center.x + radius);
+        bool withinY = (position.y > center.y - radius) && (position.y < center.y + radius);
+        return withinX && withinY;
     }
 }
+

@@ -80,7 +80,7 @@ public class WorldPersistenceManager
         WorldPersistenceMetaData newMetaData = new WorldPersistenceMetaData
         {
             WorldIdentifier = NextAvailableIdentifier(),
-            Version = "alpha 0.5",
+            Version = "alpha 0.6",
             Name = name,
             Seed = seed,
         };

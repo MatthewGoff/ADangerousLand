@@ -30,8 +30,11 @@ public class Tile
 
     public void WakeUp()
     {
-        Awake = true;
-        CreateGameObjects();
+        if (!Awake)
+        {
+            Awake = true;
+            CreateGameObjects();
+        }
     }
 
     public void Sleep()
@@ -45,9 +48,9 @@ public class Tile
         }
     }
 
-    public void Update(Treadmill treadmill)
+    public void FixedUpdate()
     {
-        bool onTreadmill = treadmill.OnTreadmill(WorldLocation.Tuple);
+        bool onTreadmill = GameManager.Singleton.World.OnTreadmill(WorldLocation);
         if (onTreadmill && !Awake)
         {
             WakeUp();
@@ -56,18 +59,20 @@ public class Tile
         {
             Sleep();
         }
-        float distanceToPlayer = Util.EuclidianDistance(treadmill.Center, WorldLocation.Tuple);
-        UpdateFog(distanceToPlayer);
     }
 
-    public void UpdateFog(float distanceToPlayer)
+    public void Update()
     {
         if (!Awake)
         {
             return;
         }
+        
+        Vector2 playerPosition = GameManager.Singleton.World.PlayerManager.GetPlayerPosition();
         float fogInnerRadius = GameManager.Singleton.World.PlayerManager.GetSightRadiusNear();
         float fogOuterRadius = GameManager.Singleton.World.PlayerManager.GetSightRadiusFar();
+        float distanceToPlayer = Util.EuclidianDistance(playerPosition, WorldLocation.Tuple);
+
         if (distanceToPlayer < fogOuterRadius)
         {
             if (!Exposed)

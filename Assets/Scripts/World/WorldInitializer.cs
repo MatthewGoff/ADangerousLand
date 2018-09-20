@@ -1,15 +1,15 @@
 ﻿public class WorldInitializer : ThreadedJob
 {
-    public World MyWorld;
+    public World World;
     public ChunkIndex ChunkIndex;
 
     protected override void ThreadFunction()
     {
-        MyWorld.InitializeRiverLocality(ChunkIndex);
+        World.InitializeRiverLocality(ChunkIndex);
     }
 
     protected override void OnFinished()
     {
-        MyWorld.FinalLocalityInitialization(ChunkIndex);
+        World.FinalLocalityInitialization(ChunkIndex);
     }
 }

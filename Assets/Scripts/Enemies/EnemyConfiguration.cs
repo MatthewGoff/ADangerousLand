@@ -11,4 +11,8 @@
     public float AgroDistance;
     public float DeAgroDistance;
     public float MinAgroDuration;
+    public int SpawnWidth;
+    public int SpawnHeight;
+    public float SpawnX;
+    public float SpawnY;
 }

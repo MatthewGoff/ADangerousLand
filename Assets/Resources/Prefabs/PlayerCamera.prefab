@@ -100,8 +100,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611bea666596a514d85d03bd7d79b855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ZoomSpeed: 1.2
-  MinimumZoom: 16.5
-  DefaultZoom: 16.5
-  MaximumZoom: 16.5
-  PixelsPerUnit: 32

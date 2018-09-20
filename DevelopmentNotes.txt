@@ -1,12 +1,25 @@
 I'm planning to fill this document with explainations of nontrivial design
-decisions I've made in the project. 
+features found in the project. If you come across something confusing that
+I haven't covered here please let me know.
+
+------------------------------------------
+Reminders about elementary Unity concepts:
+------------------------------------------
+Update() is called every frame and should contain visual update code and input
+processing. FixedUpdate() is called every physics update and should contain
+logic depending on physics. In addition to seeing these functions in
+monobehaviours you will also see them World, Chunk, and Tile. Basically Update()
+and FixedUpdate in GameManger call the corespodning update functions in world
+which in turn calls them for chunks which in turn calls them for tiles. Player
+and enemy managers have their update methods called by their monobehaviours.
 
 ------------
 Conventions:
 ------------
 When naming, "position" refers to an objects real valued position in the world
 (type float). "location" refers to integer value indecies in the world and
-corespond to Tiles. Each tile is one unity unit.
+corespond to Tiles. Each tile is one unity unit and is positioned with its
+bottom left corner at it world location.
 
 ----------------
 Design Patterns:
@@ -27,10 +40,11 @@ GameObject doesn't matter (It's "Enemy (clone)" by default). Note that
 "Main" script and the entry point.
 - "Treadmill". In order to improve performance we do not want to have the whole
 world active in the hierarchy. For this reason we create objects only when the
-player can see them and delete objects when out of view. We use the idea of a
+player is "nearby" and delete them when they are "distant". We use the idea of a
 "treadmill" to describe the rectangular area around the player that is active in
 the hierarchy because as the player moves things will be created on one side and
-deleted on the other.
+deleted on the other. See the section "Chunk State" for a rational behind the
+dimentions of the treadmill.
 - "Pixel perfect movement". Because we want to render sprites exactly the same
 as the original artwork we need the sprites to be located on the pixel grid,
 instead of inbetween pixels. At the same time the objects the sprites represent
@@ -43,12 +57,77 @@ conjunction with the design pattern "Two classes for one game object" this means
 moving entities such as the player or the world have two scripts and to game
 objects.
 
--------------------------
-__A note on permenence__:
--------------------------
+-------------
+Chunk State: (Outdated, please wait for revision - matt 9/19)
+-------------
+As the player moves through the wold game objects are created and destoryed as
+needed. Additionally we want enemies to spawn in chunks that are out of sight
+but only those which the player approaches. For this reason we consider a chunk
+to be in one of four states:
+1) Live: This is a chunk that the player can see, all game objects should be
+active.
+2) Spawning Grounds: This is a chunk that the player cannot see where we want
+to spawn enemies. Because spawning enemies requires that all game objects to be
+live in order to avoid collisions we want all of the chunks contents to be 
+instantiated when it enteres this state.
+3) Generating/Degernerating: Because we don't want to instantiate a chunks
+contents all at once but we want them to be fully instantiated when it comes
+time to spawn, we require a state in which a chunk generates/degenerates over
+a period of time (the time it takes a player to travers one full chunk). This
+comes at the cost of having more game objects in the scene at any one time.
+4) Inactive: This chunk is very far from the player and should have no game
+objects and no update calls. It is still kept in memory which I might try to 
+address at a later point.
+
+Of course state 1 is the most expensive and state 4 is the least expensive and
+we'd generally like states to be as low on the list as possible. Additionally
+we're assuming at 1080x1920 resolution on which the player can see 60 tiles
+across at any one time. For these reasons we maintain the following invarient
+stated in the simplified case of one dimention:
+
+----------------------------------------------
+| -4 | -3 | -2 | -1 |  0 |  1 |  2 |  3 |  4 |
+----------------------------------------------
+
+chunks -4 onward are inactive
+chunk -3 is generating/degenerating
+chunk -2 is spawning grounds
+chunk -1 is live
+chunk 0 is live and contains the player
+chunk 1 is live
+chunk 2 is spawning gounds
+chunk 3 is generating/degenerating
+chunks 4 onward are inactive
+
+Here is the lifecycle so to speak as the player moves from chunk -1 to 1
+accross chunk 0.
+The following happen in the first fixed update in which the
+players position is in chunk 0.
+1) Chunks 4 and -4 (namely -4) check that all of their tiles and enemies have
+been destroyted.
+2) Chunk 2 and -2 (namely 2) check that all of their tiles and enemies have been
+created.
+3) Chunks 2 and -2 (namely 2) spawn up to their maximum enemies.
+
+The following happen while the player is in chunk 0
+1) Chunks 1, 0, -1 have Update() called to update fog of war.
+2) In chunks 3 and -3 every fixed update any tile/enemy less than 96f distance
+from the player is created and any tile/enemy more than 96f distance is
+destroyed
+
+By the time the player reaches chunk 1, chunk 3 has had almost all its game
+objects destroyed and is ready to become inactive. Chunk -2 has had its enemies 
+replenished and is ready to be destroyed. Chunk 1 is out of view and is ready to
+have its enemies replenihed. Chunk 2 has had its enemies replenished and is
+ready to come into view. Chunk 3 has just finished being created and is ready to
+have its enemies replenished. Chunk 4 will start generating.
+
+---------------------
+A note on permenence:
+---------------------
 I used the following guides
 Original guide: https://aloiskraus.wordpress.com/2017/04/23/the-definitive-serialization-performance-guide/
-.NET 4.7 guide update: https://aloiskraus.wordpress.com/2018/05/06/serialization-performance-update-with-net-4-7-2/
+.NET 4.7 update guide: https://aloiskraus.wordpress.com/2018/05/06/serialization-performance-update-with-net-4-7-2/
 
 I first tried using BinaryFormatter serialization but it was catastrophically
 slow. Then I tried protobuf-net but unity didn't recognize the nuget package
@@ -69,9 +148,9 @@ has pointed out is uneccesary since you can just generate the terrain again.
 Load time is short enough atm that I'm not going to worry about it but I'll
 keep it in mind.
 
-----------------------------------------
-__An Explaination of World Generation__:
-----------------------------------------
+------------------------------------
+An Explaination of World Generation:
+------------------------------------
 Because the world is infinite we do not generate it all at once, instead we
 generate individual chunks as needed. And because the player can see chunks they
 are not presetly in we make sure to initialize chunks in a radius around the

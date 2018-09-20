@@ -26,12 +26,12 @@ public class EnemyManager : CombatantManager
     [Key(11)] public float DeAgroDistance;
     [Key(12)] public float MinAgroDuration;
 
-    public EnemyManager(WorldLocation worldLocation, EnemyType enemyType)
+    public EnemyManager(Vector2 spawnPosition, EnemyType enemyType)
     {
         EnemyType = enemyType;
-        XPosition = worldLocation.X;
-        YPosition = worldLocation.Y;
-        CurrentChunk = GameManager.Singleton.World.GetChunkIndex(worldLocation);
+        XPosition = spawnPosition.x;
+        YPosition = spawnPosition.y;
+        CurrentChunk = GameManager.Singleton.World.GetChunkIndex(spawnPosition);
         MaxHealth = Configuration.ENEMY_CONFIGURATIONS[EnemyType].MaxHealth;
         MoveSpeed = Configuration.ENEMY_CONFIGURATIONS[EnemyType].MoveSpeed;
         Aoe = Configuration.ENEMY_CONFIGURATIONS[EnemyType].Aoe;
@@ -80,11 +80,11 @@ public class EnemyManager : CombatantManager
         Team = 1;
     }
 
-    public void CheckTreadmill(Treadmill treadmill)
+    public void CheckTreadmill()
     {
         if (Awake)
         {
-            bool onTreadmill = treadmill.OnTreadmill(MonoBehaviour.transform.position);
+            bool onTreadmill = GameManager.Singleton.World.OnTreadmill(MonoBehaviour.transform.position);
             if (!onTreadmill)
             {
                 Sleep();
@@ -92,7 +92,7 @@ public class EnemyManager : CombatantManager
         }
         else
         {
-            bool onTreadmill = treadmill.OnTreadmill((XPosition, YPosition));
+            bool onTreadmill = GameManager.Singleton.World.OnTreadmill(new Vector2(XPosition, YPosition));
             if (onTreadmill)
             {
                 WakeUp();
@@ -107,28 +107,31 @@ public class EnemyManager : CombatantManager
 
     public void WakeUp()
     {
-        Awake = true;
+        if (!Awake)
+        {
+            Awake = true;
 
-        Vector2 position = new Vector2(XPosition, YPosition);
-        SlashCooldown = new Cooldown(1 / Configuration.ENEMY_CONFIGURATIONS[EnemyType].AttackSpeed);
+            Vector2 position = new Vector2(XPosition, YPosition);
+            SlashCooldown = new Cooldown(1 / Configuration.ENEMY_CONFIGURATIONS[EnemyType].AttackSpeed);
 
 
-        GameObject enemy = GameObject.Instantiate(Prefabs.ENEMY_PREFAB, position, Quaternion.identity);
-        GameManager.Singleton.GameObjectCount++;
-        MonoBehaviour = enemy.GetComponent<EnemyMonoBehaviour>();
-        MonoBehaviour.AssignManager(this);
+            GameObject enemy = GameObject.Instantiate(Prefabs.ENEMY_PREFAB, position, Quaternion.identity);
+            GameManager.Singleton.GameObjectCount++;
+            MonoBehaviour = enemy.GetComponent<EnemyMonoBehaviour>();
+            MonoBehaviour.AssignManager(this);
 
-        GameObject healthBar = GameObject.Instantiate(Prefabs.HEALTH_BAR_PREFAB, position + new Vector2(0, 0.625f), Quaternion.identity);
-        GameManager.Singleton.GameObjectCount++;
-        healthBar.transform.SetParent(enemy.transform);
-        HealthBar = healthBar.GetComponent<HealthBarMonoBehaviour>();
-        HealthBar.AssignManager(this);
-        UpdateHealthBar();
+            GameObject healthBar = GameObject.Instantiate(Prefabs.HEALTH_BAR_PREFAB, position + new Vector2(0, 0.625f), Quaternion.identity);
+            GameManager.Singleton.GameObjectCount++;
+            healthBar.transform.SetParent(enemy.transform);
+            HealthBar = healthBar.GetComponent<HealthBarMonoBehaviour>();
+            HealthBar.AssignManager(this);
+            UpdateHealthBar();
 
-        GameObject damageNumbersCanvas = GameObject.Instantiate(Prefabs.DAMAGE_NUMBER_CANVAS_PREFAB, position + new Vector2(0, 0.625f), Quaternion.identity);
-        GameManager.Singleton.GameObjectCount++;
-        damageNumbersCanvas.transform.SetParent(enemy.transform);
-        DamageNumbersCanvas = damageNumbersCanvas.GetComponent<DamageNumbersCanvasMonoBehaviour>();
+            GameObject damageNumbersCanvas = GameObject.Instantiate(Prefabs.DAMAGE_NUMBER_CANVAS_PREFAB, position + new Vector2(0, 0.625f), Quaternion.identity);
+            GameManager.Singleton.GameObjectCount++;
+            damageNumbersCanvas.transform.SetParent(enemy.transform);
+            DamageNumbersCanvas = damageNumbersCanvas.GetComponent<DamageNumbersCanvasMonoBehaviour>();
+        }
     }
 
     public void Sleep()

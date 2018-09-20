@@ -106,7 +106,7 @@ public class PlayerManager : CombatantManager
         CurrentHealth = MaxHealth;
         CurrentStamina = MaxStamina;
 
-        GameObject player = GameObject.Instantiate(Prefabs.PLAYER_PREFAB, new Vector3(spawnLocation.X, spawnLocation.Y, 0), Quaternion.identity);
+        GameObject player = GameObject.Instantiate(Prefabs.PLAYER_PREFAB, new Vector3(spawnLocation.X + 0.5f, spawnLocation.Y + 0.5f, 0), Quaternion.identity);
         MonoBehaviour = player.GetComponent<PlayerMonoBehaviour>();
         MonoBehaviour.AssignManager(this);
     }

@@ -84,7 +84,7 @@ public class PlayerPersistenceManager
         PlayerPersistenceMetaData newMetaData = new PlayerPersistenceMetaData
         {
             PlayerIdentifier = NextAvailableIdentifier(),
-            Version = "alpha 0.5",
+            Version = "alpha 0.6",
             Name = name,
             Level = 1,
             DeathPenalty = deathPenalty,

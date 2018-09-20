@@ -3,4 +3,5 @@
     Soldier,
     Werewolf,
     Dragon,
+    Bat,
 }

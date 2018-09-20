@@ -4,7 +4,6 @@ using UnityEngine;
 public class Prefabs
 {
     public static Dictionary<TerrainSubtypeEnum, (float, GameObject)[]> TERRAIN_PREFABS { get; private set; }
-    public static GameObject ENEMEY_PREFAB { get; private set; }
     public static GameObject FOG_PREFAB { get; private set; }
     public static GameObject PLAYER_PREFAB { get; private set; }
     public static GameObject ENEMY_PREFAB { get; private set; }
@@ -89,10 +88,9 @@ public class Prefabs
             }
         );
 
-        ENEMY_PREFAB =                (GameObject)Resources.Load("Prefabs/Enemy", typeof(GameObject));
+        ENEMY_PREFAB =                (GameObject)Resources.Load("Prefabs/Enemies/Enemy", typeof(GameObject));
         FOG_PREFAB =                  (GameObject)Resources.Load("Prefabs/Fog", typeof(GameObject));
         PLAYER_PREFAB =               (GameObject)Resources.Load("Prefabs/Player", typeof(GameObject));
-        ENEMY_PREFAB =                (GameObject)Resources.Load("Prefabs/Enemy", typeof(GameObject));
         BLACK_HIGHLIGHT_PREFAB =      (GameObject)Resources.Load("Prefabs/BlackHighlight", typeof(GameObject));
         CAMERA_PREFAB =               (GameObject)Resources.Load("Prefabs/PlayerCamera", typeof(GameObject));
         EVENT_SYSTEM_PREFAB =         (GameObject)Resources.Load("Prefabs/EventSystem");

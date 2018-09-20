@@ -5,21 +5,21 @@ using MessagePack;
 [MessagePackObject]
 public class Chunk
 {
-    private delegate void PostInitAction();
-
-    [IgnoreMember] private Queue<PostInitAction> PostInitActions;
+    [IgnoreMember] public bool InitializingLocality = false;
+    [IgnoreMember] public ChunkState State = ChunkState.Inactive;
+    [IgnoreMember] public ChunkState NextState = ChunkState.Inactive;
+    [IgnoreMember] private bool SpawnEnemiesAfterInit = false;
 
     [Key(0)] public bool RiversInitialized { get; private set; } = false;
     [Key(1)] public bool Initialized { get; private set; } = false;
     [Key(2)] public bool LocalityInitialized { get; set; } = false;
     [Key(3)] public readonly List<EnemyManager> ResidentEnemies;
-    [Key(4)] public readonly List<WorldLocation> UnocupiedTiles;
-    [Key(5)] public readonly ChunkIndex ChunkIndex;
-    [Key(6)] public readonly RiverNode[,] RiverNodes;
-    [Key(7)] public readonly List<RiverPackage> ImportedRivers;
-    [Key(8)] public readonly Tile[,] Tiles;
-    [Key(9)] public readonly int DangerRating;
-    [Key(10)] public readonly int MaxEnemies;
+    [Key(4)] public readonly ChunkIndex ChunkIndex;
+    [Key(5)] public readonly RiverNode[,] RiverNodes;
+    [Key(6)] public readonly List<RiverPackage> ImportedRivers;
+    [Key(7)] public readonly Tile[,] Tiles;
+    [Key(8)] public readonly int DangerRating;
+    [Key(9)] public readonly int MaxEnemies;
 
     public Chunk(ChunkIndex chunkIndex)
     {
@@ -30,7 +30,6 @@ public class Chunk
         RiverNodes = CreateRiverNodes();
         Tiles = CreateTiles();
         ResidentEnemies = new List<EnemyManager>();
-        UnocupiedTiles = new List<WorldLocation>();
     }
 
     [SerializationConstructor]
@@ -39,7 +38,6 @@ public class Chunk
         bool initialized,
         bool localityInitialized,
         List<EnemyManager> residentEnemies,
-        List<WorldLocation> unocupiedTiles,
         ChunkIndex chunkIndex,
         RiverNode[,] riverNodes,
         List<RiverPackage> importedRivers,
@@ -49,7 +47,6 @@ public class Chunk
         Initialized = initialized;
         LocalityInitialized = localityInitialized;
         ResidentEnemies = residentEnemies;
-        UnocupiedTiles = unocupiedTiles;
         ChunkIndex = chunkIndex;
         RiverNodes = riverNodes;
         ImportedRivers = importedRivers;
@@ -59,9 +56,21 @@ public class Chunk
     private int DecideDangerRating()
     {
         return Mathf.Clamp(Mathf.FloorToInt((new Vector2(ChunkIndex.X, ChunkIndex.Y)).magnitude/3), 0, 9);
+
     }
 
-    public void Update(Treadmill treadmill)
+    public void Update()
+    {
+        for (int chunkX = 0; chunkX < Tiles.GetLength(0); chunkX++)
+        {
+            for (int chunkY = 0; chunkY < Tiles.GetLength(1); chunkY++)
+            {
+                Tiles[chunkX, chunkY].Update();
+            }
+        }
+    }
+
+    public void FixedUpdate()
     {
         if (!Initialized)
         {
@@ -71,13 +80,13 @@ public class Chunk
         {
             for (int chunkY = 0; chunkY < Tiles.GetLength(1); chunkY++)
             {
-                Tiles[chunkX, chunkY].Update(treadmill);
+                Tiles[chunkX, chunkY].FixedUpdate();
             }
         }
         List<EnemyManager> emigrantEnemies = new List<EnemyManager>();
         foreach (EnemyManager enemy in ResidentEnemies)
         {
-            enemy.CheckTreadmill(treadmill);
+            enemy.CheckTreadmill();
             if (!WithinChunk((enemy.XPosition,enemy.YPosition)))
             {
                 emigrantEnemies.Add(enemy);
@@ -89,6 +98,29 @@ public class Chunk
         foreach (EnemyManager enemy in emigrantEnemies)
         {
             ResidentEnemies.Remove(enemy);
+        }
+    }
+
+
+    public void WakeAll()
+    {
+        if (!Initialized)
+        {
+            SpawnEnemiesAfterInit = true;
+        }
+        else
+        {
+            for (int chunkX = 0; chunkX < Tiles.GetLength(0); chunkX++)
+            {
+                for (int chunkY = 0; chunkY < Tiles.GetLength(1); chunkY++)
+                {
+                    Tiles[chunkX, chunkY].WakeUp();
+                }
+            }
+            foreach (EnemyManager enemy in ResidentEnemies)
+            {
+                enemy.WakeUp();
+            }
         }
     }
 
@@ -116,31 +148,41 @@ public class Chunk
     {
         if (!Initialized)
         {
-            if (PostInitActions == null)
-            {
-                PostInitActions = new Queue<PostInitAction>();
-            }
-            PostInitActions.Enqueue(SpawnEnemies);
+            SpawnEnemiesAfterInit = true;
         }
         else
         {
-            while ((ResidentEnemies.Count < MaxEnemies) && (UnocupiedTiles.Count != 0))
+            while ((ResidentEnemies.Count < MaxEnemies) && SpawnRandomEnemy())
             {
-                SpawnEnemy();
+                // SpawnRandomEnemy will return false if it is not possible to spawn an enemy
             }
         }
     }
 
-    private void SpawnEnemy()
+    private bool SpawnRandomEnemy()
     {
-        WorldLocation spawnLocation = UnocupiedTiles[Util.RandomInt(0, UnocupiedTiles.Count-1)];
-        UnocupiedTiles.Remove(spawnLocation);
+        EnemyType enemyType = RandomEnemyType();
+        int spawnWidth = Configuration.ENEMY_CONFIGURATIONS[enemyType].SpawnWidth;
+        int spawnHeight = Configuration.ENEMY_CONFIGURATIONS[enemyType].SpawnHeight;
+        float spawnX = Configuration.ENEMY_CONFIGURATIONS[enemyType].SpawnX;
+        float spawnY = Configuration.ENEMY_CONFIGURATIONS[enemyType].SpawnY;
+        Vector2 spawnLocation = RandomSpawnLocation(spawnWidth, spawnHeight);
 
-        EnemyType enemyType = DecideEnemyType();
-        ResidentEnemies.Add(new EnemyManager(spawnLocation, enemyType));
+        if (spawnLocation == Vector2.zero)
+        {
+            return false;
+        }
+        else
+        {
+            Vector2 spawnPosition = spawnLocation + new Vector2(spawnX, spawnY);
+            EnemyManager newEnemy = new EnemyManager(spawnPosition, enemyType);
+            newEnemy.WakeUp();
+            ResidentEnemies.Add(newEnemy);
+            return true;
+        }
     }
 
-    private EnemyType DecideEnemyType()
+    private EnemyType RandomEnemyType()
     {
         (float prob, EnemyType enemyType)[] enemyTypes = Configuration.SPAWN_PROBABILITIES[DangerRating];
 
@@ -320,19 +362,15 @@ public class Chunk
         DecideTerrain();
         Initialized = true;
         
-        if (PostInitActions != null)
+        if (SpawnEnemiesAfterInit == true)
         {
-            foreach (PostInitAction postInitAction in PostInitActions)
-            {
-                postInitAction();
-            }
+            SpawnEnemies();
         }
     }
 
     public void DecideTerrain()
     {
         ChunkLocation chunkLocation;
-        WorldLocation worldLocation;
 
         for (int chunkX = 0; chunkX < Configuration.CHUNK_SIZE; chunkX++)
         {
@@ -342,12 +380,6 @@ public class Chunk
                 DecideGround(chunkLocation);
                 DecideTrees(chunkLocation);
                 DecideRivers(chunkLocation);
-
-                worldLocation = ChunkToWorldLocation(chunkLocation);
-                if (Tiles[chunkLocation.X, chunkLocation.Y].TerrainType.Type == TerrainTypeEnum.Grass)
-                {
-                    UnocupiedTiles.Add(worldLocation);
-                }
             }
         }
     }
@@ -545,5 +577,46 @@ public class Chunk
     public void EnemyHasDied(EnemyManager enemyManager)
     {
         ResidentEnemies.Remove(enemyManager);
+    }
+
+    /*
+     * Takes the width and height of a the area required for spawn in unity
+     * units. Returns the botom left corner of all rectangles within the chunk
+     * which are free of colisions.
+     */
+    private List<Vector2> ValidSpawnLocations(int width, int height)
+    {
+        List<Vector2> validSpawnLocations = new List<Vector2>();
+        for (int worldX = ChunkIndex.X * Configuration.CHUNK_SIZE; worldX < (ChunkIndex.X + 1) * Configuration.CHUNK_SIZE; worldX++)
+        {
+            for (int worldY = ChunkIndex.Y * Configuration.CHUNK_SIZE; worldY < (ChunkIndex.Y + 1) * Configuration.CHUNK_SIZE; worldY++)
+            {
+                // We use a square slightly smaller than unit size so that we don't get collisions with neighboring terrain
+                Vector2 cornerA = new Vector2(worldX + 0.1f, worldY + 0.1f);
+                Vector2 cornerB = new Vector2(worldX + width - 0.1f, worldY + height - 0.1f);
+                if (Physics2D.OverlapArea(cornerA, cornerB) == null)
+                {
+                    validSpawnLocations.Add(cornerA);
+                }
+            }
+        }
+        return validSpawnLocations;
+    }
+
+    /*
+     * Returns Vector2.zero if noo valid spawn locations are available
+     */
+    private Vector2 RandomSpawnLocation(int width, int height)
+    {
+        List<Vector2> validSpawnLocations = ValidSpawnLocations(width, height);
+        if (validSpawnLocations.Count == 0)
+        {
+            return Vector2.zero;
+        }
+        else
+        {
+            Vector2[] array = validSpawnLocations.ToArray();
+            return array[Util.RandomInt(0, array.Length - 1)];
+        }
     }
 }

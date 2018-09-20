@@ -245,6 +245,11 @@ public class GameManager : MonoBehaviour
         {
             UPSQueue.Dequeue();
         }
+
+        if (World != null)
+        {
+            World.FixedUpdate();
+        }
     }
 
     private void OnStartPlaying(GameStateType previousState, GameInputType input)
