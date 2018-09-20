@@ -132,4 +132,9 @@ public static class Util
         vector /= pixelsPerUnit;
         return vector;
     }
+
+    public static int SortingOrder(Vector2 position)
+    {
+        return Mathf.RoundToInt(-position.y * Configuration.PIXELS_PER_UNIT);
+    }
 }

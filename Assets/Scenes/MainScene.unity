@@ -14241,6 +14241,7 @@ MonoBehaviour:
   NewPlayerMenu: {fileID: 1017759694}
   WorldMenu: {fileID: 1666515858}
   NewWorldMenu: {fileID: 608823043}
+  AudioSource: {fileID: 619142683}
   GameObjectCount: 0
   PlayerCamera: {fileID: 0}
 --- !u!4 &1442391849

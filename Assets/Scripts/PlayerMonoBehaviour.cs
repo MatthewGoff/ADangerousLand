@@ -6,6 +6,7 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
 {
     public GameObject Sprite;
 
+    private SpriteRenderer Renderer;
     private Rigidbody2D RB2D;
     private Vector2 MoveTarget;
     private PlayerManager Manager;
@@ -19,6 +20,7 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
     public void Start()
     {
         Sprite = GameObject.Instantiate(Sprite, transform.position, Quaternion.identity);
+        Renderer = Sprite.GetComponent<SpriteRenderer>();
         SprintSprites = new GameObject[SprintFrames];
         SprintPositions = new Vector2[SprintFrames];
         for (int i = 0; i < SprintFrames; i++)
@@ -81,6 +83,9 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
         {
             Manager.StopSprinting();
         }
+
+        Sprite.transform.position = Util.RoundToPixel(transform.position, Configuration.PIXELS_PER_UNIT);
+        Renderer.sortingOrder = Util.SortingOrder(Sprite.transform.position);
     }
 
     public void FixedUpdate()
@@ -163,11 +168,6 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
                 SprintSprites[i].GetComponent<Animator>().SetTrigger(trigger);
             }
         }
-    }
-
-    private void LateUpdate()
-    {
-        Sprite.transform.position = Util.RoundToPixel(transform.position, Configuration.PIXELS_PER_UNIT);
     }
     
     private IEnumerator LaySprintSprites()

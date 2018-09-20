@@ -118,7 +118,7 @@ public class Configuration
             MaxHealth = 1000,
             MoveSpeed = 1f,
             ExperienceReward = 200,
-            Damage = 15f,
+            Damage = 5f,
             AttackSpeed = 0.5f,
             Aoe = 10f,
             AgroDistance = 10f,

@@ -33,6 +33,9 @@ public class GameManager : MonoBehaviour
     public GameObject WorldMenu;
     public GameObject NewWorldMenu;
 
+    // Audio
+    public GameObject AudioSource;
+
     // GameStats
     public int GameObjectCount = 0;
     private Queue<float> FPSQueue;
@@ -215,6 +218,10 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.P))
         {
             TakeInput(GameInputType.TogglePassivesMenu);
+        }
+        if (Input.GetKeyUp(KeyCode.M))
+        {
+            AudioSource.GetComponent<AudioSource>().mute = !AudioSource.GetComponent<AudioSource>().mute;
         }
         if (Input.GetKeyUp(KeyCode.C) && GameState == GameStateType.Playing)
         {

@@ -8,7 +8,8 @@ public class Tile
 
     [IgnoreMember] private GameObject FogGameObject;
     [IgnoreMember] private SpriteRenderer FogRenderer;
-    [IgnoreMember] private GameObject TerrainGameObject;
+    [IgnoreMember] private GameObject Background;
+    [IgnoreMember] private GameObject Foreground;
     [IgnoreMember] private float LastFrameFog = -1f;
 
     [Key(0)] public TerrainType TerrainType { get; set; }
@@ -42,7 +43,8 @@ public class Tile
         if (Awake)
         {
             Awake = false;
-            GameObject.Destroy(TerrainGameObject);
+            GameObject.Destroy(Background);
+            GameObject.Destroy(Foreground);
             GameObject.Destroy(FogGameObject);
             GameManager.Singleton.GameObjectCount -= 2;
         }
@@ -99,8 +101,22 @@ public class Tile
 
     public void CreateGameObjects()
     {
-        GameObject prefab = Prefabs.GetRandomTerrainVarient(TerrainType.Subtype);
-        TerrainGameObject = GameObject.Instantiate(prefab, new Vector3(WorldLocation.X, WorldLocation.Y, 0), Quaternion.identity);
+        GameObject background = Prefabs.GetRandomTerrainBackground(TerrainType.Subtype);
+        if (background == null)
+        {
+            GameManager.Print(TerrainType.Subtype.ToString());
+        }
+        Background = GameObject.Instantiate(background, new Vector3(WorldLocation.X, WorldLocation.Y, 0), Quaternion.identity);
+
+        GameObject foreground = Prefabs.GetRandomTerrainForeground(TerrainType.Subtype);
+        if (foreground != null)
+        {
+            Vector2 displacement = new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f));
+            Vector2 position = new Vector2(WorldLocation.X, WorldLocation.Y) + displacement;
+            position = Util.RoundToPixel(position, Configuration.PIXELS_PER_UNIT);
+            Foreground = GameObject.Instantiate(foreground, position, Quaternion.identity);
+            Foreground.GetComponent<SpriteRenderer>().sortingOrder = Util.SortingOrder(Foreground.transform.position);
+        }
 
         FogGameObject = GameObject.Instantiate(Prefabs.FOG_PREFAB, new Vector3(WorldLocation.X, WorldLocation.Y, 0), Quaternion.identity);
         FogRenderer = FogGameObject.GetComponent<SpriteRenderer>();

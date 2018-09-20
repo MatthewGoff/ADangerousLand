@@ -22,6 +22,8 @@ public class EnemyMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
     public void Update()
     {
         Renderer.color = new Color(1, 1, 1, GameManager.Singleton.World.GetVisibilityLevel(RB2D.position));
+        Sprite.transform.position = Util.RoundToPixel(transform.position, Configuration.PIXELS_PER_UNIT);
+        Renderer.sortingOrder = Util.SortingOrder(Sprite.transform.position);
     }
 
     public void Destroy()
@@ -66,11 +68,6 @@ public class EnemyMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
                 Animator.SetTrigger("WalkingForwards");
             }
         }
-    }
-
-    private void LateUpdate()
-    {
-        Sprite.transform.position = Util.RoundToPixel(transform.position, Configuration.PIXELS_PER_UNIT);
     }
 
     public void AssignManager(EnemyManager manager)
