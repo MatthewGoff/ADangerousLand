@@ -176,12 +176,14 @@ public class PlayerManager : CombatantManager
         }
     }
 
-    public void StartSprinting()
+    public bool StartSprinting()
     {
-        if (CurrentStamina >= MaxStamina * 0.1f)
+        if (!Sprinting && CurrentStamina >= MaxStamina * 0.1f)
         {
             Sprinting = true;
+            return true;
         }
+        return false;
     }
 
     public void StopSprinting()

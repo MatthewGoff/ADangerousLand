@@ -29,6 +29,8 @@ public class Configuration
     // Display
     public static readonly int PIXELS_PER_UNIT = 32;
     public static readonly float DEATH_DURATION = 3f;
+    public static readonly int PLAYER_TRAIL_SPRITES = 10;
+    public static readonly float PLAYER_TRAIL_PERIOD = 1 / 60f;
 
     // Levels
     public static int GetLevelExperience(int level)

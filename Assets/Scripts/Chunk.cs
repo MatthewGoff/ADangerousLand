@@ -587,16 +587,34 @@ public class Chunk
     private List<Vector2> ValidSpawnLocations(int width, int height)
     {
         List<Vector2> validSpawnLocations = new List<Vector2>();
-        for (int worldX = ChunkIndex.X * Configuration.CHUNK_SIZE; worldX < (ChunkIndex.X + 1) * Configuration.CHUNK_SIZE; worldX++)
+        for (int worldX = ChunkIndex.X * Configuration.CHUNK_SIZE; worldX < (ChunkIndex.X + 1) * Configuration.CHUNK_SIZE - width; worldX++)
         {
-            for (int worldY = ChunkIndex.Y * Configuration.CHUNK_SIZE; worldY < (ChunkIndex.Y + 1) * Configuration.CHUNK_SIZE; worldY++)
+            for (int worldY = ChunkIndex.Y * Configuration.CHUNK_SIZE; worldY < (ChunkIndex.Y + 1) * Configuration.CHUNK_SIZE - height; worldY++)
             {
-                // We use a square slightly smaller than unit size so that we don't get collisions with neighboring terrain
-                Vector2 cornerA = new Vector2(worldX + 0.1f, worldY + 0.1f);
-                Vector2 cornerB = new Vector2(worldX + width - 0.1f, worldY + height - 0.1f);
-                if (Physics2D.OverlapArea(cornerA, cornerB) == null)
+                bool validSpawnLocation = true;
+                for (int x = worldX; x < worldX + width; x++)
                 {
-                    validSpawnLocations.Add(cornerA);
+                    for (int y = worldY; y < worldY + height; y++)
+                    {
+                        ChunkLocation chunkLocation = WorldToChunkLocation(new WorldLocation(x, y));
+                        if (Tiles[chunkLocation.X, chunkLocation.Y].TerrainType.Type != TerrainTypeEnum.Grass)
+                        {
+                            validSpawnLocation = false;
+                        }
+                    }
+                }
+                
+                if (validSpawnLocation)
+                {
+                    // We use a square slightly smaller than unit size so that we don't get collisions with neighboring terrain
+                    Vector2 cornerA = new Vector2(worldX + 0.1f, worldY + 0.1f);
+                    Vector2 cornerB = new Vector2(worldX + width - 0.1f, worldY + height - 0.1f);
+                    validSpawnLocation = (Physics2D.OverlapArea(cornerA, cornerB) == null);
+                }
+                
+                if (validSpawnLocation)
+                {
+                    validSpawnLocations.Add(new Vector2(worldX, worldY));
                 }
             }
         }

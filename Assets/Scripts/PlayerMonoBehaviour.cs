@@ -1,49 +1,59 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
 {
-    public GameObject Sprite;
+    private Transform SpriteTransform;
 
-    private SpriteRenderer Renderer;
+    public GameObject HeadSprite;
+    public GameObject BodySprite;
+    public GameObject WeaponSprite;
+
+    private SpriteRenderer HeadRenderer;
+    private SpriteRenderer BodyRenderer;
+    private SpriteRenderer WeaponRenderer;
+
+    private Animator HeadAnimator;
+    private Animator BodyAnimator;
+    private Animator WeaponAnimator;
+
     private Rigidbody2D RB2D;
     private Vector2 MoveTarget;
     private PlayerManager Manager;
-    private Animator Animator;
-    private readonly int SprintFrames = 10;
-    private readonly float SprintDelay = 0.01f;
-    private readonly float SprintMinAlpha = 0.0f;
-    private GameObject[] SprintSprites;
-    private Vector2[] SprintPositions;
 
     public void Start()
     {
-        Sprite = GameObject.Instantiate(Sprite, transform.position, Quaternion.identity);
-        Renderer = Sprite.GetComponent<SpriteRenderer>();
-        SprintSprites = new GameObject[SprintFrames];
-        SprintPositions = new Vector2[SprintFrames];
-        for (int i = 0; i < SprintFrames; i++)
-        {
-            SprintSprites[i] = GameObject.Instantiate(Sprite, transform.position, Quaternion.identity);
-            SprintSprites[i].GetComponent<SpriteRenderer>().sortingOrder = -i-1;
-            SprintSprites[i].GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1 - (1 - SprintMinAlpha) * i / (float)SprintFrames);
-            SprintPositions[i] = transform.position;
-        }
-        Animator = Sprite.GetComponent<Animator>();
+        SpriteTransform = new GameObject().transform;
+
+        HeadSprite = GameObject.Instantiate(HeadSprite, transform.position, Quaternion.identity);
+        BodySprite = GameObject.Instantiate(BodySprite, transform.position, Quaternion.identity);
+        WeaponSprite = GameObject.Instantiate(WeaponSprite, transform.position, Quaternion.identity);
+
+        HeadSprite.transform.SetParent(SpriteTransform);
+        BodySprite.transform.SetParent(SpriteTransform);
+        WeaponSprite.transform.SetParent(SpriteTransform);
+
+        HeadRenderer = HeadSprite.GetComponent<SpriteRenderer>();
+        BodyRenderer = BodySprite.GetComponent<SpriteRenderer>();
+        WeaponRenderer = WeaponSprite.GetComponent<SpriteRenderer>();
+
+        HeadAnimator = HeadSprite.GetComponent<Animator>();
+        BodyAnimator = BodySprite.GetComponent<Animator>();
+        WeaponAnimator = WeaponSprite.GetComponent<Animator>();
+
         RB2D = GetComponent<Rigidbody2D>();
         MoveTarget = RB2D.position;
-        StartCoroutine("LaySprintSprites");
     }
 
     public void Destroy()
     {
-        Destroy(Sprite);
+        Destroy(HeadSprite);
+        Destroy(BodySprite);
+        Destroy(WeaponSprite);
         Destroy(gameObject);
-        for (int i=0; i<SprintFrames; i++)
-        {
-            Destroy(SprintSprites[i]);
-        }
     }
 
     public void Update()
@@ -77,15 +87,25 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift) && GameManager.Singleton.GameState == GameStateType.Playing)
         {
-            Manager.StartSprinting();
+            if (Manager.StartSprinting())
+            {
+                StartCoroutine("LayPlayerTrail");
+            }
         }
         else
         {
             Manager.StopSprinting();
         }
+        
+        Vector2 position = Util.RoundToPixel(transform.position, Configuration.PIXELS_PER_UNIT);
+        HeadSprite.transform.position = position;
+        BodySprite.transform.position = position;
+        WeaponSprite.transform.position = position;
 
-        Sprite.transform.position = Util.RoundToPixel(transform.position, Configuration.PIXELS_PER_UNIT);
-        Renderer.sortingOrder = Util.SortingOrder(Sprite.transform.position);
+        int sortingOrder = Util.SortingOrder(position);
+        HeadRenderer.sortingOrder = sortingOrder;
+        BodyRenderer.sortingOrder = sortingOrder;
+        WeaponRenderer.sortingOrder = sortingOrder;
     }
 
     public void FixedUpdate()
@@ -102,16 +122,14 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
         if (Manager.Sprinting)
         {
             movementMultiplier *= 2.0f;
-            EnableSprintSprites();
         }
-        else
-        {
-            ResetSprintSprites();
-            DisableSprintSprites();
-        }
+
         RB2D.MovePosition(RB2D.position + movementVector * Manager.MoveSpeed * movementMultiplier * Time.fixedDeltaTime);
 
-        Animator.SetFloat("Multiplier", movementMultiplier * Manager.MoveSpeed / 5f);
+        HeadAnimator.SetFloat("Multiplier", movementMultiplier * Manager.MoveSpeed / 5f);
+        BodyAnimator.SetFloat("Multiplier", movementMultiplier * Manager.MoveSpeed / 5f);
+        WeaponAnimator.SetFloat("Multiplier", movementMultiplier * Manager.MoveSpeed / 5f);
+
         float angle = Vector2.SignedAngle(new Vector2(1, 0), movementVector);
         if (movementVector.magnitude <= 0.05f)
         {
@@ -135,52 +153,95 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
         }
     }
 
-    private void ResetSprintSprites()
-    {
-        for (int i = 0; i < SprintFrames; i++)
-        {
-            SprintPositions[i] = transform.position;
-        }
-    }
-
-    private void EnableSprintSprites()
-    {
-        for (int i=0; i<SprintFrames; i++)
-        {
-            SprintSprites[i].SetActive(true);
-        }
-    }
-
-    private void DisableSprintSprites()
-    {
-        for (int i = 0; i < SprintFrames; i++)
-        {
-            SprintSprites[i].SetActive(false);
-        }
-    }
-
     public void TriggerAnimation(String trigger)
     {
-        Animator.SetTrigger(trigger);
-        for (int i=0; i<SprintFrames; i++)
-        {
-            if (SprintSprites[i].activeSelf) {
-                SprintSprites[i].GetComponent<Animator>().SetTrigger(trigger);
-            }
-        }
+        HeadAnimator.SetTrigger(trigger);
+        BodyAnimator.SetTrigger(trigger);
+        WeaponAnimator.SetTrigger(trigger);
     }
-    
-    private IEnumerator LaySprintSprites()
+
+    public IEnumerator LayPlayerTrail()
     {
-        while (true)
+        Queue<GameObject> headSprites = new Queue<GameObject>();
+        Queue<GameObject> bodySprites = new Queue<GameObject>();
+        Queue<GameObject> weaponSprites = new Queue<GameObject>();
+
+        while (Manager.Sprinting)
         {
-            Array.Copy(SprintPositions, 0, SprintPositions, 1, SprintFrames-1);
-            SprintPositions[0] = transform.position;
-            for (int i=0; i< SprintFrames; i++)
+            // Create a new set of sprites
+            GameObject newHeadSprite = Instantiate(HeadSprite, transform.position, Quaternion.identity);
+            GameObject newBodySprite = Instantiate(BodySprite, transform.position, Quaternion.identity);
+            GameObject newWeaponSprite = Instantiate(WeaponSprite, transform.position, Quaternion.identity);
+
+            // Synch those sprites with the player's animation
+            float time = HeadSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime;
+            int state = HeadSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).fullPathHash;
+            newHeadSprite.GetComponent<Animator>().Play(state, 0, time);
+            newBodySprite.GetComponent<Animator>().Play(state, 0, time);
+            newWeaponSprite.GetComponent<Animator>().Play(state, 0, time);
+
+            // Snap those sprites to pixel grid
+            Vector2 position = Util.RoundToPixel(transform.position, Configuration.PIXELS_PER_UNIT);
+            newHeadSprite.transform.position = position;
+            newBodySprite.transform.position = position;
+            newWeaponSprite.transform.position = position;
+
+            // Sprite sorting order
+            int sortingOrder = Util.SortingOrder(newHeadSprite.transform.position);
+            newHeadSprite.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder;
+            newBodySprite.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder;
+            newWeaponSprite.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder;
+            
+            // Enqueue them for later update and destruction
+            headSprites.Enqueue(newHeadSprite);
+            bodySprites.Enqueue(newBodySprite);
+            weaponSprites.Enqueue(newWeaponSprite);
+
+            // Update the queue
+            float alpha = 1f - (headSprites.Count / (float)Configuration.PLAYER_TRAIL_SPRITES);
+            foreach (GameObject headSprite in headSprites)
             {
-                SprintSprites[i].transform.position = SprintPositions[i];
+                headSprite.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, alpha);
+                alpha += (1 / (float) Configuration.PLAYER_TRAIL_SPRITES);
             }
-            yield return new WaitForSeconds(SprintDelay);
+            alpha = 1f - (bodySprites.Count / (float) Configuration.PLAYER_TRAIL_SPRITES);
+            foreach (GameObject bodySprite in bodySprites)
+            {
+                bodySprite.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, alpha);
+                alpha += (1 / (float) Configuration.PLAYER_TRAIL_SPRITES);
+            }
+            alpha = 1f - (weaponSprites.Count / (float) Configuration.PLAYER_TRAIL_SPRITES);
+            foreach (GameObject weaponSprite in weaponSprites)
+            {
+                weaponSprite.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, alpha);
+                alpha += (1 / (float) Configuration.PLAYER_TRAIL_SPRITES);
+            }
+
+            headSprites.Last().GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+            bodySprites.Last().GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+            weaponSprites.Last().GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+
+            if (headSprites.Count == Configuration.PLAYER_TRAIL_SPRITES + 1)
+            {
+                Destroy(headSprites.Dequeue());
+                Destroy(bodySprites.Dequeue());
+                Destroy(weaponSprites.Dequeue());
+            }
+
+            yield return new WaitForSeconds(Configuration.PLAYER_TRAIL_PERIOD);
+        }
+
+        foreach (GameObject headSprite in headSprites)
+        {
+            Destroy(headSprite);
+        }
+        foreach (GameObject bodySprite in bodySprites)
+        {
+            Destroy(bodySprite);
+        }
+        foreach (GameObject weaponSprite in weaponSprites)
+        {
+            Destroy(weaponSprite);
         }
     }
 

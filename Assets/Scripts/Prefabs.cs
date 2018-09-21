@@ -102,7 +102,7 @@ public class Prefabs
 
         ENEMY_PREFAB =                (GameObject)Resources.Load("Prefabs/Enemies/Enemy", typeof(GameObject));
         FOG_PREFAB =                  (GameObject)Resources.Load("Prefabs/Fog", typeof(GameObject));
-        PLAYER_PREFAB =               (GameObject)Resources.Load("Prefabs/Player", typeof(GameObject));
+        PLAYER_PREFAB =               (GameObject)Resources.Load("Prefabs/Player/Player", typeof(GameObject));
         BLACK_HIGHLIGHT_PREFAB =      (GameObject)Resources.Load("Prefabs/BlackHighlight", typeof(GameObject));
         CAMERA_PREFAB =               (GameObject)Resources.Load("Prefabs/PlayerCamera", typeof(GameObject));
         EVENT_SYSTEM_PREFAB =         (GameObject)Resources.Load("Prefabs/EventSystem");

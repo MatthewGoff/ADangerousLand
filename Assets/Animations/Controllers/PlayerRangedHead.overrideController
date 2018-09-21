@@ -1,0 +1,12 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: PlayerRangedHead
+  m_Controller: {fileID: 9100000, guid: 9335e3e875b0ab14b8632ae154163fe3, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 03b2833a90bbe464db3ddba3d085d99e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 41d92cea180788c4e81f5842c705275f, type: 2}
