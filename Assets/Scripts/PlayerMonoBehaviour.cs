@@ -43,7 +43,20 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
         HeadAnimator = HeadSprite.GetComponent<Animator>();
         BodyAnimator = BodySprite.GetComponent<Animator>();
         WeaponAnimator = WeaponSprite.GetComponent<Animator>();
-
+        
+        if (Manager.AttackType == 0)
+        {
+            HeadAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Melee_Head");
+            BodyAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Melee_Body");
+            WeaponAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Melee_Sword");
+        }
+        else
+        {
+            HeadAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Ranged_Head");
+            BodyAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Ranged_Body");
+            WeaponAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Ranged_Bow");
+        }
+        
         RB2D = GetComponent<Rigidbody2D>();
         MoveTarget = RB2D.position;
     }
@@ -63,6 +76,19 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && GameManager.Singleton.GameState == GameStateType.Playing)
         {
             Manager.WeaponSwap();
+
+            if (Manager.AttackType == 0)
+            {
+                HeadAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Melee_Head");
+                BodyAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Melee_Body");
+                WeaponAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Melee_Sword");
+            }
+            else
+            {
+                HeadAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Ranged_Head");
+                BodyAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Ranged_Body");
+                WeaponAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Ranged_Bow");
+            }
         }
 
         if (Input.GetMouseButton(0) && Camera != null && GameManager.Singleton.GameState == GameStateType.Playing)
