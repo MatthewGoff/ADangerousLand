@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Ranged_Bow
+  m_Controller: {fileID: 9100000, guid: 9335e3e875b0ab14b8632ae154163fe3, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 03b2833a90bbe464db3ddba3d085d99e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 95f79d2653e08ee4ca21362442448db2, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: eb376f068ae8b204680dbe8012a5b543, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5692d03122c1b734f84d717ef545b85a, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 7b3e3f150911b9d4b935672fd1d91e37, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a9cae5d2fe66e534b8f01dd8fc74cab5, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 4d99fc0b8811dec41a2f36828cf2d1a9, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4a5cfff37ec02e8448ee5ee520dc4a82, type: 2}

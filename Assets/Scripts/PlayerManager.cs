@@ -51,9 +51,9 @@ public class PlayerManager : CombatantManager
         ProjectileDamage = 0.5f;
         MeleeAoe = 1.5f;
         MaxHealth = 10;
-        MaxStamina = 5;
+        MaxStamina = 10;
         HealthRegen = 0.1f;
-        StaminaRegen = 0.5f;
+        StaminaRegen = 1f;
     }
 
     [SerializationConstructor]
@@ -127,7 +127,7 @@ public class PlayerManager : CombatantManager
 
             if (Sprinting)
             {
-                float staminaCost = 0.2f * MaxStamina * Time.fixedDeltaTime;
+                float staminaCost = 3f * Time.fixedDeltaTime;
                 if (CurrentStamina >= staminaCost)
                 {
                     CurrentStamina -= staminaCost;
@@ -152,33 +152,33 @@ public class PlayerManager : CombatantManager
 
     public void SlashAttack(Vector2 attackTarget)
     {
-        if (CurrentStamina >= 1f && AttackCooldown.Use())
+        if (CurrentStamina >= 2f && AttackCooldown.Use())
         {
             Vector2 attackPosition = MonoBehaviour.transform.position;
             Vector2 attackVector = attackTarget - attackPosition;
             float attackAngle = Vector2.SignedAngle(Vector2.right, attackVector);
 
-            CurrentStamina -= 1;
+            CurrentStamina -= 2;
             SlashManager slash = new SlashManager(this, attackPosition, attackAngle, MeleeAoe, AttackDamage);
         }
     }
 
     public void BoltAttack(Vector2 attackTarget)
     {
-        if (CurrentStamina >= 1f && AttackCooldown.Use())
+        if (CurrentStamina >= 2f && AttackCooldown.Use())
         {
             Vector2 attackPosition = MonoBehaviour.transform.position;
             Vector2 attackVector = attackTarget - attackPosition;
             float attackAngle = Vector2.SignedAngle(Vector2.right, attackVector);
 
-            CurrentStamina -= 1;
+            CurrentStamina -= 2;
             BoltManager slash = new BoltManager(this, attackPosition, attackAngle, AttackDamage*ProjectileDamage);
         }
     }
 
     public bool StartSprinting()
     {
-        if (!Sprinting && CurrentStamina >= MaxStamina * 0.1f)
+        if (!Sprinting && CurrentStamina >= 1f)
         {
             Sprinting = true;
             return true;
