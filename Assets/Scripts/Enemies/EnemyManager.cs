@@ -7,8 +7,6 @@ public class EnemyManager : CombatantManager
     [IgnoreMember] public EnemyMonoBehaviour MonoBehaviour;
 
     [IgnoreMember] private bool Awake = false;
-    [IgnoreMember] private HealthBarMonoBehaviour HealthBar;
-    [IgnoreMember] private DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;
     [IgnoreMember] private Cooldown SlashCooldown;
 
     // X and Y position are held separately since MessagePack cannot serialize tupples
@@ -119,17 +117,6 @@ public class EnemyManager : CombatantManager
             MonoBehaviour = enemy.GetComponent<EnemyMonoBehaviour>();
             MonoBehaviour.AssignManager(this);
 
-            Vector2 top = position + new Vector2(0, Configuration.ENEMY_CONFIGURATIONS[EnemyType].Height + 0.15f);
-            top = Util.RoundToPixel(top, Configuration.PIXELS_PER_UNIT);
-            GameObject healthBar = GameObject.Instantiate(Prefabs.HEALTH_BAR_PREFAB, top, Quaternion.identity);
-            healthBar.transform.SetParent(enemy.transform);
-            HealthBar = healthBar.GetComponent<HealthBarMonoBehaviour>();
-            HealthBar.AssignManager(this);
-            UpdateHealthBar();
-
-            GameObject damageNumbersCanvas = GameObject.Instantiate(Prefabs.DAMAGE_NUMBER_CANVAS_PREFAB, top, Quaternion.identity);
-            damageNumbersCanvas.transform.SetParent(enemy.transform);
-            DamageNumbersCanvas = damageNumbersCanvas.GetComponent<DamageNumbersCanvasMonoBehaviour>();
         }
     }
 
@@ -140,28 +127,25 @@ public class EnemyManager : CombatantManager
             Awake = false;
             XPosition = MonoBehaviour.transform.position.x;
             YPosition = MonoBehaviour.transform.position.y;
-            DamageNumbersCanvas.transform.SetParent(null);
-            DamageNumbersCanvas.Destroy();
             MonoBehaviour.Destroy();
-            HealthBar.Destroy();
         }
     }
 
     public void Die()
     {
-        DamageNumbersCanvas.transform.SetParent(null);
+        //It is neccesary to un-child the damage numbers canvas so that it is not destoryed with the parent gameobject
+        MonoBehaviour.DamageNumbersCanvas.transform.SetParent(null);
+
         MonoBehaviour.Destroy();
-        HealthBar.Destroy();
-        DamageNumbersCanvas.Destroy();
         GameManager.Singleton.World.GetChunk(CurrentChunk).EnemyHasDied(this);
     }
 
     public override int RecieveHit(float damage)
     {
-        DamageNumbersCanvas.Log(damage);
+        MonoBehaviour.DamageNumbersCanvas.Log(damage);
 
         CurrentHealth -= damage;
-        UpdateHealthBar();
+        MonoBehaviour.UpdateHealthBar();
         if (CurrentHealth <= 0)
         {
             Die();
@@ -195,11 +179,7 @@ public class EnemyManager : CombatantManager
         return (Vector2)MonoBehaviour.transform.position + new Vector2(0, Configuration.ENEMY_CONFIGURATIONS[EnemyType].Height / 2f);
     }
 
-    private void UpdateHealthBar()
-    {
-        HealthBar.ShowHealth(CurrentHealth / MaxHealth);
 
-    }
 
     public void Immigrate(ChunkIndex newHome)
     {

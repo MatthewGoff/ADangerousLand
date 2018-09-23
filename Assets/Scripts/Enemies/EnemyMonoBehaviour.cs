@@ -4,6 +4,7 @@ public class EnemyMonoBehaviour : MonoBehaviour, IHitboxOwner
 {
     public GameObject SpritePrefab;
     public GameObject HitboxPrefab;
+    public DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;
 
     private GameObject Sprite;
     private GameObject Hitbox;
@@ -11,6 +12,7 @@ public class EnemyMonoBehaviour : MonoBehaviour, IHitboxOwner
     private Rigidbody2D RB2D;
     private SpriteRenderer Renderer;
     private Animator Animator;
+    private HealthBarMonoBehaviour HealthBar;
 
     public void Start()
     {
@@ -24,6 +26,23 @@ public class EnemyMonoBehaviour : MonoBehaviour, IHitboxOwner
         RB2D = GetComponent<Rigidbody2D>();
     }
 
+
+    public void AssignManager(EnemyManager manager)
+    {
+        Manager = manager;
+
+        Vector2 top = (Vector2)transform.position + new Vector2(0, Configuration.ENEMY_CONFIGURATIONS[Manager.EnemyType].Height + 0.15f);
+        top = Util.RoundToPixel(top, Configuration.PIXELS_PER_UNIT);
+        GameObject healthBar = GameObject.Instantiate(Prefabs.HEALTH_BAR_PREFAB, top, Quaternion.identity);
+        healthBar.transform.SetParent(transform);
+        HealthBar = healthBar.GetComponent<HealthBarMonoBehaviour>();
+        UpdateHealthBar();
+
+        GameObject damageNumbersCanvas = GameObject.Instantiate(Prefabs.DAMAGE_NUMBER_CANVAS_PREFAB, top, Quaternion.identity);
+        damageNumbersCanvas.transform.SetParent(transform);
+        DamageNumbersCanvas = damageNumbersCanvas.GetComponent<DamageNumbersCanvasMonoBehaviour>();
+    }
+
     public void Update()
     {
         Renderer.color = new Color(1, 1, 1, GameManager.Singleton.World.GetVisibilityLevel(RB2D.position));
@@ -35,6 +54,9 @@ public class EnemyMonoBehaviour : MonoBehaviour, IHitboxOwner
     {
         Destroy(Sprite);
         Destroy(Hitbox);
+        DamageNumbersCanvas.transform.SetParent(null);
+        DamageNumbersCanvas.Destroy();
+        HealthBar.Destroy();
         Destroy(gameObject);
     }
 
@@ -75,9 +97,10 @@ public class EnemyMonoBehaviour : MonoBehaviour, IHitboxOwner
         }
     }
 
-    public void AssignManager(EnemyManager manager)
+    public void UpdateHealthBar()
     {
-        Manager = manager;
+        HealthBar.ShowHealth(Manager.CurrentHealth / Manager.MaxHealth);
+
     }
 
     public CombatantManager GetCombatantManager()
