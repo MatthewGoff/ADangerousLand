@@ -68,7 +68,7 @@ Start by creatint a new folder in Assets/Resources/Prefabs/Enemies named for you
 1) In the Hierarchy choose "Create">"Create Empty" to create a new empty game object.
 2) Name it with the enemy type and the word "Prefab" (e.g. "DragonPrefab")
 3) Add a collider to the game object. Unlike the hitbox which is used in combat interactions, this collider defines the physical space that the enemy occupies (For example the player hitbox is 2 units tall but its feet only ocupy one square unit).
-4) Add a Rigidbody 2D component and set the Gravity Scale to 0.
+4) Add a Rigidbody 2D component. Set the Gravity Scale to 0 and under Constraints check Z.
 5) Click add component and type "Enemy Mono Behaviour" and hit enter.
 6) In the "Enemy Mono Behaviour" section of the Inspector you will see a field for "Sprite Prefab" and "Hitbox Prefab". Drag and drop the Sprite Prefab from the prefabs folder you created for this enemy (not the hierarchy) into the sprite field and likewise with the hitbox prefab. This will give the script control over both the sprite and the hitbox.
 7) Drag and drop the master prefab from the Hierarchy into the prefabs folder you created for this enemy.
