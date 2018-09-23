@@ -52,7 +52,7 @@ public class PlayerManager : CombatantManager
         SightRadiusNear = 7;
         SightRadiusFar = 11;
         ProjectileDamage = 0.5f;
-        MeleeAoe = 2f;
+        MeleeAoe = 3f;
         MaxHealth = 10;
         MaxStamina = 10;
         HealthRegen = 0.1f;

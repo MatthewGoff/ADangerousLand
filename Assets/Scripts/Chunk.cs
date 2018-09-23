@@ -25,7 +25,7 @@ public class Chunk
     {
         ChunkIndex = chunkIndex;
         DangerRating = DecideDangerRating();
-        MaxEnemies = DangerRating;
+        MaxEnemies = Configuration.MAXIMUM_ENEMIES(DangerRating);
         ImportedRivers = new List<RiverPackage>();
         RiverNodes = CreateRiverNodes();
         Tiles = CreateTiles();
@@ -55,8 +55,7 @@ public class Chunk
 
     private int DecideDangerRating()
     {
-        return Mathf.Clamp(Mathf.FloorToInt((new Vector2(ChunkIndex.X, ChunkIndex.Y)).magnitude/3), 0, 9);
-
+        return Mathf.FloorToInt((new Vector2(ChunkIndex.X, ChunkIndex.Y)).magnitude/2);
     }
 
     public void Update()
@@ -181,7 +180,7 @@ public class Chunk
 
     private EnemyType RandomEnemyType()
     {
-        (float prob, EnemyType enemyType)[] enemyTypes = Configuration.SPAWN_PROBABILITIES[DangerRating];
+        (float prob, EnemyType enemyType)[] enemyTypes = Configuration.SPAWN_PROBABILITIES(DangerRating);
 
         float random = UnityEngine.Random.Range(0f, 1f);
         float accumulator = 0f;

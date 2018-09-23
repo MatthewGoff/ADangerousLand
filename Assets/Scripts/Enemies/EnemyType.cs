@@ -4,4 +4,10 @@
     Werewolf,
     Dragon,
     Bat,
+    RedSlime,
+    GreenSlime,
+    BlueSlime,
+    SmallRedSlime,
+    SmallGreenSlime,
+    SmallBlueSlime,
 }

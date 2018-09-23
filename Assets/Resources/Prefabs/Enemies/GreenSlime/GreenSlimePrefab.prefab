@@ -9,32 +9,32 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1348317442728916}
+  m_RootGameObject: {fileID: 1347243466625966}
   m_IsPrefabAsset: 1
---- !u!1 &1348317442728916
+--- !u!1 &1347243466625966
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4626952892730900}
-  - component: {fileID: 58123443838113296}
-  - component: {fileID: 50850742691947738}
-  - component: {fileID: 114367732202409608}
+  - component: {fileID: 4903405532843060}
+  - component: {fileID: 58912883328022470}
+  - component: {fileID: 50918331870835424}
+  - component: {fileID: 114931499737630484}
   m_Layer: 0
-  m_Name: DragonPrefab
+  m_Name: GreenSlimePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4626952892730900
+--- !u!4 &4903405532843060
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1348317442728916}
+  m_GameObject: {fileID: 1347243466625966}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -42,13 +42,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50850742691947738
+--- !u!50 &50918331870835424
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1348317442728916}
+  m_GameObject: {fileID: 1347243466625966}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -62,34 +62,34 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &58123443838113296
+--- !u!58 &58912883328022470
 CircleCollider2D:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1348317442728916}
+  m_GameObject: {fileID: 1347243466625966}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1.5}
+  m_Offset: {x: 0, y: 0.5}
   serializedVersion: 2
-  m_Radius: 1.45
---- !u!114 &114367732202409608
+  m_Radius: 0.45
+--- !u!114 &114931499737630484
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1348317442728916}
+  m_GameObject: {fileID: 1347243466625966}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b87bca200ee1eb4dae6f371dc4c861e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpritePrefab: {fileID: 1137859056250280, guid: 6ac68ab85ad33204080e27092cee1796,
+  SpritePrefab: {fileID: 1296243462665258, guid: f18f6305d0db06a47b6906b914fcf39c,
     type: 2}
-  HitboxPrefab: {fileID: 1716877679374760, guid: fd8233a06adbebf4e99514ea75c603f8,
+  HitboxPrefab: {fileID: 1110419940061974, guid: 4b3651624c519cf4baa1769bae41ceb2,
     type: 2}
   DamageNumbersCanvas: {fileID: 0}

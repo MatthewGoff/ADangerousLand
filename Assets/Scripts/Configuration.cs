@@ -63,35 +63,115 @@ public class Configuration
     // Enemies
     public static readonly Dictionary<EnemyType, EnemyConfiguration> ENEMY_CONFIGURATIONS = new Dictionary<EnemyType, EnemyConfiguration>()
     {
-        {EnemyType.Bat, new EnemyConfiguration(){
-            PrefabLocation = "Bat/BatPrefab",
+        {EnemyType.SmallRedSlime, new EnemyConfiguration(){
+            PrefabLocation = "SmallRedSlime/SmallRedSlimePrefab",
             AIType = AIType.Basic,
-            MaxHealth = 2,
+            MaxHealth = 3,
             MoveSpeed = 3.5f,
             ExperienceReward = 1,
             Damage = 0.1f,
             AttackSpeed = 1f,
-            Aoe = 1.5f,
+            Aoe = 2f,
             AgroDistance = 10f,
             DeAgroDistance = 15f,
             MinAgroDuration = 3f,
-            Width = 2f,
-            Height = 1f,
-            AttackOrigin = new Vector2(0, 0.5f),
+            Width = .5f,
+            Height = .5f,
+            AttackOrigin = new Vector2(0, 0.25f),
         }},
-        {EnemyType.Soldier, new EnemyConfiguration(){
-            PrefabLocation = "Soldier/SoldierPrefab",
+        {EnemyType.SmallGreenSlime, new EnemyConfiguration(){
+            PrefabLocation = "SmallGreenSlime/SmallGreenSlimePrefab",
             AIType = AIType.Basic,
             MaxHealth = 5,
             MoveSpeed = 3.5f,
             ExperienceReward = 2,
-            Damage = 0.5f,
+            Damage = 0.2f,
             AttackSpeed = 1f,
-            Aoe = 1.5f,
+            Aoe = 2f,
+            AgroDistance = 10f,
+            DeAgroDistance = 15f,
+            MinAgroDuration = 3f,
+            Width = .5f,
+            Height = .5f,
+            AttackOrigin = new Vector2(0, 0.25f),
+        }},
+        {EnemyType.SmallBlueSlime, new EnemyConfiguration(){
+            PrefabLocation = "SmallBlueSlime/SmallBlueSlimePrefab",
+            AIType = AIType.Basic,
+            MaxHealth = 8,
+            MoveSpeed = 3.5f,
+            ExperienceReward = 3,
+            Damage = 0.3f,
+            AttackSpeed = 1f,
+            Aoe = 2f,
+            AgroDistance = 10f,
+            DeAgroDistance = 15f,
+            MinAgroDuration = 3f,
+            Width = .5f,
+            Height = .5f,
+            AttackOrigin = new Vector2(0, 0.25f),
+        }},
+        {EnemyType.RedSlime, new EnemyConfiguration(){
+            PrefabLocation = "RedSlime/RedSlimePrefab",
+            AIType = AIType.Basic,
+            MaxHealth = 10,
+            MoveSpeed = 3.5f,
+            ExperienceReward = 5,
+            Damage = 1f,
+            AttackSpeed = .5f,
+            Aoe = 2f,
             AgroDistance = 10f,
             DeAgroDistance = 15f,
             MinAgroDuration = 3f,
             Width = 1f,
+            Height = 1f,
+            AttackOrigin = new Vector2(0, 0.5f),
+        }},
+        {EnemyType.GreenSlime, new EnemyConfiguration(){
+            PrefabLocation = "GreenSlime/GreenSlimePrefab",
+            AIType = AIType.Basic,
+            MaxHealth = 15,
+            MoveSpeed = 3.5f,
+            ExperienceReward = 7,
+            Damage = 2f,
+            AttackSpeed = .5f,
+            Aoe = 2f,
+            AgroDistance = 10f,
+            DeAgroDistance = 15f,
+            MinAgroDuration = 3f,
+            Width = 1f,
+            Height = 1f,
+            AttackOrigin = new Vector2(0, 0.5f),
+        }},
+        {EnemyType.BlueSlime, new EnemyConfiguration(){
+            PrefabLocation = "BlueSlime/BlueSlimePrefab",
+            AIType = AIType.Basic,
+            MaxHealth = 20,
+            MoveSpeed = 3.5f,
+            ExperienceReward = 10,
+            Damage = 3f,
+            AttackSpeed = .5f,
+            Aoe = 2f,
+            AgroDistance = 10f,
+            DeAgroDistance = 15f,
+            MinAgroDuration = 3f,
+            Width = 1f,
+            Height = 1f,
+            AttackOrigin = new Vector2(0, 0.5f),
+        }},
+        {EnemyType.Bat, new EnemyConfiguration(){
+            PrefabLocation = "Bat/BatPrefab",
+            AIType = AIType.Basic,
+            MaxHealth = 30,
+            MoveSpeed = 3.5f,
+            ExperienceReward = 20,
+            Damage = 4f,
+            AttackSpeed = 1f,
+            Aoe = 2f,
+            AgroDistance = 10f,
+            DeAgroDistance = 15f,
+            MinAgroDuration = 3f,
+            Width = 2f,
             Height = 1f,
             AttackOrigin = new Vector2(0, 0.5f),
         }},
@@ -100,10 +180,10 @@ public class Configuration
             AIType = AIType.Basic,
             MaxHealth = 50,
             MoveSpeed = 5.5f,
-            ExperienceReward = 10,
-            Damage = 0.3f,
-            AttackSpeed = 5f,
-            Aoe = 1.5f,
+            ExperienceReward = 35,
+            Damage = 2.5f,
+            AttackSpeed = 2f,
+            Aoe = 2f,
             AgroDistance = 10f,
             DeAgroDistance = 15f,
             MinAgroDuration = 3f,
@@ -128,65 +208,150 @@ public class Configuration
             AttackOrigin = new Vector2(0, 1.5f),
         }},
     };
-
-    // SpawnProbabilities maps a difficulty rating to an array of spawn probabilities
-    public static readonly Dictionary<int, (float, EnemyType)[]> SPAWN_PROBABILITIES = new Dictionary<int, (float, EnemyType)[]>()
+    public static int MAXIMUM_ENEMIES(int dangerRating)
     {
-        {0, new (float, EnemyType)[]
+        if (dangerRating == 0)
         {
-            (1f, EnemyType.Bat),
-        }},
-        {1, new (float, EnemyType)[]
+            return 0;
+        }
+        else
         {
-            (1f, EnemyType.Bat),
-        }},
-        {2, new (float, EnemyType)[]
+            return Mathf.CeilToInt(dangerRating / 2f) + 1;
+        }
+    }
+
+    // SpawnProbabilities maps a danger rating to an array of spawn probabilities
+    public static (float, EnemyType)[] SPAWN_PROBABILITIES(int dangerRating)
+    {
+        if (dangerRating == 0)
         {
-            (0.9f, EnemyType.Bat),
-            (0.1f, EnemyType.Soldier),
-        }},
-        {3, new (float, EnemyType)[]
+            return new (float, EnemyType)[]
+            {
+                (1f, EnemyType.SmallRedSlime),
+            };
+        }
+        else if (dangerRating == 1)
         {
-            (0.8f, EnemyType.Bat),
-            (0.2f, EnemyType.Soldier),
-        }},
-        {4, new (float, EnemyType)[]
+            return new (float, EnemyType)[]
+            {
+                (1f, EnemyType.SmallRedSlime),
+            };
+        }
+        else if (dangerRating == 2)
         {
-            (0.6f, EnemyType.Bat),
-            (0.3f, EnemyType.Soldier),
-            (0.1f, EnemyType.Werewolf)
-        }},
-        {5, new (float, EnemyType)[]
+            return new (float, EnemyType)[]
+            {
+                (0.5f, EnemyType.SmallRedSlime),
+                (0.5f, EnemyType.SmallGreenSlime),
+            };
+        }
+        else if (dangerRating == 3)
         {
-            (0.4f, EnemyType.Bat),
-            (0.4f, EnemyType.Soldier),
-            (0.2f, EnemyType.Werewolf)
-        }},
-        {6, new (float, EnemyType)[]
+            return new (float, EnemyType)[]
+            {
+                (0.33f, EnemyType.SmallRedSlime),
+                (0.33f, EnemyType.SmallGreenSlime),
+                (0.33f, EnemyType.SmallBlueSlime),
+            };
+        }
+        else if (dangerRating == 4)
         {
-            (0.3f, EnemyType.Bat),
-            (0.4f, EnemyType.Soldier),
-            (0.3f, EnemyType.Werewolf)
-        }},
-        {7, new (float, EnemyType)[]
+            return new (float, EnemyType)[]
+            {
+                (0.25f, EnemyType.SmallRedSlime),
+                (0.25f, EnemyType.SmallGreenSlime),
+                (0.25f, EnemyType.SmallBlueSlime),
+                (0.25f, EnemyType.RedSlime),
+            };
+        }
+        else if (dangerRating == 5)
         {
-            (0.2f, EnemyType.Bat),
-            (0.3f, EnemyType.Soldier),
-            (0.5f, EnemyType.Werewolf)
-        }},
-        {8, new (float, EnemyType)[]
+            return new (float, EnemyType)[]
+            {
+                (0.15f, EnemyType.SmallRedSlime),
+                (0.15f, EnemyType.SmallGreenSlime),
+                (0.15f, EnemyType.SmallBlueSlime),
+                (0.35f, EnemyType.RedSlime),
+                (0.20f, EnemyType.GreenSlime),
+            };
+        }
+        else if (dangerRating == 6)
         {
-            (0.2f, EnemyType.Bat),
-            (0.2f, EnemyType.Soldier),
-            (0.6f, EnemyType.Werewolf)
-        }},
-        {9, new (float, EnemyType)[]
+            return new (float, EnemyType)[]
+            {
+                (0.10f, EnemyType.SmallRedSlime),
+                (0.10f, EnemyType.SmallGreenSlime),
+                (0.10f, EnemyType.SmallBlueSlime),
+                (0.25f, EnemyType.RedSlime),
+                (0.25f, EnemyType.GreenSlime),
+                (0.20f, EnemyType.BlueSlime),
+
+            };
+        }
+        else if (dangerRating == 7)
         {
-            (0.1f, EnemyType.Bat),
-            (0.2f, EnemyType.Soldier),
-            (0.6f, EnemyType.Werewolf),
-            (0.1f, EnemyType.Dragon),
-        }},
-    };
+            return new (float, EnemyType)[]
+            {
+                (0.05f, EnemyType.SmallRedSlime),
+                (0.05f, EnemyType.SmallGreenSlime),
+                (0.05f, EnemyType.SmallBlueSlime),
+                (0.20f, EnemyType.RedSlime),
+                (0.20f, EnemyType.GreenSlime),
+                (0.20f, EnemyType.BlueSlime),
+                (0.25f, EnemyType.Bat),
+            };
+        }
+        else if (dangerRating == 8)
+        {
+            return new (float, EnemyType)[]
+            {
+                (0.02f, EnemyType.SmallRedSlime),
+                (0.02f, EnemyType.SmallGreenSlime),
+                (0.02f, EnemyType.SmallBlueSlime),
+                (0.15f, EnemyType.RedSlime),
+                (0.15f, EnemyType.GreenSlime),
+                (0.15f, EnemyType.BlueSlime),
+                (0.20f, EnemyType.Bat),
+                (0.29f, EnemyType.Werewolf)
+            };
+        }
+        else if (dangerRating == 9)
+        {
+            return new (float, EnemyType)[]
+            {
+                (0.02f, EnemyType.SmallRedSlime),
+                (0.02f, EnemyType.SmallGreenSlime),
+                (0.02f, EnemyType.SmallBlueSlime),
+                (0.10f, EnemyType.RedSlime),
+                (0.10f, EnemyType.GreenSlime),
+                (0.10f, EnemyType.BlueSlime),
+                (0.30f, EnemyType.Bat),
+                (0.30f, EnemyType.Werewolf),
+                (0.4f, EnemyType.Dragon),
+            };
+        }
+        else if (dangerRating > 9 )
+        {
+            return new (float, EnemyType)[]
+            {
+                (0.02f, EnemyType.SmallRedSlime),
+                (0.02f, EnemyType.SmallGreenSlime),
+                (0.02f, EnemyType.SmallBlueSlime),
+                (0.10f, EnemyType.RedSlime),
+                (0.10f, EnemyType.GreenSlime),
+                (0.10f, EnemyType.BlueSlime),
+                (0.30f, EnemyType.Bat),
+                (0.34f, EnemyType.Werewolf),
+                (0.4f, EnemyType.Dragon),
+            };
+        }
+        else
+        {
+            return new (float, EnemyType)[]
+            {
+                (1f, EnemyType.SmallRedSlime),
+            };
+        }
+    }
 
 }
