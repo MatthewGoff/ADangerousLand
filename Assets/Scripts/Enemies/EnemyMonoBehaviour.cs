@@ -1,22 +1,27 @@
 ﻿using UnityEngine;
 
-public class EnemyMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
+public class EnemyMonoBehaviour : MonoBehaviour, IHitboxOwner
 {
+    public GameObject SpritePrefab;
+    public GameObject HitboxPrefab;
+
     private GameObject Sprite;
+    private GameObject Hitbox;
     private EnemyManager Manager;
     private Rigidbody2D RB2D;
     private SpriteRenderer Renderer;
-    private Vector2 MoveTarget;
     private Animator Animator;
 
     public void Start()
     {
-        Sprite = (GameObject)Resources.Load("Prefabs/Enemies/"+ Configuration.ENEMY_CONFIGURATIONS[Manager.EnemyType].SpriteLocation);
-        Sprite = Instantiate(Sprite, transform.position, Quaternion.identity);
+        Sprite = Instantiate(SpritePrefab, transform.position, Quaternion.identity);
         Animator = Sprite.GetComponent<Animator>();
-        RB2D = GetComponent<Rigidbody2D>();
         Renderer = Sprite.GetComponent<SpriteRenderer>();
-        MoveTarget = RB2D.position;
+
+        Hitbox = Instantiate(HitboxPrefab, transform.position, Quaternion.identity);
+        Hitbox.transform.SetParent(transform);
+
+        RB2D = GetComponent<Rigidbody2D>();
     }
 
     public void Update()
@@ -29,13 +34,13 @@ public class EnemyMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
     public void Destroy()
     {
         Destroy(Sprite);
+        Destroy(Hitbox);
         Destroy(gameObject);
     }
 
     public void FixedUpdate()
     {
-        MoveTarget = Manager.FixedUpdate();
-        Vector2 movementVector = MoveTarget - RB2D.position;
+        Vector2 movementVector = Manager.FixedUpdate();
         float angle = Vector2.SignedAngle(new Vector2(1, 0), movementVector);
         if (movementVector.magnitude > 1.0f)
         {

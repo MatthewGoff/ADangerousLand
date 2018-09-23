@@ -162,11 +162,8 @@ public class Chunk
     private bool SpawnRandomEnemy()
     {
         EnemyType enemyType = RandomEnemyType();
-        int spawnWidth = Configuration.ENEMY_CONFIGURATIONS[enemyType].SpawnWidth;
-        int spawnHeight = Configuration.ENEMY_CONFIGURATIONS[enemyType].SpawnHeight;
-        float spawnX = Configuration.ENEMY_CONFIGURATIONS[enemyType].SpawnX;
-        float spawnY = Configuration.ENEMY_CONFIGURATIONS[enemyType].SpawnY;
-        Vector2 spawnLocation = RandomSpawnLocation(spawnWidth, spawnHeight);
+        int width = (int)Mathf.Ceil(Configuration.ENEMY_CONFIGURATIONS[enemyType].Width);
+        Vector2 spawnLocation = RandomSpawnLocation(width, 1);
 
         if (spawnLocation == Vector2.zero)
         {
@@ -174,7 +171,7 @@ public class Chunk
         }
         else
         {
-            Vector2 spawnPosition = spawnLocation + new Vector2(spawnX, spawnY);
+            Vector2 spawnPosition = spawnLocation + new Vector2(width / 2f, 0);
             EnemyManager newEnemy = new EnemyManager(spawnPosition, enemyType);
             newEnemy.WakeUp();
             ResidentEnemies.Add(newEnemy);

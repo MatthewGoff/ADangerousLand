@@ -9,32 +9,32 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1282023231876258}
+  m_RootGameObject: {fileID: 1345464239951042}
   m_IsPrefabAsset: 1
---- !u!1 &1282023231876258
+--- !u!1 &1345464239951042
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4317480228986082}
-  - component: {fileID: 58390264724425430}
-  - component: {fileID: 50199039657876498}
-  - component: {fileID: 114861683613598854}
+  - component: {fileID: 4660129758854552}
+  - component: {fileID: 58887498925598566}
+  - component: {fileID: 50468653546661754}
+  - component: {fileID: 114733621519968052}
   m_Layer: 0
-  m_Name: Enemy
-  m_TagString: Combatant
+  m_Name: WerewolfPrefab
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4317480228986082
+--- !u!4 &4660129758854552
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1282023231876258}
+  m_GameObject: {fileID: 1345464239951042}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -42,13 +42,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50199039657876498
+--- !u!50 &50468653546661754
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1282023231876258}
+  m_GameObject: {fileID: 1345464239951042}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -62,29 +62,33 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &58390264724425430
+--- !u!58 &58887498925598566
 CircleCollider2D:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1282023231876258}
+  m_GameObject: {fileID: 1345464239951042}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.45}
   serializedVersion: 2
-  m_Radius: 0.47
---- !u!114 &114861683613598854
+  m_Radius: 0.45
+--- !u!114 &114733621519968052
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1282023231876258}
+  m_GameObject: {fileID: 1345464239951042}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b87bca200ee1eb4dae6f371dc4c861e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpritePrefab: {fileID: 1276831695565548, guid: 565a4bdeacda08d4c830aada96dbc8b8,
+    type: 2}
+  HitboxPrefab: {fileID: 1759404187490218, guid: 5566cd94f4e6d3447bb6158f1854e8ef,
+    type: 2}

@@ -5,8 +5,8 @@ using MessagePack;
 public class EnemyManager : CombatantManager
 {
     [IgnoreMember] public EnemyMonoBehaviour MonoBehaviour;
-    [IgnoreMember] public bool Awake = false;
 
+    [IgnoreMember] private bool Awake = false;
     [IgnoreMember] private HealthBarMonoBehaviour HealthBar;
     [IgnoreMember] private DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;
     [IgnoreMember] private Cooldown SlashCooldown;
@@ -114,21 +114,20 @@ public class EnemyManager : CombatantManager
             Vector2 position = new Vector2(XPosition, YPosition);
             SlashCooldown = new Cooldown(1 / Configuration.ENEMY_CONFIGURATIONS[EnemyType].AttackSpeed);
 
-
-            GameObject enemy = GameObject.Instantiate(Prefabs.ENEMY_PREFAB, position, Quaternion.identity);
-            GameManager.Singleton.GameObjectCount++;
+            GameObject prefab = (GameObject) Resources.Load("Prefabs/Enemies/" + Configuration.ENEMY_CONFIGURATIONS[EnemyType].PrefabLocation);
+            GameObject enemy = GameObject.Instantiate(prefab, position, Quaternion.identity);
             MonoBehaviour = enemy.GetComponent<EnemyMonoBehaviour>();
             MonoBehaviour.AssignManager(this);
 
-            GameObject healthBar = GameObject.Instantiate(Prefabs.HEALTH_BAR_PREFAB, position + new Vector2(0, 0.625f), Quaternion.identity);
-            GameManager.Singleton.GameObjectCount++;
+            Vector2 top = position + new Vector2(0, Configuration.ENEMY_CONFIGURATIONS[EnemyType].Height + 0.15f);
+            top = Util.RoundToPixel(top, Configuration.PIXELS_PER_UNIT);
+            GameObject healthBar = GameObject.Instantiate(Prefabs.HEALTH_BAR_PREFAB, top, Quaternion.identity);
             healthBar.transform.SetParent(enemy.transform);
             HealthBar = healthBar.GetComponent<HealthBarMonoBehaviour>();
             HealthBar.AssignManager(this);
             UpdateHealthBar();
 
-            GameObject damageNumbersCanvas = GameObject.Instantiate(Prefabs.DAMAGE_NUMBER_CANVAS_PREFAB, position + new Vector2(0, 0.625f), Quaternion.identity);
-            GameManager.Singleton.GameObjectCount++;
+            GameObject damageNumbersCanvas = GameObject.Instantiate(Prefabs.DAMAGE_NUMBER_CANVAS_PREFAB, top, Quaternion.identity);
             damageNumbersCanvas.transform.SetParent(enemy.transform);
             DamageNumbersCanvas = damageNumbersCanvas.GetComponent<DamageNumbersCanvasMonoBehaviour>();
         }
@@ -142,9 +141,9 @@ public class EnemyManager : CombatantManager
             XPosition = MonoBehaviour.transform.position.x;
             YPosition = MonoBehaviour.transform.position.y;
             DamageNumbersCanvas.transform.SetParent(null);
+            DamageNumbersCanvas.Destroy();
             MonoBehaviour.Destroy();
             HealthBar.Destroy();
-            DamageNumbersCanvas.Destroy();
         }
     }
 
@@ -183,12 +182,17 @@ public class EnemyManager : CombatantManager
     {
         if (SlashCooldown.Use())
         {
-            Vector2 attackPosition = MonoBehaviour.transform.position;
+            Vector2 attackPosition = (Vector2) MonoBehaviour.transform.position + Configuration.ENEMY_CONFIGURATIONS[EnemyType].AttackOrigin;
             Vector2 attackVector = attackTarget - attackPosition;
             float attackAngle = Vector2.SignedAngle(Vector2.right, attackVector);
 
             SlashManager slash = new SlashManager(this, attackPosition, attackAngle, Aoe, Damage);
         }
+    }
+
+    public Vector2 GetCenter()
+    {
+        return (Vector2)MonoBehaviour.transform.position + new Vector2(0, Configuration.ENEMY_CONFIGURATIONS[EnemyType].Height / 2f);
     }
 
     private void UpdateHealthBar()

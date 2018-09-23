@@ -22,10 +22,10 @@ public class BasicAI : EnemyAI
 
     public Vector2 FixedUpdate(EnemyManager manager)
     {
-        Vector2 playerPosition = GameManager.Singleton.World.PlayerManager.GetPlayerPosition();
-        Vector2 myPosition = manager.MonoBehaviour.transform.position;
+        Vector2 playerPosition = GameManager.Singleton.World.PlayerManager.GetPlayerCenter();
+        Vector2 myPosition = manager.GetCenter();
         float distance = (playerPosition - myPosition).magnitude;
-        if (distance < manager.Aoe)
+        if (distance < manager.Aoe + 1f)
         {
             manager.SlashAttack(playerPosition);
         }
@@ -45,11 +45,11 @@ public class BasicAI : EnemyAI
 
         if (Agroed)
         {
-            return GameManager.Singleton.World.PlayerManager.GetPlayerPosition();
+            return playerPosition-myPosition;
         }
         else
         {
-            return manager.MonoBehaviour.transform.position;
+            return Vector2.zero;
         }
     }
 }

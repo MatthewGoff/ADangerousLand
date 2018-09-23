@@ -4,6 +4,9 @@ using MessagePack;
 [MessagePackObject]
 public class PlayerManager : CombatantManager
 {
+    [IgnoreMember] private static readonly Vector2 ATTACK_ORIGIN = new Vector2(0f, 1f);
+    [IgnoreMember] private static readonly Vector2 CENTER = new Vector2(0f, 1f);
+
     [IgnoreMember] private bool Dead;
     [IgnoreMember] public PlayerMonoBehaviour MonoBehaviour;
     [IgnoreMember] public bool Sprinting;
@@ -49,7 +52,7 @@ public class PlayerManager : CombatantManager
         SightRadiusNear = 7;
         SightRadiusFar = 11;
         ProjectileDamage = 0.5f;
-        MeleeAoe = 1.5f;
+        MeleeAoe = 2f;
         MaxHealth = 10;
         MaxStamina = 10;
         HealthRegen = 0.1f;
@@ -144,6 +147,11 @@ public class PlayerManager : CombatantManager
     {
         return MonoBehaviour.transform.position;
     }
+    
+    public Vector2 GetPlayerCenter()
+    {
+        return (Vector2)MonoBehaviour.transform.position + CENTER;
+    }
 
     public void WeaponSwap()
     {
@@ -154,7 +162,7 @@ public class PlayerManager : CombatantManager
     {
         if (CurrentStamina >= 2f && AttackCooldown.Use())
         {
-            Vector2 attackPosition = MonoBehaviour.transform.position;
+            Vector2 attackPosition = (Vector2)MonoBehaviour.transform.position + ATTACK_ORIGIN;
             Vector2 attackVector = attackTarget - attackPosition;
             float attackAngle = Vector2.SignedAngle(Vector2.right, attackVector);
 
@@ -167,7 +175,7 @@ public class PlayerManager : CombatantManager
     {
         if (CurrentStamina >= 2f && AttackCooldown.Use())
         {
-            Vector2 attackPosition = MonoBehaviour.transform.position;
+            Vector2 attackPosition = (Vector2)MonoBehaviour.transform.position + ATTACK_ORIGIN;
             Vector2 attackVector = attackTarget - attackPosition;
             float attackAngle = Vector2.SignedAngle(Vector2.right, attackVector);
 

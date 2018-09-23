@@ -1,6 +1,8 @@
-﻿public struct EnemyConfiguration
+﻿using UnityEngine;
+
+public struct EnemyConfiguration
 {
-    public string SpriteLocation;
+    public string PrefabLocation;
     public AIType AIType;
     public int MaxHealth;
     public float MoveSpeed;
@@ -11,8 +13,7 @@
     public float AgroDistance;
     public float DeAgroDistance;
     public float MinAgroDuration;
-    public int SpawnWidth;
-    public int SpawnHeight;
-    public float SpawnX;
-    public float SpawnY;
+    public float Width;
+    public float Height;
+    public Vector2 AttackOrigin;
 }

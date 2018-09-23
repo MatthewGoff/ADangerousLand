@@ -33,12 +33,12 @@ public class BoltMonoBehaviour : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Combatant")
+        if (other.gameObject.tag == "Hitbox")
         {
-            ICombatantMonoBehaviour MonoBehaviour = other.gameObject.GetComponent<ICombatantMonoBehaviour>();
-            if (MonoBehaviour != null)
+            IHitboxOwner monoBehaviour = other.gameObject.transform.parent.gameObject.GetComponent<IHitboxOwner>();
+            if (monoBehaviour != null)
             {
-                Manager.ResolveCollision(MonoBehaviour.GetCombatantManager());
+                Manager.ResolveCollision(monoBehaviour.GetCombatantManager());
             }
         }
     }

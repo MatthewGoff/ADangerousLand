@@ -1,4 +1,4 @@
-﻿public interface ICombatantMonoBehaviour
+﻿public interface IHitboxOwner
 {
     CombatantManager GetCombatantManager();
 }

@@ -4,6 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Hitbox
   - Combatant
   layers:
   - Default
@@ -15,7 +16,7 @@ TagManager:
   - 
   - 
   - SpawnLayer
-  - 
+  - Combat
   - 
   - 
   - 

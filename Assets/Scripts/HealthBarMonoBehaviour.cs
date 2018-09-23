@@ -17,7 +17,6 @@ public class HealthBarMonoBehaviour : MonoBehaviour {
 
     public void Destroy()
     {
-        GameManager.Singleton.GameObjectCount--;
         Destroy(gameObject);
     }
 

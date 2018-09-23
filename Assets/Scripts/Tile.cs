@@ -46,7 +46,6 @@ public class Tile
             GameObject.Destroy(Background);
             GameObject.Destroy(Foreground);
             GameObject.Destroy(FogGameObject);
-            GameManager.Singleton.GameObjectCount -= 2;
         }
     }
 

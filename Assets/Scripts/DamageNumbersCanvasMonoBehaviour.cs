@@ -10,7 +10,6 @@ public class DamageNumbersCanvasMonoBehaviour : MonoBehaviour
     {
         if (CurrentNumbers == 0)
         {
-            GameManager.Singleton.GameObjectCount--;
             Destroy(gameObject);
         }
         ToDestroy = true;
@@ -19,7 +18,6 @@ public class DamageNumbersCanvasMonoBehaviour : MonoBehaviour
     public void Log(string message)
     {
         GameObject damageText = GameObject.Instantiate(Prefabs.DAMAGE_NUMBER_PREFAB, transform.position, Quaternion.identity);
-        GameManager.Singleton.GameObjectCount++;
         damageText.transform.SetParent(transform);
         damageText.GetComponent<Text>().text = message;
         damageText.GetComponent<DamageNumberMonoBehaviour>().AssignSignalFinish(MessageEnd);

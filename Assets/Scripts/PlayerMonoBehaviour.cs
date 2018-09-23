@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 
-public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
+public class PlayerMonoBehaviour : MonoBehaviour, IHitboxOwner
 {
-    private Transform SpriteTransform;
-
+    public GameObject Hitbox;
+    
     public GameObject HeadSprite;
     public GameObject BodySprite;
     public GameObject WeaponSprite;
@@ -26,15 +26,9 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
 
     public void Start()
     {
-        SpriteTransform = new GameObject().transform;
-
-        HeadSprite = GameObject.Instantiate(HeadSprite, transform.position, Quaternion.identity);
-        BodySprite = GameObject.Instantiate(BodySprite, transform.position, Quaternion.identity);
-        WeaponSprite = GameObject.Instantiate(WeaponSprite, transform.position, Quaternion.identity);
-
-        HeadSprite.transform.SetParent(SpriteTransform);
-        BodySprite.transform.SetParent(SpriteTransform);
-        WeaponSprite.transform.SetParent(SpriteTransform);
+        HeadSprite = Instantiate(HeadSprite, transform.position, Quaternion.identity);
+        BodySprite = Instantiate(BodySprite, transform.position, Quaternion.identity);
+        WeaponSprite = Instantiate(WeaponSprite, transform.position, Quaternion.identity);
 
         HeadRenderer = HeadSprite.GetComponent<SpriteRenderer>();
         BodyRenderer = BodySprite.GetComponent<SpriteRenderer>();
@@ -56,7 +50,10 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
             BodyAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Ranged_Body");
             WeaponAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Ranged_Bow");
         }
-        
+
+        Hitbox = Instantiate(Hitbox, transform.position, Quaternion.identity);
+        Hitbox.transform.SetParent(transform);
+
         RB2D = GetComponent<Rigidbody2D>();
         MoveTarget = RB2D.position;
     }
@@ -66,6 +63,7 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
         Destroy(HeadSprite);
         Destroy(BodySprite);
         Destroy(WeaponSprite);
+        Destroy(Hitbox);
         Destroy(gameObject);
     }
 
@@ -89,6 +87,11 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
                 BodyAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Ranged_Body");
                 WeaponAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Ranged_Bow");
             }
+
+            // It is neccesary to synch the animations after swaping animation controllers
+            HeadAnimator.Play(HeadAnimator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
+            BodyAnimator.Play(BodyAnimator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
+            WeaponAnimator.Play(WeaponAnimator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0);
         }
 
         if (Input.GetMouseButton(0) && Camera != null && GameManager.Singleton.GameState == GameStateType.Playing)
@@ -283,14 +286,14 @@ public class PlayerMonoBehaviour : MonoBehaviour, ICombatantMonoBehaviour
         }
     }
 
-    public void AssignManager(PlayerManager manager)
-    {
-        Manager = manager;
-    }
-
     public CombatantManager GetCombatantManager()
     {
         return Manager;
+    }
+
+    public void AssignManager(PlayerManager manager)
+    {
+        Manager = manager;
     }
 
     public void Freeze()
