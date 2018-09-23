@@ -20,3 +20,7 @@ compilation.log
 
 # Matt's loot calculator experiment (python project)
 LootCalculator/
+
+# Odd files that appeared due to case sensitivity of my file system
+CaseSensitiveTest
+casesensitivetest
