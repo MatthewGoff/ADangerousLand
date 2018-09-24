@@ -1,9 +1,10 @@
 # A Dangerous Land
 
-A Dangerouos Land is top-down 2D RPG focusing on intricate combat mechanics,
-crafting, exploration, and survival.
+A Dangerouos Land is top-down, 2D, hack-and-slash RPG with elements of combat, crafting, exploration, and survival. It is a personal project of mine aiming to combine the best features of some of my favorite games.
 
 ## Setup Instructions:
+
+(If you are just looking to play the game visit the releases page)
 
 1) Have current versions of Unity and Visual Studio Installed. When you install
    Visual Studio also install the "Game Development with Unity" module. If you
