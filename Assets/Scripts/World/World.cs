@@ -38,12 +38,6 @@ public class World
         LiveChunks = new List<Chunk>();
     }
 
-    public void Start()
-    {
-        SpawnPlayer();
-        Active = true;
-    }
-
     public void Update()
     {
         if (!Active)
@@ -55,7 +49,6 @@ public class World
         {
             chunk.Update();
         }
-
     }
 
     public void FixedUpdate()
@@ -68,6 +61,39 @@ public class World
         UpdateWorldInitializers();
 
         ChunkIndex currentChunk = GetChunkIndex(PlayerManager.GetPlayerPosition());
+
+        QueueNextStateForChunks(currentChunk);
+
+        LiveChunks.Clear();
+        bool allLiveChunksLoaded = true;
+        for (int x = -3; x <= 3; x++)
+        {
+            for (int y = -3; y <= 3; y++)
+            {
+                Chunk chunk = Chunks.GetChunk(currentChunk.Add(x, y));
+
+                TransitionChunkState(chunk);
+
+                if (chunk.State == ChunkState.Occupied || chunk.State == ChunkState.Live)
+                {
+                    LiveChunks.Add(chunk);
+                    allLiveChunksLoaded &= chunk.FixedUpdate();
+                }
+            }
+        }
+        if (allLiveChunksLoaded)
+        {
+            GameManager.Singleton.TakeInput(GameInputType.WorldLoaded);
+        }
+    }
+
+
+    /*
+     * Inform chunks arround the current chunk what their state in the next fixed update is to be.
+     * (State is purely a function of proximity to the current occuppied chunk(s))
+     */
+    private void QueueNextStateForChunks(ChunkIndex currentChunk)
+    {
         for (int x = -3; x <= 3; x++)
         {
             for (int y = -3; y <= 3; y++)
@@ -92,50 +118,40 @@ public class World
                 }
             }
         }
+    }
 
-        LiveChunks.Clear();
-        for (int x = -3; x <= 3; x++)
+    /*
+     * Transition a chunk from its state in the last fixed update to its state
+     * in this fixed update. If there has been a change of state execute the
+     * appropriate logic.
+     */
+    private void TransitionChunkState(Chunk chunk)
+    {
+        if (chunk.NextState != chunk.State)
         {
-            for (int y = -3; y <= 3; y++)
+            if (chunk.NextState == ChunkState.Occupied)
             {
-                Chunk chunk = Chunks.GetChunk(currentChunk.Add(x, y));
-                if (chunk.NextState != chunk.State)
+                if (!chunk.InitializingLocality && !chunk.LocalityInitialized)
                 {
-                    if (chunk.NextState == ChunkState.Occupied)
+                    chunk.InitializingLocality = true;
+                    WorldInitializer newInitializer = new WorldInitializer
                     {
-                        if (!chunk.InitializingLocality && !chunk.LocalityInitialized)
-                        {
-                            chunk.InitializingLocality = true;
-                            WorldInitializer newInitializer = new WorldInitializer
-                            {
-                                World = this,
-                                ChunkIndex = currentChunk
-                            };
-                            WorldInitializers.Enqueue(newInitializer);
-                        }
-                    }
-                    if (chunk.NextState == ChunkState.Inactive)
-                    {
-                        chunk.Sleep();
-                    }
-                    if (chunk.NextState == ChunkState.SpawningGrounds)
-                    {
-                        chunk.SpawnEnemies();
-                    }
-                    chunk.State = chunk.NextState;
-                }
-
-                if (chunk.State == ChunkState.Occupied)
-                {
-                    LiveChunks.Add(chunk);
-                    chunk.FixedUpdate();
-                }
-                if (chunk.State == ChunkState.Live)
-                {
-                    LiveChunks.Add(chunk);
-                    chunk.FixedUpdate();
+                        World = this,
+                        ChunkIndex = chunk.ChunkIndex,
+                    };
+                    WorldInitializers.Enqueue(newInitializer);
                 }
             }
+            if (chunk.NextState == ChunkState.Inactive)
+            {
+                chunk.Sleep();
+            }
+            if (chunk.NextState == ChunkState.SpawningGrounds)
+            {
+                chunk.SpawnEnemies();
+            }
+
+            chunk.State = chunk.NextState;
         }
     }
 
@@ -254,10 +270,11 @@ public class World
         return Chunks.GetChunk(chunkIndex);
     }
 
-    private void SpawnPlayer()
+    public void SpawnPlayer()
     {
         WorldLocation spawnLocation = DecideSpawnPoint();
         PlayerManager.Spawn(spawnLocation);
+        Active = true;
     }
 
     public float MovementMultiplier(WorldLocation worldLocation)

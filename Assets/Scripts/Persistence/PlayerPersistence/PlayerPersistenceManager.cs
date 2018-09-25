@@ -79,7 +79,7 @@ public class PlayerPersistenceManager
         SaveMetaData();
     }
 
-    public static int CreatePlayer(string name, DeathPenaltyType deathPenalty)
+    public static int CreatePlayer(string name, float color, DeathPenaltyType deathPenalty)
     {
         PlayerPersistenceMetaData newMetaData = new PlayerPersistenceMetaData
         {
@@ -88,11 +88,12 @@ public class PlayerPersistenceManager
             Name = name,
             Level = 1,
             DeathPenalty = deathPenalty,
+            Color = color,
         };
         MetaData.Add(newMetaData);
         SaveMetaData();
 
-        PlayerManager newPlayer = new PlayerManager(newMetaData.PlayerIdentifier, newMetaData.Name, newMetaData.DeathPenalty);
+        PlayerManager newPlayer = new PlayerManager(newMetaData.PlayerIdentifier, newMetaData.Name, newMetaData.Color, newMetaData.DeathPenalty);
         SavePlayer(newPlayer);
         return newPlayer.PlayerIdentifier;
     }

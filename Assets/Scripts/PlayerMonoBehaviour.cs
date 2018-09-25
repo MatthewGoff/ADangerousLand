@@ -24,8 +24,10 @@ public class PlayerMonoBehaviour : MonoBehaviour, IHitboxOwner
     private Vector2 MoveTarget;
     private PlayerManager Manager;
 
-    public void Start()
+    public void Init(PlayerManager manager)
     {
+        Manager = manager;
+
         HeadSprite = Instantiate(HeadSprite, transform.position, Quaternion.identity);
         BodySprite = Instantiate(BodySprite, transform.position, Quaternion.identity);
         WeaponSprite = Instantiate(WeaponSprite, transform.position, Quaternion.identity);
@@ -34,10 +36,12 @@ public class PlayerMonoBehaviour : MonoBehaviour, IHitboxOwner
         BodyRenderer = BodySprite.GetComponent<SpriteRenderer>();
         WeaponRenderer = WeaponSprite.GetComponent<SpriteRenderer>();
 
+        BodyRenderer.color = Color.HSVToRGB(Manager.Color, 1, 1);
+
         HeadAnimator = HeadSprite.GetComponent<Animator>();
         BodyAnimator = BodySprite.GetComponent<Animator>();
         WeaponAnimator = WeaponSprite.GetComponent<Animator>();
-        
+
         if (Manager.AttackType == 0)
         {
             HeadAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Melee_Head");
@@ -220,7 +224,7 @@ public class PlayerMonoBehaviour : MonoBehaviour, IHitboxOwner
             newHeadSprite.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder;
             newBodySprite.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder;
             newWeaponSprite.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder;
-            
+
             // Enqueue them for later update and destruction
             headSprites.Enqueue(newHeadSprite);
             bodySprites.Enqueue(newBodySprite);
@@ -233,10 +237,12 @@ public class PlayerMonoBehaviour : MonoBehaviour, IHitboxOwner
                 headSprite.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, alpha);
                 alpha += (1 / (float) Configuration.PLAYER_TRAIL_SPRITES);
             }
+            Color color = Color.HSVToRGB(Manager.Color, 1, 1);
             alpha = 1f - (bodySprites.Count / (float) Configuration.PLAYER_TRAIL_SPRITES);
             foreach (GameObject bodySprite in bodySprites)
             {
-                bodySprite.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, alpha);
+                color.a = alpha;
+                bodySprite.GetComponent<SpriteRenderer>().color = color;
                 alpha += (1 / (float) Configuration.PLAYER_TRAIL_SPRITES);
             }
             alpha = 1f - (weaponSprites.Count / (float) Configuration.PLAYER_TRAIL_SPRITES);
@@ -289,11 +295,6 @@ public class PlayerMonoBehaviour : MonoBehaviour, IHitboxOwner
     public CombatantManager GetCombatantManager()
     {
         return Manager;
-    }
-
-    public void AssignManager(PlayerManager manager)
-    {
-        Manager = manager;
     }
 
     public void Freeze()

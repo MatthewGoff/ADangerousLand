@@ -12,5 +12,7 @@
     OpenNewPlayerMenu,
     OpenWorldMenu,
     OpenNewWorldMenu,
-    OpenMainMenu
+    WorldLoaded,
+    WorldUnloaded,
+    SaveAndExit,
 }

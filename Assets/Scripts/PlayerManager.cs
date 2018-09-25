@@ -16,29 +16,31 @@ public class PlayerManager : CombatantManager
 
     [Key(0)] public int PlayerIdentifier;
     [Key(1)] public string Name;
-    [Key(2)] public DeathPenaltyType DeathPenalty;
+    [Key(2)] public float Color;
+    [Key(3)] public DeathPenaltyType DeathPenalty;
 
-    [Key(3)] public int Experience;
-    [Key(4)] public int Level;
-    [Key(5)] public int PassivePoints;
+    [Key(4)] public int Experience;
+    [Key(5)] public int Level;
+    [Key(6)] public int PassivePoints;
 
-    [Key(6)] public int AttackType;
-    [Key(7)] public float AttackDamage;
-    [Key(8)] public float AttackSpeed;
-    [Key(9)] public float MoveSpeed;
-    [Key(10)] public float SightRadiusNear;
-    [Key(11)] public float SightRadiusFar;
-    [Key(12)] public float ProjectileDamage;
-    [Key(13)] public float MeleeAoe;
-    [Key(14)] public int MaxHealth;
-    [Key(15)] public int MaxStamina;
-    [Key(16)] public float HealthRegen;
-    [Key(17)] public float StaminaRegen;
+    [Key(7)] public int AttackType;
+    [Key(8)] public float AttackDamage;
+    [Key(9)] public float AttackSpeed;
+    [Key(10)] public float MoveSpeed;
+    [Key(11)] public float SightRadiusNear;
+    [Key(12)] public float SightRadiusFar;
+    [Key(13)] public float ProjectileDamage;
+    [Key(14)] public float MeleeAoe;
+    [Key(15)] public int MaxHealth;
+    [Key(16)] public int MaxStamina;
+    [Key(17)] public float HealthRegen;
+    [Key(18)] public float StaminaRegen;
 
-    public PlayerManager(int identifier, string name, DeathPenaltyType deathPenalty)
+    public PlayerManager(int identifier, string name, float color, DeathPenaltyType deathPenalty)
     {
         PlayerIdentifier = identifier;
         Name = name;
+        Color = color;
         DeathPenalty = deathPenalty;
 
         Experience = 0;
@@ -63,6 +65,7 @@ public class PlayerManager : CombatantManager
     public PlayerManager(
         int playerIdentifier,
         string name,
+        float color,
         DeathPenaltyType deathPenalty,
         int experience,
         int level,
@@ -82,6 +85,7 @@ public class PlayerManager : CombatantManager
     {
         PlayerIdentifier = playerIdentifier;
         Name = name;
+        Color = color;
         DeathPenalty = deathPenalty;
         Experience = experience;
         Level = level;
@@ -109,9 +113,9 @@ public class PlayerManager : CombatantManager
         CurrentHealth = MaxHealth;
         CurrentStamina = MaxStamina;
 
-        GameObject player = GameObject.Instantiate(Prefabs.PLAYER_PREFAB, new Vector3(spawnLocation.X + 0.5f, spawnLocation.Y + 0.5f, 0), Quaternion.identity);
+        GameObject player = GameObject.Instantiate(Prefabs.PLAYER_PREFAB, new Vector3(spawnLocation.X + 0.5f, spawnLocation.Y, 0), Quaternion.identity);
         MonoBehaviour = player.GetComponent<PlayerMonoBehaviour>();
-        MonoBehaviour.AssignManager(this);
+        MonoBehaviour.Init(this);
     }
 
     public void Sleep()
@@ -201,7 +205,7 @@ public class PlayerManager : CombatantManager
 
     public override int RecieveHit(float damage)
     {
-        CurrentHealth -= damage;
+        CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, MaxHealth);
         if (CurrentHealth <= 0 && !Dead)
         {
             Die();

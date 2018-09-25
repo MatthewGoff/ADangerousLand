@@ -49,26 +49,13 @@ public class Tile
         }
     }
 
-    public void FixedUpdate()
-    {
-        bool onTreadmill = GameManager.Singleton.World.OnTreadmill(WorldLocation);
-        if (onTreadmill && !Awake)
-        {
-            WakeUp();
-        }
-        else if (!onTreadmill && Awake)
-        {
-            Sleep();
-        }
-    }
-
     public void Update()
     {
         if (!Awake)
         {
             return;
         }
-        
+
         Vector2 playerPosition = GameManager.Singleton.World.PlayerManager.GetPlayerPosition();
         float fogInnerRadius = GameManager.Singleton.World.PlayerManager.GetSightRadiusNear();
         float fogOuterRadius = GameManager.Singleton.World.PlayerManager.GetSightRadiusFar();
@@ -95,6 +82,19 @@ public class Tile
                 FogRenderer.color = new Color(0, 0, 0, alpha);
                 LastFrameFog = alpha;
             }
+        }
+    }
+
+    public void FixedUpdate()
+    {
+        bool onTreadmill = GameManager.Singleton.World.OnTreadmill(WorldLocation);
+        if (onTreadmill && !Awake)
+        {
+            WakeUp();
+        }
+        else if (!onTreadmill && Awake)
+        {
+            Sleep();
         }
     }
 

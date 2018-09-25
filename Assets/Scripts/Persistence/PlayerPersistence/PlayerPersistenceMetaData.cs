@@ -8,4 +8,5 @@ public class PlayerPersistenceMetaData
     public string Name;
     public int Level;
     public DeathPenaltyType DeathPenalty;
+    public float Color;
 }

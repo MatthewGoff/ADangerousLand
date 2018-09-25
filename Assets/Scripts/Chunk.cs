@@ -55,7 +55,9 @@ public class Chunk
 
     private int DecideDangerRating()
     {
-        return Mathf.FloorToInt((new Vector2(ChunkIndex.X, ChunkIndex.Y)).magnitude/2);
+        float dangerRating = (new Vector2(ChunkIndex.X, ChunkIndex.Y)).magnitude - 1;
+        dangerRating = Mathf.Clamp(dangerRating, 0f, dangerRating);
+        return Mathf.CeilToInt(dangerRating / 3f);
     }
 
     public void Update()
@@ -69,43 +71,11 @@ public class Chunk
         }
     }
 
-    public void FixedUpdate()
+    public bool FixedUpdate()
     {
         if (!Initialized)
         {
-            return;
-        }
-        for (int chunkX = 0; chunkX < Tiles.GetLength(0); chunkX++)
-        {
-            for (int chunkY = 0; chunkY < Tiles.GetLength(1); chunkY++)
-            {
-                Tiles[chunkX, chunkY].FixedUpdate();
-            }
-        }
-        List<EnemyManager> emigrantEnemies = new List<EnemyManager>();
-        foreach (EnemyManager enemy in ResidentEnemies)
-        {
-            enemy.CheckTreadmill();
-            if (!WithinChunk((enemy.XPosition,enemy.YPosition)))
-            {
-                emigrantEnemies.Add(enemy);
-                ChunkIndex newHome = GameManager.Singleton.World.GetChunkIndex((enemy.XPosition, enemy.YPosition));
-                GameManager.Singleton.World.GetChunk(newHome).RecieveImmigrantEnemy(enemy);
-                enemy.Immigrate(newHome);
-            }
-        }
-        foreach (EnemyManager enemy in emigrantEnemies)
-        {
-            ResidentEnemies.Remove(enemy);
-        }
-    }
-
-
-    public void WakeAll()
-    {
-        if (!Initialized)
-        {
-            SpawnEnemiesAfterInit = true;
+            return false;
         }
         else
         {
@@ -113,13 +83,27 @@ public class Chunk
             {
                 for (int chunkY = 0; chunkY < Tiles.GetLength(1); chunkY++)
                 {
-                    Tiles[chunkX, chunkY].WakeUp();
+                    Tiles[chunkX, chunkY].FixedUpdate();
                 }
             }
-            foreach (EnemyManager enemy in ResidentEnemies)
+            List<EnemyManager> emigrantEnemies = new List<EnemyManager>();
+            foreach (EnemyManager enemyManager in ResidentEnemies)
             {
-                enemy.WakeUp();
+                enemyManager.CheckTreadmill();
+                if (!WithinChunk(enemyManager.GetPosition()))
+                {
+                    emigrantEnemies.Add(enemyManager);
+                    ChunkIndex newHome = GameManager.Singleton.World.GetChunkIndex(enemyManager.GetPosition());
+                    GameManager.Singleton.World.GetChunk(newHome).RecieveImmigrantEnemy(enemyManager);
+                    enemyManager.Immigrate(newHome);
+                }
             }
+            foreach (EnemyManager enemyManager in emigrantEnemies)
+            {
+                ResidentEnemies.Remove(enemyManager);
+            }
+
+            return true;
         }
     }
 

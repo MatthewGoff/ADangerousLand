@@ -5,8 +5,6 @@ using System;
 public class NewWorldMenuController : MonoBehaviour
 {
 
-    public GameObject WorldMenu;
-
     public GameObject NameField;
     public GameObject SeedField;
     public GameObject NaNText;
@@ -25,7 +23,6 @@ public class NewWorldMenuController : MonoBehaviour
         if (int.TryParse(SeedField.GetComponent<InputField>().text, out seed))
         {
             int worldIdentifier = WorldPersistenceManager.CreateWorld(NameField.GetComponent<InputField>().text, seed);
-            WorldMenu.GetComponent<WorldMenuController>().UpdateWorldToggles();
             GameManager.Singleton.TakeInput(GameInputType.Escape);
         }
         else

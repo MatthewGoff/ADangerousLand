@@ -131,6 +131,19 @@ public class EnemyManager : CombatantManager
         }
     }
 
+    public Vector2 GetPosition()
+    {
+        if (Awake)
+        {
+            return MonoBehaviour.transform.position;
+        }
+        else
+        {
+            return new Vector2(XPosition, YPosition);
+        }
+
+    }
+
     public void Die()
     {
         //It is neccesary to un-child the damage numbers canvas so that it is not destoryed with the parent gameobject
@@ -184,5 +197,6 @@ public class EnemyManager : CombatantManager
     public void Immigrate(ChunkIndex newHome)
     {
         CurrentChunk = newHome;
+        //GameManager.Singleton.World.GetChunk(newHome).RecieveImmigrantEnemy(this);
     }
 }

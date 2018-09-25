@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public GameObject NewPlayerMenu;
     public GameObject WorldMenu;
     public GameObject NewWorldMenu;
+    public GameObject LoadingScreen;
 
     // Audio
     public GameObject AudioSource;
@@ -63,6 +64,10 @@ public class GameManager : MonoBehaviour
         Prefabs.LoadPrefabs();
         PlayerPersistenceManager.Initialize();
         WorldPersistenceManager.Initialize();
+
+        PlayerCamera = Instantiate(Prefabs.CAMERA_PREFAB, new Vector3(0, 0, -1), Quaternion.identity);
+        PlayerCamera.SetActive(false);
+        Time.timeScale = 0f;
         StartCoroutine("Load");
     }
 
@@ -119,7 +124,7 @@ public class GameManager : MonoBehaviour
     {
         FiniteStateMachine<GameStateType, GameInputType> stateMachine = new FiniteStateMachine<GameStateType, GameInputType>();
 
-        stateMachine.AddEntryState(GameStateType.Loading);
+        stateMachine.AddEntryState(GameStateType.Startup);
         stateMachine.AddState(GameStateType.Playing);
         stateMachine.AddState(GameStateType.PausedMenu);
         stateMachine.AddState(GameStateType.InfoMenu);
@@ -131,22 +136,25 @@ public class GameManager : MonoBehaviour
         stateMachine.AddState(GameStateType.NewWorldMenu);
         stateMachine.AddState(GameStateType.MainMenu);
         stateMachine.AddState(GameStateType.Exit);
+        stateMachine.AddState(GameStateType.LoadingIn);
+        stateMachine.AddState(GameStateType.LoadingOut);
 
-        // Loading
-        stateMachine.AddTransition(GameStateType.Loading, GameStateType.MainMenu, GameInputType.FinishedLoading, false);
-        stateMachine.OnExitState(GameStateType.Loading, delegate (GameInputType input, GameStateType state) { SplashScreen.SetActive(false); });
+        // Startup
+        stateMachine.AddTransition(GameStateType.Startup, GameStateType.MainMenu, GameInputType.FinishedLoading, false);
+        stateMachine.OnEnterState(GameStateType.Startup, delegate (GameStateType state, GameInputType input) { SplashScreen.SetActive(true); });
+        stateMachine.OnExitState(GameStateType.Startup, delegate (GameInputType input, GameStateType state) { SplashScreen.SetActive(false); });
 
         // Playing
         stateMachine.AddTransition(GameStateType.Playing, GameStateType.PausedMenu, GameInputType.Escape, true);
         stateMachine.AddTransition(GameStateType.Playing, GameStateType.PlayerDead, GameInputType.PlayerDeath, false);
         stateMachine.AddTransition(GameStateType.Playing, GameStateType.PassivesMenu, GameInputType.TogglePassivesMenu, false);
-        stateMachine.OnEnterState(GameStateType.Playing, OnStartPlaying);
+        stateMachine.OnEnterState(GameStateType.Playing, delegate (GameStateType state, GameInputType input) { Time.timeScale = 1; });
         stateMachine.OnExitState(GameStateType.Playing, delegate (GameInputType input, GameStateType state) { Time.timeScale = 0; });
 
         // Paused Menu
         stateMachine.AddTransitionToPrevious(GameStateType.PausedMenu, GameInputType.Escape, false);
         stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.InfoMenu, GameInputType.OpenInfoMenu, false);
-        stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.MainMenu, GameInputType.OpenMainMenu, false);
+        stateMachine.AddTransition(GameStateType.PausedMenu, GameStateType.LoadingOut, GameInputType.SaveAndExit, false);
         stateMachine.OnEnterState(GameStateType.PausedMenu, delegate (GameStateType state, GameInputType input) { PausedMenu.SetActive(true); });
         stateMachine.OnExitState(GameStateType.PausedMenu, delegate (GameInputType input, GameStateType state) { PausedMenu.SetActive(false); });
 
@@ -189,7 +197,7 @@ public class GameManager : MonoBehaviour
         // World Menu
         stateMachine.AddTransition(GameStateType.WorldMenu, GameStateType.NewWorldMenu, GameInputType.OpenNewWorldMenu, false);
         stateMachine.AddTransition(GameStateType.WorldMenu, GameStateType.PlayerMenu, GameInputType.Escape, false);
-        stateMachine.AddTransition(GameStateType.WorldMenu, GameStateType.Playing, GameInputType.StartPlay, false);
+        stateMachine.AddTransition(GameStateType.WorldMenu, GameStateType.LoadingIn, GameInputType.StartPlay, false);
         stateMachine.OnEnterState(GameStateType.WorldMenu, delegate (GameStateType state, GameInputType input) { WorldMenu.SetActive(true); });
         stateMachine.OnExitState(GameStateType.WorldMenu, delegate (GameInputType input, GameStateType state) { WorldMenu.SetActive(false); });
 
@@ -197,6 +205,16 @@ public class GameManager : MonoBehaviour
         stateMachine.AddTransition(GameStateType.NewWorldMenu, GameStateType.WorldMenu, GameInputType.Escape, false);
         stateMachine.OnEnterState(GameStateType.NewWorldMenu, delegate (GameStateType state, GameInputType input) { NewWorldMenu.SetActive(true); });
         stateMachine.OnExitState(GameStateType.NewWorldMenu, delegate (GameInputType input, GameStateType state) { NewWorldMenu.SetActive(false); });
+
+        // Loading In One
+        stateMachine.AddTransition(GameStateType.LoadingIn, GameStateType.Playing, GameInputType.WorldLoaded, false);
+        stateMachine.OnEnterState(GameStateType.LoadingIn, LoadWorld);
+        stateMachine.OnExitState(GameStateType.LoadingIn, delegate (GameInputType input, GameStateType state) { LoadingScreen.SetActive(false); });        
+
+        // Loading Out
+        stateMachine.AddTransition(GameStateType.LoadingOut, GameStateType.MainMenu, GameInputType.WorldUnloaded, false);
+        stateMachine.OnEnterState(GameStateType.LoadingOut, SaveAndExit);
+        stateMachine.OnExitState(GameStateType.LoadingOut, delegate (GameInputType input, GameStateType state) { LoadingScreen.SetActive(false); });
 
         // Exit
         stateMachine.OnEnterState(GameStateType.Exit, delegate (GameStateType state, GameInputType input) { Application.Quit(); });
@@ -259,18 +277,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnStartPlaying(GameStateType previousState, GameInputType input)
+
+    public void LoadWorld(GameStateType previousState, GameInputType input)
     {
-        if (previousState == GameStateType.WorldMenu)
-        {
-            PlayerCamera = Instantiate(Prefabs.CAMERA_PREFAB, new Vector3(0, 0, -1), Quaternion.identity);
-            PlayerManager playerManager = PlayerMenu.GetComponent<PlayerMenuController>().SelectedPlayer;
-            World = WorldMenu.GetComponent<WorldMenuController>().SelectedWorld;
-            World.Setup(playerManager);
-            World.Start();
-            HUD.SetActive(true);
-        }
-        Time.timeScale = 1f;
+        HUD.SetActive(true);
+        LoadingScreen.SetActive(true);
+        PlayerManager playerManager = PlayerMenu.GetComponent<PlayerMenuController>().SelectedPlayer;
+        World = WorldMenu.GetComponent<WorldMenuController>().SelectedWorld;
+        World.Setup(playerManager);
+        World.SpawnPlayer();
+        PlayerCamera.SetActive(true);
+        Time.timeScale = 1;
     }
 
     public void LevelUp()
@@ -323,37 +340,38 @@ public class GameManager : MonoBehaviour
             DeathBackground.GetComponent<Image>().color = new Color(0, 0, 0, (i/ Configuration.DEATH_DURATION));
             yield return null;
         }
+
+        PlayerCamera.SetActive(false);
         World.Sleep();
 
         DeathPenaltyType deathPenalty = World.PlayerManager.DeathPenalty;
         if (deathPenalty == DeathPenaltyType.Softcore)
         {
-            World.Start();
+            World.SpawnPlayer();
             DeathScreen.SetActive(false);
-            Singleton.TakeInput(GameInputType.PlayerRespawn);
+            PlayerCamera.SetActive(true);
+            TakeInput(GameInputType.PlayerRespawn);
         }
         else
         {
             PlayerPersistenceManager.DeletePlayer(World.PlayerManager.PlayerIdentifier);
             DeathScreen.SetActive(false);
-            Singleton.TakeInput(GameInputType.PlayerDeath);
+            TakeInput(GameInputType.PlayerDeath);
         }
     }
 
-    public void SaveAndExit()
+    public void SaveAndExit(GameStateType state, GameInputType input)
     {
+        LoadingScreen.SetActive(true);
+        PlayerCamera.SetActive(false);
         PlayerPersistenceManager.SavePlayer(World.PlayerManager);
         WorldPersistenceManager.SaveWorld(World);
-        GameManager.Singleton.World.Sleep();
+        World.Sleep();
+        TakeInput(GameInputType.WorldUnloaded);
     }
 
     public static void Print(string s)
     {
         print(s);
-    }
-
-    public static float GetTime()
-    {
-        return Time.time;
     }
 }

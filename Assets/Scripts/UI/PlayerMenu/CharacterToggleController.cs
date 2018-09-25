@@ -5,6 +5,7 @@ public class CharacterToggleController : MonoBehaviour
 {
     public int PlayerIdentifier;
 
+    public GameObject Image;
     public GameObject NameText;
     public GameObject LevelText;
     public GameObject DeathPenaltyText;
@@ -15,6 +16,7 @@ public class CharacterToggleController : MonoBehaviour
         PlayerPersistenceMetaData metaData = PlayerPersistenceManager.GetPlayerPersistenceMetaData(PlayerIdentifier);
 
         NameText.GetComponent<Text>().text = metaData.Name;
+        Image.GetComponent<Image>().color = Color.HSVToRGB(metaData.Color, 1, 1);
         LevelText.GetComponent<Text>().text = "Level: " + metaData.Level.ToString();
         if (metaData.DeathPenalty == DeathPenaltyType.Softcore)
         {

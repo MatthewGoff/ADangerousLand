@@ -3,9 +3,9 @@ using UnityEngine.UI;
 
 public class NewPlayerMenuController : MonoBehaviour {
 
-    public GameObject PlayerMenu;
-
+    public GameObject BodySprite;
     public GameObject NameField;
+    public GameObject ColorSlider;
     public DeathPenaltyType DeathPenalty;
 
     public void Awake()
@@ -13,10 +13,14 @@ public class NewPlayerMenuController : MonoBehaviour {
         DeathPenalty = DeathPenaltyType.Softcore;
     }
 
+    public void Update()
+    {
+        BodySprite.GetComponent<Image>().color = Color.HSVToRGB(ColorSlider.GetComponent<Slider>().value, 1, 1);
+    }
+
     public void CreatePressed()
     {
-        int playerIdentifier = PlayerPersistenceManager.CreatePlayer(NameField.GetComponent<InputField>().text, DeathPenalty);
-        PlayerMenu.GetComponent<PlayerMenuController>().UpdateCharacterToggles();
+        PlayerPersistenceManager.CreatePlayer(NameField.GetComponent<InputField>().text, ColorSlider.GetComponent<Slider>().value, DeathPenalty);
         GameManager.Singleton.TakeInput(GameInputType.Escape);
     }
 

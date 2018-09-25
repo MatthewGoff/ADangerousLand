@@ -1,7 +1,7 @@
 ﻿public enum GameStateType
 {
     BeforeEntry,
-    Loading,
+    Startup,
     PausedMenu,
     InfoMenu,
     Playing,
@@ -12,5 +12,7 @@
     WorldMenu,
     NewWorldMenu,
     MainMenu,
-    Exit
+    Exit,
+    LoadingIn,
+    LoadingOut,
 }
