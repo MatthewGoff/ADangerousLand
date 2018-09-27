@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Hitbox
   - Combatant
+  - Terrain
   layers:
   - Default
   - TransparentFX

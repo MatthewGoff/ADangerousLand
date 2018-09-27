@@ -93,3 +93,5 @@ MonoBehaviour:
   BodySprite: {fileID: 1557024578862814, guid: 5b276dfcd3691864eb82fe6c71fe4f26, type: 2}
   WeaponSprite: {fileID: 1652036552858980, guid: 6c1459134c2e27d44bef09f2ffdeff3e,
     type: 2}
+  ShieldSprite: {fileID: 1870592816349566, guid: b5236e0be2f4c1241916ddca354ca795,
+    type: 2}

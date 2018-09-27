@@ -11,10 +11,12 @@ public class PlayerMonoBehaviour : MonoBehaviour, IHitboxOwner
     public GameObject HeadSprite;
     public GameObject BodySprite;
     public GameObject WeaponSprite;
+    public GameObject ShieldSprite;
 
     private SpriteRenderer HeadRenderer;
     private SpriteRenderer BodyRenderer;
     private SpriteRenderer WeaponRenderer;
+    private SpriteRenderer ShieldRenderer;
 
     private Animator HeadAnimator;
     private Animator BodyAnimator;
@@ -22,6 +24,8 @@ public class PlayerMonoBehaviour : MonoBehaviour, IHitboxOwner
 
     private Rigidbody2D RB2D;
     private Vector2 MoveTarget;
+    private Vector2 DashTarget;
+    private bool Dashing;
     private PlayerManager Manager;
 
     public void Init(PlayerManager manager)
@@ -54,6 +58,10 @@ public class PlayerMonoBehaviour : MonoBehaviour, IHitboxOwner
             BodyAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Ranged_Body");
             WeaponAnimator.runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Animations/Controllers/Player/Ranged_Bow");
         }
+
+        ShieldSprite = Instantiate(ShieldSprite, Manager.GetCenter(), Quaternion.identity);
+        ShieldRenderer = ShieldSprite.GetComponent<SpriteRenderer>();
+        ShieldSprite.SetActive(false);
 
         Hitbox = Instantiate(Hitbox, transform.position, Quaternion.identity);
         Hitbox.transform.SetParent(transform);
@@ -118,6 +126,18 @@ public class PlayerMonoBehaviour : MonoBehaviour, IHitboxOwner
             
         }
 
+        if (Input.GetKeyDown(KeyCode.D) && GameManager.Singleton.GameState == GameStateType.Playing)
+        {
+            DashTarget = Camera.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition);
+            Vector2 dashVector = DashTarget - RB2D.position;
+            if (dashVector.magnitude >= 10f)
+            {
+                dashVector = dashVector.normalized * 10f;
+            }
+            DashTarget = RB2D.position + dashVector;
+            Dashing = true;
+        }
+
         if (Input.GetKey(KeyCode.LeftShift) && GameManager.Singleton.GameState == GameStateType.Playing)
         {
             if (Manager.StartSprinting())
@@ -129,6 +149,20 @@ public class PlayerMonoBehaviour : MonoBehaviour, IHitboxOwner
         {
             Manager.StopSprinting();
         }
+
+        if (Input.GetKey(KeyCode.A) && GameManager.Singleton.GameState == GameStateType.Playing)
+        {
+            Manager.StartBlocking();
+        }
+        else
+        {
+            Manager.StopBlocking();
+        }
+
+        if (Input.GetKeyDown(KeyCode.S) && GameManager.Singleton.GameState == GameStateType.Playing)
+        {
+            Manager.Stomp();
+        }
         
         Vector2 position = Util.RoundToPixel(transform.position, Configuration.PIXELS_PER_UNIT);
         HeadSprite.transform.position = position;
@@ -139,10 +173,32 @@ public class PlayerMonoBehaviour : MonoBehaviour, IHitboxOwner
         HeadRenderer.sortingOrder = sortingOrder;
         BodyRenderer.sortingOrder = sortingOrder;
         WeaponRenderer.sortingOrder = sortingOrder;
+
+        if (Manager.Blocking)
+        {
+            ShieldSprite.SetActive(true);
+            ShieldSprite.transform.position = Manager.GetCenter();
+            ShieldRenderer.sortingOrder = sortingOrder + 1;
+        }
+        else
+        {
+            ShieldSprite.SetActive(false);
+        }
     }
 
     public void FixedUpdate()
     {
+        if (Dashing)
+        {
+            Dashing = false;
+
+            if (ValidDashTarget(DashTarget) && Manager.Dash(DashTarget))
+            {
+                RB2D.position = DashTarget;
+                MoveTarget = RB2D.position;
+            }
+        }
+
         Manager.FixedUpdate(Time.deltaTime);
 
         Vector2 movementVector = MoveTarget - RB2D.position;
@@ -163,20 +219,20 @@ public class PlayerMonoBehaviour : MonoBehaviour, IHitboxOwner
         BodyAnimator.SetFloat("Multiplier", movementMultiplier * Manager.MoveSpeed / 5f);
         WeaponAnimator.SetFloat("Multiplier", movementMultiplier * Manager.MoveSpeed / 5f);
 
-        float angle = Vector2.SignedAngle(new Vector2(1, 0), movementVector);
+        float movementAngle = Vector2.SignedAngle(new Vector2(1, 0), movementVector);
         if (movementVector.magnitude <= 0.05f)
         {
             TriggerAnimation("Idleing");
         }
-        else if (Mathf.Abs(angle) < 45)
+        else if (Mathf.Abs(movementAngle) < 45)
         {
             TriggerAnimation("WalkingRight");
         }
-        else if (Mathf.Abs(angle) > 135)
+        else if (Mathf.Abs(movementAngle) > 135)
         {
             TriggerAnimation("WalkingLeft");
         }
-        else if (angle > 0)
+        else if (movementAngle > 0)
         {
             TriggerAnimation("WalkingBackwards");
         }
@@ -184,6 +240,24 @@ public class PlayerMonoBehaviour : MonoBehaviour, IHitboxOwner
         {
             TriggerAnimation("WalkingForwards");
         }
+    }
+
+    private bool ValidDashTarget(Vector2 dashTarget)
+    {
+        RaycastHit2D[] results = new RaycastHit2D[100];
+        ContactFilter2D contactFilter = new ContactFilter2D
+        {
+            useTriggers = true
+        };
+        int numResults = Physics2D.Linecast(RB2D.position, DashTarget, contactFilter, results);
+        for (int i = 0; i < numResults; i++)
+        {
+            if (results[i].collider.tag == "Terrain")
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void TriggerAnimation(String trigger)
@@ -277,18 +351,6 @@ public class PlayerMonoBehaviour : MonoBehaviour, IHitboxOwner
         foreach (GameObject weaponSprite in weaponSprites)
         {
             Destroy(weaponSprite);
-        }
-    }
-
-    public Vector2 GetPlayerPosition()
-    {
-        if (RB2D == null)
-        {
-            return new Vector2(0, 0);
-        }
-        else
-        {
-            return RB2D.position;
         }
     }
 

@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour
 
     public void LateUpdate()
     {
-        Vector3 newPosition = GameManager.Singleton.World.PlayerManager.GetPlayerCenter();
+        Vector3 newPosition = GameManager.Singleton.World.PlayerManager.GetCenter();
         newPosition = Util.RoundToPixel(newPosition, Configuration.PIXELS_PER_UNIT);
 
         // Move the camera slightly so it is NOT perfectly alligned. This

@@ -22,7 +22,7 @@ public class BasicAI : EnemyAI
 
     public Vector2 FixedUpdate(EnemyManager manager)
     {
-        Vector2 playerPosition = GameManager.Singleton.World.PlayerManager.GetPlayerCenter();
+        Vector2 playerPosition = GameManager.Singleton.World.PlayerManager.GetCenter();
         Vector2 myPosition = manager.GetCenter();
         float distance = (playerPosition - myPosition).magnitude;
         if (distance < manager.Aoe + 1f)

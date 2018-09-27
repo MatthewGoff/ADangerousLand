@@ -10,9 +10,12 @@ public class PlayerManager : CombatantManager
     [IgnoreMember] private bool Dead;
     [IgnoreMember] public PlayerMonoBehaviour MonoBehaviour;
     [IgnoreMember] public bool Sprinting;
+    [IgnoreMember] public bool Blocking;
     [IgnoreMember] public float CurrentHealth;
     [IgnoreMember] public float CurrentStamina;
     [IgnoreMember] private Cooldown AttackCooldown;
+    [IgnoreMember] private Cooldown DashCooldown;
+    [IgnoreMember] private Cooldown StompCooldown;
 
     [Key(0)] public int PlayerIdentifier;
     [Key(1)] public string Name;
@@ -107,9 +110,12 @@ public class PlayerManager : CombatantManager
     public void Spawn(WorldLocation spawnLocation)
     {
         AttackCooldown = new Cooldown(1 / AttackSpeed);
+        DashCooldown = new Cooldown(1f);
+        StompCooldown = new Cooldown(1f);
         Team = 0;
         Dead = false;
         Sprinting = false;
+        Blocking = false;
         CurrentHealth = MaxHealth;
         CurrentStamina = MaxStamina;
 
@@ -144,15 +150,28 @@ public class PlayerManager : CombatantManager
                     StopSprinting();
                 }
             }
+
+            if (Blocking)
+            {
+                float staminaCost = 3f * Time.fixedDeltaTime;
+                if (CurrentStamina >= staminaCost)
+                {
+                    CurrentStamina -= staminaCost;
+                }
+                else
+                {
+                    StopBlocking();
+                }
+            }
         }
     }
 
-    public Vector2 GetPlayerPosition()
+    public override Vector2 GetPosition()
     {
         return MonoBehaviour.transform.position;
     }
     
-    public Vector2 GetPlayerCenter()
+    public Vector2 GetCenter()
     {
         return (Vector2)MonoBehaviour.transform.position + CENTER;
     }
@@ -188,6 +207,29 @@ public class PlayerManager : CombatantManager
         }
     }
 
+    public bool Dash(Vector2 dashTarget)
+    {
+        if (CurrentStamina >= 3 && DashCooldown.Use())
+        {
+            DashManager dash = new DashManager(this, MonoBehaviour.transform.position, dashTarget, AttackDamage * 0.5f);
+            CurrentStamina -= 3;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void Stomp()
+    {
+        if (CurrentStamina >= 2f && StompCooldown.Use())
+        {
+            CurrentStamina -= 2;
+            StompManager stomp = new StompManager(this, (Vector2)MonoBehaviour.transform.position, 0f);
+        }
+    }
+
     public bool StartSprinting()
     {
         if (!Sprinting && CurrentStamina >= 1f)
@@ -195,7 +237,10 @@ public class PlayerManager : CombatantManager
             Sprinting = true;
             return true;
         }
-        return false;
+        else
+        {
+            return false;
+        }
     }
 
     public void StopSprinting()
@@ -203,8 +248,30 @@ public class PlayerManager : CombatantManager
         Sprinting = false;
     }
 
-    public override int RecieveHit(float damage)
+    public bool StartBlocking()
     {
+        if (!Blocking && CurrentStamina >= 1f)
+        {
+            Blocking = true;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void StopBlocking()
+    {
+        Blocking = false;
+    }
+
+    public override int RecieveHit(AttackManager attackManager, float damage, Vector2 knockback)
+    {
+        if (Blocking)
+        {
+            damage *= 0.1f;
+        }
         CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, MaxHealth);
         if (CurrentHealth <= 0 && !Dead)
         {

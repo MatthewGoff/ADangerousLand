@@ -60,7 +60,7 @@ public class World
 
         UpdateWorldInitializers();
 
-        ChunkIndex currentChunk = GetChunkIndex(PlayerManager.GetPlayerPosition());
+        ChunkIndex currentChunk = GetChunkIndex(PlayerManager.GetPosition());
 
         QueueNextStateForChunks(currentChunk);
 
@@ -86,7 +86,6 @@ public class World
             GameManager.Singleton.TakeInput(GameInputType.WorldLoaded);
         }
     }
-
 
     /*
      * Inform chunks arround the current chunk what their state in the next fixed update is to be.
@@ -175,7 +174,7 @@ public class World
     public void Sleep()
     {
         Active = false;
-        ChunkIndex currentchunk = GetChunkIndex(PlayerManager.GetPlayerPosition());
+        ChunkIndex currentchunk = GetChunkIndex(PlayerManager.GetPosition());
         for (int indexX = currentchunk.X - 5; indexX <= currentchunk.X + 5; indexX++)
         {
             for (int indexY = currentchunk.Y - 5; indexY <= currentchunk.Y + 5; indexY++)
@@ -229,7 +228,7 @@ public class World
 
     public WorldLocation GetPlayerLocation()
     {
-        return new WorldLocation(Util.RoundVector2(PlayerManager.GetPlayerPosition()));
+        return new WorldLocation(Util.RoundVector2(PlayerManager.GetPosition()));
     }
 
     public float GetVisibilityLevel(Vector2 position)
@@ -239,7 +238,7 @@ public class World
             return 0f;
         }
         PlayerManager playerManager = NearestPlayer(position);
-        float distance = (playerManager.GetPlayerPosition() - position).magnitude;
+        float distance = (playerManager.GetPosition() - position).magnitude;
         float alpha = (distance - playerManager.GetSightRadiusNear()) / (playerManager.GetSightRadiusFar() - playerManager.GetSightRadiusNear());
         return 1 - Mathf.Clamp(alpha, 0f, 1f);
     }
@@ -307,7 +306,7 @@ public class World
 
     public bool OnTreadmill(WorldLocation worldLocation)
     {
-        Vector2 center = NearestPlayer(worldLocation).GetPlayerPosition();
+        Vector2 center = NearestPlayer(worldLocation).GetPosition();
         int radius = Configuration.TREADMILL_RADIUS;
         bool withinX = (worldLocation.X > center.x - radius) && (worldLocation.X < center.x + radius);
         bool withinY = (worldLocation.Y > center.y - radius) && (worldLocation.Y < center.y + radius);
@@ -316,7 +315,7 @@ public class World
 
     public bool OnTreadmill(Vector2 position)
     {
-        Vector2 center = NearestPlayer(position).GetPlayerPosition();
+        Vector2 center = NearestPlayer(position).GetPosition();
         int radius = Configuration.TREADMILL_RADIUS;
         bool withinX = (position.x > center.x - radius) && (position.x < center.x + radius);
         bool withinY = (position.y > center.y - radius) && (position.y < center.y + radius);

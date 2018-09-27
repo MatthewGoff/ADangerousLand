@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using MessagePack;
+using System.Collections.Generic;
 
 [MessagePackObject]
 public class EnemyManager : CombatantManager
@@ -8,6 +9,7 @@ public class EnemyManager : CombatantManager
 
     [IgnoreMember] private bool Awake = false;
     [IgnoreMember] private Cooldown SlashCooldown;
+    [IgnoreMember] private List<AttackManager> Immunities;
 
     // X and Y position are held separately since MessagePack cannot serialize tupples
     [Key(0)] public float XPosition { get; private set; }
@@ -117,6 +119,7 @@ public class EnemyManager : CombatantManager
             MonoBehaviour = enemy.GetComponent<EnemyMonoBehaviour>();
             MonoBehaviour.AssignManager(this);
 
+            Immunities = new List<AttackManager>();
         }
     }
 
@@ -131,7 +134,7 @@ public class EnemyManager : CombatantManager
         }
     }
 
-    public Vector2 GetPosition()
+    public override Vector2 GetPosition()
     {
         if (Awake)
         {
@@ -153,9 +156,24 @@ public class EnemyManager : CombatantManager
         GameManager.Singleton.World.GetChunk(CurrentChunk).EnemyHasDied(this);
     }
 
-    public override int RecieveHit(float damage)
+    public override int RecieveHit(AttackManager attackManager, float damage, Vector2 knockback)
+    {
+        if (!Immunities.Contains(attackManager))
+        {
+            Immunities.Add(attackManager);
+            attackManager.AddExpirationListner(AttackExpired);
+            return RecieveHit(damage, knockback);
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    private int RecieveHit(float damage, Vector2 knockback)
     {
         MonoBehaviour.DamageNumbersCanvas.Log(damage);
+        MonoBehaviour.Knockback(knockback);
 
         CurrentHealth -= damage;
         MonoBehaviour.UpdateHealthBar();
@@ -168,6 +186,11 @@ public class EnemyManager : CombatantManager
         {
             return 0;
         }
+    }
+
+    public void AttackExpired(AttackManager attackManager)
+    {
+        Immunities.Remove(attackManager);
     }
 
     public override void RecieveExp(int exp)

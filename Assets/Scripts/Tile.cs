@@ -56,7 +56,7 @@ public class Tile
             return;
         }
 
-        Vector2 playerPosition = GameManager.Singleton.World.PlayerManager.GetPlayerPosition();
+        Vector2 playerPosition = GameManager.Singleton.World.PlayerManager.GetPosition();
         float fogInnerRadius = GameManager.Singleton.World.PlayerManager.GetSightRadiusNear();
         float fogOuterRadius = GameManager.Singleton.World.PlayerManager.GetSightRadiusFar();
         float distanceToPlayer = Util.EuclidianDistance(playerPosition, WorldLocation.Tuple);

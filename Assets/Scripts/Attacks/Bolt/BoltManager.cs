@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class BoltManager
+public class BoltManager : AttackManager
 {
     private CombatantManager Originator;
     private GameObject Bolt;
@@ -13,14 +13,19 @@ public class BoltManager
 
         Bolt = GameObject.Instantiate(Prefabs.BOLT_PREFAB, position, Quaternion.Euler(0,0,angle));
         Bolt.GetComponent<BoltMonoBehaviour>().AssignManager(this);
+
+        base.InitExpirationListeners();
     }
 
     public void ResolveCollision(CombatantManager other)
     {
         if (other.Team != Originator.Team)
         {
-            int exp = other.RecieveHit(Damage);
+            Vector2 knockback = other.GetPosition() - Originator.GetPosition();
+            knockback = knockback.normalized * 0.5f;
+            int exp = other.RecieveHit(this, Damage, knockback);
             Originator.RecieveExp(exp);
+            Expire();
             GameObject.Destroy(Bolt.gameObject);
         }
     }

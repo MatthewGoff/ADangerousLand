@@ -15,6 +15,16 @@ public static class Util
         }
     }
 
+    public static Vector2 ClockwiseNormalVector(Vector2 vector)
+    {
+        return new Vector2(vector.y, -vector.x);
+    }
+
+    public static Vector2 CClockwiseNormalVector(Vector2 vector)
+    {
+        return new Vector2(-vector.y, vector.x);
+    }
+
     public static bool WithinArrayBounds2D<T>(ref T[,] array, int x, int y)
     {
         return (x >= 0 && x < array.GetLength(0) && y >= 0 && y < array.GetLength(1));

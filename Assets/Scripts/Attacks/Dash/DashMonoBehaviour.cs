@@ -1,31 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SlashMonoBehaviour : MonoBehaviour
+public class DashMonoBehaviour : MonoBehaviour
 {
-    private SlashManager Manager;
+    private DashManager Manager;
 
     private SpriteRenderer SpriteRenderer;
     private float Lifetime;
 
     void Start()
     {
-        Lifetime = 1f;
+        Lifetime = 0.5f;
         SpriteRenderer = GetComponent<SpriteRenderer>();
         StartCoroutine("Fade");
     }
 
     private IEnumerator Fade()
     {
-        for (float i=0; i<Lifetime; i+=Time.deltaTime)
+        for (float i = 0; i < Lifetime; i += Time.deltaTime)
         {
-            if (i >= 3*Time.deltaTime)
+            if (i >= 3 * Time.deltaTime)
             {
-                Destroy(GetComponent<PolygonCollider2D>());
+                Destroy(GetComponent<BoxCollider2D>());
             }
             SpriteRenderer.color = new Color(255, 255, 255, 1 - i / Lifetime);
             yield return null;
         }
+        Manager.Expire();
         Destroy(gameObject);
     }
 
@@ -41,7 +42,7 @@ public class SlashMonoBehaviour : MonoBehaviour
         }
     }
 
-    public void AssignManager(SlashManager manager)
+    public void AssignManager(DashManager manager)
     {
         Manager = manager;
     }

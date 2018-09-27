@@ -23,6 +23,7 @@ public class BoltMonoBehaviour : MonoBehaviour
             transform.position = (Vector2)transform.position + VelocityVector * Speed * Time.deltaTime;
             yield return null;
         }
+        Manager.Expire();
         Destroy(gameObject);
     }
 
