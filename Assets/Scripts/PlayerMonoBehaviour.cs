@@ -213,11 +213,12 @@ public class PlayerMonoBehaviour : MonoBehaviour, IHitboxOwner
             movementMultiplier *= 2.0f;
         }
 
-        RB2D.MovePosition(RB2D.position + movementVector * Manager.MoveSpeed * movementMultiplier * Time.fixedDeltaTime);
+        float moveSpeed = Configuration.PLAYER_MOVE_SPEED(Manager.MoveSpeedPoints);
+        RB2D.MovePosition(RB2D.position + movementVector * moveSpeed * movementMultiplier * Time.fixedDeltaTime);
 
-        HeadAnimator.SetFloat("Multiplier", movementMultiplier * Manager.MoveSpeed / 5f);
-        BodyAnimator.SetFloat("Multiplier", movementMultiplier * Manager.MoveSpeed / 5f);
-        WeaponAnimator.SetFloat("Multiplier", movementMultiplier * Manager.MoveSpeed / 5f);
+        HeadAnimator.SetFloat("Multiplier", movementMultiplier * moveSpeed / 5f);
+        BodyAnimator.SetFloat("Multiplier", movementMultiplier * moveSpeed / 5f);
+        WeaponAnimator.SetFloat("Multiplier", movementMultiplier * moveSpeed / 5f);
 
         float movementAngle = Vector2.SignedAngle(new Vector2(1, 0), movementVector);
         if (movementVector.magnitude <= 0.05f)

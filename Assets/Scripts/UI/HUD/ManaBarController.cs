@@ -15,7 +15,7 @@ public class ManaBarController : MonoBehaviour
             && GameManager.Singleton.World.PlayerManager != null)
         {
             PlayerManager player = GameManager.Singleton.World.PlayerManager;
-            Rect.localScale = new Vector2(player.CurrentStamina / player.MaxStamina, 1);
+            Rect.localScale = new Vector2(player.CurrentStamina / Configuration.PLAYER_MAX_STAMINA(player.MaxStaminaPoints), 1);
         }
     }
 }

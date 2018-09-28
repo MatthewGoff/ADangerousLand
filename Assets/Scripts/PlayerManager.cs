@@ -6,6 +6,8 @@ public class PlayerManager : CombatantManager
 {
     [IgnoreMember] private static readonly Vector2 ATTACK_ORIGIN = new Vector2(0f, 1f);
     [IgnoreMember] private static readonly Vector2 CENTER = new Vector2(0f, 1f);
+    [IgnoreMember] private static readonly float FOG_DISSIPATION_RADIUS = 4.0f;
+    [IgnoreMember] private static readonly float MELEE_AOE = 3.0f;
 
     [IgnoreMember] private bool Dead;
     [IgnoreMember] public PlayerMonoBehaviour MonoBehaviour;
@@ -25,19 +27,17 @@ public class PlayerManager : CombatantManager
     [Key(4)] public int Experience;
     [Key(5)] public int Level;
     [Key(6)] public int PassivePoints;
-
     [Key(7)] public int AttackType;
-    [Key(8)] public float AttackDamage;
-    [Key(9)] public float AttackSpeed;
-    [Key(10)] public float MoveSpeed;
-    [Key(11)] public float SightRadiusNear;
-    [Key(12)] public float SightRadiusFar;
-    [Key(13)] public float ProjectileDamage;
-    [Key(14)] public float MeleeAoe;
-    [Key(15)] public int MaxHealth;
-    [Key(16)] public int MaxStamina;
-    [Key(17)] public float HealthRegen;
-    [Key(18)] public float StaminaRegen;
+
+    [Key(8)] public int AttackDamagePoints;
+    [Key(9)] public int AttackSpeedPoints;
+    [Key(10)] public int MoveSpeedPoints;
+    [Key(11)] public int SightRadiusPoints;
+    [Key(13)] public int ProjectileDamagePoints;
+    [Key(15)] public int MaxHealthPoints;
+    [Key(16)] public int MaxStaminaPoints;
+    [Key(17)] public int HealthRegenPoints;
+    [Key(18)] public int StaminaRegenPoints;
 
     public PlayerManager(int identifier, string name, float color, DeathPenaltyType deathPenalty)
     {
@@ -51,17 +51,15 @@ public class PlayerManager : CombatantManager
         PassivePoints = 0;
 
         AttackType = 0;
-        AttackDamage = 1;
-        AttackSpeed = 1;
-        MoveSpeed = 5;
-        SightRadiusNear = 7;
-        SightRadiusFar = 11;
-        ProjectileDamage = 0.5f;
-        MeleeAoe = 3f;
-        MaxHealth = 10;
-        MaxStamina = 10;
-        HealthRegen = 0.1f;
-        StaminaRegen = 1f;
+        AttackDamagePoints = 0;
+        AttackSpeedPoints = 0;
+        MoveSpeedPoints = 0;
+        SightRadiusPoints = 0;
+        ProjectileDamagePoints = 0;
+        MaxHealthPoints = 0;
+        MaxStaminaPoints = 0;
+        HealthRegenPoints = 0;
+        StaminaRegenPoints = 0;
     }
 
     [SerializationConstructor]
@@ -74,17 +72,16 @@ public class PlayerManager : CombatantManager
         int level,
         int passivePoints,
         int attackType,
-        float attackDamage,
-        float attackSpeed,
-        float moveSpeed,
-        float sightRadiusNear,
-        float sightRadiusFar,
-        float projectileDamage,
-        float meleeAoe,
-        int maxHealth,
-        int maxStamina,
-        float healthRegen,
-        float staminaRegen)
+        int attackDamagePoints,
+        int attackSpeedPoints,
+        int moveSpeedPoints,
+        int sightRadiusNearPoints,
+        int sightRadiusFarPoints,
+        int projectileDamagePoints,
+        int maxHealthPoints,
+        int maxStaminaPoints,
+        int healthRegenPoints,
+        int staminaRegenPoints)
     {
         PlayerIdentifier = playerIdentifier;
         Name = name;
@@ -94,30 +91,28 @@ public class PlayerManager : CombatantManager
         Level = level;
         PassivePoints = passivePoints;
         AttackType = attackType;
-        AttackDamage = attackDamage;
-        AttackSpeed = attackSpeed;
-        MoveSpeed = moveSpeed;
-        SightRadiusNear = sightRadiusNear;
-        SightRadiusFar = sightRadiusFar;
-        ProjectileDamage = projectileDamage;
-        MeleeAoe = meleeAoe;
-        MaxHealth = maxHealth;
-        MaxStamina = maxStamina;
-        HealthRegen = healthRegen;
-        StaminaRegen = staminaRegen;
+        AttackDamagePoints = attackDamagePoints;
+        AttackSpeedPoints = attackSpeedPoints;
+        MoveSpeedPoints = moveSpeedPoints;
+        SightRadiusPoints = sightRadiusNearPoints;
+        ProjectileDamagePoints = projectileDamagePoints;
+        MaxHealthPoints = maxHealthPoints;
+        MaxStaminaPoints = maxStaminaPoints;
+        HealthRegenPoints = healthRegenPoints;
+        StaminaRegenPoints = staminaRegenPoints;
     }
 
     public void Spawn(WorldLocation spawnLocation)
     {
-        AttackCooldown = new Cooldown(1 / AttackSpeed);
-        DashCooldown = new Cooldown(1f);
-        StompCooldown = new Cooldown(1f);
+        AttackCooldown = new Cooldown(1 / Configuration.PLAYER_ATTACK_SPEED(AttackSpeedPoints));
+        DashCooldown = new Cooldown(2f);
+        StompCooldown = new Cooldown(3f);
         Team = 0;
         Dead = false;
         Sprinting = false;
         Blocking = false;
-        CurrentHealth = MaxHealth;
-        CurrentStamina = MaxStamina;
+        CurrentHealth = Configuration.PLAYER_MAX_LIFE(MaxHealthPoints);
+        CurrentStamina = Configuration.PLAYER_MAX_STAMINA(MaxStaminaPoints);
 
         GameObject player = GameObject.Instantiate(Prefabs.PLAYER_PREFAB, new Vector3(spawnLocation.X + 0.5f, spawnLocation.Y, 0), Quaternion.identity);
         MonoBehaviour = player.GetComponent<PlayerMonoBehaviour>();
@@ -133,10 +128,10 @@ public class PlayerManager : CombatantManager
     {
         if (!Dead)
         {
-            CurrentHealth += HealthRegen * Time.fixedDeltaTime;
-            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
-            CurrentStamina += StaminaRegen * Time.fixedDeltaTime;
-            CurrentStamina = Mathf.Clamp(CurrentStamina, 0, MaxStamina);
+            CurrentHealth += Configuration.PLAYER_LIFE_REGEN(HealthRegenPoints) * Time.fixedDeltaTime;
+            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, Configuration.PLAYER_MAX_LIFE(MaxHealthPoints));
+            CurrentStamina += Configuration.PLAYER_STAMINA_REGEN(StaminaRegenPoints) * Time.fixedDeltaTime;
+            CurrentStamina = Mathf.Clamp(CurrentStamina, 0, Configuration.PLAYER_MAX_STAMINA(MaxStaminaPoints));
 
             if (Sprinting)
             {
@@ -190,10 +185,10 @@ public class PlayerManager : CombatantManager
             float attackAngle = Vector2.SignedAngle(Vector2.right, attackVector);
 
             CurrentStamina -= 2;
-            SlashManager slash = new SlashManager(this, attackPosition, attackAngle, MeleeAoe, AttackDamage);
+            SlashManager slash = new SlashManager(this, attackPosition, attackAngle, MELEE_AOE, Configuration.PLAYER_ATTACK_DAMAGE(AttackDamagePoints));
         }
     }
-
+    
     public void BoltAttack(Vector2 attackTarget)
     {
         if (CurrentStamina >= 2f && AttackCooldown.Use())
@@ -203,7 +198,7 @@ public class PlayerManager : CombatantManager
             float attackAngle = Vector2.SignedAngle(Vector2.right, attackVector);
 
             CurrentStamina -= 2;
-            BoltManager slash = new BoltManager(this, attackPosition, attackAngle, AttackDamage*ProjectileDamage);
+            BoltManager slash = new BoltManager(this, attackPosition, attackAngle, Configuration.PLAYER_ATTACK_DAMAGE(AttackDamagePoints) * Configuration.PLAYER_PROJECTILE_DAMAGE(ProjectileDamagePoints));
         }
     }
 
@@ -211,7 +206,7 @@ public class PlayerManager : CombatantManager
     {
         if (CurrentStamina >= 3 && DashCooldown.Use())
         {
-            DashManager dash = new DashManager(this, MonoBehaviour.transform.position, dashTarget, AttackDamage * 0.5f);
+            DashManager dash = new DashManager(this, MonoBehaviour.transform.position, dashTarget, Configuration.PLAYER_ATTACK_DAMAGE(AttackDamagePoints) * 0.5f);
             CurrentStamina -= 3;
             return true;
         }
@@ -226,7 +221,7 @@ public class PlayerManager : CombatantManager
         if (CurrentStamina >= 2f && StompCooldown.Use())
         {
             CurrentStamina -= 2;
-            StompManager stomp = new StompManager(this, (Vector2)MonoBehaviour.transform.position, 0f);
+            StompManager stomp = new StompManager(this, (Vector2)MonoBehaviour.transform.position, Configuration.PLAYER_ATTACK_DAMAGE(AttackDamagePoints));
         }
     }
 
@@ -272,7 +267,7 @@ public class PlayerManager : CombatantManager
         {
             damage *= 0.1f;
         }
-        CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, MaxHealth);
+        CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, Configuration.PLAYER_MAX_LIFE(MaxHealthPoints));
         if (CurrentHealth <= 0 && !Dead)
         {
             Die();
@@ -284,11 +279,11 @@ public class PlayerManager : CombatantManager
     {
         if (Sprinting)
         {
-            return SightRadiusNear * 0.5f;
+            return Configuration.PLAYER_SIGHT_RADIUS(SightRadiusPoints) * 0.5f;
         }
         else
         {
-            return SightRadiusNear;
+            return Configuration.PLAYER_SIGHT_RADIUS(SightRadiusPoints);
         }
     }
 
@@ -296,11 +291,11 @@ public class PlayerManager : CombatantManager
     {
         if (Sprinting)
         {
-            return SightRadiusFar * 0.5f;
+            return (Configuration.PLAYER_SIGHT_RADIUS(SightRadiusPoints) + FOG_DISSIPATION_RADIUS) * 0.5f;
         }
         else
         {
-            return SightRadiusFar;
+            return (Configuration.PLAYER_SIGHT_RADIUS(SightRadiusPoints) + FOG_DISSIPATION_RADIUS);
         }
     }
 
@@ -324,52 +319,12 @@ public class PlayerManager : CombatantManager
         GameManager.Singleton.TakeInput(GameInputType.PlayerDeath);
     }
 
-    public float GetNextAttackDamage()
-    {
-        return AttackDamage * 1.1f;
-    }
-
-    public float GetNextAttackSpeed()
-    {
-        return AttackSpeed * 1.1f;
-    }
-
-    public float GetNextMoveSpeed()
-    {
-        return MoveSpeed * 1.1f;
-    }
-
-    public float GetNextSightRadius()
-    {
-        return SightRadiusNear * 1.1f;
-    }
-
-    public float GetNextProjectileDamage()
-    {
-        return ProjectileDamage * 1.1f;
-    }
-
-    public float GetNextMeleeAoe()
-    {
-        return MeleeAoe * 1.1f;
-    }
-
-    public float GetNextHealthRegen()
-    {
-        return HealthRegen * 1.1f;
-    }
-
-    public float GetNextStaminaRegen()
-    {
-        return StaminaRegen * 1.1f;
-    }
-
     public void UpgradeAttackDamage()
     {
         if (PassivePoints > 0)
         {
             PassivePoints--;
-            AttackDamage = GetNextAttackDamage();
+            AttackDamagePoints++;
         }
     }
 
@@ -378,8 +333,8 @@ public class PlayerManager : CombatantManager
         if (PassivePoints > 0)
         {
             PassivePoints--;
-            AttackSpeed = GetNextAttackSpeed();
-            AttackCooldown.Modify(1 / AttackSpeed);
+            AttackSpeedPoints++;
+            AttackCooldown.Modify(1 / Configuration.PLAYER_ATTACK_SPEED(AttackSpeedPoints));
         }
     }
 
@@ -388,7 +343,7 @@ public class PlayerManager : CombatantManager
         if (PassivePoints > 0)
         {
             PassivePoints--;
-            MoveSpeed = GetNextMoveSpeed();
+            MoveSpeedPoints++;
         }
     }
 
@@ -397,8 +352,7 @@ public class PlayerManager : CombatantManager
         if (PassivePoints > 0)
         {
             PassivePoints--;
-            SightRadiusFar *= 1.1f;
-            SightRadiusNear *= 1.1f;
+            SightRadiusPoints++;
         }
     }
 
@@ -407,16 +361,25 @@ public class PlayerManager : CombatantManager
         if (PassivePoints > 0)
         {
             PassivePoints--;
-            ProjectileDamage = GetNextProjectileDamage();
+            ProjectileDamagePoints++;
         }
     }
 
-    public void UpgradeMeleeAoe()
+    public void UpgradeMaxHealth()
     {
         if (PassivePoints > 0)
         {
             PassivePoints--;
-            MeleeAoe = GetNextMeleeAoe();
+            MaxHealthPoints++;
+        }
+    }
+
+    public void UpgradeMaxStamina()
+    {
+        if (PassivePoints > 0)
+        {
+            PassivePoints--;
+            MaxStaminaPoints++;
         }
     }
 
@@ -425,7 +388,7 @@ public class PlayerManager : CombatantManager
         if (PassivePoints > 0)
         {
             PassivePoints--;
-            HealthRegen = GetNextHealthRegen();
+            HealthRegenPoints++;
         }
     }
 
@@ -434,7 +397,7 @@ public class PlayerManager : CombatantManager
         if (PassivePoints > 0)
         {
             PassivePoints--;
-            StaminaRegen = GetNextStaminaRegen();
+            StaminaRegenPoints++;
         }
     }
 }

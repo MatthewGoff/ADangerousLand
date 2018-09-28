@@ -357,4 +357,50 @@ public class Configuration
         }
     }
 
+    // Player Attributes
+    public static float PLAYER_ATTACK_DAMAGE(int pointsInvested)
+    {
+        BoundedLogisticFunction f = new BoundedLogisticFunction(10, 1, 20, 0.9f);
+        return f.Evaluate(pointsInvested);
+    }
+    public static float PLAYER_ATTACK_SPEED(int pointsInvested)
+    {
+        LogisticFunction f = new LogisticFunction(60, 1, 20, 0.9f);
+        return f.Evaluate(pointsInvested);
+    }
+    public static float PLAYER_MOVE_SPEED(int pointsInvested)
+    {
+        LogisticFunction f = new LogisticFunction(30, 5, 20, 0.9f);
+        return f.Evaluate(pointsInvested);
+    }
+    public static float PLAYER_SIGHT_RADIUS(int pointsInvested)
+    {
+        LogisticFunction f = new LogisticFunction(20, 7, 20, 0.9f);
+        return f.Evaluate(pointsInvested);
+    }
+    public static float PLAYER_PROJECTILE_DAMAGE(int pointsInvested)
+    {
+        LogisticFunction f = new LogisticFunction(1.0f, 0.5f, 20, 0.9f);
+        return f.Evaluate(pointsInvested);
+    }
+    public static float PLAYER_MAX_LIFE(int pointsInvested)
+    {
+        BoundedLogisticFunction f = new BoundedLogisticFunction(30, 10, 20, 0.9f);
+        return f.Evaluate(pointsInvested);
+    }
+    public static float PLAYER_MAX_STAMINA(int pointsInvested)
+    {
+        BoundedLogisticFunction f = new BoundedLogisticFunction(30, 10, 20, 0.9f);
+        return f.Evaluate(pointsInvested);
+    }
+    public static float PLAYER_LIFE_REGEN(int pointsInvested)
+    {
+        LogisticFunction f = new LogisticFunction(5, 0.1f, 20, 0.9f);
+        return f.Evaluate(pointsInvested);
+    }
+    public static float PLAYER_STAMINA_REGEN(int pointsInvested)
+    {
+        LogisticFunction f = new LogisticFunction(2, 1, 20, 0.9f);
+        return f.Evaluate(pointsInvested);
+    }
 }

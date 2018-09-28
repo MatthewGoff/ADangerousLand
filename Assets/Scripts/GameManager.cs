@@ -243,7 +243,7 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.C) && GameState == GameStateType.Playing)
         {
-            World.PlayerManager.RecieveExp(190);
+            //World.PlayerManager.RecieveExp(190);
         }
 
         GameObjectsQueue.Enqueue(GameObjectCount);

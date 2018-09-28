@@ -206,10 +206,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  RefractionStrength: 1
+  RefractionStrength: 0.7
   ReflectionColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  ReflectionStrength: 0.8
-  WaveSpeed: 1.2
+  ReflectionStrength: 0.7
+  WaveSpeed: 0.8
   Shader: {fileID: 4800000, guid: c7b9e5e587dbce44781eac3b2cc1427c, type: 3}
 --- !u!212 &212635494423897792
 SpriteRenderer:

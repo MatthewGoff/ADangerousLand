@@ -10,7 +10,8 @@ public class PassiveMenuController : MonoBehaviour {
     public GameObject MovementSpeedButton;
     public GameObject SightRadiusButton;
     public GameObject ProjectileDamageButton;
-    public GameObject MeleeAoeButton;
+    public GameObject MaxLifeButton;
+    public GameObject MaxStaminaButton;
     public GameObject HeathRegenButton;
     public GameObject StaminaRegenButton;
 
@@ -24,8 +25,10 @@ public class PassiveMenuController : MonoBehaviour {
     public GameObject SightRadiusNextField;
     public GameObject ProjectileDamageCurrentField;
     public GameObject ProjectileDamageNextField;
-    public GameObject MeleeAoeCurrentField;
-    public GameObject MeleeAoeNextField;
+    public GameObject MaxLifeCurrentField;
+    public GameObject MaxLifeNextField;
+    public GameObject MaxStaminaCurrentField;
+    public GameObject MaxStaminaNextField;
     public GameObject HealthRegenCurrentField;
     public GameObject HealthRegenNextField;
     public GameObject StaminaRegenCurrentField;
@@ -41,8 +44,10 @@ public class PassiveMenuController : MonoBehaviour {
     private Text SightRadiusNextText;
     private Text ProjectileDamageCurrentText;
     private Text ProjectileDamageNextText;
-    private Text MeleeAoeCurrentText;
-    private Text MeleeAoeNextText;
+    private Text MaxLifeCurrentText;
+    private Text MaxLifeNextText;
+    private Text MaxStaminaCurrentText;
+    private Text MaxStaminaNextText;
     private Text HealthRegenCurrentText;
     private Text HealthRegenNextText;
     private Text StaminaRegenCurrentText;
@@ -61,8 +66,10 @@ public class PassiveMenuController : MonoBehaviour {
         SightRadiusNextText = SightRadiusNextField.GetComponent<Text>();
         ProjectileDamageCurrentText = ProjectileDamageCurrentField.GetComponent<Text>();
         ProjectileDamageNextText = ProjectileDamageNextField.GetComponent<Text>();
-        MeleeAoeCurrentText = MeleeAoeCurrentField.GetComponent<Text>();
-        MeleeAoeNextText = MeleeAoeNextField.GetComponent<Text>();
+        MaxLifeCurrentText = MaxLifeCurrentField.GetComponent<Text>();
+        MaxLifeNextText = MaxLifeNextField.GetComponent<Text>();
+        MaxStaminaCurrentText = MaxStaminaCurrentField.GetComponent<Text>();
+        MaxStaminaNextText = MaxStaminaNextField.GetComponent<Text>();
         HealthRegenCurrentText = HealthRegenCurrentField.GetComponent<Text>();
         HealthRegenNextText = HealthRegenNextField.GetComponent<Text>();
         StaminaRegenCurrentText = StaminaRegenCurrentField.GetComponent<Text>();
@@ -86,7 +93,8 @@ public class PassiveMenuController : MonoBehaviour {
             MovementSpeedButton.SetActive(false);
             SightRadiusButton.SetActive(false);
             ProjectileDamageButton.SetActive(false);
-            MeleeAoeButton.SetActive(false);
+            MaxLifeButton.SetActive(false);
+            MaxStaminaButton.SetActive(false);
             HeathRegenButton.SetActive(false);
             StaminaRegenButton.SetActive(false);
         }
@@ -100,28 +108,32 @@ public class PassiveMenuController : MonoBehaviour {
             MovementSpeedButton.SetActive(true);
             SightRadiusButton.SetActive(true);
             ProjectileDamageButton.SetActive(true);
-            MeleeAoeButton.SetActive(true);
+            MaxLifeButton.SetActive(true);
+            MaxStaminaButton.SetActive(true);
             HeathRegenButton.SetActive(true);
             StaminaRegenButton.SetActive(true);
         }
 
+        PlayerManager player = GameManager.Singleton.World.PlayerManager;
 
-        AttackDamageCurrentText.text = GameManager.Singleton.World.PlayerManager.AttackDamage.ToString();
-        AttackDamageNextText.text = GameManager.Singleton.World.PlayerManager.GetNextAttackDamage().ToString();
-        AttackSpeedCurrentText.text = GameManager.Singleton.World.PlayerManager.AttackSpeed.ToString();
-        AttackSpeedNextText.text = GameManager.Singleton.World.PlayerManager.GetNextAttackSpeed().ToString();
-        MoveSpeedCurrentText.text = GameManager.Singleton.World.PlayerManager.MoveSpeed.ToString();
-        MoveSpeedNextText.text = GameManager.Singleton.World.PlayerManager.GetNextMoveSpeed().ToString();
-        SightRadiusCurrentText.text = GameManager.Singleton.World.PlayerManager.SightRadiusNear.ToString();
-        SightRadiusNextText.text = GameManager.Singleton.World.PlayerManager.GetNextSightRadius().ToString();
-        ProjectileDamageCurrentText.text = (GameManager.Singleton.World.PlayerManager.ProjectileDamage*100).ToString();
-        ProjectileDamageNextText.text = (GameManager.Singleton.World.PlayerManager.GetNextProjectileDamage()*100).ToString();
-        MeleeAoeCurrentText.text = GameManager.Singleton.World.PlayerManager.MeleeAoe.ToString();
-        MeleeAoeNextText.text = GameManager.Singleton.World.PlayerManager.GetNextMeleeAoe().ToString();
-        HealthRegenCurrentText.text = GameManager.Singleton.World.PlayerManager.HealthRegen.ToString();
-        HealthRegenNextText.text = GameManager.Singleton.World.PlayerManager.GetNextHealthRegen().ToString();
-        StaminaRegenCurrentText.text = GameManager.Singleton.World.PlayerManager.StaminaRegen.ToString();
-        StaminaRegenNextText.text = GameManager.Singleton.World.PlayerManager.GetNextStaminaRegen().ToString();
+        AttackDamageCurrentText.text = Configuration.PLAYER_ATTACK_DAMAGE(player.AttackDamagePoints).ToString();
+        AttackDamageNextText.text = Configuration.PLAYER_ATTACK_DAMAGE(player.AttackDamagePoints + 1).ToString();
+        AttackSpeedCurrentText.text = Configuration.PLAYER_ATTACK_SPEED(player.AttackSpeedPoints).ToString();
+        AttackSpeedNextText.text = Configuration.PLAYER_ATTACK_SPEED(player.AttackSpeedPoints + 1).ToString();
+        MoveSpeedCurrentText.text = Configuration.PLAYER_MOVE_SPEED(player.MoveSpeedPoints).ToString();
+        MoveSpeedNextText.text = Configuration.PLAYER_MOVE_SPEED(player.MoveSpeedPoints + 1).ToString();
+        SightRadiusCurrentText.text = Configuration.PLAYER_SIGHT_RADIUS(player.SightRadiusPoints).ToString();
+        SightRadiusNextText.text = Configuration.PLAYER_SIGHT_RADIUS(player.SightRadiusPoints + 1).ToString();
+        ProjectileDamageCurrentText.text = (Configuration.PLAYER_PROJECTILE_DAMAGE(player.ProjectileDamagePoints) * 100).ToString();
+        ProjectileDamageNextText.text = (Configuration.PLAYER_PROJECTILE_DAMAGE(player.ProjectileDamagePoints + 1) * 100).ToString();
+        MaxLifeCurrentText.text = Configuration.PLAYER_MAX_LIFE(player.MaxHealthPoints).ToString();
+        MaxLifeNextText.text = Configuration.PLAYER_MAX_LIFE(player.MaxHealthPoints + 1).ToString();
+        MaxStaminaCurrentText.text = Configuration.PLAYER_MAX_STAMINA(player.MaxStaminaPoints).ToString();
+        MaxStaminaNextText.text = Configuration.PLAYER_MAX_STAMINA(player.MaxStaminaPoints + 1).ToString();
+        HealthRegenCurrentText.text = Configuration.PLAYER_LIFE_REGEN(player.HealthRegenPoints).ToString();
+        HealthRegenNextText.text = Configuration.PLAYER_LIFE_REGEN(player.HealthRegenPoints + 1).ToString();
+        StaminaRegenCurrentText.text = Configuration.PLAYER_STAMINA_REGEN(player.StaminaRegenPoints).ToString();
+        StaminaRegenNextText.text = Configuration.PLAYER_STAMINA_REGEN(player.StaminaRegenPoints + 1).ToString();
     }
 
     public void OnEnable()
@@ -159,9 +171,15 @@ public class PassiveMenuController : MonoBehaviour {
         UpdateUI();
     }
 
-    public void UpgradeMeleeAoe()
+    public void UpgradeMaxHealth()
     {
-        GameManager.Singleton.World.PlayerManager.UpgradeMeleeAoe();
+        GameManager.Singleton.World.PlayerManager.UpgradeMaxHealth();
+        UpdateUI();
+    }
+
+    public void UpgradeMaxStamina()
+    {
+        GameManager.Singleton.World.PlayerManager.UpgradeMaxStamina();
         UpdateUI();
     }
 

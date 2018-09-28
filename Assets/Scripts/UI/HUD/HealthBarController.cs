@@ -15,7 +15,7 @@ public class HealthBarController : MonoBehaviour
                 && GameManager.Singleton.World.PlayerManager != null)
         {
             PlayerManager player = GameManager.Singleton.World.PlayerManager;
-            Rect.localScale = new Vector2(player.CurrentHealth / player.MaxHealth, 1);
+            Rect.localScale = new Vector2(player.CurrentHealth / Configuration.PLAYER_MAX_LIFE(player.MaxHealthPoints), 1);
         }
     }
 }
