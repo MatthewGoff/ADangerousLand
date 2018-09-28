@@ -14,9 +14,9 @@ public class HealthTextController : MonoBehaviour
                 && GameManager.Singleton.World.PlayerManager != null)
         {
             PlayerManager player = GameManager.Singleton.World.PlayerManager;
-            float health = player.CurrentHealth;
-            health = Mathf.Floor(health * 10) / 10;
-            Text.text = health.ToString() + "/" + Configuration.PLAYER_MAX_LIFE(player.MaxHealthPoints).ToString();
+            float health = Util.Round(player.CurrentHealth, 0.1f);
+            float maxHealth = Util.Round(Configuration.PLAYER_MAX_HEALTH(player.MaxHealthPoints), 0.1f);
+            Text.text = health.ToString() + "/" + maxHealth.ToString();
         }
 	}
 }

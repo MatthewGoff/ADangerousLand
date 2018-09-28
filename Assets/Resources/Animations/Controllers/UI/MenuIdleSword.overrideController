@@ -1,0 +1,12 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: MenuIdleSword
+  m_Controller: {fileID: 9100000, guid: fcb4c493e244e0b44892dcd7bbf11d3b, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 5af6d2ba736e1504084b70fee65f0a05, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 743fc78c343a65f4aa03446c67523c1e, type: 2}

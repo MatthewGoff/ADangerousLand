@@ -17,6 +17,7 @@ public class Prefabs
     public static GameObject HEALTH_BAR_PREFAB { get; private set; }
     public static GameObject DAMAGE_NUMBER_CANVAS_PREFAB { get; private set; }
     public static GameObject DAMAGE_NUMBER_PREFAB { get; private set; }
+    public static GameObject DAMAGE_NUMBER_HIGHLIGHT_PREFAB { get; private set; }
 
     public static void LoadPrefabs()
     {
@@ -98,18 +99,19 @@ public class Prefabs
         TerrainForegrounds.Add(TerrainSubtypeEnum.Ocean, null);
         TerrainForegrounds.Add(TerrainSubtypeEnum.River, null);
 
-        ENEMY_PREFAB =                (GameObject)Resources.Load("Prefabs/Enemies/Enemy", typeof(GameObject));
-        FOG_PREFAB =                  (GameObject)Resources.Load("Prefabs/Fog", typeof(GameObject));
-        PLAYER_PREFAB =               (GameObject)Resources.Load("Prefabs/Player/Player", typeof(GameObject));
-        BLACK_HIGHLIGHT_PREFAB =      (GameObject)Resources.Load("Prefabs/BlackHighlight", typeof(GameObject));
-        CAMERA_PREFAB =               (GameObject)Resources.Load("Prefabs/PlayerCamera", typeof(GameObject));
-        SLASH_PREFAB =                (GameObject)Resources.Load("Prefabs/Slash");
-        BOLT_PREFAB =                 (GameObject)Resources.Load("Prefabs/Bolt");
-        DASH_PREFAB =                 (GameObject)Resources.Load("Prefabs/Dash");
-        STOMP_PREFAB =                (GameObject)Resources.Load("Prefabs/Stomp");
-        HEALTH_BAR_PREFAB =           (GameObject)Resources.Load("Prefabs/HealthBar");
-        DAMAGE_NUMBER_CANVAS_PREFAB = (GameObject)Resources.Load("Prefabs/DamageNumberCanvas");
-        DAMAGE_NUMBER_PREFAB =        (GameObject)Resources.Load("Prefabs/DamageNumber");
+        ENEMY_PREFAB =                   (GameObject)Resources.Load("Prefabs/Enemies/Enemy", typeof(GameObject));
+        FOG_PREFAB =                     (GameObject)Resources.Load("Prefabs/Fog", typeof(GameObject));
+        PLAYER_PREFAB =                  (GameObject)Resources.Load("Prefabs/Player/Player", typeof(GameObject));
+        BLACK_HIGHLIGHT_PREFAB =         (GameObject)Resources.Load("Prefabs/BlackHighlight", typeof(GameObject));
+        CAMERA_PREFAB =                  (GameObject)Resources.Load("Prefabs/PlayerCamera", typeof(GameObject));
+        SLASH_PREFAB =                   (GameObject)Resources.Load("Prefabs/Slash");
+        BOLT_PREFAB =                    (GameObject)Resources.Load("Prefabs/Bolt");
+        DASH_PREFAB =                    (GameObject)Resources.Load("Prefabs/Dash");
+        STOMP_PREFAB =                   (GameObject)Resources.Load("Prefabs/Stomp");
+        HEALTH_BAR_PREFAB =              (GameObject)Resources.Load("Prefabs/HealthBar");
+        DAMAGE_NUMBER_CANVAS_PREFAB =    (GameObject)Resources.Load("Prefabs/DamageNumbers/DamageNumberCanvas");
+        DAMAGE_NUMBER_PREFAB =           (GameObject)Resources.Load("Prefabs/DamageNumbers/DamageNumber");
+        DAMAGE_NUMBER_HIGHLIGHT_PREFAB = (GameObject)Resources.Load("Prefabs/DamageNumbers/DamageNumberHighlight");
     }
 
     public static GameObject GetRandomTerrainBackground(TerrainSubtypeEnum terrainType)

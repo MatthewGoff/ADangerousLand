@@ -33,11 +33,11 @@ public class PlayerManager : CombatantManager
     [Key(9)] public int AttackSpeedPoints;
     [Key(10)] public int MoveSpeedPoints;
     [Key(11)] public int SightRadiusPoints;
-    [Key(13)] public int ProjectileDamagePoints;
-    [Key(15)] public int MaxHealthPoints;
-    [Key(16)] public int MaxStaminaPoints;
-    [Key(17)] public int HealthRegenPoints;
-    [Key(18)] public int StaminaRegenPoints;
+    [Key(12)] public int ProjectileDamagePoints;
+    [Key(13)] public int MaxHealthPoints;
+    [Key(14)] public int MaxStaminaPoints;
+    [Key(15)] public int HealthRegenPoints;
+    [Key(16)] public int StaminaRegenPoints;
 
     public PlayerManager(int identifier, string name, float color, DeathPenaltyType deathPenalty)
     {
@@ -75,8 +75,7 @@ public class PlayerManager : CombatantManager
         int attackDamagePoints,
         int attackSpeedPoints,
         int moveSpeedPoints,
-        int sightRadiusNearPoints,
-        int sightRadiusFarPoints,
+        int sightRadiusPoints,
         int projectileDamagePoints,
         int maxHealthPoints,
         int maxStaminaPoints,
@@ -94,7 +93,7 @@ public class PlayerManager : CombatantManager
         AttackDamagePoints = attackDamagePoints;
         AttackSpeedPoints = attackSpeedPoints;
         MoveSpeedPoints = moveSpeedPoints;
-        SightRadiusPoints = sightRadiusNearPoints;
+        SightRadiusPoints = sightRadiusPoints;
         ProjectileDamagePoints = projectileDamagePoints;
         MaxHealthPoints = maxHealthPoints;
         MaxStaminaPoints = maxStaminaPoints;
@@ -111,7 +110,7 @@ public class PlayerManager : CombatantManager
         Dead = false;
         Sprinting = false;
         Blocking = false;
-        CurrentHealth = Configuration.PLAYER_MAX_LIFE(MaxHealthPoints);
+        CurrentHealth = Configuration.PLAYER_MAX_HEALTH(MaxHealthPoints);
         CurrentStamina = Configuration.PLAYER_MAX_STAMINA(MaxStaminaPoints);
 
         GameObject player = GameObject.Instantiate(Prefabs.PLAYER_PREFAB, new Vector3(spawnLocation.X + 0.5f, spawnLocation.Y, 0), Quaternion.identity);
@@ -128,8 +127,8 @@ public class PlayerManager : CombatantManager
     {
         if (!Dead)
         {
-            CurrentHealth += Configuration.PLAYER_LIFE_REGEN(HealthRegenPoints) * Time.fixedDeltaTime;
-            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, Configuration.PLAYER_MAX_LIFE(MaxHealthPoints));
+            CurrentHealth += Configuration.PLAYER_HEALTH_REGEN(HealthRegenPoints) * Time.fixedDeltaTime;
+            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, Configuration.PLAYER_MAX_HEALTH(MaxHealthPoints));
             CurrentStamina += Configuration.PLAYER_STAMINA_REGEN(StaminaRegenPoints) * Time.fixedDeltaTime;
             CurrentStamina = Mathf.Clamp(CurrentStamina, 0, Configuration.PLAYER_MAX_STAMINA(MaxStaminaPoints));
 
@@ -267,7 +266,7 @@ public class PlayerManager : CombatantManager
         {
             damage *= 0.1f;
         }
-        CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, Configuration.PLAYER_MAX_LIFE(MaxHealthPoints));
+        CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, Configuration.PLAYER_MAX_HEALTH(MaxHealthPoints));
         if (CurrentHealth <= 0 && !Dead)
         {
             Die();

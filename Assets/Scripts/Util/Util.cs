@@ -143,6 +143,14 @@ public static class Util
         return vector;
     }
 
+    public static float Round(float value, float place)
+    {
+        value /= place;
+        value = Mathf.Round(value);
+        value *= place;
+        return value;
+    }
+
     public static int SortingOrder(Vector2 position)
     {
         return Mathf.RoundToInt(-position.y * Configuration.PIXELS_PER_UNIT);

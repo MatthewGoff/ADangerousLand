@@ -38,6 +38,8 @@ public class Configuration
     // Levels
     public static int GetLevelExperience(int level)
     {
+        return (level) * (level - 1) / 2;
+        /*
         if (level == 0) { return 0; }
         else if (level == 1) { return 0; }
         else if (level == 2) { return 1; }
@@ -48,6 +50,7 @@ public class Configuration
         else if (level == 7) { return 100; }
         else if (level == 8) { return 400; }
         else { return 200+400*(int)Mathf.Pow(level-8, 2); }
+        */
     }
     public static int GetLevelSkillPoints(int level)
     {
@@ -383,7 +386,7 @@ public class Configuration
         LogisticFunction f = new LogisticFunction(1.0f, 0.5f, 20, 0.9f);
         return f.Evaluate(pointsInvested);
     }
-    public static float PLAYER_MAX_LIFE(int pointsInvested)
+    public static float PLAYER_MAX_HEALTH(int pointsInvested)
     {
         BoundedLogisticFunction f = new BoundedLogisticFunction(30, 10, 20, 0.9f);
         return f.Evaluate(pointsInvested);
@@ -393,9 +396,9 @@ public class Configuration
         BoundedLogisticFunction f = new BoundedLogisticFunction(30, 10, 20, 0.9f);
         return f.Evaluate(pointsInvested);
     }
-    public static float PLAYER_LIFE_REGEN(int pointsInvested)
+    public static float PLAYER_HEALTH_REGEN(int pointsInvested)
     {
-        LogisticFunction f = new LogisticFunction(5, 0.1f, 20, 0.9f);
+        LogisticFunction f = new LogisticFunction(5, 0.2f, 20, 0.9f);
         return f.Evaluate(pointsInvested);
     }
     public static float PLAYER_STAMINA_REGEN(int pointsInvested)

@@ -17,6 +17,11 @@ public class DamageNumbersCanvasMonoBehaviour : MonoBehaviour
 
     public void Log(string message)
     {
+        GameObject highlight = GameObject.Instantiate(Prefabs.DAMAGE_NUMBER_HIGHLIGHT_PREFAB, (Vector2) transform.position - new Vector2(-0.03125f, 0.03125f), Quaternion.identity);
+        highlight.transform.SetParent(transform);
+        highlight.GetComponent<Text>().text = message;
+        highlight.GetComponent<DamageNumberMonoBehaviour>().AssignSignalFinish(MessageEnd);
+
         GameObject damageText = GameObject.Instantiate(Prefabs.DAMAGE_NUMBER_PREFAB, transform.position, Quaternion.identity);
         damageText.transform.SetParent(transform);
         damageText.GetComponent<Text>().text = message;
