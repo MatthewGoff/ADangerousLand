@@ -73,6 +73,8 @@ public class AttributesMenuController : MonoBehaviour {
 
         if (GameManager.Singleton.World != null && GameManager.Singleton.World.PlayerManager.PassivePoints == 0)
         {
+            ButtonTooltip.SetActive(false);
+
             RemainingPointsText.SetActive(false);
 
             AttackDamageButton.SetActive(false);
@@ -108,8 +110,8 @@ public class AttributesMenuController : MonoBehaviour {
         ProjectileDamageCurrentText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_PROJECTILE_DAMAGE(Player.ProjectileDamagePoints) * 100, 0.1f).ToString() + "%";
         MaxHealthCurrentText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MAX_HEALTH(Player.MaxHealthPoints), 0.1f).ToString();
         MaxStaminaCurrentText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MAX_STAMINA(Player.MaxStaminaPoints), 0.1f).ToString();
-        HealthRegenCurrentText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints), 0.01f).ToString();
-        StaminaRegenCurrentText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints), 0.1f).ToString();
+        HealthRegenCurrentText.GetComponent<Text>().text = Util.Truncate(Util.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints) * 100, 0.01f).ToString(), 5) + "%";
+        StaminaRegenCurrentText.GetComponent<Text>().text = Util.Truncate(Util.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints), 0.01f).ToString(), 5);
     }
 
     public void OnEnable()
@@ -129,54 +131,64 @@ public class AttributesMenuController : MonoBehaviour {
     {
         GameManager.Singleton.World.PlayerManager.UpgradeAttackDamage();
         UpdateUI();
+        OnCursorEnterAttackDamageButton();
     }
 
     public void UpgradeAttackSpeed()
     {
         GameManager.Singleton.World.PlayerManager.UpgradeAttackSpeed();
         UpdateUI();
+        OnCursorEnterAttackSpeedButton();
     }
 
     public void UpgradeMoveSpeed()
     {
         GameManager.Singleton.World.PlayerManager.UpgradeMoveSpeed();
         UpdateUI();
+        OnCursorEnterMoveSpeedButton();
     }
 
     public void UpgradeSightRadius()
     {
         GameManager.Singleton.World.PlayerManager.UpgradeSightRadius();
         UpdateUI();
+        OnCursorEnterSightRadiusButton();
+
     }
 
     public void UpgradeProjectileDamage()
     {
         GameManager.Singleton.World.PlayerManager.UpgradeProjectileDamage();
         UpdateUI();
+        OnCursorEnterProjectileDamageButton();
     }
 
     public void UpgradeMaxHealth()
     {
         GameManager.Singleton.World.PlayerManager.UpgradeMaxHealth();
         UpdateUI();
+        OnCursorEnterMaxHealthButton();
     }
 
     public void UpgradeMaxStamina()
     {
         GameManager.Singleton.World.PlayerManager.UpgradeMaxStamina();
         UpdateUI();
+        OnCursorEnterMaxStaminaButton();
     }
 
     public void UpgradeHealthRegen()
     {
         GameManager.Singleton.World.PlayerManager.UpgradeHealthRegen();
         UpdateUI();
+        OnCursorEnterHealthRegenButton();
     }
 
     public void UpgradeStaminaRegen()
     {
         GameManager.Singleton.World.PlayerManager.UpgradeStaminaRegen();
         UpdateUI();
+        OnCursorEnterStaminaRegenButton();
     }
 
     public void OnCursorExit()
@@ -266,11 +278,11 @@ public class AttributesMenuController : MonoBehaviour {
     {
         StatTooltip.SetActive(true);
         StatTooltipTitleText.GetComponent<Text>().text = "Health Regen";
-        StatTooltipDescriptionText.GetComponent<Text>().text = "Health recovered per second";
-        StatTooltipAsymptoteText.GetComponent<Text>().text = "5";
+        StatTooltipDescriptionText.GetComponent<Text>().text = "Percentage of health recovered per second";
+        StatTooltipAsymptoteText.GetComponent<Text>().text = "15%";
         StatTooltipPointsInvestedText.GetComponent<Text>().text = Player.HealthRegenPoints.ToString();
-        StatTooltipBaseValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints), 0.01f).ToString();
-        StatTooltipEffectiveValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints), 0.01f).ToString();
+        StatTooltipBaseValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints) * 100, 0.01f).ToString() + "%";
+        StatTooltipEffectiveValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints) * 100, 0.01f).ToString() + "%";
     }
 
     public void OnCursorEnterStaminaRegen()
@@ -278,7 +290,7 @@ public class AttributesMenuController : MonoBehaviour {
         StatTooltip.SetActive(true);
         StatTooltipTitleText.GetComponent<Text>().text = "Stamina Regen";
         StatTooltipDescriptionText.GetComponent<Text>().text = "Stamina recovered per second";
-        StatTooltipAsymptoteText.GetComponent<Text>().text = "2";
+        StatTooltipAsymptoteText.GetComponent<Text>().text = "2.5";
         StatTooltipPointsInvestedText.GetComponent<Text>().text = Player.StaminaRegenPoints.ToString();
         StatTooltipBaseValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints), 0.1f).ToString();
         StatTooltipEffectiveValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints), 0.1f).ToString();
@@ -298,7 +310,7 @@ public class AttributesMenuController : MonoBehaviour {
         ButtonTooltipNextValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_ATTACK_SPEED(Player.AttackSpeedPoints + 1), 0.1f).ToString();
     }
 
-    public void OnCursorEnterMoveSeedButton()
+    public void OnCursorEnterMoveSpeedButton()
     {
         ButtonTooltip.SetActive(true);
         ButtonTooltipCurrentValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MOVE_SPEED(Player.MoveSpeedPoints), 0.1f).ToString();
@@ -336,8 +348,8 @@ public class AttributesMenuController : MonoBehaviour {
     public void OnCursorEnterHealthRegenButton()
     {
         ButtonTooltip.SetActive(true);
-        ButtonTooltipCurrentValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints), 0.01f).ToString();
-        ButtonTooltipNextValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints + 1), 0.01f).ToString();
+        ButtonTooltipCurrentValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints) * 100, 0.01f).ToString() + "%";
+        ButtonTooltipNextValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints + 1) * 100, 0.01f).ToString() + "%";
     }
 
     public void OnCursorEnterStaminaRegenButton()

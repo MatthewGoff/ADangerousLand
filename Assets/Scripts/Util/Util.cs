@@ -151,6 +151,18 @@ public static class Util
         return value;
     }
 
+    public static string Truncate(string value, int length)
+    {
+        if (value.Length > length)
+        {
+            return value.Substring(0, length);
+        }
+        else
+        {
+            return value;
+        }
+    }
+
     public static int SortingOrder(Vector2 position)
     {
         return Mathf.RoundToInt(-position.y * Configuration.PIXELS_PER_UNIT);

@@ -127,7 +127,7 @@ public class PlayerManager : CombatantManager
     {
         if (!Dead)
         {
-            CurrentHealth += Configuration.PLAYER_HEALTH_REGEN(HealthRegenPoints) * Time.fixedDeltaTime;
+            CurrentHealth += Configuration.PLAYER_HEALTH_REGEN(HealthRegenPoints) * Configuration.PLAYER_MAX_HEALTH(MaxHealthPoints) * Time.fixedDeltaTime;
             CurrentHealth = Mathf.Clamp(CurrentHealth, 0, Configuration.PLAYER_MAX_HEALTH(MaxHealthPoints));
             CurrentStamina += Configuration.PLAYER_STAMINA_REGEN(StaminaRegenPoints) * Time.fixedDeltaTime;
             CurrentStamina = Mathf.Clamp(CurrentStamina, 0, Configuration.PLAYER_MAX_STAMINA(MaxStaminaPoints));

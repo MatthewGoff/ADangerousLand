@@ -18,7 +18,7 @@ public class ManaTextController : MonoBehaviour
             PlayerManager player = GameManager.Singleton.World.PlayerManager;
             float stamina = Util.Round(player.CurrentStamina, 0.1f);
             float maxStamina = Util.Round(Configuration.PLAYER_MAX_STAMINA(player.MaxStaminaPoints), 0.1f);
-            Text.text = stamina.ToString() + "/" + maxStamina.ToString();
+            Text.text = Util.Truncate(stamina.ToString(), 4) + "/" + Util.Truncate(maxStamina.ToString(), 4);
         }
 
     }

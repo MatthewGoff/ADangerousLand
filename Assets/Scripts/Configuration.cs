@@ -38,32 +38,18 @@ public class Configuration
     // Levels
     public static int GetLevelExperience(int level)
     {
-        return (level) * (level - 1) / 2;
-        /*
-        if (level == 0) { return 0; }
-        else if (level == 1) { return 0; }
-        else if (level == 2) { return 1; }
-        else if (level == 3) { return 5; }
-        else if (level == 4) { return 12; }
-        else if (level == 5) { return 25; }
-        else if (level == 6) { return 50; }
-        else if (level == 7) { return 100; }
-        else if (level == 8) { return 400; }
-        else { return 200+400*(int)Mathf.Pow(level-8, 2); }
-        */
+        if (level <= 1)
+        {
+            return 0;
+        }
+        else
+        {
+            return Mathf.FloorToInt(Mathf.Pow(1.5f, level - 1));
+        }
     }
     public static int GetLevelSkillPoints(int level)
     {
-        if (level == 0) { return 0; }
-        else if (level == 1) { return 0; }
-        else if (level == 2) { return 1; }
-        else if (level == 3) { return 2; }
-        else if (level == 4) { return 3; }
-        else if (level == 5) { return 4; }
-        else if (level == 6) { return 5; }
-        else if (level == 7) { return 7; }
-        else if (level == 8) { return 10; }
-        else { return 15; }
+        return Mathf.CeilToInt(level / 3f);
     }
 
     // Enemies
@@ -75,7 +61,7 @@ public class Configuration
             MaxHealth = 3,
             MoveSpeed = 3.5f,
             ExperienceReward = 1,
-            Damage = 0.1f,
+            Damage = 0.2f,
             AttackSpeed = 1f,
             Aoe = 2f,
             AgroDistance = 15f,
@@ -90,8 +76,8 @@ public class Configuration
             AIType = AIType.Basic,
             MaxHealth = 5,
             MoveSpeed = 3.5f,
-            ExperienceReward = 2,
-            Damage = 0.2f,
+            ExperienceReward = 3,
+            Damage = 0.4f,
             AttackSpeed = 1f,
             Aoe = 2f,
             AgroDistance = 15f,
@@ -104,10 +90,10 @@ public class Configuration
         {EnemyType.SmallBlueSlime, new EnemyConfiguration(){
             PrefabLocation = "SmallBlueSlime/SmallBlueSlimePrefab",
             AIType = AIType.Basic,
-            MaxHealth = 8,
+            MaxHealth = 15,
             MoveSpeed = 3.5f,
-            ExperienceReward = 3,
-            Damage = 0.3f,
+            ExperienceReward = 9,
+            Damage = 0.6f,
             AttackSpeed = 1f,
             Aoe = 2f,
             AgroDistance = 15f,
@@ -120,9 +106,9 @@ public class Configuration
         {EnemyType.RedSlime, new EnemyConfiguration(){
             PrefabLocation = "RedSlime/RedSlimePrefab",
             AIType = AIType.Basic,
-            MaxHealth = 10,
-            MoveSpeed = 3.5f,
-            ExperienceReward = 5,
+            MaxHealth = 30,
+            MoveSpeed = 4.5f,
+            ExperienceReward = 27,
             Damage = 1f,
             AttackSpeed = .5f,
             Aoe = 2f,
@@ -136,9 +122,9 @@ public class Configuration
         {EnemyType.GreenSlime, new EnemyConfiguration(){
             PrefabLocation = "GreenSlime/GreenSlimePrefab",
             AIType = AIType.Basic,
-            MaxHealth = 15,
-            MoveSpeed = 3.5f,
-            ExperienceReward = 7,
+            MaxHealth = 60,
+            MoveSpeed = 4.5f,
+            ExperienceReward = 81,
             Damage = 2f,
             AttackSpeed = .5f,
             Aoe = 2f,
@@ -152,9 +138,9 @@ public class Configuration
         {EnemyType.BlueSlime, new EnemyConfiguration(){
             PrefabLocation = "BlueSlime/BlueSlimePrefab",
             AIType = AIType.Basic,
-            MaxHealth = 20,
-            MoveSpeed = 3.5f,
-            ExperienceReward = 10,
+            MaxHealth = 80,
+            MoveSpeed = 4.5f,
+            ExperienceReward = 243,
             Damage = 3f,
             AttackSpeed = .5f,
             Aoe = 2f,
@@ -168,10 +154,10 @@ public class Configuration
         {EnemyType.Bat, new EnemyConfiguration(){
             PrefabLocation = "Bat/BatPrefab",
             AIType = AIType.Basic,
-            MaxHealth = 30,
-            MoveSpeed = 3.5f,
-            ExperienceReward = 20,
-            Damage = 4f,
+            MaxHealth = 100,
+            MoveSpeed = 6f,
+            ExperienceReward = 729,
+            Damage = 5f,
             AttackSpeed = 1f,
             Aoe = 2f,
             AgroDistance = 15f,
@@ -184,11 +170,11 @@ public class Configuration
         {EnemyType.Werewolf, new EnemyConfiguration(){
             PrefabLocation = "Werewolf/WerewolfPrefab",
             AIType = AIType.Basic,
-            MaxHealth = 50,
-            MoveSpeed = 5.5f,
-            ExperienceReward = 35,
-            Damage = 2.5f,
-            AttackSpeed = 2f,
+            MaxHealth = 140,
+            MoveSpeed = 8f,
+            ExperienceReward = 2187,
+            Damage = 8f,
+            AttackSpeed = 1.5f,
             Aoe = 2f,
             AgroDistance = 15f,
             DeAgroDistance = 20f,
@@ -201,10 +187,10 @@ public class Configuration
             PrefabLocation = "Dragon/DragonPrefab",
             AIType = AIType.Basic,
             MaxHealth = 1000,
-            MoveSpeed = 1f,
-            ExperienceReward = 200,
-            Damage = 5f,
-            AttackSpeed = 0.5f,
+            MoveSpeed = 2.5f,
+            ExperienceReward = 6561,
+            Damage = 25f,
+            AttackSpeed = 0.75f,
             Aoe = 10f,
             AgroDistance = 15f,
             DeAgroDistance = 20f,
@@ -247,38 +233,38 @@ public class Configuration
         {
             return new (float, EnemyType)[]
             {
-                (0.5f, EnemyType.SmallRedSlime),
-                (0.5f, EnemyType.SmallGreenSlime),
+                (0.7f, EnemyType.SmallRedSlime),
+                (0.3f, EnemyType.SmallGreenSlime),
             };
         }
         else if (dangerRating == 3)
         {
             return new (float, EnemyType)[]
             {
-                (0.33f, EnemyType.SmallRedSlime),
-                (0.33f, EnemyType.SmallGreenSlime),
-                (0.33f, EnemyType.SmallBlueSlime),
+                (0.50f, EnemyType.SmallRedSlime),
+                (0.30f, EnemyType.SmallGreenSlime),
+                (0.20f, EnemyType.SmallBlueSlime),
             };
         }
         else if (dangerRating == 4)
         {
             return new (float, EnemyType)[]
             {
-                (0.25f, EnemyType.SmallRedSlime),
-                (0.25f, EnemyType.SmallGreenSlime),
-                (0.25f, EnemyType.SmallBlueSlime),
-                (0.25f, EnemyType.RedSlime),
+                (0.30f, EnemyType.SmallRedSlime),
+                (0.30f, EnemyType.SmallGreenSlime),
+                (0.20f, EnemyType.SmallBlueSlime),
+                (0.20f, EnemyType.RedSlime),
             };
         }
         else if (dangerRating == 5)
         {
             return new (float, EnemyType)[]
             {
-                (0.15f, EnemyType.SmallRedSlime),
-                (0.15f, EnemyType.SmallGreenSlime),
+                (0.20f, EnemyType.SmallRedSlime),
+                (0.20f, EnemyType.SmallGreenSlime),
                 (0.15f, EnemyType.SmallBlueSlime),
-                (0.35f, EnemyType.RedSlime),
-                (0.20f, EnemyType.GreenSlime),
+                (0.30f, EnemyType.RedSlime),
+                (0.15f, EnemyType.GreenSlime),
             };
         }
         else if (dangerRating == 6)
@@ -288,9 +274,9 @@ public class Configuration
                 (0.10f, EnemyType.SmallRedSlime),
                 (0.10f, EnemyType.SmallGreenSlime),
                 (0.10f, EnemyType.SmallBlueSlime),
-                (0.25f, EnemyType.RedSlime),
-                (0.25f, EnemyType.GreenSlime),
-                (0.20f, EnemyType.BlueSlime),
+                (0.30f, EnemyType.RedSlime),
+                (0.30f, EnemyType.GreenSlime),
+                (0.10f, EnemyType.BlueSlime),
 
             };
         }
@@ -301,9 +287,9 @@ public class Configuration
                 (0.05f, EnemyType.SmallRedSlime),
                 (0.05f, EnemyType.SmallGreenSlime),
                 (0.05f, EnemyType.SmallBlueSlime),
-                (0.20f, EnemyType.RedSlime),
-                (0.20f, EnemyType.GreenSlime),
-                (0.20f, EnemyType.BlueSlime),
+                (0.25f, EnemyType.RedSlime),
+                (0.25f, EnemyType.GreenSlime),
+                (0.10f, EnemyType.BlueSlime),
                 (0.25f, EnemyType.Bat),
             };
         }
@@ -314,11 +300,11 @@ public class Configuration
                 (0.02f, EnemyType.SmallRedSlime),
                 (0.02f, EnemyType.SmallGreenSlime),
                 (0.02f, EnemyType.SmallBlueSlime),
-                (0.15f, EnemyType.RedSlime),
-                (0.15f, EnemyType.GreenSlime),
-                (0.15f, EnemyType.BlueSlime),
-                (0.20f, EnemyType.Bat),
-                (0.29f, EnemyType.Werewolf)
+                (0.20f, EnemyType.RedSlime),
+                (0.20f, EnemyType.GreenSlime),
+                (0.10f, EnemyType.BlueSlime),
+                (0.29f, EnemyType.Bat),
+                (0.15f, EnemyType.Werewolf)
             };
         }
         else if (dangerRating == 9)
@@ -331,9 +317,9 @@ public class Configuration
                 (0.10f, EnemyType.RedSlime),
                 (0.10f, EnemyType.GreenSlime),
                 (0.10f, EnemyType.BlueSlime),
-                (0.30f, EnemyType.Bat),
-                (0.30f, EnemyType.Werewolf),
-                (0.4f, EnemyType.Dragon),
+                (0.35f, EnemyType.Bat),
+                (0.25f, EnemyType.Werewolf),
+                (0.04f, EnemyType.Dragon),
             };
         }
         else if (dangerRating > 9 )
@@ -346,9 +332,9 @@ public class Configuration
                 (0.10f, EnemyType.RedSlime),
                 (0.10f, EnemyType.GreenSlime),
                 (0.10f, EnemyType.BlueSlime),
-                (0.30f, EnemyType.Bat),
-                (0.34f, EnemyType.Werewolf),
-                (0.4f, EnemyType.Dragon),
+                (0.35f, EnemyType.Bat),
+                (0.25f, EnemyType.Werewolf),
+                (0.04f, EnemyType.Dragon),
             };
         }
         else
@@ -398,12 +384,12 @@ public class Configuration
     }
     public static float PLAYER_HEALTH_REGEN(int pointsInvested)
     {
-        LogisticFunction f = new LogisticFunction(5, 0.2f, 20, 0.9f);
+        LogisticFunction f = new LogisticFunction(0.15f, 0.01f, 20, 0.9f);
         return f.Evaluate(pointsInvested);
     }
     public static float PLAYER_STAMINA_REGEN(int pointsInvested)
     {
-        LogisticFunction f = new LogisticFunction(2, 1, 20, 0.9f);
+        LogisticFunction f = new LogisticFunction(2.5f, 1, 20, 0.9f);
         return f.Evaluate(pointsInvested);
     }
 }

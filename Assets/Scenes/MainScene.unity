@@ -2755,7 +2755,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1567625278}
-          m_MethodName: OnCursorEnterMoveSeedButton
+          m_MethodName: OnCursorEnterMoveSpeedButton
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
