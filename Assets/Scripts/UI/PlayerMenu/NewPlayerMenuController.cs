@@ -18,6 +18,11 @@ public class NewPlayerMenuController : MonoBehaviour {
         BodySprite.GetComponent<Image>().color = Color.HSVToRGB(ColorSlider.GetComponent<Slider>().value, 1, 1);
     }
 
+    public bool NoFocus()
+    {
+        return !NameField.GetComponent<InputField>().isFocused;
+    }
+
     public void CreatePressed()
     {
         PlayerPersistenceManager.CreatePlayer(NameField.GetComponent<InputField>().text, ColorSlider.GetComponent<Slider>().value, DeathPenalty);

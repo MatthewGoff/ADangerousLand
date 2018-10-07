@@ -354,12 +354,12 @@ public class Configuration
     }
     public static float PLAYER_ATTACK_SPEED(int pointsInvested)
     {
-        LogisticFunction f = new LogisticFunction(60, 1, 20, 0.9f);
+        LogisticFunction f = new LogisticFunction(20, 1, 20, 0.9f);
         return f.Evaluate(pointsInvested);
     }
     public static float PLAYER_MOVE_SPEED(int pointsInvested)
     {
-        LogisticFunction f = new LogisticFunction(30, 5, 20, 0.9f);
+        LogisticFunction f = new LogisticFunction(15, 5, 20, 0.9f);
         return f.Evaluate(pointsInvested);
     }
     public static float PLAYER_SIGHT_RADIUS(int pointsInvested)

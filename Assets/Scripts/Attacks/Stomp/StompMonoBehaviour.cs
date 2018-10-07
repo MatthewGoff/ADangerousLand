@@ -48,19 +48,20 @@ public class StompMonoBehaviour : MonoBehaviour
 
     private IEnumerator Shockwave()
     {
-        for (float i = 0f; i < 0.5f; i += Time.deltaTime)
+        float duration = 0.5f;
+        for (float i = 0f; i < duration; i += Time.deltaTime)
         {
-            transform.localScale = new Vector3(i * (30.0f / 0.5f), i * (30.0f / 0.5f), 1);
+            transform.localScale = new Vector3(i * (40.0f / 0.5f), i * (40.0f / 0.5f), 1);
 
             Camera camera = GameManager.Singleton.PlayerCamera.GetComponent<Camera>();
             float aspectRatio = camera.aspect;
             Vector2 screenPosition = camera.WorldToScreenPoint(transform.position);
             screenPosition = new Vector2(screenPosition.x / camera.pixelWidth, 1f - screenPosition.y / camera.pixelHeight);
 
-            Material.SetVector("_Drop", new Vector4(screenPosition.x * aspectRatio, screenPosition.y, i, 0));
+            Material.SetVector("_Drop", new Vector4(screenPosition.x * aspectRatio, screenPosition.y, i/duration, 0));
             Material.SetColor("_Reflection", ReflectionColor);
             Material.SetVector("_Params1", new Vector4(aspectRatio, 1, 1 / WaveSpeed, 0));
-            Material.SetVector("_Params2", new Vector4(1, 1 / aspectRatio, RefractionStrength * Decline.Evaluate(i), ReflectionStrength * Decline.Evaluate(i)));
+            Material.SetVector("_Params2", new Vector4(1, 1 / aspectRatio, RefractionStrength * Decline.Evaluate(i/duration), ReflectionStrength * Decline.Evaluate(i/duration)));
 
             yield return null;
         }

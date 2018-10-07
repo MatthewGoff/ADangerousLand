@@ -10,6 +10,7 @@ public class Cooldown
     public Cooldown(float duration)
     {
         Duration = duration;
+        LastUseTime = Time.time - Duration;
     }
 
     public bool Use()

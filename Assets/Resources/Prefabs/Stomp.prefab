@@ -186,8 +186,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.8
-      value: 1
+      time: 0.5003489
+      value: 0.9999924
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -195,8 +195,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1
-      value: 0
+      time: 1.0016191
+      value: -0.006011963
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -208,8 +208,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   RefractionStrength: 0.7
   ReflectionColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  ReflectionStrength: 0.7
-  WaveSpeed: 0.8
+  ReflectionStrength: 0.5
+  WaveSpeed: 0.6
   Shader: {fileID: 4800000, guid: c7b9e5e587dbce44781eac3b2cc1427c, type: 3}
 --- !u!212 &212635494423897792
 SpriteRenderer:

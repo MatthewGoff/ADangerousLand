@@ -15,4 +15,5 @@
     Exit,
     LoadingIn,
     LoadingOut,
+    ControlsMenu
 }

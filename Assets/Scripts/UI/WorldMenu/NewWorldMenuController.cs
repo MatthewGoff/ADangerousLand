@@ -17,6 +17,11 @@ public class NewWorldMenuController : MonoBehaviour
         SeedField.GetComponent<InputField>().text = rng.Next(-int.MaxValue, int.MaxValue).ToString();
     }
 
+    public bool NoFocus()
+    {
+        return !NameField.GetComponent<InputField>().isFocused;
+    }
+
     public void CreatePressed()
     {
         int seed;

@@ -6,7 +6,7 @@
     StartPlay,
     PlayerDeath,
     PlayerRespawn,
-    TogglePassivesMenu,
+    OpenPassivesMenu,
     OpenInfoMenu,
     OpenPlayerMenu,
     OpenNewPlayerMenu,
@@ -15,4 +15,5 @@
     WorldLoaded,
     WorldUnloaded,
     SaveAndExit,
+    OpenControlsMenu
 }

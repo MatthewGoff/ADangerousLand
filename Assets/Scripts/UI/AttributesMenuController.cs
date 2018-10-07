@@ -213,7 +213,7 @@ public class AttributesMenuController : MonoBehaviour {
         StatTooltip.SetActive(true);
         StatTooltipTitleText.GetComponent<Text>().text = "Attack Speed";
         StatTooltipDescriptionText.GetComponent<Text>().text = "Maximum attacks per second";
-        StatTooltipAsymptoteText.GetComponent<Text>().text = "60";
+        StatTooltipAsymptoteText.GetComponent<Text>().text = "20";
         StatTooltipPointsInvestedText.GetComponent<Text>().text = Player.AttackSpeedPoints.ToString();
         StatTooltipBaseValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_ATTACK_SPEED(Player.AttackSpeedPoints), 0.1f).ToString();
         StatTooltipEffectiveValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_ATTACK_SPEED(Player.AttackSpeedPoints), 0.1f).ToString();
@@ -224,7 +224,7 @@ public class AttributesMenuController : MonoBehaviour {
         StatTooltip.SetActive(true);
         StatTooltipTitleText.GetComponent<Text>().text = "Move Speed";
         StatTooltipDescriptionText.GetComponent<Text>().text = "Tiles traversed per second";
-        StatTooltipAsymptoteText.GetComponent<Text>().text = "30";
+        StatTooltipAsymptoteText.GetComponent<Text>().text = "15";
         StatTooltipPointsInvestedText.GetComponent<Text>().text = Player.MoveSpeedPoints.ToString();
         StatTooltipBaseValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MOVE_SPEED(Player.MoveSpeedPoints), 0.1f).ToString();
         StatTooltipEffectiveValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MOVE_SPEED(Player.MoveSpeedPoints), 0.1f).ToString();
@@ -292,8 +292,8 @@ public class AttributesMenuController : MonoBehaviour {
         StatTooltipDescriptionText.GetComponent<Text>().text = "Stamina recovered per second";
         StatTooltipAsymptoteText.GetComponent<Text>().text = "2.5";
         StatTooltipPointsInvestedText.GetComponent<Text>().text = Player.StaminaRegenPoints.ToString();
-        StatTooltipBaseValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints), 0.1f).ToString();
-        StatTooltipEffectiveValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints), 0.1f).ToString();
+        StatTooltipBaseValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints), 0.01f).ToString();
+        StatTooltipEffectiveValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints), 0.01f).ToString();
     }
 
     public void OnCursorEnterAttackDamageButton()
