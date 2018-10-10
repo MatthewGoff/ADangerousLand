@@ -1,6 +1,6 @@
 # A Dangerous Land
 
-A Dangerouos Land is top-down, 2D, hack-and-slash RPG with elements of combat, crafting, exploration, and survival. It is a personal project of mine aiming to combine the best features of some of my favorite games.
+A Dangerous Land is top-down, 2D, hack-and-slash RPG with elements of combat, crafting, exploration, and survival. It is a personal project of mine aiming to combine the best features of some of my favorite games.
 
 ## Setup Instructions:
 
