@@ -1,18 +1,23 @@
 # A Dangerous Land
 
-A Dangerous Land is top-down, 2D, hack-and-slash RPG with elements of combat, crafting, exploration, and survival. It is a personal project of mine aiming to combine the best features of some of my favorite games.
+A Dangerous Land is top-down, 2D, hack-and-slash RPG with elements of combat, 
+crafting, exploration, and survival. It is a personal project of mine aiming 
+to combine the best features of some of my favorite games.
 
 ## Setup Instructions:
 
-(If you are just looking to play the game visit the releases page)
+If you are just looking to play the game, you can visit the 
+[releases repository](https://github.com/MatthewGoff/ADangerousLand) and follow 
+the README instructions.
 
-1) Have current versions of Unity and Visual Studio Installed. When you install
-   Visual Studio also install the "Game Development with Unity" module. If you
-   already have VS installed download and run the VS installer (not VS), select
-   "Modify" and then install "Game Developmnt with Unity".
+1) Have current versions of [Unity](https://unity3d.com/get-unity/download) and 
+   [Visual Studio](https://visualstudio.microsoft.com/downloads/) installed. When 
+   you install Visual Studio, also install the "Game Development with Unity" module. 
+   If you already have VS installed, download and run the VS installer (not VS), 
+   select "Modify" and then install "Game Developmnt with Unity".
 
 2) Clone the repo to your desired working directory. By default Unity projects
-   are created in ~/Documents/UnityProjects, so that's a good choice.
+   are created in `~/Documents/UnityProjects`, so that's a good choice.
 
 3) Start Unity, select "Open" at the top right and select the project folder.
 
@@ -22,17 +27,17 @@ A Dangerous Land is top-down, 2D, hack-and-slash RPG with elements of combat, cr
    you do so you may be prompted to update your .NET version. Go ahead and do
    that (you may need to restart your computer).
 
-6) In VS go to "Poject">"Manager Nuget Packages" and install MessagePack at the
-least. If you plan on working with MessagePack you can also install
-MessagePackAnalyzer as well.
+6) In VS go to "Project">"Manager NuGet Packages" and install MessagePack at the
+   least. If you plan on working with MessagePack you can also install
+   MessagePackAnalyzer as well.
 
-## DevelopmentNotes
+## Development Notes
 
-See DevelopmentNotes.txt in the top level directory. 
+See [`DevelopmentNotes.txt`](https://raw.githubusercontent.com/MatthewGoff/ADangerousLand-private/master/DevelopmentNotes.txt?token=AHXJbM5cUKMgO2JD-JyCT_DNfe7fisSHks5byOdywA%3D%3D) in the top level directory. 
 
 ## Coding Conventions
 
-I try to strickly adhere to the "official" recomendations for C# at https://docs.microsoft.com
+I try to strictly adhere to the "official" recomendations for C# at https://docs.microsoft.com
 
 [Naming Convensions](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/naming-guidelines)
 [Layout, Comments etc.](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions)
@@ -41,44 +46,44 @@ I try to strickly adhere to the "official" recomendations for C# at https://docs
 
 ### Import Sprite:
 
-1) Open unity and have the following panels open: Hierarchy, Project, Scene, Inspector (Likely open by default).
-2) Have a .PNG file with transparency if desired. Name it with an enemy type and the world "Sprite" (e.g. "DragonSprite").
-2) Drag and drop your .PNG file into the Assets/Sprites/Enemies folder in the Project panel.
+1) Open Unity and have the following panels open: Hierarchy, Project, Scene, Inspector. These will likely open by default.
+2) Have a .PNG file, which can have transparency if desired. Name it with an enemy type and the word "Sprite" (e.g. "DragonSprite").
+2) Drag and drop your .PNG file into the `Assets/Sprites/Enemies` folder in the Project panel.
 3) Click on the sprite to bring it up in the Inspector. Set "Pixels Per Unit" to 32; "Pitov" to "Bottom"; "Filter Mode" to "Point (no filter); and "Compression" to "None". Hit apply.
 
 ### Create Prefabs:
 
 Your enemy needs three constituent "Unity Game Objects": The sprite, the hitbox, and the "master" game object which contains the physics components and the script which will operate the enemy.
 
-Start by creatint a new folder in Assets/Resources/Prefabs/Enemies named for your enemy (do this from within Unity).
+Start by creating a new folder in `Assets/Resources/Prefabs/Enemies` named for your enemy (do this from within Unity).
 
 #### Create Sprite
-1) Drag and drop the sprite from the Project panel into the scene, this will make it appear in the hierarchy and the Inspector.
+1) Drag and drop the sprite from the Project panel into the scene, this will make it appear in the Hierarchy and the Inspector.
 2) In the Inspector, set the "Sorting Layer" to "Terrain Foreground".
 3) Drag and drop the sprite from the Hierarchy into the prefabs folder you created for this enemy.
 
 #### Create Hitbox
-1) In the Hierarchy choose "Create">"Create Empty" to create a new empty game object.
+1) In the Hierarchy, choose "Create">"Create Empty" to create a new empty game object.
 2) Name it with the enemy type and the word "Hitbox" (e.g. "DragonHitbox").
-3) In the inspector click add component and type collider. Select your desired 2D collider shape (e.g. Box Collider 2D).
-4) In the inspector edit the collider parameters so that it is the desired dimentions. You can set the hitbox position and sprite position to be the same so that they overlap for better perspective (Namely the "reset" option in the transform gear menu will put any object at the orgin). Remember that the center of the hitbox is the bottom of the sprite so you may want to include an offset (an offset of half the height of the enemy will center the hitbox with the sprite).
-5) At the top of the inspector set the Tag of your hitbox to "Hitbox" and the Layer to "Combat".
+3) In the Inspector, click "Add Component" and type "collider". Select your desired 2D collider shape (e.g. Box Collider 2D).
+4) In the Inspector, edit the collider parameters so that it is the desired dimensions. You can set the hitbox position and sprite position to be the same so that they overlap for better perspective (the "reset" option in the transform gear menu will put any object at the orgin). Remember that the center of the hitbox is the bottom of the sprite, so you may want to include an offset (an offset of half the height of the enemy will center the hitbox with the sprite).
+5) At the top of the Inspector set the Tag of your hitbox to "Hitbox" and the Layer to "Combat".
 5) Drag and drop the hitbox from the Hierarchy into the prefabs folder you created for this enemy.
 
 #### Create Master Prefab
 1) In the Hierarchy choose "Create">"Create Empty" to create a new empty game object.
 2) Name it with the enemy type and the word "Prefab" (e.g. "DragonPrefab")
-3) Add a collider to the game object. Unlike the hitbox which is used in combat interactions, this collider defines the physical space that the enemy occupies (For example the player hitbox is 2 units tall but its feet only ocupy one square unit).
+3) Add a collider to the game object. Unlike the hitbox which is used in combat interactions, this collider defines the physical space that the enemy occupies (e.g. the player hitbox is 2 units tall but its feet only ocupy one square unit).
 4) Add a Rigidbody 2D component. Set the Gravity Scale to 0 and under Constraints check Z.
-5) Click add component and type "Enemy Mono Behaviour" and hit enter.
-6) In the "Enemy Mono Behaviour" section of the Inspector you will see a field for "Sprite Prefab" and "Hitbox Prefab". Drag and drop the Sprite Prefab from the prefabs folder you created for this enemy (not the hierarchy) into the sprite field and likewise with the hitbox prefab. This will give the script control over both the sprite and the hitbox.
+5) Click "Add Component", type "Enemy Mono Behaviour" and hit enter.
+6) In the "Enemy Mono Behaviour" section of the Inspector you will see a field for "Sprite Prefab" and "Hitbox Prefab". Drag and drop the Sprite Prefab from the prefabs folder you created for this enemy (not the Hierarchy) into the sprite field and likewise with the hitbox prefab. This will give the script control over both the sprite and the hitbox.
 7) Drag and drop the master prefab from the Hierarchy into the prefabs folder you created for this enemy.
 
-Lastly, delete the sprite, hitbox, and master prefab from the hierarchy.
+Lastly, delete the sprite, hitbox, and master prefab from the Hierarchy.
 
 ### Create Configuration:
 
-1) Open Assets/Scripts/Enemies/EnemyTypes.cs and add the name of your enemy to the list.
+1) Open `Assets/Scripts/Enemies/EnemyTypes.cs` and add the name of your enemy to the list.
 ```cs
 public enum EnemyType
 {
@@ -87,9 +92,9 @@ public enum EnemyType
     Dragon,
 }
 ```
-2) Open Assets/Scripts/Configuration.cs and scroll to the definition of ENEMY_CONFIGURATIONS.
-3) Copy and paste the braketed block of another enemy configuration onto the end of the list.
-4) Enter your desired configuration minding that the EnemyType is the same that you put in EnemyType.cs and the Prefab Location is the location you put the master prefab relative to the Assets/Resources/Prefabs folder.
+2) Open `Assets/Scripts/Configuration.cs` and scroll to the definition of `ENEMY_CONFIGURATIONS`.
+3) Copy and paste the bracketed block of another enemy configuration onto the end of the list.
+4) Enter your desired configuration, making sure that the EnemyType is the same that you put in `EnemyType.cs` and the Prefab Location is the location you put the master prefab relative to the `Assets/Resources/Prefabs` folder.
 5) Most of the fields should be self explainatory. The attack origin is the position on the sprite that attack will originate from **relative to the bottom center**.
 
 ```cs
@@ -113,7 +118,7 @@ public enum EnemyType
 
 ### Edit Spawn Probabilities:
 
-1) Just below the ENEMY_CONFIGURATIONS is SPAWN_PROBABILITIES. This is a map from a dificulty rating (int) to an array of tuples. Each tuple is a type of enemy and the probability that it will spawn (or more accuratly the probability that IF an enemy spawns in an area of that dificulty rating it will be of that type). In this example, when a chunk with dificulty rating 9 spawns an enemy there is a 45% it will be a soldier, 45% that it will be a werewolf, and 10% that it will be a dragon.
+1) Just below the `ENEMY_CONFIGURATIONS` is `SPAWN_PROBABILITIES`. This is a map from a difficulty rating (int) to an array of tuples. Each tuple is a type of enemy and the probability that it will spawn (or more accuratly the probability that IF an enemy spawns in an area of that difficulty rating it will be of that type). In this example, when a chunk with dificulty rating 9 spawns an enemy there is a 45% chance it will be a soldier, 45% chance that it will be a werewolf, and 10% chance that it will be a dragon.
 
 ```cs
 {9, new (float, EnemyType)[]
