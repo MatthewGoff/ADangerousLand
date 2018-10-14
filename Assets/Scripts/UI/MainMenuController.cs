@@ -1,24 +1,28 @@
 ﻿using UnityEngine;
 
-public class MainMenuController : MonoBehaviour {
-
-    public void PlayPressed()
-    {
-        GameManager.Singleton.TakeInput(GameInputType.OpenPlayerMenu);
-    }
-
-    public void OptionsPressed()
+namespace ADL
+{
+    public class MainMenuController : MonoBehaviour
     {
 
-    }
+        public void PlayPressed()
+        {
+            GameManager.Singleton.TakeInput(GameInputType.OpenPlayerMenu);
+        }
 
-    public void CreditsPressed()
-    {
+        public void OptionsPressed()
+        {
 
-    }
+        }
 
-    public void QuitPressed()
-    {
-        GameManager.Singleton.TakeInput(GameInputType.Escape);
+        public void CreditsPressed()
+        {
+
+        }
+
+        public void QuitPressed()
+        {
+            GameManager.Singleton.TakeInput(GameInputType.Escape);
+        }
     }
 }

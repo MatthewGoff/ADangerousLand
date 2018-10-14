@@ -167,4 +167,36 @@ public static class Util
     {
         return Mathf.RoundToInt(-position.y * Configuration.PIXELS_PER_UNIT);
     }
+
+    /*
+     * Indend the given message by inserting <tabs> tabs after every newline
+     * where each tabs is <spaces> spaces.
+     */
+    public static string Indent(string message, int spaces, int tabs)
+    {
+        string returnMessage = "";
+        string indent = Tabs(spaces, tabs);
+        for (int i = 0; i < message.Length; i++)
+        {
+            if (message[i] == '\n')
+            {
+                returnMessage += '\n' + indent;
+            }
+            else
+            {
+                returnMessage += message[i];
+            }
+        }
+        return returnMessage;
+    }
+
+    public static string Tabs(int spaces, int tabs)
+    {
+        string returnString = "";
+        for (int i = 0; i < tabs * spaces; i++)
+        {
+            returnString += ' ';
+        }
+        return returnString;
+    }
 }

@@ -1,24 +1,28 @@
 ﻿using UnityEngine;
 
-public class PauseMenuController : MonoBehaviour {
-
-	public void ResumePressed()
-    {
-        GameManager.Singleton.TakeInput(GameInputType.Escape);
-    }
-
-    public void OptionsPressed()
+namespace ADL
+{
+    public class PauseMenuController : MonoBehaviour
     {
 
-    }
+        public void ResumePressed()
+        {
+            GameManager.Singleton.TakeInput(GameInputType.Escape);
+        }
 
-    public void InfoMenuPressed()
-    {
-        GameManager.Singleton.TakeInput(GameInputType.OpenInfoMenu);
-    }
+        public void OptionsPressed()
+        {
 
-    public void ExitPressed()
-    {
-        GameManager.Singleton.TakeInput(GameInputType.SaveAndExit);
+        }
+
+        public void InfoMenuPressed()
+        {
+            GameManager.Singleton.TakeInput(GameInputType.OpenInfoMenu);
+        }
+
+        public void ExitPressed()
+        {
+            GameManager.Singleton.TakeInput(GameInputType.SaveAndExit);
+        }
     }
 }

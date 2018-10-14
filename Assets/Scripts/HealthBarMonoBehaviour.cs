@@ -1,34 +1,38 @@
 ﻿using UnityEngine;
 
-public class HealthBarMonoBehaviour : MonoBehaviour {
-
-    private SpriteRenderer Renderer;
-
-    public void Awake()
+namespace ADL
+{
+    public class HealthBarMonoBehaviour : MonoBehaviour
     {
-        Renderer = GetComponent<SpriteRenderer>();
-    }
 
-    public void Update()
-    {
-        Renderer.color = new Color(1, 1, 1, GameManager.Singleton.World.GetVisibilityLevel(transform.position));
-    }
+        private SpriteRenderer Renderer;
 
-    public void Destroy()
-    {
-        Destroy(gameObject);
-    }
-
-    public void ShowHealth(float health)
-    {
-        if (health == 1f)
+        public void Awake()
         {
-            Renderer.enabled = false;
+            Renderer = GetComponent<SpriteRenderer>();
         }
-        else
+
+        public void Update()
         {
-            Renderer.enabled = true;
-            transform.localScale = new Vector3(health, 1, 1);
+            Renderer.color = new Color(1, 1, 1, GameManager.Singleton.World.GetVisibilityLevel(transform.position));
+        }
+
+        public void Destroy()
+        {
+            Destroy(gameObject);
+        }
+
+        public void ShowHealth(float health)
+        {
+            if (health == 1f)
+            {
+                Renderer.enabled = false;
+            }
+            else
+            {
+                Renderer.enabled = true;
+                transform.localScale = new Vector3(health, 1, 1);
+            }
         }
     }
 }

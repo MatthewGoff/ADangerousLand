@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 
-public class ControlsMenuController : MonoBehaviour {
-
-    public void ClosePressed()
+namespace ADL
+{
+    public class ControlsMenuController : MonoBehaviour
     {
-        GameManager.Singleton.TakeInput(GameInputType.Escape);
+
+        public void ClosePressed()
+        {
+            GameManager.Singleton.TakeInput(GameInputType.Escape);
+        }
     }
 }

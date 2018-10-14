@@ -1,25 +1,28 @@
 ﻿using UnityEngine;
 
-public class ExperienceBarController : MonoBehaviour
+namespace ADL
 {
-    private RectTransform Rect;
-
-    private void Start()
+    public class ExperienceBarController : MonoBehaviour
     {
-        Rect = GetComponent<RectTransform>();
-    }
+        private RectTransform Rect;
 
-    void Update()
-    {
-        if (GameManager.Singleton.World != null
-                && GameManager.Singleton.World.PlayerManager != null)
+        private void Start()
         {
-            PlayerManager player = GameManager.Singleton.World.PlayerManager;
-            int min = Configuration.GetLevelExperience(player.Level);
-            int max = Configuration.GetLevelExperience(player.Level+1);
-            int goal = max - min;
-            int progress = player.Experience - min;
-            Rect.localScale = new Vector2((float)progress / goal, 1);
+            Rect = GetComponent<RectTransform>();
+        }
+
+        void Update()
+        {
+            if (GameManager.Singleton.World != null
+                    && GameManager.Singleton.World.PlayerManager != null)
+            {
+                PlayerManager player = GameManager.Singleton.World.PlayerManager;
+                int min = Configuration.GetLevelExperience(player.Level);
+                int max = Configuration.GetLevelExperience(player.Level + 1);
+                int goal = max - min;
+                int progress = player.Experience - min;
+                Rect.localScale = new Vector2((float)progress / goal, 1);
+            }
         }
     }
 }

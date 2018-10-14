@@ -1,51 +1,54 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BoltMonoBehaviour : MonoBehaviour
+namespace ADL
 {
-    private SpriteRenderer Renderer;
-    private BoltManager Manager;
-    private float Speed = 10;
-    private float Distance = 30;
-    private Vector2 VelocityVector;
-
-    void Start()
+    public class BoltMonoBehaviour : MonoBehaviour
     {
-        Renderer = GetComponent<SpriteRenderer>();
-        VelocityVector = Quaternion.Euler(0,0,transform.eulerAngles.z) * Vector2.right;
-        StartCoroutine("Fly");
-    }
+        private SpriteRenderer Renderer;
+        private BoltManager Manager;
+        private float Speed = 10;
+        private float Distance = 30;
+        private Vector2 VelocityVector;
 
-    private IEnumerator Fly()
-    {
-        for (float i=0f; i<Distance; i += Speed * Time.deltaTime)
+        void Start()
         {
-            transform.position = (Vector2)transform.position + VelocityVector * Speed * Time.deltaTime;
-            yield return null;
+            Renderer = GetComponent<SpriteRenderer>();
+            VelocityVector = Quaternion.Euler(0, 0, transform.eulerAngles.z) * Vector2.right;
+            StartCoroutine("Fly");
         }
-        Manager.Expire();
-        Destroy(gameObject);
-    }
 
-    public void Update()
-    {
-        Renderer.color = new Color(1, 1, 1, GameManager.Singleton.World.GetVisibilityLevel(transform.position));
-    }
-
-    public void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.tag == "Hitbox")
+        private IEnumerator Fly()
         {
-            IHitboxOwner monoBehaviour = other.gameObject.transform.parent.gameObject.GetComponent<IHitboxOwner>();
-            if (monoBehaviour != null)
+            for (float i = 0f; i < Distance; i += Speed * Time.deltaTime)
             {
-                Manager.ResolveCollision(monoBehaviour.GetCombatantManager());
+                transform.position = (Vector2)transform.position + VelocityVector * Speed * Time.deltaTime;
+                yield return null;
+            }
+            Manager.Expire();
+            Destroy(gameObject);
+        }
+
+        public void Update()
+        {
+            Renderer.color = new Color(1, 1, 1, GameManager.Singleton.World.GetVisibilityLevel(transform.position));
+        }
+
+        public void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.gameObject.tag == "Hitbox")
+            {
+                IHitboxOwner monoBehaviour = other.gameObject.transform.parent.gameObject.GetComponent<IHitboxOwner>();
+                if (monoBehaviour != null)
+                {
+                    Manager.ResolveCollision(monoBehaviour.GetCombatantManager());
+                }
             }
         }
-    }
 
-    public void AssignManager(BoltManager manager)
-    {
-        Manager = manager;
+        public void AssignManager(BoltManager manager)
+        {
+            Manager = manager;
+        }
     }
 }

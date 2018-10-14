@@ -1,21 +1,24 @@
 ﻿using UnityEngine;
 
-public class HealthBarController : MonoBehaviour
+namespace ADL
 {
-    private RectTransform Rect;
-
-    private void Start()
+    public class HealthBarController : MonoBehaviour
     {
-        Rect = GetComponent<RectTransform>();
-    }
+        private RectTransform Rect;
 
-    void Update()
-    {
-        if (GameManager.Singleton.World != null
-                && GameManager.Singleton.World.PlayerManager != null)
+        private void Start()
         {
-            PlayerManager player = GameManager.Singleton.World.PlayerManager;
-            Rect.localScale = new Vector2(player.CurrentHealth / Configuration.PLAYER_MAX_HEALTH(player.MaxHealthPoints), 1);
+            Rect = GetComponent<RectTransform>();
+        }
+
+        void Update()
+        {
+            if (GameManager.Singleton.World != null
+                    && GameManager.Singleton.World.PlayerManager != null)
+            {
+                PlayerManager player = GameManager.Singleton.World.PlayerManager;
+                Rect.localScale = new Vector2(player.CurrentHealth / Configuration.PLAYER_MAX_HEALTH(player.MaxHealthPoints), 1);
+            }
         }
     }
 }

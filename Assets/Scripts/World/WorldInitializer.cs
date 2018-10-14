@@ -1,15 +1,18 @@
-﻿public class WorldInitializer : ThreadedJob
+﻿namespace ADL
 {
-    public World World;
-    public ChunkIndex ChunkIndex;
-
-    protected override void ThreadFunction()
+    public class WorldInitializer : ThreadedJob
     {
-        World.InitializeRiverLocality(ChunkIndex);
-    }
+        public World World;
+        public ChunkIndex ChunkIndex;
 
-    protected override void OnFinished()
-    {
-        World.FinalLocalityInitialization(ChunkIndex);
+        protected override void ThreadFunction()
+        {
+            World.InitializeRiverLocality(ChunkIndex);
+        }
+
+        protected override void OnFinished()
+        {
+            World.FinalLocalityInitialization(ChunkIndex);
+        }
     }
 }

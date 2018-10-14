@@ -1,27 +1,30 @@
 ﻿using UnityEngine;
 
-public class CameraController : MonoBehaviour
+namespace ADL
 {
-    private Camera Camera;
-
-    void Start()
+    public class CameraController : MonoBehaviour
     {
-        Camera = GetComponent<Camera>();
-        Camera.orthographicSize = Screen.height / (2f * Configuration.PIXELS_PER_UNIT);
-    }
+        private Camera Camera;
 
-    public void LateUpdate()
-    {
-        Vector3 newPosition = GameManager.Singleton.World.PlayerManager.GetCenter();
-        newPosition = Util.RoundToPixel(newPosition, Configuration.PIXELS_PER_UNIT);
+        void Start()
+        {
+            Camera = GetComponent<Camera>();
+            Camera.orthographicSize = Screen.height / (2f * Configuration.PIXELS_PER_UNIT);
+        }
 
-        // Move the camera slightly so it is NOT perfectly alligned. This
-        // is required to fix bug with directX relating to half pixels.
-        newPosition -= new Vector3(0.01f, 0.01f, 0f);
+        public void LateUpdate()
+        {
+            Vector3 newPosition = GameManager.Singleton.World.PlayerManager.GetCenter();
+            newPosition = Util.RoundToPixel(newPosition, Configuration.PIXELS_PER_UNIT);
 
-        // Move the camera so it is "above" our two dimentional world
-        newPosition.z = -1;
+            // Move the camera slightly so it is NOT perfectly alligned. This
+            // is required to fix bug with directX relating to half pixels.
+            newPosition -= new Vector3(0.01f, 0.01f, 0f);
 
-        transform.position = newPosition;
+            // Move the camera so it is "above" our two dimentional world
+            newPosition.z = -1;
+
+            transform.position = newPosition;
+        }
     }
 }

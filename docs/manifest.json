@@ -1,0 +1,608 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/Users/Matt/Documents/UnityProjects/ADangerousLand/docfx_project",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.AttributesMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.AttributesMenuController.html",
+          "hash": "O4DKnXMmCH2CUvrNGC8ggA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.BasicAI.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.BasicAI.html",
+          "hash": "PuFxf/3jYuu3sllALy+seA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.BoltManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.BoltManager.html",
+          "hash": "gWLQfaLw8NSvfmW2kp7WKg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.BoltMonoBehaviour.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.BoltMonoBehaviour.html",
+          "hash": "dk1GztutWFaHdmV8T0nKgg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.CameraController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.CameraController.html",
+          "hash": "e4wT8Yukxpe3aqvQnxqriA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.CharacterToggleController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.CharacterToggleController.html",
+          "hash": "QQ7O/B1ZYHr+UPwh+jvfqg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Chunk.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Chunk.html",
+          "hash": "EasdK0Hy4nGIRjTqCMzbJA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.ChunkStorage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.ChunkStorage.html",
+          "hash": "OWgNASJJdK/PRcO5XLKd0g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.ControlsMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.ControlsMenuController.html",
+          "hash": "icAzNXSzxfz/3yd/lnkBiQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.DamageNumberMonoBehaviour.SignalFinishDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.DamageNumberMonoBehaviour.SignalFinishDelegate.html",
+          "hash": "o9z+V5a69tzBQFV/xeA0GQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.DamageNumberMonoBehaviour.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.DamageNumberMonoBehaviour.html",
+          "hash": "rU1Q5YjIE9YcD15+mqnwTQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.DamageNumbersCanvasMonoBehaviour.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.DamageNumbersCanvasMonoBehaviour.html",
+          "hash": "3GUwZ3YulgKaUHwzQSUUCA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.EnemyAI.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.EnemyAI.html",
+          "hash": "N3wEKCuKdV+D/yYObt9tYQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.EnemyManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.EnemyManager.html",
+          "hash": "Clpz8/u1Yhiw6XeqyGahxw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.EnemyMonoBehaviour.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.EnemyMonoBehaviour.html",
+          "hash": "puBg7Zqv2LmLhK8QvOvuUw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.ExperienceBarController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.ExperienceBarController.html",
+          "hash": "+tJK1bPPnby0/CrC2PlIEw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.GameManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.GameManager.html",
+          "hash": "lzh9Dqlvd2Dxeiym+ZDNiA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.HealthBarController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.HealthBarController.html",
+          "hash": "gSCD5g4RUwq2tZfvQD1NiQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.HealthBarMonoBehaviour.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.HealthBarMonoBehaviour.html",
+          "hash": "BNeTUo2SHgcBnyU+DQgJFA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.HealthTextController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.HealthTextController.html",
+          "hash": "rOY1PjBvdYXxrCg2TPlShg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.InfoMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.InfoMenuController.html",
+          "hash": "ZEHOZDUHWJeWAX35AnGrUg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.MainMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.MainMenuController.html",
+          "hash": "YlpajCEcCj1mktJtwpD54w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.ManaBarController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.ManaBarController.html",
+          "hash": "NK9hP7bj+3k591A0N8LdZA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.ManaTextController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.ManaTextController.html",
+          "hash": "5zx5n+YXVU9NN0h3sFwQOA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.NewPlayerMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.NewPlayerMenuController.html",
+          "hash": "dOi/CInTBNCJrKFdW2p3qQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.NewWorldMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.NewWorldMenuController.html",
+          "hash": "Nbdp7vmm9M0TbgvZzGrf/Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.PauseMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.PauseMenuController.html",
+          "hash": "fBIxKfV68dzJ7yBmz/SJhg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.PlayerManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.PlayerManager.html",
+          "hash": "cej6PLCfEI414KMdNJJR0Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.PlayerMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.PlayerMenuController.html",
+          "hash": "fRzmrJzrfdFTT8vuOJPXoA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.PlayerMonoBehaviour.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.PlayerMonoBehaviour.html",
+          "hash": "3t+qvgaQiGKgxftEdJKctw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.PlayerPersistenceManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.PlayerPersistenceManager.html",
+          "hash": "GY08TRPqsTqBWGomU2Y8JQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.StompManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.StompManager.html",
+          "hash": "Rp0DvfzT+WbaZsK/yL009A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.StompMonoBehaviour.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.StompMonoBehaviour.html",
+          "hash": "uClvHjoiVvV7OVBvC1Qmlw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Tile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Tile.html",
+          "hash": "qBl0vLLmMnSBjXkP6+bmTw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.World.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.World.html",
+          "hash": "eb/yFowU1fx193zFTKMiew=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.WorldInitializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.WorldInitializer.html",
+          "hash": "w9ARPBtPQx5U88TBWT0NDg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.WorldMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.WorldMenuController.html",
+          "hash": "VqIwEiExfYkpsKBoeN1Wpw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.WorldPersistenceManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.WorldPersistenceManager.html",
+          "hash": "gCWw9/W0Ow4KExp1zuBy+A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.WorldToggleController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.WorldToggleController.html",
+          "hash": "5YrJx5Jj/eg43nstacvreA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.html",
+          "hash": "HGHCcwjo1HwG75cHKqP57Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "TI/qcBr5AmRrwPvDmHF/fw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "KlnWY+RVDkCdS3nMf32ccQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/Minimap.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/Minimap.html",
+          "hash": "KELBXoDklghGdeFN+38lbg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "m8PiTtjaaxaMHu2Z+7/Urw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "t7iiFrmuYmrKWisdq+lN6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "F+43nn5m4oheFSsc7cWf7w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "k+/dkjFuwAVS32HduMpmBw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build"
+      },
+      "processors": {
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build"
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build"
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing"
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
