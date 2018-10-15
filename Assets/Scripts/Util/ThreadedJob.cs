@@ -1,83 +1,86 @@
 ﻿using System.Collections;
 
-public class ThreadedJob
+namespace ADL.Util
 {
-    private bool m_IsDone = false;
-    private bool m_IsRunning = false;
-    private object m_Handle = new object();
-    private System.Threading.Thread m_Thread = null;
-    public bool IsDone
+    public class ThreadedJob
     {
-        get
+        private bool m_IsDone = false;
+        private bool m_IsRunning = false;
+        private object m_Handle = new object();
+        private System.Threading.Thread m_Thread = null;
+        public bool IsDone
         {
-            bool tmp;
-            lock (m_Handle)
+            get
             {
-                tmp = m_IsDone;
+                bool tmp;
+                lock (m_Handle)
+                {
+                    tmp = m_IsDone;
+                }
+                return tmp;
             }
-            return tmp;
-        }
-        set
-        {
-            lock (m_Handle)
+            set
             {
-                m_IsDone = value;
-            }
-        }
-    }
-    public bool IsRunning
-    {
-        get
-        {
-            bool tmp;
-            lock (m_Handle)
-            {
-                tmp = m_IsRunning;
-            }
-            return tmp;
-        }
-        set
-        {
-            lock (m_Handle)
-            {
-                m_IsRunning = value;
+                lock (m_Handle)
+                {
+                    m_IsDone = value;
+                }
             }
         }
-    }
-
-    public virtual void Start()
-    {
-        m_Thread = new System.Threading.Thread(Run);
-        m_Thread.Start();
-    }
-    public virtual void Abort()
-    {
-        m_Thread.Abort();
-    }
-
-    protected virtual void ThreadFunction() { }
-
-    protected virtual void OnFinished() { }
-
-    public virtual void Update()
-    {
-        if (IsDone)
+        public bool IsRunning
         {
-            OnFinished();
+            get
+            {
+                bool tmp;
+                lock (m_Handle)
+                {
+                    tmp = m_IsRunning;
+                }
+                return tmp;
+            }
+            set
+            {
+                lock (m_Handle)
+                {
+                    m_IsRunning = value;
+                }
+            }
         }
-    }
-    public IEnumerator WaitFor()
-    {
-        while (!IsDone)
+
+        public virtual void Start()
         {
-            yield return null;
+            m_Thread = new System.Threading.Thread(Run);
+            m_Thread.Start();
         }
-    }
-    private void Run()
-    {
-        IsRunning = true;
-        ThreadFunction();
-        IsRunning = false;
-        IsDone = true;
+        public virtual void Abort()
+        {
+            m_Thread.Abort();
+        }
+
+        protected virtual void ThreadFunction() { }
+
+        protected virtual void OnFinished() { }
+
+        public virtual void Update()
+        {
+            if (IsDone)
+            {
+                OnFinished();
+            }
+        }
+        public IEnumerator WaitFor()
+        {
+            while (!IsDone)
+            {
+                yield return null;
+            }
+        }
+        private void Run()
+        {
+            IsRunning = true;
+            ThreadFunction();
+            IsRunning = false;
+            IsDone = true;
+        }
     }
 }

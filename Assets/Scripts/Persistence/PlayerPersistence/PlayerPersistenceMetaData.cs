@@ -1,12 +1,16 @@
 ﻿using System;
+using ADL.Core;
 
-[Serializable]
-public class PlayerPersistenceMetaData
+namespace ADL.Persistence
 {
-    public int PlayerIdentifier;
-    public string Version;
-    public string Name;
-    public int Level;
-    public DeathPenaltyType DeathPenalty;
-    public float Color;
+    [Serializable]
+    public class PlayerPersistenceMetaData
+    {
+        public int PlayerIdentifier;
+        public string Version;
+        public string Name;
+        public int Level;
+        public DeathPenaltyType DeathPenalty;
+        public float Color;
+    }
 }

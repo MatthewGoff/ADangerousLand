@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-
-namespace ADL
+using ADL.Core;
+using ADL.Util;
+using ADL.Combat.Player;
+namespace ADL.UI
 {
     public class HealthTextController : MonoBehaviour
     {
@@ -18,9 +20,9 @@ namespace ADL
                     && GameManager.Singleton.World.PlayerManager != null)
             {
                 PlayerManager player = GameManager.Singleton.World.PlayerManager;
-                float health = Util.Round(player.CurrentHealth, 0.1f);
-                float maxHealth = Util.Round(Configuration.PLAYER_MAX_HEALTH(player.MaxHealthPoints), 0.1f);
-                Text.text = Util.Truncate(health.ToString(), 4) + "/" + Util.Truncate(maxHealth.ToString(), 4);
+                float health = Helpers.Round(player.CurrentHealth, 0.1f);
+                float maxHealth = Helpers.Round(Configuration.PLAYER_MAX_HEALTH(player.MaxHealthPoints), 0.1f);
+                Text.text = Helpers.Truncate(health.ToString(), 4) + "/" + Helpers.Truncate(maxHealth.ToString(), 4);
             }
         }
     }

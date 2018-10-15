@@ -1,4 +1,0 @@
-﻿public enum AIType
-{
-    Basic
-}

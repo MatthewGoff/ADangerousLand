@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using ADL.Persistence;
 
-namespace ADL
+namespace ADL.UI
 {
     public class WorldToggleController : MonoBehaviour
     {

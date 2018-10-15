@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using ADL.Core;
+using ADL.Persistence;
 
-namespace ADL
+namespace ADL.UI
 {
     public class NewWorldMenuController : MonoBehaviour
     {

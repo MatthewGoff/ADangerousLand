@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using MessagePack;
 using UnityEngine;
+using ADL.World;
 
-namespace ADL
+namespace ADL.Persistence
 {
     public static class WorldPersistenceManager
     {
@@ -25,14 +26,14 @@ namespace ADL
             }
         }
 
-        public static World LoadWorld(int worldIdentifier)
+        public static WorldManager LoadWorld(int worldIdentifier)
         {
             byte[] bytes = File.ReadAllBytes(PATH + worldIdentifier.ToString() + ".bin");
-            World world = MessagePackSerializer.Deserialize<World>(bytes);
+            WorldManager world = MessagePackSerializer.Deserialize<WorldManager>(bytes);
             return world;
         }
 
-        public static void SaveWorld(World world)
+        public static void SaveWorld(WorldManager world)
         {
             byte[] bytes = MessagePackSerializer.Serialize(world);
             File.WriteAllBytes(PATH + world.WorldIdentifier.ToString() + ".bin", bytes);
@@ -66,7 +67,7 @@ namespace ADL
             MetaData.Add(newMetaData);
             SaveMetaData();
 
-            World newWorld = new World(newMetaData.WorldIdentifier, newMetaData.Seed);
+            WorldManager newWorld = new WorldManager(newMetaData.WorldIdentifier, newMetaData.Seed);
             SaveWorld(newWorld);
             return newWorld.WorldIdentifier;
         }

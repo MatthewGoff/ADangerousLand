@@ -1,6 +1,7 @@
 ﻿using MessagePack;
+using ADL.Util;
 
-namespace ADL
+namespace ADL.World
 {
     [MessagePackObject]
     public class ChunkStorage

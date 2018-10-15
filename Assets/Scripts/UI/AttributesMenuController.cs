@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using ADL.Combat.Player;
+using ADL.Core;
+using ADL.Util;
 
-namespace ADL
+namespace ADL.UI
 {
     public class AttributesMenuController : MonoBehaviour
     {
@@ -106,15 +109,15 @@ namespace ADL
                 StaminaRegenButton.SetActive(true);
             }
 
-            AttackDamageCurrentText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_ATTACK_DAMAGE(Player.AttackDamagePoints), 0.1f).ToString();
-            AttackSpeedCurrentText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_ATTACK_SPEED(Player.AttackSpeedPoints), 0.1f).ToString();
-            MoveSpeedCurrentText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MOVE_SPEED(Player.MoveSpeedPoints), 0.1f).ToString();
-            SightRadiusCurrentText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_SIGHT_RADIUS(Player.SightRadiusPoints), 0.1f).ToString();
-            ProjectileDamageCurrentText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_PROJECTILE_DAMAGE(Player.ProjectileDamagePoints) * 100, 0.1f).ToString() + "%";
-            MaxHealthCurrentText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MAX_HEALTH(Player.MaxHealthPoints), 0.1f).ToString();
-            MaxStaminaCurrentText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MAX_STAMINA(Player.MaxStaminaPoints), 0.1f).ToString();
-            HealthRegenCurrentText.GetComponent<Text>().text = Util.Truncate(Util.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints) * 100, 0.01f).ToString(), 5) + "%";
-            StaminaRegenCurrentText.GetComponent<Text>().text = Util.Truncate(Util.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints), 0.01f).ToString(), 4);
+            AttackDamageCurrentText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_ATTACK_DAMAGE(Player.AttackDamagePoints), 0.1f).ToString();
+            AttackSpeedCurrentText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_ATTACK_SPEED(Player.AttackSpeedPoints), 0.1f).ToString();
+            MoveSpeedCurrentText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_MOVE_SPEED(Player.MoveSpeedPoints), 0.1f).ToString();
+            SightRadiusCurrentText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_SIGHT_RADIUS(Player.SightRadiusPoints), 0.1f).ToString();
+            ProjectileDamageCurrentText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_PROJECTILE_DAMAGE(Player.ProjectileDamagePoints) * 100, 0.1f).ToString() + "%";
+            MaxHealthCurrentText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_MAX_HEALTH(Player.MaxHealthPoints), 0.1f).ToString();
+            MaxStaminaCurrentText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_MAX_STAMINA(Player.MaxStaminaPoints), 0.1f).ToString();
+            HealthRegenCurrentText.GetComponent<Text>().text = Helpers.Truncate(Helpers.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints) * 100, 0.01f).ToString(), 5) + "%";
+            StaminaRegenCurrentText.GetComponent<Text>().text = Helpers.Truncate(Helpers.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints), 0.01f).ToString(), 4);
         }
 
         public void OnEnable()
@@ -207,8 +210,8 @@ namespace ADL
             StatTooltipDescriptionText.GetComponent<Text>().text = "Damage dealt with attacks";
             StatTooltipAsymptoteText.GetComponent<Text>().text = "(points + 10)";
             StatTooltipPointsInvestedText.GetComponent<Text>().text = Player.AttackDamagePoints.ToString();
-            StatTooltipBaseValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_ATTACK_DAMAGE(Player.AttackDamagePoints), 0.1f).ToString();
-            StatTooltipEffectiveValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_ATTACK_DAMAGE(Player.AttackDamagePoints), 0.1f).ToString();
+            StatTooltipBaseValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_ATTACK_DAMAGE(Player.AttackDamagePoints), 0.1f).ToString();
+            StatTooltipEffectiveValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_ATTACK_DAMAGE(Player.AttackDamagePoints), 0.1f).ToString();
         }
 
         public void OnCursorEnterAttackSpeed()
@@ -218,8 +221,8 @@ namespace ADL
             StatTooltipDescriptionText.GetComponent<Text>().text = "Maximum attacks per second";
             StatTooltipAsymptoteText.GetComponent<Text>().text = "20";
             StatTooltipPointsInvestedText.GetComponent<Text>().text = Player.AttackSpeedPoints.ToString();
-            StatTooltipBaseValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_ATTACK_SPEED(Player.AttackSpeedPoints), 0.1f).ToString();
-            StatTooltipEffectiveValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_ATTACK_SPEED(Player.AttackSpeedPoints), 0.1f).ToString();
+            StatTooltipBaseValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_ATTACK_SPEED(Player.AttackSpeedPoints), 0.1f).ToString();
+            StatTooltipEffectiveValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_ATTACK_SPEED(Player.AttackSpeedPoints), 0.1f).ToString();
         }
 
         public void OnCursorEnterMoveSpeed()
@@ -229,8 +232,8 @@ namespace ADL
             StatTooltipDescriptionText.GetComponent<Text>().text = "Tiles traversed per second";
             StatTooltipAsymptoteText.GetComponent<Text>().text = "15";
             StatTooltipPointsInvestedText.GetComponent<Text>().text = Player.MoveSpeedPoints.ToString();
-            StatTooltipBaseValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MOVE_SPEED(Player.MoveSpeedPoints), 0.1f).ToString();
-            StatTooltipEffectiveValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MOVE_SPEED(Player.MoveSpeedPoints), 0.1f).ToString();
+            StatTooltipBaseValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_MOVE_SPEED(Player.MoveSpeedPoints), 0.1f).ToString();
+            StatTooltipEffectiveValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_MOVE_SPEED(Player.MoveSpeedPoints), 0.1f).ToString();
         }
 
         public void OnCursorEnterSightRadius()
@@ -240,8 +243,8 @@ namespace ADL
             StatTooltipDescriptionText.GetComponent<Text>().text = "Radius of fully visable tiles around player";
             StatTooltipAsymptoteText.GetComponent<Text>().text = "20";
             StatTooltipPointsInvestedText.GetComponent<Text>().text = Player.SightRadiusPoints.ToString();
-            StatTooltipBaseValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_SIGHT_RADIUS(Player.SightRadiusPoints), 0.1f).ToString();
-            StatTooltipEffectiveValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_SIGHT_RADIUS(Player.SightRadiusPoints), 0.1f).ToString();
+            StatTooltipBaseValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_SIGHT_RADIUS(Player.SightRadiusPoints), 0.1f).ToString();
+            StatTooltipEffectiveValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_SIGHT_RADIUS(Player.SightRadiusPoints), 0.1f).ToString();
         }
 
         public void OnCursorEnterProjectileDamage()
@@ -251,8 +254,8 @@ namespace ADL
             StatTooltipDescriptionText.GetComponent<Text>().text = "Percentage of (Attack Damage) dealt by projectiles";
             StatTooltipAsymptoteText.GetComponent<Text>().text = "100%";
             StatTooltipPointsInvestedText.GetComponent<Text>().text = Player.ProjectileDamagePoints.ToString();
-            StatTooltipBaseValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_PROJECTILE_DAMAGE(Player.ProjectileDamagePoints), 0.1f).ToString();
-            StatTooltipEffectiveValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_PROJECTILE_DAMAGE(Player.ProjectileDamagePoints), 0.1f).ToString();
+            StatTooltipBaseValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_PROJECTILE_DAMAGE(Player.ProjectileDamagePoints), 0.1f).ToString();
+            StatTooltipEffectiveValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_PROJECTILE_DAMAGE(Player.ProjectileDamagePoints), 0.1f).ToString();
         }
 
         public void OnCursorEnterMaxHealth()
@@ -262,8 +265,8 @@ namespace ADL
             StatTooltipDescriptionText.GetComponent<Text>().text = "Damage you can take before dying";
             StatTooltipAsymptoteText.GetComponent<Text>().text = "(points + 30)";
             StatTooltipPointsInvestedText.GetComponent<Text>().text = Player.MaxHealthPoints.ToString();
-            StatTooltipBaseValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MAX_HEALTH(Player.MaxHealthPoints), 0.01f).ToString();
-            StatTooltipEffectiveValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MAX_HEALTH(Player.MaxHealthPoints), 0.01f).ToString();
+            StatTooltipBaseValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_MAX_HEALTH(Player.MaxHealthPoints), 0.01f).ToString();
+            StatTooltipEffectiveValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_MAX_HEALTH(Player.MaxHealthPoints), 0.01f).ToString();
         }
 
         public void OnCursorEnterMaxStamina()
@@ -273,8 +276,8 @@ namespace ADL
             StatTooltipDescriptionText.GetComponent<Text>().text = "Stamina you can spend on abilities";
             StatTooltipAsymptoteText.GetComponent<Text>().text = "(points + 30)";
             StatTooltipPointsInvestedText.GetComponent<Text>().text = Player.MaxStaminaPoints.ToString();
-            StatTooltipBaseValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MAX_STAMINA(Player.MaxStaminaPoints), 0.01f).ToString();
-            StatTooltipEffectiveValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MAX_STAMINA(Player.MaxStaminaPoints), 0.01f).ToString();
+            StatTooltipBaseValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_MAX_STAMINA(Player.MaxStaminaPoints), 0.01f).ToString();
+            StatTooltipEffectiveValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_MAX_STAMINA(Player.MaxStaminaPoints), 0.01f).ToString();
         }
 
         public void OnCursorEnterHealthRegen()
@@ -284,8 +287,8 @@ namespace ADL
             StatTooltipDescriptionText.GetComponent<Text>().text = "Percentage of health recovered per second";
             StatTooltipAsymptoteText.GetComponent<Text>().text = "15%";
             StatTooltipPointsInvestedText.GetComponent<Text>().text = Player.HealthRegenPoints.ToString();
-            StatTooltipBaseValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints) * 100, 0.01f).ToString() + "%";
-            StatTooltipEffectiveValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints) * 100, 0.01f).ToString() + "%";
+            StatTooltipBaseValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints) * 100, 0.01f).ToString() + "%";
+            StatTooltipEffectiveValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints) * 100, 0.01f).ToString() + "%";
         }
 
         public void OnCursorEnterStaminaRegen()
@@ -295,71 +298,71 @@ namespace ADL
             StatTooltipDescriptionText.GetComponent<Text>().text = "Stamina recovered per second";
             StatTooltipAsymptoteText.GetComponent<Text>().text = "2.5";
             StatTooltipPointsInvestedText.GetComponent<Text>().text = Player.StaminaRegenPoints.ToString();
-            StatTooltipBaseValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints), 0.01f).ToString();
-            StatTooltipEffectiveValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints), 0.01f).ToString();
+            StatTooltipBaseValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints), 0.01f).ToString();
+            StatTooltipEffectiveValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints), 0.01f).ToString();
         }
 
         public void OnCursorEnterAttackDamageButton()
         {
             ButtonTooltip.SetActive(true);
-            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_ATTACK_DAMAGE(Player.AttackDamagePoints), 0.1f).ToString();
-            ButtonTooltipNextValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_ATTACK_DAMAGE(Player.AttackDamagePoints + 1), 0.1f).ToString();
+            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_ATTACK_DAMAGE(Player.AttackDamagePoints), 0.1f).ToString();
+            ButtonTooltipNextValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_ATTACK_DAMAGE(Player.AttackDamagePoints + 1), 0.1f).ToString();
         }
 
         public void OnCursorEnterAttackSpeedButton()
         {
             ButtonTooltip.SetActive(true);
-            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_ATTACK_SPEED(Player.AttackSpeedPoints), 0.1f).ToString();
-            ButtonTooltipNextValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_ATTACK_SPEED(Player.AttackSpeedPoints + 1), 0.1f).ToString();
+            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_ATTACK_SPEED(Player.AttackSpeedPoints), 0.1f).ToString();
+            ButtonTooltipNextValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_ATTACK_SPEED(Player.AttackSpeedPoints + 1), 0.1f).ToString();
         }
 
         public void OnCursorEnterMoveSpeedButton()
         {
             ButtonTooltip.SetActive(true);
-            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MOVE_SPEED(Player.MoveSpeedPoints), 0.1f).ToString();
-            ButtonTooltipNextValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MOVE_SPEED(Player.MoveSpeedPoints + 1), 0.1f).ToString();
+            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_MOVE_SPEED(Player.MoveSpeedPoints), 0.1f).ToString();
+            ButtonTooltipNextValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_MOVE_SPEED(Player.MoveSpeedPoints + 1), 0.1f).ToString();
         }
 
         public void OnCursorEnterSightRadiusButton()
         {
             ButtonTooltip.SetActive(true);
-            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_SIGHT_RADIUS(Player.SightRadiusPoints), 0.1f).ToString();
-            ButtonTooltipNextValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_SIGHT_RADIUS(Player.SightRadiusPoints + 1), 0.1f).ToString();
+            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_SIGHT_RADIUS(Player.SightRadiusPoints), 0.1f).ToString();
+            ButtonTooltipNextValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_SIGHT_RADIUS(Player.SightRadiusPoints + 1), 0.1f).ToString();
         }
 
         public void OnCursorEnterProjectileDamageButton()
         {
             ButtonTooltip.SetActive(true);
-            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_PROJECTILE_DAMAGE(Player.ProjectileDamagePoints) * 100, 0.1f).ToString() + "%";
-            ButtonTooltipNextValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_PROJECTILE_DAMAGE(Player.ProjectileDamagePoints + 1) * 100, 0.1f).ToString() + "%";
+            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_PROJECTILE_DAMAGE(Player.ProjectileDamagePoints) * 100, 0.1f).ToString() + "%";
+            ButtonTooltipNextValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_PROJECTILE_DAMAGE(Player.ProjectileDamagePoints + 1) * 100, 0.1f).ToString() + "%";
         }
 
         public void OnCursorEnterMaxHealthButton()
         {
             ButtonTooltip.SetActive(true);
-            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MAX_HEALTH(Player.MaxHealthPoints), 0.1f).ToString();
-            ButtonTooltipNextValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MAX_HEALTH(Player.MaxHealthPoints + 1), 0.1f).ToString();
+            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_MAX_HEALTH(Player.MaxHealthPoints), 0.1f).ToString();
+            ButtonTooltipNextValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_MAX_HEALTH(Player.MaxHealthPoints + 1), 0.1f).ToString();
         }
 
         public void OnCursorEnterMaxStaminaButton()
         {
             ButtonTooltip.SetActive(true);
-            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MAX_STAMINA(Player.MaxStaminaPoints), 0.1f).ToString();
-            ButtonTooltipNextValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_MAX_STAMINA(Player.MaxStaminaPoints + 1), 0.1f).ToString();
+            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_MAX_STAMINA(Player.MaxStaminaPoints), 0.1f).ToString();
+            ButtonTooltipNextValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_MAX_STAMINA(Player.MaxStaminaPoints + 1), 0.1f).ToString();
         }
 
         public void OnCursorEnterHealthRegenButton()
         {
             ButtonTooltip.SetActive(true);
-            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints) * 100, 0.01f).ToString() + "%";
-            ButtonTooltipNextValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints + 1) * 100, 0.01f).ToString() + "%";
+            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints) * 100, 0.01f).ToString() + "%";
+            ButtonTooltipNextValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_HEALTH_REGEN(Player.HealthRegenPoints + 1) * 100, 0.01f).ToString() + "%";
         }
 
         public void OnCursorEnterStaminaRegenButton()
         {
             ButtonTooltip.SetActive(true);
-            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints), 0.1f).ToString();
-            ButtonTooltipNextValueText.GetComponent<Text>().text = Util.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints + 1), 0.1f).ToString();
+            ButtonTooltipCurrentValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints), 0.1f).ToString();
+            ButtonTooltipNextValueText.GetComponent<Text>().text = Helpers.Round(Configuration.PLAYER_STAMINA_REGEN(Player.StaminaRegenPoints + 1), 0.1f).ToString();
         }
     }
 }

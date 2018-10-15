@@ -1,52 +1,55 @@
 ﻿using MessagePack;
 
-[MessagePackObject]
-public class ExtensibleArray2D<T>
+namespace ADL.Util
 {
-
-    [Key(0)] public T[,] Array;
-
-    public ExtensibleArray2D(int width, int height)
+    [MessagePackObject]
+    public class ExtensibleArray2D<T>
     {
-        Array = new T[width, height];
-    }
 
-    [SerializationConstructor]
-    public ExtensibleArray2D(T[,] array)
-    {
-        Array = array;
-    }
+        [Key(0)] public T[,] Array;
 
-    public T Get(int x, int y)
-    {
-        if (Util.WithinArrayBounds2D<T>(ref Array, x, y))
+        public ExtensibleArray2D(int width, int height)
         {
-            return Array[x, y];
+            Array = new T[width, height];
         }
-        else
-        {
-            return default;
-        }
-    }
 
-    public void Set(int x, int y, T data)
-    {
-        if (Util.WithinArrayBounds2D<T>(ref Array, x, y))
+        [SerializationConstructor]
+        public ExtensibleArray2D(T[,] array)
         {
-            Array[x, y] = data;
+            Array = array;
         }
-        else
+
+        public T Get(int x, int y)
         {
-            T[,] newArray = new T[Array.GetLength(0) * 2, Array.GetLength(1) * 2];
-            for (int i = 0; i < Array.GetLength(0); i++)
+            if (Helpers.WithinArrayBounds2D<T>(ref Array, x, y))
             {
-                for (int j = 0; j < Array.GetLength(1); j++)
-                {
-                    newArray[i, j] = Array[i, j];
-                }
+                return Array[x, y];
             }
-            Array = newArray;
-            Set(x, y, data);
+            else
+            {
+                return default;
+            }
+        }
+
+        public void Set(int x, int y, T data)
+        {
+            if (Helpers.WithinArrayBounds2D<T>(ref Array, x, y))
+            {
+                Array[x, y] = data;
+            }
+            else
+            {
+                T[,] newArray = new T[Array.GetLength(0) * 2, Array.GetLength(1) * 2];
+                for (int i = 0; i < Array.GetLength(0); i++)
+                {
+                    for (int j = 0; j < Array.GetLength(1); j++)
+                    {
+                        newArray[i, j] = Array[i, j];
+                    }
+                }
+                Array = newArray;
+                Set(x, y, data);
+            }
         }
     }
 }

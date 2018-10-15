@@ -2,8 +2,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using ADL.World;
+using ADL.Core;
+using ADL.Persistence;
 
-namespace ADL
+namespace ADL.UI
 {
     public class WorldMenuController : MonoBehaviour
     {
@@ -12,7 +15,7 @@ namespace ADL
         public GameObject ToggleGroup;
         public GameObject WorldTogglePrefab;
         public List<GameObject> WorldToggles;
-        public World SelectedWorld;
+        public WorldManager SelectedWorld;
         public GameObject NextButton;
         public GameObject DeleteButton;
 
@@ -56,9 +59,9 @@ namespace ADL
             GameManager.Singleton.TakeInput(GameInputType.StartPlay);
         }
 
-        private World GetSelectedWorld()
+        private WorldManager GetSelectedWorld()
         {
-            World world = null;
+            WorldManager world = null;
             foreach (Toggle toggle in ToggleGroup.GetComponent<ToggleGroup>().ActiveToggles())
             {
                 int worldIdentifier = toggle.GetComponent<WorldToggleController>().WorldIdentifier;

@@ -1,47 +1,50 @@
 ﻿using System.Collections.Generic;
 
-public class DequeuePriorityQueue<T> where T : IPrioritizable
+namespace ADL.Util
 {
-    public List<T> Nodes;
-
-    public DequeuePriorityQueue()
+    public class DequeuePriorityQueue<T> where T : IPrioritizable
     {
-        Nodes = new List<T>();
-    }
+        public List<T> Nodes;
 
-    public void Enqueue(T data)
-    {
-        Nodes.Add(data);
-    }
-
-    public T Dequeue()
-    {
-        T minimumData = default;
-        float minimumPriority = float.MaxValue;
-
-        foreach (T data in Nodes)
+        public DequeuePriorityQueue()
         {
-            float priority = data.GetPriority();
-            if (priority < minimumPriority)
+            Nodes = new List<T>();
+        }
+
+        public void Enqueue(T data)
+        {
+            Nodes.Add(data);
+        }
+
+        public T Dequeue()
+        {
+            T minimumData = default;
+            float minimumPriority = float.MaxValue;
+
+            foreach (T data in Nodes)
             {
-                minimumPriority = priority;
-                minimumData = data;
+                float priority = data.GetPriority();
+                if (priority < minimumPriority)
+                {
+                    minimumPriority = priority;
+                    minimumData = data;
+                }
             }
+
+            Nodes.Remove(minimumData);
+            return minimumData;
         }
 
-        Nodes.Remove(minimumData);
-        return minimumData;
-    }
-
-    public bool Contains(T node)
-    {
-        if (Nodes == null)
+        public bool Contains(T node)
         {
-            return false;
-        }
-        else
-        {
-            return Nodes.Contains(node);
+            if (Nodes == null)
+            {
+                return false;
+            }
+            else
+            {
+                return Nodes.Contains(node);
+            }
         }
     }
 }

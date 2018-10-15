@@ -1,4 +1,7 @@
-﻿public interface IPrioritizable
+﻿namespace ADL.Util
 {
-    float GetPriority();
+    public interface IPrioritizable
+    {
+        float GetPriority();
+    }
 }

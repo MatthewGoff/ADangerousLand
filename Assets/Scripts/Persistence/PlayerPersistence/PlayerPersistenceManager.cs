@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using MessagePack;
 using UnityEngine;
+using ADL.Core;
+using ADL.Combat.Player;
 
-namespace ADL
+namespace ADL.Persistence
 {
     public static class PlayerPersistenceManager
     {
@@ -17,12 +19,12 @@ namespace ADL
         {
             if (File.Exists(PATH + META_DATA_FILE_NAME))
             {
-                Logger.LogInfo("Found existing player meta data. Loading...");
+                Core.Logger.LogInfo("Found existing player meta data. Loading...");
                 LoadMetaData();
             }
             else
             {
-                Logger.LogInfo("Failed to find existing player meta data. Creating...");
+                Core.Logger.LogInfo("Failed to find existing player meta data. Creating...");
                 MetaData = new List<PlayerPersistenceMetaData>();
                 SaveMetaData();
             }
@@ -90,7 +92,7 @@ namespace ADL
             {
                 string log = "Failed to create directory: " + PATH;
                 log += "\n" + e.ToString();
-                Logger.LogException(log);
+                Core.Logger.LogException(log);
                 return false;
             }
             Stream saveFileStream = null;
@@ -102,7 +104,7 @@ namespace ADL
             {
                 string log = "Failed to create file: " + PATH + META_DATA_FILE_NAME;
                 log += "\n" + e.ToString();
-                Logger.LogException(log);
+                Core.Logger.LogException(log);
                 return false;
             }
             BinaryFormatter binaryFormatter = new BinaryFormatter();
@@ -114,7 +116,7 @@ namespace ADL
             {
                 string log = "Failed to write meta data to file";
                 log += "\n" + e.ToString();
-                Logger.LogException(log);
+                Core.Logger.LogException(log);
                 return false;
             }
             try
@@ -125,7 +127,7 @@ namespace ADL
             {
                 string log = "Failed to close file";
                 log += "\n" + e.ToString();
-                Logger.LogException(log);
+                Core.Logger.LogException(log);
                 return false;
             }
             return true;
@@ -142,7 +144,7 @@ namespace ADL
             {
                 string log = "Failed to open file: " + PATH + META_DATA_FILE_NAME;
                 log += "\n" + e.ToString();
-                Logger.LogException(log);
+                Core.Logger.LogException(log);
                 return false;
             }
             BinaryFormatter binaryFormatter = new BinaryFormatter();
@@ -154,7 +156,7 @@ namespace ADL
             {
                 string log = "Failed to read meta data from file";
                 log += "\n" + e.ToString();
-                Logger.LogException(log);
+                Core.Logger.LogException(log);
                 return false;
             }
             try
@@ -165,7 +167,7 @@ namespace ADL
             {
                 string log = "Failed to close file";
                 log += "\n" + e.ToString();
-                Logger.LogException(log);
+                Core.Logger.LogException(log);
                 return false;
             }
             return true;

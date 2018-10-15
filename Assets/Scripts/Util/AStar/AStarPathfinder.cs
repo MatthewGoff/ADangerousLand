@@ -1,77 +1,80 @@
 ﻿using System.Collections.Generic;
 
-public class AStarPathfinder<T>
+namespace ADL.Util
 {
-    public delegate List<T> Neighbors(T A);
-    public delegate float Heuristic(T A, T B);
-    public delegate float Weight(T A, T B);
-    public delegate bool Equal(T A, T B);
-
-    public static List<T> FindPath(Neighbors neighborFunction, Heuristic heuristicFunction, Weight weightFunction, Equal equal, T start, T finish)
+    public class AStarPathfinder<T>
     {
-        List<PathNode<T>> visited = new List<PathNode<T>>();
-        DequeuePriorityQueue<PathNode<T>> toVisit = new DequeuePriorityQueue<PathNode<T>>();
-        List<PathNode<T>> knownPlaces = new List<PathNode<T>>();
+        public delegate List<T> Neighbors(T A);
+        public delegate float Heuristic(T A, T B);
+        public delegate float Weight(T A, T B);
+        public delegate bool Equal(T A, T B);
 
-        PathNode<T> visiting = GetPathNode(start);
-        visiting.ActualDistance = 0.0f;
-        visiting.HeuristicDistance = heuristicFunction(start, finish);
-
-        while (!equal(visiting.Data, finish))
+        public static List<T> FindPath(Neighbors neighborFunction, Heuristic heuristicFunction, Weight weightFunction, Equal equal, T start, T finish)
         {
-            List<T> neighbors = neighborFunction(visiting.Data);
-            foreach (T neighborData in neighbors)
+            List<PathNode<T>> visited = new List<PathNode<T>>();
+            DequeuePriorityQueue<PathNode<T>> toVisit = new DequeuePriorityQueue<PathNode<T>>();
+            List<PathNode<T>> knownPlaces = new List<PathNode<T>>();
+
+            PathNode<T> visiting = GetPathNode(start);
+            visiting.ActualDistance = 0.0f;
+            visiting.HeuristicDistance = heuristicFunction(start, finish);
+
+            while (!equal(visiting.Data, finish))
             {
-                PathNode<T> neighborNode = GetPathNode(neighborData);
-                if (toVisit.Contains(neighborNode))
+                List<T> neighbors = neighborFunction(visiting.Data);
+                foreach (T neighborData in neighbors)
                 {
-                    float distance = visiting.ActualDistance + weightFunction(neighborData, visiting.Data);
-                    if (distance < neighborNode.ActualDistance)
+                    PathNode<T> neighborNode = GetPathNode(neighborData);
+                    if (toVisit.Contains(neighborNode))
                     {
-                        neighborNode.ActualDistance = distance;
+                        float distance = visiting.ActualDistance + weightFunction(neighborData, visiting.Data);
+                        if (distance < neighborNode.ActualDistance)
+                        {
+                            neighborNode.ActualDistance = distance;
+                            neighborNode.Previous = visiting;
+                        }
+                    }
+                    else if (!visited.Contains(neighborNode))
+                    {
+                        neighborNode.ActualDistance = visiting.ActualDistance + weightFunction(neighborData, visiting.Data);
+                        neighborNode.HeuristicDistance = heuristicFunction(neighborData, finish);
                         neighborNode.Previous = visiting;
+                        toVisit.Enqueue(neighborNode);
                     }
                 }
-                else if (!visited.Contains(neighborNode))
-                {
-                    neighborNode.ActualDistance = visiting.ActualDistance + weightFunction(neighborData, visiting.Data);
-                    neighborNode.HeuristicDistance = heuristicFunction(neighborData, finish);
-                    neighborNode.Previous = visiting;
-                    toVisit.Enqueue(neighborNode);
-                }
+
+                visited.Add(visiting);
+                visiting = toVisit.Dequeue();
             }
 
-            visited.Add(visiting);
-            visiting = toVisit.Dequeue();
-        }
+            return ConstructPath();
 
-        return ConstructPath();
-
-        PathNode<T> GetPathNode(T data)
-        {
-            foreach (PathNode<T> node in knownPlaces)
+            PathNode<T> GetPathNode(T data)
             {
-                if (equal(node.Data, data))
+                foreach (PathNode<T> node in knownPlaces)
                 {
-                    return node;
+                    if (equal(node.Data, data))
+                    {
+                        return node;
+                    }
                 }
+                PathNode<T> newNode = new PathNode<T>(data);
+                knownPlaces.Add(newNode);
+                return newNode;
             }
-            PathNode<T> newNode = new PathNode<T>(data);
-            knownPlaces.Add(newNode);
-            return newNode;
-        }
 
-        List<T> ConstructPath()
-        {
-            List<T> path = new List<T>();
-            path.Add(visiting.Data);
-            while (visiting.Previous != null)
+            List<T> ConstructPath()
             {
-                visiting = visiting.Previous;
+                List<T> path = new List<T>();
                 path.Add(visiting.Data);
+                while (visiting.Previous != null)
+                {
+                    visiting = visiting.Previous;
+                    path.Add(visiting.Data);
+                }
+                path.Reverse();
+                return path;
             }
-            path.Reverse();
-            return path;
         }
     }
 }

@@ -1,37 +1,40 @@
-﻿public class EnqueuePriorityQueue<T>
+﻿namespace ADL.Util
 {
-    public EnqueuePriorityQueueNode<T> First;
-
-    public void Enqueue(T data, int priority)
+    public class EnqueuePriorityQueue<T>
     {
-        EnqueuePriorityQueueNode<T> newNode = new EnqueuePriorityQueueNode<T>(data, priority);
-        if (First == null || newNode.Priority <= First.Priority)
+        public EnqueuePriorityQueueNode<T> First;
+
+        public void Enqueue(T data, int priority)
         {
-            newNode.Next = First;
-            First = newNode;
-            return;
+            EnqueuePriorityQueueNode<T> newNode = new EnqueuePriorityQueueNode<T>(data, priority);
+            if (First == null || newNode.Priority <= First.Priority)
+            {
+                newNode.Next = First;
+                First = newNode;
+                return;
+            }
+
+            EnqueuePriorityQueueNode<T> runner = First;
+            while (runner.Next != null && newNode.Priority > runner.Next.Priority)
+            {
+                runner = runner.Next;
+            }
+            newNode.Next = runner.Next;
+            runner.Next = newNode;
         }
 
-        EnqueuePriorityQueueNode<T> runner = First;
-        while (runner.Next != null && newNode.Priority > runner.Next.Priority)
+        public T Dequeue()
         {
-            runner = runner.Next;
-        }
-        newNode.Next = runner.Next;
-        runner.Next = newNode;
-    }
-
-    public T Dequeue()
-    {
-        if (First == null)
-        {
-            return default;
-        }
-        else
-        {
-            T returnData = First.Data;
-            First = First.Next;
-            return returnData;
+            if (First == null)
+            {
+                return default;
+            }
+            else
+            {
+                T returnData = First.Data;
+                First = First.Next;
+                return returnData;
+            }
         }
     }
 }

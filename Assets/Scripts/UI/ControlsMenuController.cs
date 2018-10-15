@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using ADL.Core;
 
-namespace ADL
+namespace ADL.UI
 {
     public class ControlsMenuController : MonoBehaviour
     {

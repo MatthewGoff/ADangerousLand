@@ -1,10 +1,13 @@
 ﻿using System;
 
-[Serializable]
-public class WorldPersistenceMetaData
+namespace ADL.Persistence
 {
-    public int WorldIdentifier;
-    public string Version;
-    public string Name;
-    public int Seed;
+    [Serializable]
+    public class WorldPersistenceMetaData
+    {
+        public int WorldIdentifier;
+        public string Version;
+        public string Name;
+        public int Seed;
+    }
 }

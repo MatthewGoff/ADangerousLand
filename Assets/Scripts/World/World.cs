@@ -1,11 +1,14 @@
 ﻿using MessagePack;
 using System.Collections.Generic;
 using UnityEngine;
+using ADL.Combat.Player;
+using ADL.Core;
+using ADL.Util;
 
-namespace ADL
+namespace ADL.World
 {
     [MessagePackObject]
-    public class World
+    public class WorldManager
     {
         [IgnoreMember] public PlayerManager PlayerManager;
         [IgnoreMember] private bool Active;
@@ -16,7 +19,7 @@ namespace ADL
         [Key(1)] public WorldGenParameters GenerationParameters { get; private set; }
         [Key(2)] public readonly ChunkStorage Chunks;
 
-        public World(int worldIdentifier, int seed)
+        public WorldManager(int worldIdentifier, int seed)
         {
             WorldIdentifier = worldIdentifier;
             GenerationParameters = new WorldGenParameters(seed);
@@ -24,7 +27,7 @@ namespace ADL
         }
 
         [SerializationConstructor]
-        public World(int worldIdentifier, WorldGenParameters generationParameters, ChunkStorage chunks)
+        public WorldManager(int worldIdentifier, WorldGenParameters generationParameters, ChunkStorage chunks)
         {
             WorldIdentifier = worldIdentifier;
             GenerationParameters = generationParameters;
@@ -189,7 +192,7 @@ namespace ADL
 
         public void InitializeRiverLocality(ChunkIndex chunkIndex)
         {
-            float radius = Util.ArrayMaximum(GenerationParameters.TopographyPeriods);
+            float radius = Helpers.ArrayMaximum(GenerationParameters.TopographyPeriods);
             int chunkRadius = (int)(radius / Configuration.CHUNK_SIZE) + 2;
 
             for (int indexX = chunkIndex.X - chunkRadius; indexX <= chunkIndex.X + chunkRadius; indexX++)
@@ -230,7 +233,7 @@ namespace ADL
 
         public WorldLocation GetPlayerLocation()
         {
-            return new WorldLocation(Util.RoundVector2(PlayerManager.GetPosition()));
+            return new WorldLocation(Helpers.RoundVector2(PlayerManager.GetPosition()));
         }
 
         public float GetVisibilityLevel(Vector2 position)
@@ -287,11 +290,11 @@ namespace ADL
         {
             int y = 0;
             int x = 0;
-            float altitude = Util.GetPerlinNoise(GenerationParameters.TopographySeed, GenerationParameters.TopographyPeriods, (x, y));
+            float altitude = Helpers.GetPerlinNoise(GenerationParameters.TopographySeed, GenerationParameters.TopographyPeriods, (x, y));
             while (altitude > GenerationParameters.MountainAltitude || altitude < GenerationParameters.OceanAltitude)
             {
                 x++;
-                altitude = Util.GetPerlinNoise(GenerationParameters.TopographySeed, GenerationParameters.TopographyPeriods, (x, y));
+                altitude = Helpers.GetPerlinNoise(GenerationParameters.TopographySeed, GenerationParameters.TopographyPeriods, (x, y));
             }
             return new WorldLocation(x, y);
         }

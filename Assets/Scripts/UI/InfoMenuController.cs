@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using ADL.Core;
 
-namespace ADL
+namespace ADL.UI
 {
     public class InfoMenuController : MonoBehaviour
     {

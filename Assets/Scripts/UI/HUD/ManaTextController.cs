@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using ADL.Core;
+using ADL.Combat.Player;
+using ADL.Util;
 
-namespace ADL
+namespace ADL.UI
 {
     public class ManaTextController : MonoBehaviour
     {
@@ -18,9 +21,9 @@ namespace ADL
                 && GameManager.Singleton.World.PlayerManager != null)
             {
                 PlayerManager player = GameManager.Singleton.World.PlayerManager;
-                float stamina = Util.Round(player.CurrentStamina, 0.1f);
-                float maxStamina = Util.Round(Configuration.PLAYER_MAX_STAMINA(player.MaxStaminaPoints), 0.1f);
-                Text.text = Util.Truncate(stamina.ToString(), 4) + "/" + Util.Truncate(maxStamina.ToString(), 4);
+                float stamina = Helpers.Round(player.CurrentStamina, 0.1f);
+                float maxStamina = Helpers.Round(Configuration.PLAYER_MAX_STAMINA(player.MaxStaminaPoints), 0.1f);
+                Text.text = Helpers.Truncate(stamina.ToString(), 4) + "/" + Helpers.Truncate(maxStamina.ToString(), 4);
             }
 
         }

@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using ADL.Persistence;
+using ADL.Core;
 
-namespace ADL
+namespace ADL.UI
 {
     public class CharacterToggleController : MonoBehaviour
     {

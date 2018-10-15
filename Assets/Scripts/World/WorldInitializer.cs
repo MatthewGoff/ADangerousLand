@@ -1,8 +1,10 @@
-﻿namespace ADL
+﻿using ADL.Util;
+
+namespace ADL.World
 {
     public class WorldInitializer : ThreadedJob
     {
-        public World World;
+        public WorldManager World;
         public ChunkIndex ChunkIndex;
 
         protected override void ThreadFunction()

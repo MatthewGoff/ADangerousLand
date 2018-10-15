@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using ADL.Core;
+using ADL.Combat.Player;
 
-namespace ADL
+namespace ADL.UI
 {
     public class ExperienceBarController : MonoBehaviour
     {
