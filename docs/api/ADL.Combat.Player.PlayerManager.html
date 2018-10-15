@@ -1,0 +1,1639 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class PlayerManager
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class PlayerManager
+   ">
+    <meta name="generator" content="docfx 2.40.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="ADL.Combat.Player.PlayerManager">
+  
+  
+  <h1 id="ADL_Combat_Player_PlayerManager" data-uid="ADL.Combat.Player.PlayerManager" class="text-break">Class PlayerManager
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="ADL.Combat.CombatantManager.html">CombatantManager</a></div>
+    <div class="level2"><span class="xref">PlayerManager</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="ADL.Combat.CombatantManager.html#ADL_Combat_CombatantManager_Team">CombatantManager.Team</a>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="ADL.Combat.Player.html">ADL.Combat.Player</a></h6>
+  <h6><strong>Assembly</strong>: Assembly-CSharp.dll</h6>
+  <h5 id="ADL_Combat_Player_PlayerManager_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[MessagePackObject(false)]
+public class PlayerManager : CombatantManager</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager__ctor_System_Int32_System_String_System_Single_ADL_Core_DeathPenaltyType_.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.%23ctor(System.Int32%2CSystem.String%2CSystem.Single%2CADL.Core.DeathPenaltyType)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L47">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager__ctor_" data-uid="ADL.Combat.Player.PlayerManager.#ctor*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager__ctor_System_Int32_System_String_System_Single_ADL_Core_DeathPenaltyType_" data-uid="ADL.Combat.Player.PlayerManager.#ctor(System.Int32,System.String,System.Single,ADL.Core.DeathPenaltyType)">PlayerManager(Int32, String, Single, DeathPenaltyType)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PlayerManager(int identifier, string name, float color, DeathPenaltyType deathPenalty)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">identifier</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">color</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ADL.Core.DeathPenaltyType.html">DeathPenaltyType</a></td>
+        <td><span class="parametername">deathPenalty</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager__ctor_System_Int32_System_String_System_Single_ADL_Core_DeathPenaltyType_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.%23ctor(System.Int32%2CSystem.String%2CSystem.Single%2CADL.Core.DeathPenaltyType%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L70">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager__ctor_" data-uid="ADL.Combat.Player.PlayerManager.#ctor*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager__ctor_System_Int32_System_String_System_Single_ADL_Core_DeathPenaltyType_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32_" data-uid="ADL.Combat.Player.PlayerManager.#ctor(System.Int32,System.String,System.Single,ADL.Core.DeathPenaltyType,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">PlayerManager(Int32, String, Single, DeathPenaltyType, Int32, Int32, Int32, Int32, Int32, Int32, Int32, Int32, Int32, Int32, Int32, Int32, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PlayerManager(int playerIdentifier, string name, float color, DeathPenaltyType deathPenalty, int experience, int level, int passivePoints, int attackType, int attackDamagePoints, int attackSpeedPoints, int moveSpeedPoints, int sightRadiusPoints, int projectileDamagePoints, int maxHealthPoints, int maxStaminaPoints, int healthRegenPoints, int staminaRegenPoints)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">playerIdentifier</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">color</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="ADL.Core.DeathPenaltyType.html">DeathPenaltyType</a></td>
+        <td><span class="parametername">deathPenalty</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">experience</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">level</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">passivePoints</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">attackType</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">attackDamagePoints</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">attackSpeedPoints</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">moveSpeedPoints</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">sightRadiusPoints</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">projectileDamagePoints</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">maxHealthPoints</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">maxStaminaPoints</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">healthRegenPoints</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">staminaRegenPoints</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_AttackDamagePoints.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.AttackDamagePoints%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L37">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_AttackDamagePoints" data-uid="ADL.Combat.Player.PlayerManager.AttackDamagePoints">AttackDamagePoints</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Key(8)]
+public int AttackDamagePoints</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_AttackSpeedPoints.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.AttackSpeedPoints%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L38">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_AttackSpeedPoints" data-uid="ADL.Combat.Player.PlayerManager.AttackSpeedPoints">AttackSpeedPoints</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Key(9)]
+public int AttackSpeedPoints</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_AttackType.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.AttackType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L35">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_AttackType" data-uid="ADL.Combat.Player.PlayerManager.AttackType">AttackType</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Key(7)]
+public int AttackType</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_Blocking.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.Blocking%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L20">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_Blocking" data-uid="ADL.Combat.Player.PlayerManager.Blocking">Blocking</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Blocking</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_Color.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.Color%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L29">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_Color" data-uid="ADL.Combat.Player.PlayerManager.Color">Color</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Key(2)]
+public float Color</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_CurrentHealth.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.CurrentHealth%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L21">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_CurrentHealth" data-uid="ADL.Combat.Player.PlayerManager.CurrentHealth">CurrentHealth</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float CurrentHealth</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_CurrentStamina.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.CurrentStamina%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L22">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_CurrentStamina" data-uid="ADL.Combat.Player.PlayerManager.CurrentStamina">CurrentStamina</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float CurrentStamina</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_DeathPenalty.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.DeathPenalty%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L30">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_DeathPenalty" data-uid="ADL.Combat.Player.PlayerManager.DeathPenalty">DeathPenalty</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Key(3)]
+public DeathPenaltyType DeathPenalty</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ADL.Core.DeathPenaltyType.html">DeathPenaltyType</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_Experience.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.Experience%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L32">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_Experience" data-uid="ADL.Combat.Player.PlayerManager.Experience">Experience</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Key(4)]
+public int Experience</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_HealthRegenPoints.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.HealthRegenPoints%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L44">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_HealthRegenPoints" data-uid="ADL.Combat.Player.PlayerManager.HealthRegenPoints">HealthRegenPoints</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Key(15)]
+public int HealthRegenPoints</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_Level.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.Level%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L33">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_Level" data-uid="ADL.Combat.Player.PlayerManager.Level">Level</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Key(5)]
+public int Level</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_MaxHealthPoints.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.MaxHealthPoints%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L42">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_MaxHealthPoints" data-uid="ADL.Combat.Player.PlayerManager.MaxHealthPoints">MaxHealthPoints</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Key(13)]
+public int MaxHealthPoints</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_MaxStaminaPoints.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.MaxStaminaPoints%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L43">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_MaxStaminaPoints" data-uid="ADL.Combat.Player.PlayerManager.MaxStaminaPoints">MaxStaminaPoints</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Key(14)]
+public int MaxStaminaPoints</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_MonoBehaviour.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.MonoBehaviour%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L18">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_MonoBehaviour" data-uid="ADL.Combat.Player.PlayerManager.MonoBehaviour">MonoBehaviour</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PlayerMonoBehaviour MonoBehaviour</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ADL.Combat.Player.PlayerMonoBehaviour.html">PlayerMonoBehaviour</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_MoveSpeedPoints.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.MoveSpeedPoints%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L39">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_MoveSpeedPoints" data-uid="ADL.Combat.Player.PlayerManager.MoveSpeedPoints">MoveSpeedPoints</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Key(10)]
+public int MoveSpeedPoints</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_Name.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L28">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_Name" data-uid="ADL.Combat.Player.PlayerManager.Name">Name</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Key(1)]
+public string Name</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_PassivePoints.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.PassivePoints%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L34">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_PassivePoints" data-uid="ADL.Combat.Player.PlayerManager.PassivePoints">PassivePoints</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Key(6)]
+public int PassivePoints</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_PlayerIdentifier.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.PlayerIdentifier%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L27">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_PlayerIdentifier" data-uid="ADL.Combat.Player.PlayerManager.PlayerIdentifier">PlayerIdentifier</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Key(0)]
+public int PlayerIdentifier</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_ProjectileDamagePoints.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.ProjectileDamagePoints%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L41">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_ProjectileDamagePoints" data-uid="ADL.Combat.Player.PlayerManager.ProjectileDamagePoints">ProjectileDamagePoints</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Key(12)]
+public int ProjectileDamagePoints</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_SightRadiusPoints.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.SightRadiusPoints%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L40">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_SightRadiusPoints" data-uid="ADL.Combat.Player.PlayerManager.SightRadiusPoints">SightRadiusPoints</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Key(11)]
+public int SightRadiusPoints</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_Sprinting.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.Sprinting%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L19">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_Sprinting" data-uid="ADL.Combat.Player.PlayerManager.Sprinting">Sprinting</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Sprinting</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_StaminaRegenPoints.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.StaminaRegenPoints%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L45">View Source</a>
+  </span>
+  <h4 id="ADL_Combat_Player_PlayerManager_StaminaRegenPoints" data-uid="ADL.Combat.Player.PlayerManager.StaminaRegenPoints">StaminaRegenPoints</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Key(16)]
+public int StaminaRegenPoints</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_BoltAttack_UnityEngine_Vector2_.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.BoltAttack(UnityEngine.Vector2)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L196">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_BoltAttack_" data-uid="ADL.Combat.Player.PlayerManager.BoltAttack*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_BoltAttack_UnityEngine_Vector2_" data-uid="ADL.Combat.Player.PlayerManager.BoltAttack(UnityEngine.Vector2)">BoltAttack(Vector2)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void BoltAttack(Vector2 attackTarget)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector2</span></td>
+        <td><span class="parametername">attackTarget</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_Dash_UnityEngine_Vector2_.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.Dash(UnityEngine.Vector2)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L209">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_Dash_" data-uid="ADL.Combat.Player.PlayerManager.Dash*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_Dash_UnityEngine_Vector2_" data-uid="ADL.Combat.Player.PlayerManager.Dash(UnityEngine.Vector2)">Dash(Vector2)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Dash(Vector2 dashTarget)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector2</span></td>
+        <td><span class="parametername">dashTarget</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_FixedUpdate_System_Single_.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.FixedUpdate(System.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L131">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_FixedUpdate_" data-uid="ADL.Combat.Player.PlayerManager.FixedUpdate*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_FixedUpdate_System_Single_" data-uid="ADL.Combat.Player.PlayerManager.FixedUpdate(System.Single)">FixedUpdate(Single)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void FixedUpdate(float deltaTime)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">deltaTime</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_GetCenter.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.GetCenter%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L173">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_GetCenter_" data-uid="ADL.Combat.Player.PlayerManager.GetCenter*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_GetCenter" data-uid="ADL.Combat.Player.PlayerManager.GetCenter">GetCenter()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector2 GetCenter()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector2</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_GetPosition.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.GetPosition%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L168">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_GetPosition_" data-uid="ADL.Combat.Player.PlayerManager.GetPosition*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_GetPosition" data-uid="ADL.Combat.Player.PlayerManager.GetPosition">GetPosition()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Vector2 GetPosition()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector2</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="ADL.Combat.CombatantManager.html#ADL_Combat_CombatantManager_GetPosition">CombatantManager.GetPosition()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_GetSightRadiusFar.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.GetSightRadiusFar%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L294">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_GetSightRadiusFar_" data-uid="ADL.Combat.Player.PlayerManager.GetSightRadiusFar*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_GetSightRadiusFar" data-uid="ADL.Combat.Player.PlayerManager.GetSightRadiusFar">GetSightRadiusFar()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float GetSightRadiusFar()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_GetSightRadiusNear.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.GetSightRadiusNear%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L282">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_GetSightRadiusNear_" data-uid="ADL.Combat.Player.PlayerManager.GetSightRadiusNear*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_GetSightRadiusNear" data-uid="ADL.Combat.Player.PlayerManager.GetSightRadiusNear">GetSightRadiusNear()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float GetSightRadiusNear()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_RecieveExp_System_Int32_.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.RecieveExp(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L306">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_RecieveExp_" data-uid="ADL.Combat.Player.PlayerManager.RecieveExp*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_RecieveExp_System_Int32_" data-uid="ADL.Combat.Player.PlayerManager.RecieveExp(System.Int32)">RecieveExp(Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void RecieveExp(int exp)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">exp</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="ADL.Combat.CombatantManager.html#ADL_Combat_CombatantManager_RecieveExp_System_Int32_">CombatantManager.RecieveExp(Int32)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_RecieveHit_ADL_Combat_Attacks_AttackManager_System_Single_UnityEngine_Vector2_.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.RecieveHit(ADL.Combat.Attacks.AttackManager%2CSystem.Single%2CUnityEngine.Vector2)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L268">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_RecieveHit_" data-uid="ADL.Combat.Player.PlayerManager.RecieveHit*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_RecieveHit_ADL_Combat_Attacks_AttackManager_System_Single_UnityEngine_Vector2_" data-uid="ADL.Combat.Player.PlayerManager.RecieveHit(ADL.Combat.Attacks.AttackManager,System.Single,UnityEngine.Vector2)">RecieveHit(AttackManager, Single, Vector2)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int RecieveHit(AttackManager attackManager, float damage, Vector2 knockback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ADL.Combat.Attacks.AttackManager.html">AttackManager</a></td>
+        <td><span class="parametername">attackManager</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">damage</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector2</span></td>
+        <td><span class="parametername">knockback</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="ADL.Combat.CombatantManager.html#ADL_Combat_CombatantManager_RecieveHit_ADL_Combat_Attacks_AttackManager_System_Single_UnityEngine_Vector2_">CombatantManager.RecieveHit(AttackManager, Single, Vector2)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_SlashAttack_UnityEngine_Vector2_.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.SlashAttack(UnityEngine.Vector2)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L183">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_SlashAttack_" data-uid="ADL.Combat.Player.PlayerManager.SlashAttack*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_SlashAttack_UnityEngine_Vector2_" data-uid="ADL.Combat.Player.PlayerManager.SlashAttack(UnityEngine.Vector2)">SlashAttack(Vector2)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SlashAttack(Vector2 attackTarget)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector2</span></td>
+        <td><span class="parametername">attackTarget</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_Sleep.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.Sleep%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L126">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_Sleep_" data-uid="ADL.Combat.Player.PlayerManager.Sleep*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_Sleep" data-uid="ADL.Combat.Player.PlayerManager.Sleep">Sleep()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Sleep()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_Spawn_ADL_World_WorldLocation_.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.Spawn(ADL.World.WorldLocation)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L109">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_Spawn_" data-uid="ADL.Combat.Player.PlayerManager.Spawn*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_Spawn_ADL_World_WorldLocation_" data-uid="ADL.Combat.Player.PlayerManager.Spawn(ADL.World.WorldLocation)">Spawn(WorldLocation)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Spawn(WorldLocation spawnLocation)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ADL.World.WorldLocation.html">WorldLocation</a></td>
+        <td><span class="parametername">spawnLocation</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_StartBlocking.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.StartBlocking%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L250">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_StartBlocking_" data-uid="ADL.Combat.Player.PlayerManager.StartBlocking*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_StartBlocking" data-uid="ADL.Combat.Player.PlayerManager.StartBlocking">StartBlocking()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool StartBlocking()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_StartSprinting.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.StartSprinting%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L232">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_StartSprinting_" data-uid="ADL.Combat.Player.PlayerManager.StartSprinting*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_StartSprinting" data-uid="ADL.Combat.Player.PlayerManager.StartSprinting">StartSprinting()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool StartSprinting()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_Stomp.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.Stomp%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L223">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_Stomp_" data-uid="ADL.Combat.Player.PlayerManager.Stomp*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_Stomp" data-uid="ADL.Combat.Player.PlayerManager.Stomp">Stomp()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Stomp()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_StopBlocking.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.StopBlocking%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L263">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_StopBlocking_" data-uid="ADL.Combat.Player.PlayerManager.StopBlocking*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_StopBlocking" data-uid="ADL.Combat.Player.PlayerManager.StopBlocking">StopBlocking()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void StopBlocking()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_StopSprinting.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.StopSprinting%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L245">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_StopSprinting_" data-uid="ADL.Combat.Player.PlayerManager.StopSprinting*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_StopSprinting" data-uid="ADL.Combat.Player.PlayerManager.StopSprinting">StopSprinting()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void StopSprinting()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_UpgradeAttackDamage.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.UpgradeAttackDamage%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L326">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_UpgradeAttackDamage_" data-uid="ADL.Combat.Player.PlayerManager.UpgradeAttackDamage*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_UpgradeAttackDamage" data-uid="ADL.Combat.Player.PlayerManager.UpgradeAttackDamage">UpgradeAttackDamage()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UpgradeAttackDamage()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_UpgradeAttackSpeed.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.UpgradeAttackSpeed%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L335">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_UpgradeAttackSpeed_" data-uid="ADL.Combat.Player.PlayerManager.UpgradeAttackSpeed*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_UpgradeAttackSpeed" data-uid="ADL.Combat.Player.PlayerManager.UpgradeAttackSpeed">UpgradeAttackSpeed()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UpgradeAttackSpeed()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_UpgradeHealthRegen.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.UpgradeHealthRegen%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L390">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_UpgradeHealthRegen_" data-uid="ADL.Combat.Player.PlayerManager.UpgradeHealthRegen*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_UpgradeHealthRegen" data-uid="ADL.Combat.Player.PlayerManager.UpgradeHealthRegen">UpgradeHealthRegen()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UpgradeHealthRegen()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_UpgradeMaxHealth.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.UpgradeMaxHealth%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L372">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_UpgradeMaxHealth_" data-uid="ADL.Combat.Player.PlayerManager.UpgradeMaxHealth*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_UpgradeMaxHealth" data-uid="ADL.Combat.Player.PlayerManager.UpgradeMaxHealth">UpgradeMaxHealth()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UpgradeMaxHealth()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_UpgradeMaxStamina.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.UpgradeMaxStamina%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L381">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_UpgradeMaxStamina_" data-uid="ADL.Combat.Player.PlayerManager.UpgradeMaxStamina*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_UpgradeMaxStamina" data-uid="ADL.Combat.Player.PlayerManager.UpgradeMaxStamina">UpgradeMaxStamina()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UpgradeMaxStamina()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_UpgradeMoveSpeed.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.UpgradeMoveSpeed%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L345">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_UpgradeMoveSpeed_" data-uid="ADL.Combat.Player.PlayerManager.UpgradeMoveSpeed*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_UpgradeMoveSpeed" data-uid="ADL.Combat.Player.PlayerManager.UpgradeMoveSpeed">UpgradeMoveSpeed()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UpgradeMoveSpeed()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_UpgradeProjectileDamage.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.UpgradeProjectileDamage%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L363">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_UpgradeProjectileDamage_" data-uid="ADL.Combat.Player.PlayerManager.UpgradeProjectileDamage*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_UpgradeProjectileDamage" data-uid="ADL.Combat.Player.PlayerManager.UpgradeProjectileDamage">UpgradeProjectileDamage()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UpgradeProjectileDamage()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_UpgradeSightRadius.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.UpgradeSightRadius%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L354">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_UpgradeSightRadius_" data-uid="ADL.Combat.Player.PlayerManager.UpgradeSightRadius*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_UpgradeSightRadius" data-uid="ADL.Combat.Player.PlayerManager.UpgradeSightRadius">UpgradeSightRadius()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UpgradeSightRadius()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_UpgradeStaminaRegen.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.UpgradeStaminaRegen%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L399">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_UpgradeStaminaRegen_" data-uid="ADL.Combat.Player.PlayerManager.UpgradeStaminaRegen*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_UpgradeStaminaRegen" data-uid="ADL.Combat.Player.PlayerManager.UpgradeStaminaRegen">UpgradeStaminaRegen()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UpgradeStaminaRegen()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager_WeaponSwap.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager.WeaponSwap%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L178">View Source</a>
+  </span>
+  <a id="ADL_Combat_Player_PlayerManager_WeaponSwap_" data-uid="ADL.Combat.Player.PlayerManager.WeaponSwap*"></a>
+  <h4 id="ADL_Combat_Player_PlayerManager_WeaponSwap" data-uid="ADL.Combat.Player.PlayerManager.WeaponSwap">WeaponSwap()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void WeaponSwap()</code></pre>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Player_PlayerManager.md&amp;value=---%0Auid%3A%20ADL.Combat.Player.PlayerManager%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Player/PlayerManager.cs/#L9" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

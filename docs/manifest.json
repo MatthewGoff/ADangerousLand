@@ -5,410 +5,1190 @@
   "files": [
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.AttributesMenuController.yml",
+      "source_relative_path": "api/ADL.Combat.Attacks.AttackManager.ExpirationListener.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.AttributesMenuController.html",
-          "hash": "O4DKnXMmCH2CUvrNGC8ggA=="
+          "relative_path": "api/ADL.Combat.Attacks.AttackManager.ExpirationListener.html",
+          "hash": "sliTiopTC05qastx7sm3NQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.BasicAI.yml",
+      "source_relative_path": "api/ADL.Combat.Attacks.AttackManager.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.BasicAI.html",
-          "hash": "PuFxf/3jYuu3sllALy+seA=="
+          "relative_path": "api/ADL.Combat.Attacks.AttackManager.html",
+          "hash": "7k4cFM736GGs/vBXNuGIwQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.BoltManager.yml",
+      "source_relative_path": "api/ADL.Combat.Attacks.BoltManager.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.BoltManager.html",
-          "hash": "gWLQfaLw8NSvfmW2kp7WKg=="
+          "relative_path": "api/ADL.Combat.Attacks.BoltManager.html",
+          "hash": "p/E3qX1Egi+M944b46HmZw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.BoltMonoBehaviour.yml",
+      "source_relative_path": "api/ADL.Combat.Attacks.BoltMonoBehaviour.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.BoltMonoBehaviour.html",
-          "hash": "dk1GztutWFaHdmV8T0nKgg=="
+          "relative_path": "api/ADL.Combat.Attacks.BoltMonoBehaviour.html",
+          "hash": "U6INo9Q3KmR1BhKUfUAorg=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.CameraController.yml",
+      "source_relative_path": "api/ADL.Combat.Attacks.DashManager.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.CameraController.html",
-          "hash": "e4wT8Yukxpe3aqvQnxqriA=="
+          "relative_path": "api/ADL.Combat.Attacks.DashManager.html",
+          "hash": "tVjNeFxM5yLQV2cjfm61Xw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.CharacterToggleController.yml",
+      "source_relative_path": "api/ADL.Combat.Attacks.DashMonoBehaviour.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.CharacterToggleController.html",
-          "hash": "QQ7O/B1ZYHr+UPwh+jvfqg=="
+          "relative_path": "api/ADL.Combat.Attacks.DashMonoBehaviour.html",
+          "hash": "87JFQl+vy6ux2QSqQY3n9w=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.Chunk.yml",
+      "source_relative_path": "api/ADL.Combat.Attacks.SlashManager.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.Chunk.html",
-          "hash": "EasdK0Hy4nGIRjTqCMzbJA=="
+          "relative_path": "api/ADL.Combat.Attacks.SlashManager.html",
+          "hash": "xlePHi1Y57MDID+VtxcZsA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.ChunkStorage.yml",
+      "source_relative_path": "api/ADL.Combat.Attacks.SlashMonoBehaviour.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.ChunkStorage.html",
-          "hash": "OWgNASJJdK/PRcO5XLKd0g=="
+          "relative_path": "api/ADL.Combat.Attacks.SlashMonoBehaviour.html",
+          "hash": "EEzFNJHDRA81JvVb05yOFQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.ControlsMenuController.yml",
+      "source_relative_path": "api/ADL.Combat.Attacks.StompManager.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.ControlsMenuController.html",
-          "hash": "icAzNXSzxfz/3yd/lnkBiQ=="
+          "relative_path": "api/ADL.Combat.Attacks.StompManager.html",
+          "hash": "bz/xupfvyjcyXpQFCXHP/A=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.DamageNumberMonoBehaviour.SignalFinishDelegate.yml",
+      "source_relative_path": "api/ADL.Combat.Attacks.StompMonoBehaviour.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.DamageNumberMonoBehaviour.SignalFinishDelegate.html",
-          "hash": "o9z+V5a69tzBQFV/xeA0GQ=="
+          "relative_path": "api/ADL.Combat.Attacks.StompMonoBehaviour.html",
+          "hash": "7megFxjGYdKK0vVlBeTFSw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.DamageNumberMonoBehaviour.yml",
+      "source_relative_path": "api/ADL.Combat.Attacks.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.DamageNumberMonoBehaviour.html",
-          "hash": "rU1Q5YjIE9YcD15+mqnwTQ=="
+          "relative_path": "api/ADL.Combat.Attacks.html",
+          "hash": "0hadGHzO/LyT9RyBQ6xZiw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.DamageNumbersCanvasMonoBehaviour.yml",
+      "source_relative_path": "api/ADL.Combat.CombatantManager.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.DamageNumbersCanvasMonoBehaviour.html",
-          "hash": "3GUwZ3YulgKaUHwzQSUUCA=="
+          "relative_path": "api/ADL.Combat.CombatantManager.html",
+          "hash": "DeDvzCa2w9NpFgw2rowqzg=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.EnemyAI.yml",
+      "source_relative_path": "api/ADL.Combat.Cooldown.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.EnemyAI.html",
-          "hash": "N3wEKCuKdV+D/yYObt9tYQ=="
+          "relative_path": "api/ADL.Combat.Cooldown.html",
+          "hash": "/8f/SvYIq0SvC/8EFXXAPg=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.EnemyManager.yml",
+      "source_relative_path": "api/ADL.Combat.Enemies.AI.AIType.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.EnemyManager.html",
-          "hash": "Clpz8/u1Yhiw6XeqyGahxw=="
+          "relative_path": "api/ADL.Combat.Enemies.AI.AIType.html",
+          "hash": "vkJ4/MF5RPFSLtNgGNWg3A=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.EnemyMonoBehaviour.yml",
+      "source_relative_path": "api/ADL.Combat.Enemies.AI.BasicAI.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.EnemyMonoBehaviour.html",
-          "hash": "puBg7Zqv2LmLhK8QvOvuUw=="
+          "relative_path": "api/ADL.Combat.Enemies.AI.BasicAI.html",
+          "hash": "p3NZbWz5l48b5HWG2jsdhA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.ExperienceBarController.yml",
+      "source_relative_path": "api/ADL.Combat.Enemies.AI.EnemyAI.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.ExperienceBarController.html",
-          "hash": "+tJK1bPPnby0/CrC2PlIEw=="
+          "relative_path": "api/ADL.Combat.Enemies.AI.EnemyAI.html",
+          "hash": "DZw1+noZc9yV6W43MFcD3w=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.GameManager.yml",
+      "source_relative_path": "api/ADL.Combat.Enemies.AI.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.GameManager.html",
-          "hash": "lzh9Dqlvd2Dxeiym+ZDNiA=="
+          "relative_path": "api/ADL.Combat.Enemies.AI.html",
+          "hash": "ziJrgHQUK7A3Orc65vBE8g=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.HealthBarController.yml",
+      "source_relative_path": "api/ADL.Combat.Enemies.EnemyConfiguration.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.HealthBarController.html",
-          "hash": "gSCD5g4RUwq2tZfvQD1NiQ=="
+          "relative_path": "api/ADL.Combat.Enemies.EnemyConfiguration.html",
+          "hash": "1kuISWqx2E5J7Y8FEidXZg=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.HealthBarMonoBehaviour.yml",
+      "source_relative_path": "api/ADL.Combat.Enemies.EnemyManager.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.HealthBarMonoBehaviour.html",
-          "hash": "BNeTUo2SHgcBnyU+DQgJFA=="
+          "relative_path": "api/ADL.Combat.Enemies.EnemyManager.html",
+          "hash": "AEGJ1W7Fi9mKJ30cNJB8oA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.HealthTextController.yml",
+      "source_relative_path": "api/ADL.Combat.Enemies.EnemyMonoBehaviour.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.HealthTextController.html",
-          "hash": "rOY1PjBvdYXxrCg2TPlShg=="
+          "relative_path": "api/ADL.Combat.Enemies.EnemyMonoBehaviour.html",
+          "hash": "xGRWq5xZeMj/yIfu4VJJbw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.InfoMenuController.yml",
+      "source_relative_path": "api/ADL.Combat.Enemies.EnemyType.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.InfoMenuController.html",
-          "hash": "ZEHOZDUHWJeWAX35AnGrUg=="
+          "relative_path": "api/ADL.Combat.Enemies.EnemyType.html",
+          "hash": "xHWD+OcnjmIhBfGEyOAeMg=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.MainMenuController.yml",
+      "source_relative_path": "api/ADL.Combat.Enemies.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.MainMenuController.html",
-          "hash": "YlpajCEcCj1mktJtwpD54w=="
+          "relative_path": "api/ADL.Combat.Enemies.html",
+          "hash": "OzBoAN3aHrbEmN8wv3RPmw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.ManaBarController.yml",
+      "source_relative_path": "api/ADL.Combat.IHitboxOwner.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.ManaBarController.html",
-          "hash": "NK9hP7bj+3k591A0N8LdZA=="
+          "relative_path": "api/ADL.Combat.IHitboxOwner.html",
+          "hash": "VFMZtCjfedGj8yxU7kWllQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.ManaTextController.yml",
+      "source_relative_path": "api/ADL.Combat.Player.PlayerManager.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.ManaTextController.html",
-          "hash": "5zx5n+YXVU9NN0h3sFwQOA=="
+          "relative_path": "api/ADL.Combat.Player.PlayerManager.html",
+          "hash": "ryQS6Aj5BdQHtIyAol6xhA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.NewPlayerMenuController.yml",
+      "source_relative_path": "api/ADL.Combat.Player.PlayerMonoBehaviour.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.NewPlayerMenuController.html",
-          "hash": "dOi/CInTBNCJrKFdW2p3qQ=="
+          "relative_path": "api/ADL.Combat.Player.PlayerMonoBehaviour.html",
+          "hash": "vaWt/hLEpdKWpzbj60Sp9Q=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.NewWorldMenuController.yml",
+      "source_relative_path": "api/ADL.Combat.Player.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.NewWorldMenuController.html",
-          "hash": "Nbdp7vmm9M0TbgvZzGrf/Q=="
+          "relative_path": "api/ADL.Combat.Player.html",
+          "hash": "phzHRbr1nAv0u5BkPQdAVQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.PauseMenuController.yml",
+      "source_relative_path": "api/ADL.Combat.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.PauseMenuController.html",
-          "hash": "fBIxKfV68dzJ7yBmz/SJhg=="
+          "relative_path": "api/ADL.Combat.html",
+          "hash": "PK/+oYAPi7wLHw09YY2bJw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.PlayerManager.yml",
+      "source_relative_path": "api/ADL.Core.CameraController.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.PlayerManager.html",
-          "hash": "cej6PLCfEI414KMdNJJR0Q=="
+          "relative_path": "api/ADL.Core.CameraController.html",
+          "hash": "GRK+qZKVS2m1uIYTlpaQQA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.PlayerMenuController.yml",
+      "source_relative_path": "api/ADL.Core.Configuration.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.PlayerMenuController.html",
-          "hash": "fRzmrJzrfdFTT8vuOJPXoA=="
+          "relative_path": "api/ADL.Core.Configuration.html",
+          "hash": "q+WDZ33ELfWKDDi9wzi6Lw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.PlayerMonoBehaviour.yml",
+      "source_relative_path": "api/ADL.Core.DeathPenaltyType.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.PlayerMonoBehaviour.html",
-          "hash": "3t+qvgaQiGKgxftEdJKctw=="
+          "relative_path": "api/ADL.Core.DeathPenaltyType.html",
+          "hash": "UJ5ZJGCUMRuGuWDEXLpPHg=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.PlayerPersistenceManager.yml",
+      "source_relative_path": "api/ADL.Core.GameInputType.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.PlayerPersistenceManager.html",
-          "hash": "GY08TRPqsTqBWGomU2Y8JQ=="
+          "relative_path": "api/ADL.Core.GameInputType.html",
+          "hash": "z8AiC5St70JW9MEZCGac1Q=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.StompManager.yml",
+      "source_relative_path": "api/ADL.Core.GameManager.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.StompManager.html",
-          "hash": "Rp0DvfzT+WbaZsK/yL009A=="
+          "relative_path": "api/ADL.Core.GameManager.html",
+          "hash": "ot6RCcSxc4yUREGdruGgWw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.StompMonoBehaviour.yml",
+      "source_relative_path": "api/ADL.Core.GameStateType.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.StompMonoBehaviour.html",
-          "hash": "uClvHjoiVvV7OVBvC1Qmlw=="
+          "relative_path": "api/ADL.Core.GameStateType.html",
+          "hash": "SghRmpCbFL5byzo+kt3m6w=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/ADL.Tile.yml",
+      "source_relative_path": "api/ADL.Core.Logger.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ADL.Tile.html",
-          "hash": "qBl0vLLmMnSBjXkP6+bmTw=="
+          "relative_path": "api/ADL.Core.Logger.html",
+          "hash": "2ywS/9zEnJxbS5uUjNOY6g=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Core.Prefabs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Core.Prefabs.html",
+          "hash": "LsXxh83zE7GlbvKjPDXmig=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Core.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Core.html",
+          "hash": "I0duQ9TJe/JcM34oKW7qaQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Persistence.PlayerPersistenceManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Persistence.PlayerPersistenceManager.html",
+          "hash": "n2kW+SMfd3Hs7Cvk9/Qfdg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Persistence.PlayerPersistenceMetaData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Persistence.PlayerPersistenceMetaData.html",
+          "hash": "5Y6DOfhPCm5sggTXGjAkuw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Persistence.WorldPersistenceManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Persistence.WorldPersistenceManager.html",
+          "hash": "LoQNSfXPz+Of8CBm0w3HMA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Persistence.WorldPersistenceMetaData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Persistence.WorldPersistenceMetaData.html",
+          "hash": "enc15cLMao8llloVKky8xA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Persistence.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Persistence.html",
+          "hash": "iUjwJTaAAo4hSETkXIvqaw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.AttributesMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.AttributesMenuController.html",
+          "hash": "iGj/1jV3BZDvoxZgx/n3/Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.CharacterToggleController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.CharacterToggleController.html",
+          "hash": "YSmchBRUNQuJHWhwTOn+9A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.ControlsMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.ControlsMenuController.html",
+          "hash": "VrXMVGy2GYn96LGIg8gsTw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.DamageNumberMonoBehaviour.SignalFinishDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.DamageNumberMonoBehaviour.SignalFinishDelegate.html",
+          "hash": "qzPQ9trBfG4Uk6i7hx9I8w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.DamageNumberMonoBehaviour.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.DamageNumberMonoBehaviour.html",
+          "hash": "+bKFfZhgNo7ZBXLT26iGrA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.DamageNumbersCanvasMonoBehaviour.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.DamageNumbersCanvasMonoBehaviour.html",
+          "hash": "p2NJxuDmg2VRIlpTTDa2pg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.ExperienceBarController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.ExperienceBarController.html",
+          "hash": "pryKWNI+WcA2QpXVPR0V5g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.HealthBarController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.HealthBarController.html",
+          "hash": "qfbQor1mT3wzpWf6ghRXAQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.HealthBarMonoBehaviour.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.HealthBarMonoBehaviour.html",
+          "hash": "rEySRaK0ecSDQsxd9SWEyA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.HealthTextController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.HealthTextController.html",
+          "hash": "t4Fwre4qOSwAbn0mCZXeuA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.InfoMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.InfoMenuController.html",
+          "hash": "hBStMGEZn+CGTVZc6uHCsw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.MainMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.MainMenuController.html",
+          "hash": "2tdaCIVH5MN9Yr8MoAWAQA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.ManaBarController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.ManaBarController.html",
+          "hash": "r86dCAB7P7YJuTV1xkQZ9A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.ManaTextController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.ManaTextController.html",
+          "hash": "mauxQkmArQZOzl7IXzlYnA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.NewPlayerMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.NewPlayerMenuController.html",
+          "hash": "QiP+3xZU/KDv0RmKN3vNzw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.NewWorldMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.NewWorldMenuController.html",
+          "hash": "MTT6GDp8vV0Tt08WW+Pc7w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.PauseMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.PauseMenuController.html",
+          "hash": "suFGVlsCpsP8fyeMT64cfA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.PlayerMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.PlayerMenuController.html",
+          "hash": "R6xRo2egHxXivj6mBjQ2Cg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.WorldMenuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.WorldMenuController.html",
+          "hash": "kUVBhyndjBwZnpxt8phetQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.WorldToggleController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.WorldToggleController.html",
+          "hash": "J1fnajmpFAGAYwYzMfLmnQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.UI.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.UI.html",
+          "hash": "BwAbY572woFqqMs88HfYWQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.AStarPathfinder-1.Equal.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.AStarPathfinder-1.Equal.html",
+          "hash": "dmG/QEIttYFVNp+HyFl4Mg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.AStarPathfinder-1.Heuristic.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.AStarPathfinder-1.Heuristic.html",
+          "hash": "GHdbbktgX3z2mqXmMjbd3Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.AStarPathfinder-1.Neighbors.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.AStarPathfinder-1.Neighbors.html",
+          "hash": "DjkJfdrrc+CcTjPnBTGVHQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.AStarPathfinder-1.Weight.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.AStarPathfinder-1.Weight.html",
+          "hash": "IadWGUdGjA0tsFlka/EpLA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.AStarPathfinder-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.AStarPathfinder-1.html",
+          "hash": "+INSk007ixjf9RC5TI9FDQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.BoundedLogisticFunction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.BoundedLogisticFunction.html",
+          "hash": "ww+tJ4EtGDG2a5wHtmaD4A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.DequeuePriorityQueue-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.DequeuePriorityQueue-1.html",
+          "hash": "Db4rAmPmdyqLYiOfoBYIRA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.EnqueuePriorityQueue-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.EnqueuePriorityQueue-1.html",
+          "hash": "Rrx97EIVaibHug4LwZmL1A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.EnqueuePriorityQueueNode-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.EnqueuePriorityQueueNode-1.html",
+          "hash": "FpuX+4pwDcStEYYUJBSS7g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.ExtensibleArray2D-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.ExtensibleArray2D-1.html",
+          "hash": "r4lW1+ZzAAwzClz3jducmA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.FiniteStateMachine-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.FiniteStateMachine-2.html",
+          "hash": "Kl1n9AkXNzfH2m2zqPk+Yg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.Helpers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.Helpers.html",
+          "hash": "Egy/cY7rr1SrSwBymfJ44Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.IPrioritizable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.IPrioritizable.html",
+          "hash": "pRkAU1RWN7Nn8JsYphucEQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.LogisticFunction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.LogisticFunction.html",
+          "hash": "RdRlmksOIfxji0fyM9EQEw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.OnEnterStateDelegate-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.OnEnterStateDelegate-2.html",
+          "hash": "S8s/8uuRey+huUla7qs1/Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.OnExitStateDelegate-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.OnExitStateDelegate-2.html",
+          "hash": "vjoR9iXXXLxPpAauvFQ4Dw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.PathNode-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.PathNode-1.html",
+          "hash": "gG5YAk2x7rTslcoq0OQWtw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.State-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.State-2.html",
+          "hash": "joNmhAyjjUHD5ewwJQUbvg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.ThreadedJob.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.ThreadedJob.html",
+          "hash": "9r4fvI0U5nAgjwEHnUdtOg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.Transition-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.Transition-2.html",
+          "hash": "17G6hTlY8AH6WnHlHKNt/Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.Util.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.Util.html",
+          "hash": "12eN40NvjD9ZxFPUATzy1g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.World.Chunk.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.World.Chunk.html",
+          "hash": "JeyTGNwB2htfiM64h8x2SA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.World.ChunkIndex.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.World.ChunkIndex.html",
+          "hash": "6iHE34hL0HBlX3HN0uVbRQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.World.ChunkLocation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.World.ChunkLocation.html",
+          "hash": "IxpwldMVNF/BtPGwmOQ9HA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.World.ChunkState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.World.ChunkState.html",
+          "hash": "mDWfCyIh5pGEmojqslRNrg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.World.ChunkStorage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.World.ChunkStorage.html",
+          "hash": "Dkb47X9x6ZKTfuynUAZnQw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.World.RiverNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.World.RiverNode.html",
+          "hash": "C2evY/kjn6XFWiyWMINPWA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.World.RiverPackage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.World.RiverPackage.html",
+          "hash": "AJA855CyhhoVzziRO+gr6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.World.RiverType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.World.RiverType.html",
+          "hash": "DBJEAq/0z+la7eDWnW4ngQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.World.TerrainSubtypeEnum.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.World.TerrainSubtypeEnum.html",
+          "hash": "6FYTWudCNlDVez8Io9S1ow=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.World.TerrainType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.World.TerrainType.html",
+          "hash": "+0YIxNdoaQwfcQMe0HFYWQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.World.TerrainTypeEnum.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.World.TerrainTypeEnum.html",
+          "hash": "3yg4JDAjAmz68Iad+uKKNQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.World.Tile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.World.Tile.html",
+          "hash": "iJRVC/Nw19cXDKiS6LKKcg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.World.WorldGenParameters.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.World.WorldGenParameters.html",
+          "hash": "zyCWzklpS1LanXYuNYNRRQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.World.WorldInitializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.World.WorldInitializer.html",
+          "hash": "e/8yAk6iWtPSNYxKzFeftQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.World.WorldLocation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.World.WorldLocation.html",
+          "hash": "u2r2l7A69WjpaQ3q5GZENA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ADL.World.WorldManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ADL.World.WorldManager.html",
+          "hash": "YzPmQQrUbKk1NhDv1cgLCw=="
+        }
+      },
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -417,70 +1197,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ADL.World.html",
-          "hash": "eb/yFowU1fx193zFTKMiew=="
+          "hash": "3xRZuxiZxLnBcGgVPpMwjQ=="
         }
       },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/ADL.WorldInitializer.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/ADL.WorldInitializer.html",
-          "hash": "w9ARPBtPQx5U88TBWT0NDg=="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/ADL.WorldMenuController.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/ADL.WorldMenuController.html",
-          "hash": "VqIwEiExfYkpsKBoeN1Wpw=="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/ADL.WorldPersistenceManager.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/ADL.WorldPersistenceManager.html",
-          "hash": "gCWw9/W0Ow4KExp1zuBy+A=="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/ADL.WorldToggleController.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/ADL.WorldToggleController.html",
-          "hash": "5YrJx5Jj/eg43nstacvreA=="
-        }
-      },
-      "is_incremental": true,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/ADL.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/ADL.html",
-          "hash": "HGHCcwjo1HwG75cHKqP57Q=="
-        }
-      },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -492,7 +1212,7 @@
           "hash": "TI/qcBr5AmRrwPvDmHF/fw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -501,7 +1221,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "KlnWY+RVDkCdS3nMf32ccQ=="
+          "hash": "U4U/tkcQujHI7TM+B4wpFw=="
         }
       },
       "is_incremental": false,
@@ -580,11 +1300,11 @@
           "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
-        "ConceptualDocumentProcessor": {
+        "ManagedReferenceDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build"
         },
-        "ManagedReferenceDocumentProcessor": {
+        "ConceptualDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build"
         }
