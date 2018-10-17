@@ -2,9 +2,13 @@
 using UnityEngine;
 using ADL.World;
 
+
 namespace ADL.Core
 {
-    public class Prefabs
+    /// <summary>
+    /// Static class for holding prefabs.
+    /// </summary>
+    public static class Prefabs
     {
         public static Dictionary<TerrainSubtypeEnum, (float, GameObject)[]> TerrainBackgrounds { get; private set; }
         public static Dictionary<TerrainSubtypeEnum, (float, GameObject)[]> TerrainForegrounds { get; private set; }

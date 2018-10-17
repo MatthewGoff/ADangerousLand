@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Namespace ADL.Combat.Attacks
-   </title>
+    <title>Chunk State </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Namespace ADL.Combat.Attacks
-   ">
+    <meta name="title" content="Chunk State ">
     <meta name="generator" content="docfx 2.40.0.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -68,39 +66,57 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="ADL.Combat.Attacks">
-  
-  <h1 id="ADL_Combat_Attacks" data-uid="ADL.Combat.Attacks" class="text-break">Namespace ADL.Combat.Attacks
-  </h1>
-  <div class="markdown level0 summary"></div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="markdown level0 remarks"></div>
-    <h3 id="classes">Classes
-  </h3>
-      <h4><a class="xref" href="ADL.Combat.Attacks.AttackManager.html">AttackManager</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ADL.Combat.Attacks.BoltManager.html">BoltManager</a></h4>
-      <section><p>Conducts execution and resolution of a Bolt type attack</p>
-</section>
-      <h4><a class="xref" href="ADL.Combat.Attacks.BoltMonoBehaviour.html">BoltMonoBehaviour</a></h4>
-      <section><p>MonoBehaviour for a bolt attack</p>
-</section>
-      <h4><a class="xref" href="ADL.Combat.Attacks.DashManager.html">DashManager</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ADL.Combat.Attacks.DashMonoBehaviour.html">DashMonoBehaviour</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ADL.Combat.Attacks.SlashManager.html">SlashManager</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ADL.Combat.Attacks.SlashMonoBehaviour.html">SlashMonoBehaviour</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ADL.Combat.Attacks.StompManager.html">StompManager</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ADL.Combat.Attacks.StompMonoBehaviour.html">StompMonoBehaviour</a></h4>
-      <section></section>
-    <h3 id="delegates">Delegates
-  </h3>
-      <h4><a class="xref" href="ADL.Combat.Attacks.AttackManager.ExpirationListener.html">AttackManager.ExpirationListener</a></h4>
-      <section></section>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="chunk-state">Chunk State</h1>
+
+<p>As the player moves through the wold game objects are created and destoryed as
+needed. Additionally we want enemies to spawn in chunks that are out of sight
+but only those which the player approaches. For this reason we consider a chunk
+to be in one of three states:</p>
+<ol>
+<li>Live: This is a chunk that the player can see, all game objects should be
+active.</li>
+<li>Spawning Grounds: This is a chunk that the player cannot see where we want
+to spawn enemies. In addition, because we don't want to instantiate a chunks
+contents all at once but we want them to be fully instantiated when it becomes live, we require a state in which a chunk instantiates or destoryes its tiles over a period of time (the time it takes a player to travers one full chunk). This
+comes at the cost of having more game objects in the scene at any one time.</li>
+<li>Inactive: This chunk is very far from the player and should have no game
+objects and no update calls. It is still kept in memory which I might try to
+address at a later point.</li>
+</ol>
+<p>Of course state 1 is the most expensive and state 3 is the least expensive and
+we'd generally like states to be as low on the list as possible. Additionally
+we're assuming at 1920x1080 resolution on which the player can see 60 tiles
+across at any one time. For these reasons we maintain the following invarient
+stated in the simplified case of one dimention:</p>
+<p>| -3 | -2 | -1 |  0 |  1 |  2 |  3 |</p>
+<p>chunks -3 onward are inactive
+chunk -2 is spawning grounds
+chunk -1 is live
+chunk 0 is live and contains the player
+chunk 1 is live
+chunk 2 is spawning gounds
+chunks 3 onward are inactive</p>
+<p>Here is the lifecycle so to speak as the player moves from chunk -1 to 1
+accross chunk 0.
+The following happen in the first fixed update in which the
+players position is in chunk 0.</p>
+<ol>
+<li>Chunks 3 and -3 (namely -3) check that all of their tiles and enemies have
+been destroyted.</li>
+<li>Chunk 2 and -2 (namely 2) check that all of their preexisting enemies have been created</li>
+<li>Chunks 2 and -2 (namely 2) spawn up to their maximum enemies.</li>
+</ol>
+<p>The following happen while the player is in chunk 0</p>
+<ol>
+<li>Chunks 1, 0, -1 have Update() called to update fog of war.</li>
+<li>In chunks 2 and -2 every fixed update any tile less than 32f distance
+from the player is created and any tile more than 32f distance is
+destroyed</li>
+</ol>
+<p>By the time the player reaches chunk 1, chunk -2 has had almost all its tiles destroyed and is ready to become inactive. Chunk -1 is out of view and is ready to
+have its enemies replenihed and its tiles destroyed. Chunk 2 has had its enemies replenished and tiles instantiated and is
+ready to come into view. Chunk is comming up so it is about to become spawning grounds</p>
 </article>
           </div>
           
@@ -108,6 +124,9 @@
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
+                  <li>
+                    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/docfx_project/articles/ChunkState.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">

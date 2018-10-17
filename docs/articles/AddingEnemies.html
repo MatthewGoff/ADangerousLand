@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Tutorial: Adding Enemies </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Tutorial: Adding Enemies ">
+    <meta name="generator" content="docfx 2.40.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="tutorial-adding-enemies">Tutorial: Adding Enemies</h1>
+
+<p>Four Steps:</p>
+<ul>
+<li><a href="#Import_Sprite">Import Sprite</a></li>
+<li><a href="#Create_Prefabs">Create Prefabs</a></li>
+<li><a href="#Create_Configuration">Create Configuration</a></li>
+<li><a href="#Edit_Spawn_Probabilities">Edit Spawn Probabilities</a></li>
+</ul>
+<h2 id="import-sprite-">Import Sprite: <a name="Import_Sprite"></a></h2>
+<ol>
+<li>Open Unity and have the following panels open: Hierarchy, Project, Scene, Inspector. These will likely open by default.</li>
+<li>Have a .PNG file, which can have transparency if desired. Name it with an enemy type and the word &quot;Sprite&quot; (e.g. &quot;DragonSprite&quot;).</li>
+<li>Drag and drop your .PNG file into the <code>Assets/Sprites/Enemies</code> folder in the Project panel.</li>
+<li>Click on the sprite to bring it up in the Inspector. Set &quot;Pixels Per Unit&quot; to 32; &quot;Pitov&quot; to &quot;Bottom&quot;; &quot;Filter Mode&quot; to &quot;Point (no filter); and &quot;Compression&quot; to &quot;None&quot;. Hit apply.</li>
+</ol>
+<h2 id="create-prefabs-">Create Prefabs: <a name="Create_Prefabs"></a></h2>
+<p>Your enemy needs three constituent &quot;Unity Game Objects&quot;: The sprite, the hitbox, and the &quot;master&quot; game object which contains the physics components and the script which will operate the enemy.</p>
+<p>Start by creating a new folder in <code>Assets/Resources/Prefabs/Enemies</code> named for your enemy (do this from within Unity).</p>
+<h4 id="create-sprite">Create Sprite</h4>
+<ol>
+<li>Drag and drop the sprite from the Project panel into the scene, this will make it appear in the Hierarchy and the Inspector.</li>
+<li>In the Inspector, set the &quot;Sorting Layer&quot; to &quot;Terrain Foreground&quot;.</li>
+<li>Drag and drop the sprite from the Hierarchy into the prefabs folder you created for this enemy.</li>
+</ol>
+<h4 id="create-hitbox">Create Hitbox</h4>
+<ol>
+<li>In the Hierarchy, choose &quot;Create&quot;&gt;&quot;Create Empty&quot; to create a new empty game object.</li>
+<li>Name it with the enemy type and the word &quot;Hitbox&quot; (e.g. &quot;DragonHitbox&quot;).</li>
+<li>In the Inspector, click &quot;Add Component&quot; and type &quot;collider&quot;. Select your desired 2D collider shape (e.g. Box Collider 2D).</li>
+<li>In the Inspector, edit the collider parameters so that it is the desired dimensions. You can set the hitbox position and sprite position to be the same so that they overlap for better perspective (the &quot;reset&quot; option in the transform gear menu will put any object at the orgin). Remember that the center of the hitbox is the bottom of the sprite, so you may want to include an offset (an offset of half the height of the enemy will center the hitbox with the sprite).</li>
+<li>At the top of the Inspector set the Tag of your hitbox to &quot;Hitbox&quot; and the Layer to &quot;Combat&quot;.</li>
+<li>Drag and drop the hitbox from the Hierarchy into the prefabs folder you created for this enemy.</li>
+</ol>
+<h4 id="create-master-prefab">Create Master Prefab</h4>
+<ol>
+<li>In the Hierarchy choose &quot;Create&quot;&gt;&quot;Create Empty&quot; to create a new empty game object.</li>
+<li>Name it with the enemy type and the word &quot;Prefab&quot; (e.g. &quot;DragonPrefab&quot;)</li>
+<li>Add a collider to the game object. Unlike the hitbox which is used in combat interactions, this collider defines the physical space that the enemy occupies (e.g. the player hitbox is 2 units tall but its feet only ocupy one square unit).</li>
+<li>Add a Rigidbody 2D component. Set the Gravity Scale to 0 and under Constraints check Z.</li>
+<li>Click &quot;Add Component&quot;, type &quot;Enemy Mono Behaviour&quot; and hit enter.</li>
+<li>In the &quot;Enemy Mono Behaviour&quot; section of the Inspector you will see a field for &quot;Sprite Prefab&quot; and &quot;Hitbox Prefab&quot;. Drag and drop the Sprite Prefab from the prefabs folder you created for this enemy (not the Hierarchy) into the sprite field and likewise with the hitbox prefab. This will give the script control over both the sprite and the hitbox.</li>
+<li>Drag and drop the master prefab from the Hierarchy into the prefabs folder you created for this enemy.</li>
+</ol>
+<p>Lastly, delete the sprite, hitbox, and master prefab from the Hierarchy.</p>
+<h2 id="create-configuration-">Create Configuration: <a name="Create_Configuration"></a></h2>
+<ol>
+<li>Open <code>Assets/Scripts/Enemies/EnemyTypes.cs</code> and add the name of your enemy to the list.</li>
+</ol>
+<pre><code class="lang-cs">public enum EnemyType
+{
+    Soldier,
+    Werewolf,
+    Dragon,
+}
+</code></pre>
+<ol start="2">
+<li>Open <code>Assets/Scripts/Configuration.cs</code> and scroll to the definition of <code>ENEMY_CONFIGURATIONS</code>.</li>
+<li>Copy and paste the bracketed block of another enemy configuration onto the end of the list.</li>
+<li>Enter your desired configuration, making sure that the EnemyType is the same that you put in <code>EnemyType.cs</code> and the Prefab Location is the location you put the master prefab relative to the <code>Assets/Resources/Prefabs</code> folder.</li>
+<li>Most of the fields should be self explainatory. The attack origin is the position on the sprite that attack will originate from <strong>relative to the bottom center</strong>.</li>
+</ol>
+<pre><code class="lang-cs">{EnemyType.Dragon, new EnemyConfiguration(){
+   PrefabLocation = &quot;Dragon/DragonPrefab&quot;,
+   AIType = AIType.Basic,
+   MaxHealth = 1000,
+   MoveSpeed = 1f,
+   ExperienceReward = 200,
+   Damage = 5f,
+   AttackSpeed = 0.5f,
+   Aoe = 10f,
+   AgroDistance = 10f,
+   DeAgroDistance = 15f,
+   MinAgroDuration = 3f,
+   Width = 3f,
+   Height = 3f,
+   AttackOrigin = new Vector2(0, 1.5f),
+}},
+</code></pre>
+<h2 id="edit-spawn-probabilities-">Edit Spawn Probabilities: <a name="Edit_Spawn_Probabilities"></a></h2>
+<ol>
+<li>Just below the <code>ENEMY_CONFIGURATIONS</code> is <code>SPAWN_PROBABILITIES</code>. This is a map from a difficulty rating (int) to an array of tuples. Each tuple is a type of enemy and the probability that it will spawn (or more accuratly the probability that IF an enemy spawns in an area of that difficulty rating it will be of that type). In this example, when a chunk with dificulty rating 9 spawns an enemy there is a 45% chance it will be a soldier, 45% chance that it will be a werewolf, and 10% chance that it will be a dragon.</li>
+</ol>
+<pre><code class="lang-cs">{9, new (float, EnemyType)[]
+{
+   (0.45f, EnemyType.Soldier),
+   (0.45f, EnemyType.Werewolf),
+   (0.1f, EnemyType.Dragon),
+}},
+</code></pre>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/docfx_project/articles/AddingEnemies.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

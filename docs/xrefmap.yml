@@ -1,6 +1,9 @@
 ### YamlMime:XRefMap
 sorted: true
 references:
+- uid: AddingArticles
+  name: Adding Articles
+  href: articles/AddingArticles.html
 - uid: ADL.Combat
   name: ADL.Combat
   href: api/ADL.Combat.html
@@ -6534,6 +6537,19 @@ references:
   isSpec: "True"
   fullName: ADL.World.Chunk.Update
   nameWithType: Chunk.Update
+- uid: ADL.World.Chunk.WakeEnemies
+  name: WakeEnemies()
+  href: api/ADL.World.Chunk.html#ADL_World_Chunk_WakeEnemies
+  commentId: M:ADL.World.Chunk.WakeEnemies
+  fullName: ADL.World.Chunk.WakeEnemies()
+  nameWithType: Chunk.WakeEnemies()
+- uid: ADL.World.Chunk.WakeEnemies*
+  name: WakeEnemies
+  href: api/ADL.World.Chunk.html#ADL_World_Chunk_WakeEnemies_
+  commentId: Overload:ADL.World.Chunk.WakeEnemies
+  isSpec: "True"
+  fullName: ADL.World.Chunk.WakeEnemies
+  nameWithType: Chunk.WakeEnemies
 - uid: ADL.World.Chunk.WithinChunk(ADL.World.WorldLocation)
   name: WithinChunk(WorldLocation)
   href: api/ADL.World.Chunk.html#ADL_World_Chunk_WithinChunk_ADL_World_WorldLocation_
@@ -7724,3 +7740,12 @@ references:
   commentId: F:ADL.World.WorldManager.WorldIdentifier
   fullName: ADL.World.WorldManager.WorldIdentifier
   nameWithType: WorldManager.WorldIdentifier
+- uid: DesignPatterns
+  name: Design Patterns
+  href: articles/DesignPatterns.html
+- uid: FAQ
+  name: FAQ
+  href: articles/FAQ.html
+- uid: UsingDocFX
+  name: Using DocFX
+  href: articles/UsingDocFX.html

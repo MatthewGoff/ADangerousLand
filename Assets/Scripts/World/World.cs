@@ -152,6 +152,7 @@ namespace ADL.World
                 }
                 if (chunk.NextState == ChunkState.SpawningGrounds)
                 {
+                    chunk.WakeEnemies();
                     chunk.SpawnEnemies();
                 }
 

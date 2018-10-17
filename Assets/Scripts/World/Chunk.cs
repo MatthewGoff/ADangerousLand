@@ -127,6 +127,14 @@ namespace ADL.World
             }
         }
 
+        public void WakeEnemies()
+        {
+            foreach (EnemyManager enemy in ResidentEnemies)
+            {
+                enemy.WakeUp();
+            }
+        }
+
         private void RecieveImmigrantEnemy(EnemyManager enemy)
         {
             ResidentEnemies.Add(enemy);

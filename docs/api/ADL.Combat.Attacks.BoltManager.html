@@ -73,7 +73,8 @@
   
   <h1 id="ADL_Combat_Attacks_BoltManager" data-uid="ADL.Combat.Attacks.BoltManager" class="text-break">Class BoltManager
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Conducts execution and resolution of a Bolt type attack</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -123,6 +124,9 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public class BoltManager : AttackManager</code></pre>
   </div>
+  <h5 id="ADL_Combat_Attacks_BoltManager_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>See the Manager/Monobehaviour design pattern</p>
+</div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
@@ -130,11 +134,12 @@
     <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Attacks_BoltManager__ctor_ADL_Combat_CombatantManager_UnityEngine_Vector2_System_Single_System_Single_.md&amp;value=---%0Auid%3A%20ADL.Combat.Attacks.BoltManager.%23ctor(ADL.Combat.CombatantManager%2CUnityEngine.Vector2%2CSystem.Single%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Attacks/Bolt/BoltManager.cs/#L12">View Source</a>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Attacks/Bolt/BoltManager.cs/#L42">View Source</a>
   </span>
   <a id="ADL_Combat_Attacks_BoltManager__ctor_" data-uid="ADL.Combat.Attacks.BoltManager.#ctor*"></a>
   <h4 id="ADL_Combat_Attacks_BoltManager__ctor_ADL_Combat_CombatantManager_UnityEngine_Vector2_System_Single_System_Single_" data-uid="ADL.Combat.Attacks.BoltManager.#ctor(ADL.Combat.CombatantManager,UnityEngine.Vector2,System.Single,System.Single)">BoltManager(CombatantManager, Vector2, Single, Single)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Execute a bolt attack</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -153,22 +158,26 @@
       <tr>
         <td><a class="xref" href="ADL.Combat.CombatantManager.html">CombatantManager</a></td>
         <td><span class="parametername">originator</span></td>
-        <td></td>
+        <td><p>The CombatantManager of the player or enemy initiating the attack</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">UnityEngine.Vector2</span></td>
         <td><span class="parametername">position</span></td>
-        <td></td>
+        <td><p>The position from which the attack originates</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.Single</span></td>
         <td><span class="parametername">angle</span></td>
-        <td></td>
+        <td><p>The counterclockwise angle from the Vector (1,0) along which the bolt will travel</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.Single</span></td>
         <td><span class="parametername">damage</span></td>
-        <td></td>
+        <td><p>The damage the bolt will do on impact</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -179,11 +188,12 @@
     <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Attacks_BoltManager_ResolveCollision_ADL_Combat_CombatantManager_.md&amp;value=---%0Auid%3A%20ADL.Combat.Attacks.BoltManager.ResolveCollision(ADL.Combat.CombatantManager)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Attacks/Bolt/BoltManager.cs/#L23">View Source</a>
+    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Attacks/Bolt/BoltManager.cs/#L59">View Source</a>
   </span>
   <a id="ADL_Combat_Attacks_BoltManager_ResolveCollision_" data-uid="ADL.Combat.Attacks.BoltManager.ResolveCollision*"></a>
   <h4 id="ADL_Combat_Attacks_BoltManager_ResolveCollision_ADL_Combat_CombatantManager_" data-uid="ADL.Combat.Attacks.BoltManager.ResolveCollision(ADL.Combat.CombatantManager)">ResolveCollision(CombatantManager)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Administer damage and experience as the result of a collision with this attack</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -202,7 +212,8 @@
       <tr>
         <td><a class="xref" href="ADL.Combat.CombatantManager.html">CombatantManager</a></td>
         <td><span class="parametername">other</span></td>
-        <td></td>
+        <td><p>The CombatantManager of the enemy or player recieving the attack</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -217,7 +228,7 @@
                     <a href="https://github.com/MatthewGoff/ADangerousLand-private/new/master/apiSpec/new?filename=ADL_Combat_Attacks_BoltManager.md&amp;value=---%0Auid%3A%20ADL.Combat.Attacks.BoltManager%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Attacks/Bolt/BoltManager.cs/#L6" class="contribution-link">View Source</a>
+                    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/Assets/Scripts/Combat/Attacks/Bolt/BoltManager.cs/#L12" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

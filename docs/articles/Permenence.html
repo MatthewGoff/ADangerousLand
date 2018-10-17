@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Namespace ADL.Combat.Attacks
-   </title>
+    <title>Permenence </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Namespace ADL.Combat.Attacks
-   ">
+    <meta name="title" content="Permenence ">
     <meta name="generator" content="docfx 2.40.0.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -68,39 +66,29 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="ADL.Combat.Attacks">
-  
-  <h1 id="ADL_Combat_Attacks" data-uid="ADL.Combat.Attacks" class="text-break">Namespace ADL.Combat.Attacks
-  </h1>
-  <div class="markdown level0 summary"></div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="markdown level0 remarks"></div>
-    <h3 id="classes">Classes
-  </h3>
-      <h4><a class="xref" href="ADL.Combat.Attacks.AttackManager.html">AttackManager</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ADL.Combat.Attacks.BoltManager.html">BoltManager</a></h4>
-      <section><p>Conducts execution and resolution of a Bolt type attack</p>
-</section>
-      <h4><a class="xref" href="ADL.Combat.Attacks.BoltMonoBehaviour.html">BoltMonoBehaviour</a></h4>
-      <section><p>MonoBehaviour for a bolt attack</p>
-</section>
-      <h4><a class="xref" href="ADL.Combat.Attacks.DashManager.html">DashManager</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ADL.Combat.Attacks.DashMonoBehaviour.html">DashMonoBehaviour</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ADL.Combat.Attacks.SlashManager.html">SlashManager</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ADL.Combat.Attacks.SlashMonoBehaviour.html">SlashMonoBehaviour</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ADL.Combat.Attacks.StompManager.html">StompManager</a></h4>
-      <section></section>
-      <h4><a class="xref" href="ADL.Combat.Attacks.StompMonoBehaviour.html">StompMonoBehaviour</a></h4>
-      <section></section>
-    <h3 id="delegates">Delegates
-  </h3>
-      <h4><a class="xref" href="ADL.Combat.Attacks.AttackManager.ExpirationListener.html">AttackManager.ExpirationListener</a></h4>
-      <section></section>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="permenence">Permenence</h1>
+
+<p>I used the following guides
+Original guide: <a href="https://aloiskraus.wordpress.com/2017/04/23/the-definitive-serialization-performance-guide/">https://aloiskraus.wordpress.com/2017/04/23/the-definitive-serialization-performance-guide/</a>
+.NET 4.7 update guide: <a href="https://aloiskraus.wordpress.com/2018/05/06/serialization-performance-update-with-net-4-7-2/">https://aloiskraus.wordpress.com/2018/05/06/serialization-performance-update-with-net-4-7-2/</a></p>
+<p>I first tried using BinaryFormatter serialization but it was catastrophically
+slow. Then I tried protobuf-net but unity didn't recognize the nuget package
+for some reason and I could not find enough information online to fix the issue.
+Lastly I settled on MessagePackSharp
+(<a href="https://github.com/neuecc/MessagePack-CSharp">https://github.com/neuecc/MessagePack-CSharp</a>). There are four things to keep
+in mind with MessagePackSharp. The first is that it is a tree type serializer as
+opposed to a graph type meaning it cannot serialize cyclic references. Second is
+that in order to instantiate an object while deserializing it requires a
+constructor (optionally marked with [SerializationConstructor], I choose to
+always mark). In most cases in this project classes contain two constructors,
+the one used when intitially creating the object and the one used when
+deserializing. Third it can only serialize public members. Lastly, it can't
+serialize tuples.</p>
+<p>Also, I've made the questionable decision the persist terrain type, which James
+has pointed out is uneccesary since you can just generate the terrain again.
+Load time is short enough atm that I'm not going to worry about it but I'll
+keep it in mind.</p>
 </article>
           </div>
           
@@ -108,6 +96,9 @@
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
+                  <li>
+                    <a href="https://github.com/MatthewGoff/ADangerousLand-private/blob/master/docfx_project/articles/Permenence.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
