@@ -19,11 +19,11 @@ app.config
 compilation.log
 
 # Matt's loot calculator experiment (python project)
-LootCalculator/
+# LootCalculator/
 
 # Odd files that appeared due to case sensitivity of my(James) file system
 CaseSensitiveTest
 casesensitivetest
 
 # Docfx project
-docfx_project/
+# docfx_project/
