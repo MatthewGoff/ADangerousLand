@@ -17,17 +17,17 @@ namespace ADL.World
 
         [Key(0)] public int WorldIdentifier;
         [Key(1)] public WorldGenParameters GenerationParameters { get; private set; }
-        [Key(2)] public readonly ChunkStorage Chunks;
+        [Key(2)] public readonly BoundlessArray2D<Chunk> Chunks;
 
         public WorldManager(int worldIdentifier, int seed)
         {
             WorldIdentifier = worldIdentifier;
             GenerationParameters = new WorldGenParameters(seed);
-            Chunks = new ChunkStorage();
+            Chunks = new BoundlessArray2D<Chunk>();
         }
 
         [SerializationConstructor]
-        public WorldManager(int worldIdentifier, WorldGenParameters generationParameters, ChunkStorage chunks)
+        public WorldManager(int worldIdentifier, WorldGenParameters generationParameters, BoundlessArray2D<Chunk> chunks)
         {
             WorldIdentifier = worldIdentifier;
             GenerationParameters = generationParameters;
@@ -75,7 +75,7 @@ namespace ADL.World
             {
                 for (int y = -3; y <= 3; y++)
                 {
-                    Chunk chunk = Chunks.GetChunk(currentChunk.Add(x, y));
+                    Chunk chunk = GetChunk(currentChunk.Add(x, y));
 
                     TransitionChunkState(chunk);
 
@@ -93,7 +93,7 @@ namespace ADL.World
         }
 
         /*
-         * Inform chunks arround the current chunk what their state in the next fixed update is to be.
+         * Inform chunks around the current chunk what their state in the next fixed update is to be.
          * (State is purely a function of proximity to the current occuppied chunk(s))
          */
         private void QueueNextStateForChunks(ChunkIndex currentChunk)
@@ -102,7 +102,7 @@ namespace ADL.World
             {
                 for (int y = -3; y <= 3; y++)
                 {
-                    Chunk chunk = Chunks.GetChunk(currentChunk.Add(x, y));
+                    Chunk chunk = GetChunk(currentChunk.Add(x, y));
                     int distance = Mathf.Max(Mathf.Abs(x), Mathf.Abs(y));
                     if (distance == 0)
                     {
@@ -185,7 +185,7 @@ namespace ADL.World
             {
                 for (int indexY = currentchunk.Y - 5; indexY <= currentchunk.Y + 5; indexY++)
                 {
-                    Chunks.GetChunk(new ChunkIndex(indexX, indexY)).Sleep();
+                    GetChunk(indexX, indexY).Sleep();
                 }
             }
             PlayerManager.Sleep();
@@ -200,7 +200,7 @@ namespace ADL.World
             {
                 for (int indexY = chunkIndex.Y - chunkRadius; indexY <= chunkIndex.Y + chunkRadius; indexY++)
                 {
-                    Chunk chunk = Chunks.GetChunk(new ChunkIndex(indexX, indexY));
+                    Chunk chunk = GetChunk(indexX, indexY);
                     if (!chunk.RiversInitialized)
                     {
                         chunk.InitializeRivers();
@@ -216,15 +216,15 @@ namespace ADL.World
             {
                 for (int indexY = chunkIndex.Y - radius; indexY <= chunkIndex.Y + radius; indexY++)
                 {
-                    Chunk chunk = Chunks.GetChunk(new ChunkIndex(indexX, indexY));
+                    Chunk chunk = GetChunk(indexX, indexY);
                     if (!chunk.Initialized)
                     {
                         chunk.FinalInitialization();
                     }
                 }
             }
-            Chunks.GetChunk(chunkIndex).LocalityInitialized = true;
-            Chunks.GetChunk(chunkIndex).InitializingLocality = false;
+            GetChunk(chunkIndex).LocalityInitialized = true;
+            GetChunk(chunkIndex).InitializingLocality = false;
         }
 
         private ChunkIndex GetPlayerChunk()
@@ -272,7 +272,16 @@ namespace ADL.World
 
         public Chunk GetChunk(ChunkIndex chunkIndex)
         {
-            return Chunks.GetChunk(chunkIndex);
+            return GetChunk(chunkIndex.X, chunkIndex.Y);
+        }
+
+        public Chunk GetChunk(int x, int y)
+        {
+            if (Chunks.Get(x, y) == default)
+            {
+                Chunks.Set(x, y, new Chunk(new ChunkIndex(x, y)));
+            }
+            return Chunks.Get (x, y);
         }
 
         public void SpawnPlayer()
@@ -284,7 +293,7 @@ namespace ADL.World
 
         public float MovementMultiplier(WorldLocation worldLocation)
         {
-            return Chunks.GetChunk(GetChunkIndex(worldLocation)).MovementMultiplierAt(worldLocation);
+            return GetChunk(GetChunkIndex(worldLocation)).MovementMultiplierAt(worldLocation);
         }
 
         private WorldLocation DecideSpawnPoint()

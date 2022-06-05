@@ -7,41 +7,78 @@ using ADL.Util;
 
 namespace ADL.Core
 {
-    public class Configuration
+    /// <summary>
+    /// Static class containing configration information
+    /// </summary>
+    public static class Configuration
     {
-
-        // Movement Multipliers
+        /// <summary>
+        /// Dictionary mapping terrain type to the movement multiplier for that terrain type
+        /// </summary>
         public static readonly Dictionary<TerrainTypeEnum, float> MOVEMENT_MULTIPLIERS = new Dictionary<TerrainTypeEnum, float>()
-    {
-        { TerrainTypeEnum.Grass, 1f},
-        { TerrainTypeEnum.Sand, 1f},
-        { TerrainTypeEnum.Tree, 0.7f},
-        { TerrainTypeEnum.River, 0.5f},
-        { TerrainTypeEnum.Ocean, 0.3f},
-        { TerrainTypeEnum.Mountain, 1f},
-    };
+        {
+            { TerrainTypeEnum.Grass, 1f},
+            { TerrainTypeEnum.Sand, 1f},
+            { TerrainTypeEnum.Tree, 0.7f},
+            { TerrainTypeEnum.River, 0.5f},
+            { TerrainTypeEnum.Ocean, 0.3f},
+            { TerrainTypeEnum.Mountain, 1f},
+        };
 
-        // World
+        /// <summary>
+        /// The square radius around the player in which tile gameobjects are instantiated
+        /// </summary>
         public static readonly int TREADMILL_RADIUS = 32;
+        /// <summary>
+        /// The size of the square chunks which contain tiles and make up the world
+        /// </summary>
         public static readonly int CHUNK_SIZE = 32;
 
-        // Fog
+        /// <summary>
+        /// The opacity of fog where the player has explored but does not have vision
+        /// </summary>
         public static readonly float FOG_ALPHA = 0.5f;
 
-        // Damage Numbers
+        /// <summary>
+        /// The height to which damage numbers will scroll above their initial position
+        /// </summary>
         public static readonly int DAMAGE_NUMBERS_HEIGHT = 100;
+        /// <summary>
+        /// The time it takes damage numbers to scroll to their final height
+        /// </summary>
         public static readonly float DAMAGE_NUMBERS_DURATION = 2f;
 
-        // Display
+        /// <summary>
+        /// The number of pixels used to represent one unity unit (one tile)
+        /// </summary>
         public static readonly int PIXELS_PER_UNIT = 32;
+        /// <summary>
+        /// The duration elapsed between player death and player respawn including the fade time
+        /// </summary>
         public static readonly float DEATH_DURATION = 3f;
+        /// <summary>
+        /// The number of sprites which will trail behind the player when sprinting
+        /// </summary>
         public static readonly int PLAYER_TRAIL_SPRITES = 10;
+        /// <summary>
+        /// The time between laying sprites in the player trail
+        /// </summary>
         public static readonly float PLAYER_TRAIL_PERIOD = 1 / 60f;
 
-        // Combat
+        /// <summary>
+        /// The speed at which combatants are knocked back
+        /// </summary>
         public static readonly float KNOCKBACK_SPEED = 5f;
 
-        // Levels
+        /// <summary>
+        /// Get the cumulative experience required to reach the argument level
+        /// </summary>
+        /// <param name="level">
+        /// The level
+        /// </param>
+        /// <returns>
+        /// The cumulative experience required to reach the argument level 
+        /// </returns>
         public static int GetLevelExperience(int level)
         {
             if (level <= 1)
@@ -53,159 +90,180 @@ namespace ADL.Core
                 return Mathf.FloorToInt(Mathf.Pow(1.5f, level - 1));
             }
         }
+        /// <summary>
+        /// Get the number of skill points awareded upon reaching the argument level
+        /// </summary>
+        /// <param name="level">
+        /// The level
+        /// </param>
+        /// <returns>
+        /// The number of skill points awareded upon reaching the argument level
+        /// </returns>
         public static int GetLevelSkillPoints(int level)
         {
             return Mathf.CeilToInt(level / 3f);
         }
 
-        // Enemies
+        /// <summary>
+        /// Dictionary mapping EnemyType to the EnemyConfiguration for that type
+        /// </summary>
         public static readonly Dictionary<EnemyType, EnemyConfiguration> ENEMY_CONFIGURATIONS = new Dictionary<EnemyType, EnemyConfiguration>()
-    {
-        {EnemyType.SmallRedSlime, new EnemyConfiguration(){
-            PrefabLocation = "SmallRedSlime/SmallRedSlimePrefab",
-            AIType = AIType.Basic,
-            MaxHealth = 3,
-            MoveSpeed = 3.5f,
-            ExperienceReward = 1,
-            Damage = 0.2f,
-            AttackSpeed = 1f,
-            Aoe = 2f,
-            AgroDistance = 15f,
-            DeAgroDistance = 20f,
-            MinAgroDuration = 3f,
-            Width = .5f,
-            Height = .5f,
-            AttackOrigin = new Vector2(0, 0.25f),
-        }},
-        {EnemyType.SmallGreenSlime, new EnemyConfiguration(){
-            PrefabLocation = "SmallGreenSlime/SmallGreenSlimePrefab",
-            AIType = AIType.Basic,
-            MaxHealth = 5,
-            MoveSpeed = 3.5f,
-            ExperienceReward = 3,
-            Damage = 0.4f,
-            AttackSpeed = 1f,
-            Aoe = 2f,
-            AgroDistance = 15f,
-            DeAgroDistance = 20f,
-            MinAgroDuration = 3f,
-            Width = .5f,
-            Height = .5f,
-            AttackOrigin = new Vector2(0, 0.25f),
-        }},
-        {EnemyType.SmallBlueSlime, new EnemyConfiguration(){
-            PrefabLocation = "SmallBlueSlime/SmallBlueSlimePrefab",
-            AIType = AIType.Basic,
-            MaxHealth = 15,
-            MoveSpeed = 3.5f,
-            ExperienceReward = 9,
-            Damage = 0.6f,
-            AttackSpeed = 1f,
-            Aoe = 2f,
-            AgroDistance = 15f,
-            DeAgroDistance = 20f,
-            MinAgroDuration = 3f,
-            Width = .5f,
-            Height = .5f,
-            AttackOrigin = new Vector2(0, 0.25f),
-        }},
-        {EnemyType.RedSlime, new EnemyConfiguration(){
-            PrefabLocation = "RedSlime/RedSlimePrefab",
-            AIType = AIType.Basic,
-            MaxHealth = 30,
-            MoveSpeed = 4.5f,
-            ExperienceReward = 27,
-            Damage = 1f,
-            AttackSpeed = .5f,
-            Aoe = 2f,
-            AgroDistance = 15f,
-            DeAgroDistance = 20f,
-            MinAgroDuration = 3f,
-            Width = 1f,
-            Height = 1f,
-            AttackOrigin = new Vector2(0, 0.5f),
-        }},
-        {EnemyType.GreenSlime, new EnemyConfiguration(){
-            PrefabLocation = "GreenSlime/GreenSlimePrefab",
-            AIType = AIType.Basic,
-            MaxHealth = 60,
-            MoveSpeed = 4.5f,
-            ExperienceReward = 81,
-            Damage = 2f,
-            AttackSpeed = .5f,
-            Aoe = 2f,
-            AgroDistance = 15f,
-            DeAgroDistance = 20f,
-            MinAgroDuration = 3f,
-            Width = 1f,
-            Height = 1f,
-            AttackOrigin = new Vector2(0, 0.5f),
-        }},
-        {EnemyType.BlueSlime, new EnemyConfiguration(){
-            PrefabLocation = "BlueSlime/BlueSlimePrefab",
-            AIType = AIType.Basic,
-            MaxHealth = 80,
-            MoveSpeed = 4.5f,
-            ExperienceReward = 243,
-            Damage = 3f,
-            AttackSpeed = .5f,
-            Aoe = 2f,
-            AgroDistance = 15f,
-            DeAgroDistance = 20f,
-            MinAgroDuration = 3f,
-            Width = 1f,
-            Height = 1f,
-            AttackOrigin = new Vector2(0, 0.5f),
-        }},
-        {EnemyType.Bat, new EnemyConfiguration(){
-            PrefabLocation = "Bat/BatPrefab",
-            AIType = AIType.Basic,
-            MaxHealth = 100,
-            MoveSpeed = 6f,
-            ExperienceReward = 729,
-            Damage = 5f,
-            AttackSpeed = 1f,
-            Aoe = 2f,
-            AgroDistance = 15f,
-            DeAgroDistance = 20f,
-            MinAgroDuration = 3f,
-            Width = 2f,
-            Height = 1f,
-            AttackOrigin = new Vector2(0, 0.5f),
-        }},
-        {EnemyType.Werewolf, new EnemyConfiguration(){
-            PrefabLocation = "Werewolf/WerewolfPrefab",
-            AIType = AIType.Basic,
-            MaxHealth = 140,
-            MoveSpeed = 8f,
-            ExperienceReward = 2187,
-            Damage = 8f,
-            AttackSpeed = 1.5f,
-            Aoe = 2f,
-            AgroDistance = 15f,
-            DeAgroDistance = 20f,
-            MinAgroDuration = 3f,
-            Width = 1f,
-            Height = 1.5f,
-            AttackOrigin = new Vector2(0, 0.75f),
-        }},
-        {EnemyType.Dragon, new EnemyConfiguration(){
-            PrefabLocation = "Dragon/DragonPrefab",
-            AIType = AIType.Basic,
-            MaxHealth = 1000,
-            MoveSpeed = 2.5f,
-            ExperienceReward = 6561,
-            Damage = 25f,
-            AttackSpeed = 0.75f,
-            Aoe = 10f,
-            AgroDistance = 15f,
-            DeAgroDistance = 20f,
-            MinAgroDuration = 3f,
-            Width = 3f,
-            Height = 3f,
-            AttackOrigin = new Vector2(0, 1.5f),
-        }},
-    };
+        {
+            {EnemyType.SmallRedSlime, new EnemyConfiguration(){
+                PrefabLocation = "SmallRedSlime/SmallRedSlimePrefab",
+                AIType = AIType.Basic,
+                MaxHealth = 3,
+                MoveSpeed = 3.5f,
+                ExperienceReward = 1,
+                Damage = 0.2f,
+                AttackSpeed = 1f,
+                Aoe = 2f,
+                AgroDistance = 15f,
+                DeAgroDistance = 20f,
+                MinAgroDuration = 3f,
+                Width = .5f,
+                Height = .5f,
+                AttackOrigin = new Vector2(0, 0.25f),
+            }},
+            {EnemyType.SmallGreenSlime, new EnemyConfiguration(){
+                PrefabLocation = "SmallGreenSlime/SmallGreenSlimePrefab",
+                AIType = AIType.Basic,
+                MaxHealth = 5,
+                MoveSpeed = 3.5f,
+                ExperienceReward = 3,
+                Damage = 0.4f,
+                AttackSpeed = 1f,
+                Aoe = 2f,
+                AgroDistance = 15f,
+                DeAgroDistance = 20f,
+                MinAgroDuration = 3f,
+                Width = .5f,
+                Height = .5f,
+                AttackOrigin = new Vector2(0, 0.25f),
+            }},
+            {EnemyType.SmallBlueSlime, new EnemyConfiguration(){
+                PrefabLocation = "SmallBlueSlime/SmallBlueSlimePrefab",
+                AIType = AIType.Basic,
+                MaxHealth = 15,
+                MoveSpeed = 3.5f,
+                ExperienceReward = 9,
+                Damage = 0.6f,
+                AttackSpeed = 1f,
+                Aoe = 2f,
+                AgroDistance = 15f,
+                DeAgroDistance = 20f,
+                MinAgroDuration = 3f,
+                Width = .5f,
+                Height = .5f,
+                AttackOrigin = new Vector2(0, 0.25f),
+            }},
+            {EnemyType.RedSlime, new EnemyConfiguration(){
+                PrefabLocation = "RedSlime/RedSlimePrefab",
+                AIType = AIType.Basic,
+                MaxHealth = 30,
+                MoveSpeed = 4.5f,
+                ExperienceReward = 27,
+                Damage = 1f,
+                AttackSpeed = .5f,
+                Aoe = 2f,
+                AgroDistance = 15f,
+                DeAgroDistance = 20f,
+                MinAgroDuration = 3f,
+                Width = 1f,
+                Height = 1f,
+                AttackOrigin = new Vector2(0, 0.5f),
+            }},
+            {EnemyType.GreenSlime, new EnemyConfiguration(){
+                PrefabLocation = "GreenSlime/GreenSlimePrefab",
+                AIType = AIType.Basic,
+                MaxHealth = 60,
+                MoveSpeed = 4.5f,
+                ExperienceReward = 81,
+                Damage = 2f,
+                AttackSpeed = .5f,
+                Aoe = 2f,
+                AgroDistance = 15f,
+                DeAgroDistance = 20f,
+                MinAgroDuration = 3f,
+                Width = 1f,
+                Height = 1f,
+                AttackOrigin = new Vector2(0, 0.5f),
+            }},
+            {EnemyType.BlueSlime, new EnemyConfiguration(){
+                PrefabLocation = "BlueSlime/BlueSlimePrefab",
+                AIType = AIType.Basic,
+                MaxHealth = 80,
+                MoveSpeed = 4.5f,
+                ExperienceReward = 243,
+                Damage = 3f,
+                AttackSpeed = .5f,
+                Aoe = 2f,
+                AgroDistance = 15f,
+                DeAgroDistance = 20f,
+                MinAgroDuration = 3f,
+                Width = 1f,
+                Height = 1f,
+                AttackOrigin = new Vector2(0, 0.5f),
+            }},
+            {EnemyType.Bat, new EnemyConfiguration(){
+                PrefabLocation = "Bat/BatPrefab",
+                AIType = AIType.Basic,
+                MaxHealth = 100,
+                MoveSpeed = 6f,
+                ExperienceReward = 729,
+                Damage = 5f,
+                AttackSpeed = 1f,
+                Aoe = 2f,
+                AgroDistance = 15f,
+                DeAgroDistance = 20f,
+                MinAgroDuration = 3f,
+                Width = 2f,
+                Height = 1f,
+                AttackOrigin = new Vector2(0, 0.5f),
+            }},
+            {EnemyType.Werewolf, new EnemyConfiguration(){
+                PrefabLocation = "Werewolf/WerewolfPrefab",
+                AIType = AIType.Basic,
+                MaxHealth = 140,
+                MoveSpeed = 8f,
+                ExperienceReward = 2187,
+                Damage = 8f,
+                AttackSpeed = 1.5f,
+                Aoe = 2f,
+                AgroDistance = 15f,
+                DeAgroDistance = 20f,
+                MinAgroDuration = 3f,
+                Width = 1f,
+                Height = 1.5f,
+                AttackOrigin = new Vector2(0, 0.75f),
+            }},
+            {EnemyType.Dragon, new EnemyConfiguration(){
+                PrefabLocation = "Dragon/DragonPrefab",
+                AIType = AIType.Basic,
+                MaxHealth = 1000,
+                MoveSpeed = 2.5f,
+                ExperienceReward = 6561,
+                Damage = 25f,
+                AttackSpeed = 0.75f,
+                Aoe = 10f,
+                AgroDistance = 15f,
+                DeAgroDistance = 20f,
+                MinAgroDuration = 3f,
+                Width = 3f,
+                Height = 3f,
+                AttackOrigin = new Vector2(0, 1.5f),
+            }},
+        };
+
+        /// <summary>
+        /// The maximum number of enemies that can spawn in a chunk of the argument danger rating
+        /// </summary>
+        /// <param name="dangerRating">
+        /// The danger rating
+        /// </param>
+        /// <returns>
+        /// The maximum number of enemies that can spawn in a chunk of the argument danger rating
+        /// </returns>
         public static int MAXIMUM_ENEMIES(int dangerRating)
         {
             if (dangerRating == 0)
@@ -218,7 +276,15 @@ namespace ADL.Core
             }
         }
 
-        // SpawnProbabilities maps a danger rating to an array of spawn probabilities
+        /// <summary>
+        /// Maps a danger rating to an array of spawn probabilities.
+        /// </summary>
+        /// <param name="dangerRating">
+        /// The danger rating
+        /// </param>
+        /// <returns>
+        /// An array of tuples mapping a spawn probability to an EnemyType
+        /// </returns>
         public static (float, EnemyType)[] SPAWN_PROBABILITIES(int dangerRating)
         {
             if (dangerRating == 0)
@@ -352,47 +418,127 @@ namespace ADL.Core
             }
         }
 
-        // Player Attributes
+        /// <summary>
+        /// Get the damage associated with a number of passive points
+        /// </summary>
+        /// <param name="pointsInvested">
+        /// The number of passive points invested
+        /// </param>
+        /// <returns>
+        /// Damage
+        /// </returns>
         public static float PLAYER_ATTACK_DAMAGE(int pointsInvested)
         {
             BoundedLogisticFunction f = new BoundedLogisticFunction(10, 1, 20, 0.9f);
             return f.Evaluate(pointsInvested);
         }
+        /// <summary>
+        /// Get the attack speed associated with a number of passive points
+        /// </summary>
+        /// <param name="pointsInvested">
+        /// The number of passive points invested
+        /// </param>
+        /// <returns>
+        /// Attack speed
+        /// </returns>
         public static float PLAYER_ATTACK_SPEED(int pointsInvested)
         {
             LogisticFunction f = new LogisticFunction(20, 1, 20, 0.9f);
             return f.Evaluate(pointsInvested);
         }
+        /// <summary>
+        /// Get the movement speed associated with a number of passive points
+        /// </summary>
+        /// <param name="pointsInvested">
+        /// The number of passive points invested
+        /// </param>
+        /// <returns>
+        /// Movement speed
+        /// </returns>
         public static float PLAYER_MOVE_SPEED(int pointsInvested)
         {
             LogisticFunction f = new LogisticFunction(15, 5, 20, 0.9f);
             return f.Evaluate(pointsInvested);
         }
+        /// <summary>
+        /// Get the sight radius associated with a number of passive points
+        /// </summary>
+        /// <param name="pointsInvested">
+        /// The number of passive points invested
+        /// </param>
+        /// <returns>
+        /// Sight radius
+        /// </returns>
         public static float PLAYER_SIGHT_RADIUS(int pointsInvested)
         {
             LogisticFunction f = new LogisticFunction(20, 7, 20, 0.9f);
             return f.Evaluate(pointsInvested);
         }
+        /// <summary>
+        /// Get the player projectile damage associated with a number of passive points
+        /// </summary>
+        /// <param name="pointsInvested">
+        /// The number of passive points invested
+        /// </param>
+        /// <returns>
+        /// Projectile damage
+        /// </returns>
         public static float PLAYER_PROJECTILE_DAMAGE(int pointsInvested)
         {
             LogisticFunction f = new LogisticFunction(1.0f, 0.5f, 20, 0.9f);
             return f.Evaluate(pointsInvested);
         }
+        /// <summary>
+        /// Get the maximum player health associated with a number of passive points
+        /// </summary>
+        /// <param name="pointsInvested">
+        /// The number of passive points invested
+        /// </param>
+        /// <returns>
+        /// Maximum health
+        /// </returns>
         public static float PLAYER_MAX_HEALTH(int pointsInvested)
         {
             BoundedLogisticFunction f = new BoundedLogisticFunction(30, 10, 20, 0.9f);
             return f.Evaluate(pointsInvested);
         }
+        /// <summary>
+        /// Get the maximum player stamina associated with a number of passive points
+        /// </summary>
+        /// <param name="pointsInvested">
+        /// The number of passive points invested
+        /// </param>
+        /// <returns>
+        /// Maximum stamina
+        /// </returns>
         public static float PLAYER_MAX_STAMINA(int pointsInvested)
         {
             BoundedLogisticFunction f = new BoundedLogisticFunction(30, 10, 20, 0.9f);
             return f.Evaluate(pointsInvested);
         }
+        /// <summary>
+        /// Get the player health regen associated with a number of passive points
+        /// </summary>
+        /// <param name="pointsInvested">
+        /// The number of passive points invested
+        /// </param>
+        /// <returns>
+        /// Player health regen
+        /// </returns>
         public static float PLAYER_HEALTH_REGEN(int pointsInvested)
         {
             LogisticFunction f = new LogisticFunction(0.15f, 0.01f, 20, 0.9f);
             return f.Evaluate(pointsInvested);
         }
+        /// <summary>
+        /// Get the player stamina regen associated with a number of passive points
+        /// </summary>
+        /// <param name="pointsInvested">
+        /// The number of passive points invested
+        /// </param>
+        /// <returns>
+        /// Player stamina regen
+        /// </returns>
         public static float PLAYER_STAMINA_REGEN(int pointsInvested)
         {
             LogisticFunction f = new LogisticFunction(2.5f, 1, 20, 0.9f);

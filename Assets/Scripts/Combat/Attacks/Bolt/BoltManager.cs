@@ -4,7 +4,7 @@ using ADL.Core;
 namespace ADL.Combat.Attacks
 {
     /// <summary>
-    /// Conducts execution and resolution of a Bolt type attack
+    /// Conducts execution and resolution of a bolt type attack
     /// </summary>
     /// <remarks>
     /// See the Manager/Monobehaviour design pattern
@@ -12,7 +12,7 @@ namespace ADL.Combat.Attacks
     public class BoltManager : AttackManager
     {
         /// <summary>
-        /// The CombatantManager of the player or enemy initiating the attack
+        /// The CombatantManager of the combatant initiating the attack
         /// </summary>
         private CombatantManager Originator;
         /// <summary>
@@ -25,10 +25,10 @@ namespace ADL.Combat.Attacks
         private float Damage;
 
         /// <summary>
-        /// Execute a bolt attack
+        /// Create a BoltManager. Immediatly executes a bolt attack
         /// </summary>
         /// <param name="originator">
-        /// The CombatantManager of the player or enemy initiating the attack
+        /// The CombatantManager of the combatant initiating the attack
         /// </param>
         /// <param name="position">
         /// The position from which the attack originates
@@ -54,7 +54,7 @@ namespace ADL.Combat.Attacks
         /// Administer damage and experience as the result of a collision with this attack
         /// </summary>
         /// <param name="other">
-        /// The CombatantManager of the enemy or player recieving the attack
+        /// The CombatantManager of the combatant recieving the attack
         /// </param>
         public void ResolveCollision(CombatantManager other)
         {

@@ -204,7 +204,7 @@ namespace ADL.Combat.Player
                 }
             }
 
-            Manager.FixedUpdate(Time.deltaTime);
+            Manager.FixedUpdate();
 
             Vector2 movementVector = MoveTarget - RB2D.position;
             if (movementVector.magnitude > 1.0f)

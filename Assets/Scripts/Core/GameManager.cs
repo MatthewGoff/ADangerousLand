@@ -11,12 +11,17 @@ using ADL.Combat.Player;
 namespace ADL.Core
 {
     /// <summary>
-    /// Controls the application at the highest level. Like the Conductor of an orchestra.
+    /// Singleton class which controls the application at the highest level.
     /// </summary>
     public class GameManager : MonoBehaviour
     {
-
+        /// <summary>
+        /// The singleton instance of the GameManager
+        /// </summary>
         public static GameManager Singleton;
+        /// <summary>
+        /// Member encapsulates get type call to the state machine
+        /// </summary>
         public GameStateType GameState
         {
             get
@@ -25,40 +30,109 @@ namespace ADL.Core
             }
         }
 
-        // UI stuff
+        /// <summary>
+        /// Splash screen GameObject
+        /// </summary>
         public GameObject SplashScreen;
+        /// <summary>
+        /// Paused menu GameObject
+        /// </summary>
         public GameObject PausedMenu;
+        /// <summary>
+        /// Info menu GameObject
+        /// </summary>
         public GameObject InfoMenu;
+        /// <summary>
+        /// HUD GameObject
+        /// </summary>
         public GameObject HUD;
+        /// <summary>
+        /// Death screen GameObject
+        /// </summary>
         public GameObject DeathScreen;
+        /// <summary>
+        /// Death background GameObject
+        /// </summary>
         public GameObject DeathBackground;
+        /// <summary>
+        /// GameStatesCanvas GameObject
+        /// </summary>
         public GameObject GameStatsCanvas;
+        /// <summary>
+        /// FPS text GameObject
+        /// </summary>
         public GameObject FPSText;
+        /// <summary>
+        /// UPS text GameObject
+        /// </summary>
         public GameObject UPSText;
-        public GameObject GameObjectText;
+        /// <summary>
+        /// Level up text GameObject
+        /// </summary>
         public GameObject LevelUpText;
+        /// <summary>
+        /// Passive menu GameObject
+        /// </summary>
         public GameObject PassivesMenu;
+        /// <summary>
+        /// Main menu GameObject
+        /// </summary>
         public GameObject MainMenu;
+        /// <summary>
+        /// Player menu GameObject
+        /// </summary>
         public GameObject PlayerMenu;
+        /// <summary>
+        /// New player menu GameObject
+        /// </summary>
         public GameObject NewPlayerMenu;
+        /// <summary>
+        /// World menu GameObject
+        /// </summary>
         public GameObject WorldMenu;
+        /// <summary>
+        /// New world menu GameObject
+        /// </summary>
         public GameObject NewWorldMenu;
+        /// <summary>
+        /// Loading screen GameObject
+        /// </summary>
         public GameObject LoadingScreen;
+        /// <summary>
+        /// Controls menu GameObject
+        /// </summary>
         public GameObject ControlsMenu;
 
-        // Audio
+        /// <summary>
+        /// Audio source GameObject
+        /// </summary>
         public GameObject AudioSource;
 
-        // GameStats
-        public int GameObjectCount = 0;
+        /// <summary>
+        /// Queue for recent FPS measurements used for averaging
+        /// </summary>
         private Queue<float> FPSQueue;
+        /// <summary>
+        /// Queue for recent UPS measruements used for averaging
+        /// </summary>
         private Queue<float> UPSQueue;
-        private Queue<float> GameObjectsQueue;
 
+        /// <summary>
+        /// The main camera used to display gameplay
+        /// </summary>
         public GameObject PlayerCamera;
-        public World.WorldManager World;
+        /// <summary>
+        /// The world
+        /// </summary>
+        public WorldManager World;
+        /// <summary>
+        /// The FSM used to manage game state
+        /// </summary>
         private FiniteStateMachine<GameStateType, GameInputType> StateMachine;
 
+        /// <summary>
+        /// Gets called when the GameObject is instantiated
+        /// </summary>
         void Awake()
         {
             Singleton = this;
@@ -67,11 +141,9 @@ namespace ADL.Core
 
             FPSQueue = new Queue<float>();
             UPSQueue = new Queue<float>();
-            GameObjectsQueue = new Queue<float>();
 
             StartCoroutine("PrintFPS");
             StartCoroutine("PrintUPS");
-            StartCoroutine("PrintGameObjects");
 
             Prefabs.LoadPrefabs();
             PlayerPersistenceManager.Initialize();
@@ -83,12 +155,24 @@ namespace ADL.Core
             StartCoroutine("Load");
         }
 
+        /// <summary>
+        /// Coroutine waits for a period before sending intput to the state machine
+        /// </summary>
+        /// <returns>
+        /// Mandatory return type for a coroutine
+        /// </returns>
         private IEnumerator Load()
         {
             yield return new WaitForSecondsRealtime(3f);
             TakeInput(GameInputType.FinishedLoading);
         }
 
+        /// <summary>
+        /// Coroutine continuously displays the recent FPS
+        /// </summary>
+        /// <returns>
+        /// Mandatory return type for a coroutine
+        /// </returns>
         private IEnumerator PrintFPS()
         {
             while (true)
@@ -103,6 +187,13 @@ namespace ADL.Core
                 yield return new WaitForSeconds(.1f);
             }
         }
+
+        /// <summary>
+        /// Coroutine continuously displays the recent UPS
+        /// </summary>
+        /// <returns>
+        /// Mandatory return type for a coroutine
+        /// </returns>
         private IEnumerator PrintUPS()
         {
             while (true)
@@ -117,21 +208,13 @@ namespace ADL.Core
                 yield return new WaitForSeconds(.1f);
             }
         }
-        private IEnumerator PrintGameObjects()
-        {
-            while (true)
-            {
-                float accumulator = 0f;
-                foreach (float x in GameObjectsQueue)
-                {
-                    accumulator += x;
-                }
-                accumulator /= GameObjectsQueue.Count;
-                GameObjectText.GetComponent<Text>().text = accumulator.ToString();
-                yield return new WaitForSeconds(.1f);
-            }
-        }
 
+        /// <summary>
+        /// Initialize the FSM for the game
+        /// </summary>
+        /// <returns>
+        /// The FSM for the game
+        /// </returns>
         private FiniteStateMachine<GameStateType, GameInputType> CreateStateMachine()
         {
             FiniteStateMachine<GameStateType, GameInputType> stateMachine = new FiniteStateMachine<GameStateType, GameInputType>();
@@ -220,7 +303,7 @@ namespace ADL.Core
             stateMachine.OnEnterState(GameStateType.NewWorldMenu, delegate (GameStateType state, GameInputType input) { NewWorldMenu.SetActive(true); });
             stateMachine.OnExitState(GameStateType.NewWorldMenu, delegate (GameInputType input, GameStateType state) { NewWorldMenu.SetActive(false); });
 
-            // Loading In One
+            // Loading In 
             stateMachine.AddTransition(GameStateType.LoadingIn, GameStateType.ControlsMenu, GameInputType.WorldLoaded, false);
             stateMachine.OnEnterState(GameStateType.LoadingIn, LoadWorld);
             stateMachine.OnExitState(GameStateType.LoadingIn, delegate (GameInputType input, GameStateType state) { LoadingScreen.SetActive(false); Time.timeScale = 0; });
@@ -239,10 +322,12 @@ namespace ADL.Core
             // Exit
             stateMachine.OnEnterState(GameStateType.Exit, delegate (GameStateType state, GameInputType input) { Application.Quit(); });
 
-
             return stateMachine;
         }
 
+        /// <summary>
+        /// Gets called once per frame
+        /// </summary>
         public void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -270,11 +355,6 @@ namespace ADL.Core
                 //World.PlayerManager.RecieveExp(190);
             }
 
-            GameObjectsQueue.Enqueue(GameObjectCount);
-            if (GameObjectsQueue.Count > 10)
-            {
-                GameObjectsQueue.Dequeue();
-            }
             FPSQueue.Enqueue(1 / Time.deltaTime);
             if (FPSQueue.Count > 10)
             {
@@ -287,11 +367,20 @@ namespace ADL.Core
             }
         }
 
+        /// <summary>
+        /// Check whether any UI element has focus for text input
+        /// </summary>
+        /// <returns>
+        /// True if there is no UI element with focus for text input
+        /// </returns>
         private bool NoFocus()
         {
             return NewPlayerMenu.GetComponent<NewPlayerMenuController>().NoFocus() && NewWorldMenu.GetComponent<NewWorldMenuController>().NoFocus();
         }
 
+        /// <summary>
+        /// Gets called once per physics update
+        /// </summary>
         public void FixedUpdate()
         {
             UPSQueue.Enqueue(1 / Time.deltaTime);
@@ -306,7 +395,15 @@ namespace ADL.Core
             }
         }
 
-
+        /// <summary>
+        /// Start preparing the world for play
+        /// </summary>
+        /// <param name="previousState">
+        /// Standard paramater of a state machine delegate
+        /// </param>
+        /// <param name="input">
+        /// Standard paramater of a state machine delegate
+        /// </param>
         public void LoadWorld(GameStateType previousState, GameInputType input)
         {
             HUD.SetActive(true);
@@ -319,11 +416,20 @@ namespace ADL.Core
             Time.timeScale = 1;
         }
 
+        /// <summary>
+        /// Signal the the player has leveled up
+        /// </summary>
         public void LevelUp()
         {
             StartCoroutine("ShowLevelUp");
         }
 
+        /// <summary>
+        /// Coroutine which shows and fades the level up text
+        /// </summary>
+        /// <returns>
+        /// Mandatory return type of a coroutine
+        /// </returns>
         private IEnumerator ShowLevelUp()
         {
             LevelUpText.GetComponent<Text>().text = "Level " + World.PlayerManager.Level.ToString() + "!";
@@ -334,12 +440,7 @@ namespace ADL.Core
             {
                 yield return null;
             }
-            StartCoroutine("FadeLevelUp");
-        }
-
-        private IEnumerator FadeLevelUp()
-        {
-            float duration = 3f;
+            duration = 3f;
             Text text = LevelUpText.GetComponent<Text>();
             for (float i = 0f; i < duration; i += Time.deltaTime)
             {
@@ -349,11 +450,26 @@ namespace ADL.Core
             LevelUpText.SetActive(false);
         }
 
+        /// <summary>
+        /// Take input to the game's state machine
+        /// </summary>
+        /// <param name="inputType">
+        /// The GameInputType to be input
+        /// </param>
         public void TakeInput(GameInputType inputType)
         {
             StateMachine.TakeInput(inputType);
         }
 
+        /// <summary>
+        /// Call when the player has died
+        /// </summary>
+        /// <param name="previousState">
+        /// Standard paramater of a state machine delegate
+        /// </param>
+        /// <param name="inputType">
+        /// Standard paramater of a state machine delegate
+        /// </param>
         public void OnPlayerDeath(GameStateType previousState, GameInputType inputType)
         {
             Time.timeScale = 1f;
@@ -361,6 +477,12 @@ namespace ADL.Core
             StartCoroutine("FadeToBlack");
         }
 
+        /// <summary>
+        /// Coroutine which fades the screen to black (after player death) and then enters the appropriate GameInputType
+        /// </summary>
+        /// <returns>
+        /// Mandatory return type of a coroutine
+        /// </returns>
         private IEnumerator FadeToBlack()
         {
             DeathBackground.GetComponent<Image>().color = new Color(0, 0, 0, 0);
@@ -389,6 +511,15 @@ namespace ADL.Core
             }
         }
 
+        /// <summary>
+        /// Save player and world data and exit to the main menu
+        /// </summary>
+        /// <param name="state">
+        /// Standard paramater for a state machine delegate
+        /// </param>
+        /// <param name="input">
+        /// Standard paramater for a state machine delegate
+        /// </param>
         public void SaveAndExit(GameStateType state, GameInputType input)
         {
             LoadingScreen.SetActive(true);
@@ -397,11 +528,6 @@ namespace ADL.Core
             WorldPersistenceManager.SaveWorld(World);
             World.Sleep();
             TakeInput(GameInputType.WorldUnloaded);
-        }
-
-        public static void Print(string s)
-        {
-            print(s);
         }
     }
 }

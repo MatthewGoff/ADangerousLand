@@ -6,23 +6,68 @@ using ADL.World;
 
 namespace ADL.Combat.Enemies
 {
+    /// <summary>
+    /// The MonoBehaviour which manages all of an enemie's visual and physical interfaces
+    /// </summary>
+    /// <remarks>
+    /// See the Manager/MonoBehaviour design pattern
+    /// </remarks>
     public class EnemyMonoBehaviour : MonoBehaviour, IHitboxOwner
     {
+        /// <summary>
+        /// The prefab of this enemy's sprite
+        /// </summary>
         public GameObject SpritePrefab;
+        /// <summary>
+        /// The prefab of this enemy's hitbox
+        /// </summary>
         public GameObject HitboxPrefab;
+        /// <summary>
+        /// The canvas that will display scrolling damage numbers over this enemy
+        /// </summary>
         public DamageNumbersCanvasMonoBehaviour DamageNumbersCanvas;
 
+        /// <summary>
+        /// The sprite for thie enemy
+        /// </summary>
         private GameObject Sprite;
+        /// <summary>
+        /// The hitbox of this enemy
+        /// </summary>
         private GameObject Hitbox;
+        /// <summary>
+        /// The manager of this enemy
+        /// </summary>
         private EnemyManager Manager;
+        /// <summary>
+        /// The Rigidbody of this enemy
+        /// </summary>
         private Rigidbody2D RB2D;
+        /// <summary>
+        /// The renderer of this enemy's sprite
+        /// </summary>
         private SpriteRenderer Renderer;
+        /// <summary>
+        /// The animatorof this enemy's sprite
+        /// </summary>
         private Animator Animator;
+        /// <summary>
+        /// The MonoBehaviour of this enemy's healthbar
+        /// </summary>
         private HealthBarMonoBehaviour HealthBar;
+        /// <summary>
+        /// Whether this enemy is currently being knocked back
+        /// </summary>
         private bool BeingKnockedBack;
+        /// <summary>
+        /// The position towards which this enemy is being knocked back
+        /// </summary>
         private Vector2 KnockbackTarget;
 
-        public void Start()
+        /// <summary>
+        /// Gets called when the enemy is instantiated
+        /// </summary>
+        public void Awake()
         {
             Sprite = Instantiate(SpritePrefab, transform.position, Quaternion.identity);
             Animator = Sprite.GetComponent<Animator>();
@@ -34,7 +79,12 @@ namespace ADL.Combat.Enemies
             RB2D = GetComponent<Rigidbody2D>();
         }
 
-
+        /// <summary>
+        /// Assign this MonoBehaviour a manager
+        /// </summary>
+        /// <param name="manager">
+        /// The manager of this MonoBehaviour
+        /// </param>
         public void AssignManager(EnemyManager manager)
         {
             Manager = manager;
@@ -51,6 +101,9 @@ namespace ADL.Combat.Enemies
             DamageNumbersCanvas = damageNumbersCanvas.GetComponent<DamageNumbersCanvasMonoBehaviour>();
         }
 
+        /// <summary>
+        /// Gets called once per frame
+        /// </summary>
         public void Update()
         {
             Renderer.color = new Color(1, 1, 1, GameManager.Singleton.World.GetVisibilityLevel(RB2D.position));
@@ -58,6 +111,9 @@ namespace ADL.Combat.Enemies
             Renderer.sortingOrder = Helpers.SortingOrder(Sprite.transform.position);
         }
 
+        /// <summary>
+        /// Completely destroy this monobehaviour
+        /// </summary>
         public void Destroy()
         {
             Destroy(Sprite);
@@ -68,6 +124,9 @@ namespace ADL.Combat.Enemies
             Destroy(gameObject);
         }
 
+        /// <summary>
+        /// Gets called once per physics update
+        /// </summary>
         public void FixedUpdate()
         {
             if (BeingKnockedBack)
@@ -118,18 +177,33 @@ namespace ADL.Combat.Enemies
             }
         }
 
+        /// <summary>
+        /// Knockback this enemy
+        /// </summary>
+        /// <param name="knockback">
+        /// The direction and magnitude in which this enemy is being knockedback
+        /// </param>
         public void Knockback(Vector2 knockback)
         {
             BeingKnockedBack = true;
             KnockbackTarget = RB2D.position + knockback;
         }
 
+        /// <summary>
+        /// Update this enemies health bar sprite to show current health percentages
+        /// </summary>
         public void UpdateHealthBar()
         {
             HealthBar.ShowHealth(Manager.CurrentHealth / Manager.MaxHealth);
 
         }
 
+        /// <summary>
+        /// Get the CombatantManager of this enemy
+        /// </summary>
+        /// <returns>
+        /// The CombatantManager of this enemy
+        /// </returns>
         public CombatantManager GetCombatantManager()
         {
             return Manager;

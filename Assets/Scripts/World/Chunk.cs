@@ -278,7 +278,7 @@ namespace ADL.World
             }
             else
             {
-                Chunk chunk = GameManager.Singleton.World.Chunks.GetChunk(GameManager.Singleton.World.GetChunkIndex(riverPackage.WorldLocation));
+                Chunk chunk = GameManager.Singleton.World.GetChunk(GameManager.Singleton.World.GetChunkIndex(riverPackage.WorldLocation));
                 chunk.ImportRiver(riverPackage);
             }
         }

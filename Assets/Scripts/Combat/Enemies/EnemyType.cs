@@ -1,5 +1,8 @@
 ﻿namespace ADL.Combat.Enemies
 {
+    /// <summary>
+    /// Enumeration of enemy type
+    /// </summary>
     public enum EnemyType
     {
         Soldier,

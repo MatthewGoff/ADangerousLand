@@ -4,8 +4,17 @@ using ADL.Core;
 
 namespace ADL.Combat.Attacks
 {
+    /// <summary>
+    /// MonoBehaviour for a stomp attack
+    /// </summary>
+    /// <remarks>
+    /// See the Manager/MonoBehaviour design pattern
+    /// </remarks>
     public class StompMonoBehaviour : MonoBehaviour
     {
+        /// <summary>
+        /// The intensity of radial refraction as a function of time in the ripple visual effect
+        /// </summary>
         public AnimationCurve Waveform = new AnimationCurve(
             new Keyframe(0.00f, 0.50f, 0, 0),
             new Keyframe(0.05f, 1.00f, 0, 0),
@@ -20,28 +29,56 @@ namespace ADL.Combat.Attacks
             new Keyframe(0.99f, 0.50f, 0, 0)
         );
 
+        /// <summary>
+        /// An envelope on refraction and color reflection in the ripple visual effect
+        /// </summary>
         public AnimationCurve Decline = new AnimationCurve(
             new Keyframe(0.0f, 1.0f, 0, 0),
             new Keyframe(0.8f, 1.0f, 0, 0),
             new Keyframe(1.0f, 0.0f, 0, 0)
         );
 
+        /// <summary>
+        /// The strength of refraction in the ripple visual effect
+        /// </summary>
         [Range(0.01f, 1.0f)]
         public float RefractionStrength = 1.0f;
 
+        /// <summary>
+        /// A color added to the ripple visual effect
+        /// </summary>
         public Color ReflectionColor = Color.gray;
 
+        /// <summary>
+        /// The ammount of color added to the ripple visual effect
+        /// </summary>
         [Range(0.01f, 1.0f)]
         public float ReflectionStrength = 0.5f;
 
+        /// <summary>
+        /// The speed of the wave in the ripple visual effect. No idea what the units are
+        /// </summary>
         [Range(0.1f, 3.0f)]
         public float WaveSpeed = 0.6f;
 
+        /// <summary>
+        /// The shader used to animate the ripple visual effect
+        /// </summary>
         public Shader Shader;
 
+        /// <summary>
+        /// The manager of this MonoBehaviour
+        /// </summary>
         private StompManager Manager;
+
+        /// <summary>
+        /// The material used to display the ripple visual effect
+        /// </summary>
         private Material Material;
 
+        /// <summary>
+        /// Gets called when the object attached to this MonoBehaviour is instantiated
+        /// </summary>
         public void Awake()
         {
             InitMaterial();
@@ -49,6 +86,12 @@ namespace ADL.Combat.Attacks
             StartCoroutine("Shockwave");
         }
 
+        /// <summary>
+        /// Expand the collider for this attack as well as progress the acompanying  visual effect
+        /// </summary>
+        /// <returns>
+        /// Required return type of a coroutine
+        /// </returns>
         private IEnumerator Shockwave()
         {
             float duration = 0.5f;
@@ -72,6 +115,9 @@ namespace ADL.Combat.Attacks
             Destroy(gameObject);
         }
 
+        /// <summary>
+        /// Initialize the material used to dispaly the ripple visual effect
+        /// </summary>
         private void InitMaterial()
         {
             Material = new Material(Shader);
@@ -79,6 +125,12 @@ namespace ADL.Combat.Attacks
             Material.SetTexture("_GradTex", CreateGradientTexture());
         }
 
+        /// <summary>
+        /// Create the texture used to produce the ripple visual effect
+        /// </summary>
+        /// <returns>
+        /// The created texture
+        /// </returns>
         private Texture2D CreateGradientTexture()
         {
             Texture2D gradTexture = new Texture2D(2048, 1, TextureFormat.Alpha8, false);
@@ -94,6 +146,12 @@ namespace ADL.Combat.Attacks
             return gradTexture;
         }
 
+        /// <summary>
+        /// Gets called when the collider attached to the same GameObject as this MonoBehaviour collides with another collider
+        /// </summary>
+        /// <param name="other">
+        /// The collider with which this GameObject has collided
+        /// </param>
         public void OnTriggerEnter2D(Collider2D other)
         {
             if (other.gameObject.tag == "Hitbox")
@@ -106,6 +164,12 @@ namespace ADL.Combat.Attacks
             }
         }
 
+        /// <summary>
+        /// Assign this MonoBehaviour a manager
+        /// </summary>
+        /// <param name="manager">
+        /// The manager of this MonoBehaviour
+        /// </param>
         public void AssignManager(StompManager manager)
         {
             Manager = manager;

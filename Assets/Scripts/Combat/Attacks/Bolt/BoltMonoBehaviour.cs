@@ -13,11 +13,11 @@ namespace ADL.Combat.Attacks
     public class BoltMonoBehaviour : MonoBehaviour
     {
         /// <summary>
-        /// The Sprite Renderer of the GameObject attacked to this MonoBehaviour
+        /// The SpriteRenderer of the GameObject attached to this MonoBehaviour
         /// </summary>
         private SpriteRenderer Renderer;
         /// <summary>
-        /// The Manager of this MonoBehaviour
+        /// The manager of this MonoBehaviour
         /// </summary>
         private BoltManager Manager;
         /// <summary>
@@ -34,7 +34,7 @@ namespace ADL.Combat.Attacks
         private Vector2 VelocityVector;
 
         /// <summary>
-        /// Gets called when the object attacked to this MonoBehaviour is instantiated.
+        /// Gets called when the object attached to this MonoBehaviour is instantiated
         /// </summary>
         void Awake()
         {

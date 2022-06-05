@@ -3,16 +3,28 @@ using ADL.Util;
 
 namespace ADL.Core
 {
+    /// <summary>
+    /// Class which controls the position and size of a camera
+    /// </summary>
     public class CameraController : MonoBehaviour
     {
+        /// <summary>
+        /// The Camera component of the GameObject to which this MonoBehaviour is attached
+        /// </summary>
         private Camera Camera;
 
-        void Start()
+        /// <summary>
+        /// Called when the GameObject is instantiated
+        /// </summary>
+        void Awake()
         {
             Camera = GetComponent<Camera>();
             Camera.orthographicSize = Screen.height / (2f * Configuration.PIXELS_PER_UNIT);
         }
 
+        /// <summary>
+        /// Called after all Update() calls have occured
+        /// </summary>
         public void LateUpdate()
         {
             Vector3 newPosition = GameManager.Singleton.World.PlayerManager.GetCenter();
