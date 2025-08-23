@@ -1,0 +1,79 @@
+Alpha 0.8 release (Oct. 14)
+- Mini map
+- Ability Bar (visual cool-downs)
+- Enemy nameplates (w/t cooldowns)
+
+Key Decisions
+- Role of recipes in collection of loot
+- Role of the endgame
+- Role of Win condition in the Game
+- Prestige?
+- Weapon experience?
+- Leveling scale and impact on item stats etc.
+
+Pre-Alpha --> Alpha
+- Add Item drops
+- Sound Effects
+- Mouse-over tool-tips for things
+- Trees block vision/projectiles
+- add win condition
+- Add in game control guide
+- Add options (volumne, controls)
+- Add animation for ranged and melee attack
+- Threat/Aggro system
+- Inventory system
+- Equipable Items/GUI
+
+Alpha --> Beta
+- Add poison
+- Big Slimes divide
+- Isometric terrain
+- Add ambient animation to tiles
+- Melee attack arc upgrades
+- Piercing projectiles upgrades
+- Add phasing upgrades
+- Add out of mana text
+- Interactive tutorial
+- Shadows
+- Rough Balancing of Numbers
+- "Critical chain"/"Critical combo"?
+
+Beta --> Full Game Release
+- Mounts?
+- Fishing?
+- Add achievements
+- Detailed balancing of numbers
+
+Features
+- Powerups?
+
+Matt Todo
+- Add Ores
+- Flash when damaged
+- Refactor singleton pattern on game manager
+- Take random terrain out of prefab
+- Make enemy stats lambda
+- Make game stats its own monobehaviour
+- Add knockback timeout
+- Wait for world to spawn before closing
+- Enemies knockback player
+- Stamina buff out of combat
+- Fix persistant damage number canvases
+
+Matt Todo???
+- Refactor: put river generation in separate class
+- Add Object pools to increase FPS
+- Remove Game object count
+- Random Name Generator
+
+Brennan Todo
+- Lore
+- Flowcharts for items and skills
+- Figure out non-combat gear
+- Proficiency and its associated traits
+- Flowchart for life oof an item
+
+Feedback
+- Fountains at river spawns
+- Darker sand near water
+- Grass is too bright
